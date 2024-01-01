@@ -210,7 +210,6 @@ class CatarseFinishedProjects(BaseCatarseCollectionApi):
             user_details_api = CatarseUserDetails()
 
             users_details = {}
-            projects_details = {}
 
             for fin in res.resultado:
                 project_success = True
@@ -261,12 +260,9 @@ class CatarseFinishedProjects(BaseCatarseCollectionApi):
                         # Using a JSON string
                         with open(data_file, 'w') as json_file:
                             json.dump(project, json_file)
-                        #projects_details[project_id] = project
 
 
         return res
-
-
 
 
 class BaseCatarseUniqueApi:
@@ -451,6 +447,20 @@ def collect_catarse(verbose):
             data_file = f"../../dados/brutos/catarse/{k}.json"
             with open(data_file, 'w') as json_file:
                 json.dump(res.resultado, json_file)
+
+    api_categories = CatarseCategories()
+    res = api_categories.execute()
+    categories_file = f"../../dados/brutos/catarse/categories.json"
+    with open(categories_file, 'w') as json_file:
+        json.dump(res.resultado, json_file)
+
+    api_cities = CatarseCities()
+    res = api_cities.execute()
+    cities_file = f"../../dados/brutos/catarse/cities.json"
+    with open(cities_file, 'w') as json_file:
+        json.dump(res.resultado, json_file)
+
+
 
 if __name__ == "__main__":
 
