@@ -32,6 +32,16 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args":["-v"]
+        },
+        {
+            "name": "Python: raspar_catarse.py",
+            "type": "python",
+            "request": "launch",
+            "program": "raspar_catarse.py",
+            "cwd": "${workspaceFolder}/scripts/raspagem",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v"]
         }
     ]
 }

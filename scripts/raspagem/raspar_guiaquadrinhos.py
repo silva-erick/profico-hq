@@ -202,7 +202,7 @@ if __name__ == "__main__":
 
     if not os.path.exists("log"):
         os.makedirs("log")
-    log_filename = f"log/raspar_guiaquadrinhos_{datetime.today().strftime('%Y%m%d_%H%M%S')}.log"
+    log_filename = f"log/guiaquadrinhos_{datetime.today().strftime('%Y%m%d_%H%M%S')}.log"
 
     if not os.path.exists("../../dados/brutos"):
         os.makedirs("../../dados/brutos")
