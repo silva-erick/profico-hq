@@ -38,7 +38,23 @@ Atenção aos arquivos gerados em dados/brutos/catarse:
 - cities.json: lista de todos os municípios brasileiros (no Catarse)
 - categories.json: lista de todas as categorias de campanhas (quadrinhos, jornalismo, etc)
 
-Na pasta dados/brutos/catarse/campanhas haverá contendo um arquivo JSON (project_id.JSON)
+Na pasta dados/brutos/catarse/campanhas haverá arquivos JSON (project_id.JSON)
+para cada campanha, contendo:
+- detalhes do projeto
+- plano de recompensas
+- pessoa responsável pela campanha
+
+
+## raspar_apoiase
+
+Para obter todas as campanhas realizadas em [apoia.se](https://apoia.se/),
+utilize o seguinte comando:
+
+```
+python raspar_apoiase.py --verbose
+```
+
+Na pasta dados/brutos/apoiase/resumocampanhas haverá arquivos JSON (project_id.JSON)
 para cada campanha, contendo:
 - detalhes do projeto
 - plano de recompensas

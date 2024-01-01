@@ -1,7 +1,8 @@
 # profico-hq
 
-A iniciativa profico-hq reúne scripts, dados e análises sobre histórias em quadrinhos (HQ)
-viabilizadas a partir de campanhas de financiamento coletivo no Brasil.
+A iniciativa *profico-hq* reúne scripts, dados e análises sobre histórias em quadrinhos (HQ)
+que tiveram campanhas de arrecadação conduzidas em plataformas de financiamento coletivo
+no Brasil.
 
 ## Por que esse nome?
 
