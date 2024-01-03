@@ -31,10 +31,16 @@ desse projeto, evitando conflitos com outros projetos ou com o ambiente global d
 .\venv\Scripts\activate.bat
 ```
 
-Agora, baixe as bibliotecas necessárias:
+Mude a pasta de trabalho para scripts e baixe as bibliotecas necessárias:
 
 ```
 pip install -r requirements.txt
+```
+
+Garanta a instalação do módulo pt_core_news_sm, da biblioteca spacy.
+
+```
+!python -m spacy download pt_core_news_sm
 ```
 
 ## Scripts
@@ -46,6 +52,7 @@ Scripts para produção de dados a partir das fontes de dados:
 - AASP
 - Guia de Quadrinhos
 
-### Consolidação
+### Normalizacao
+
 
 

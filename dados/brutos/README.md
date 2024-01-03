@@ -1,42 +1,21 @@
+# Dados Brutos
 
-## raspar_aasp
+Quando eu falo bruto, é bruto mesmo. Com pouca transformação e nada de interpretação ou enriquecimento.
 
-Para obter a [Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
-da AASP, utilize o seguinte comando:
+## aasp
 
-```
-python raspar_aasp.py --verbose
-```
+[Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
+da AASP.
 
-A tabela será salva em arquivo JSON: dados/brutos/aasp/conversao-monetaria.json.
+## guiadoquadrinhos
 
-## raspar_guiaquadrinhos
+Total de obras catalogadas no [Guia dos Quadrinhos](www.guiadosquadrinhos.com)
+por ano/mês.
 
-Para obter o total de obras catalogadas no [Guia dos Quadrinhos](www.guiadosquadrinhos.com)
-por ano/mês, utilize o seguinte comando:
+## catarse
 
-```
-python raspar_guiaquadrinhos.py --verbose
-```
+Campanhas realizadas em [Catarse](https://www.catarse.me/).
 
-A tabela será salva em arquivo JSON: dados/brutos/guiadosquadrinhos/totais.json.
+## apoia.se
 
-## raspar_catarse
-
-Para obter todas as campanhas realizadas em [Catarse](https://www.catarse.me/),
-utilize o seguinte comando:
-
-```
-python raspar_catarse.py --verbose
-```
-
-Atenção aos arquivos gerados em dados/brutos/catarse:
-- finished.json: lista resumo de todas as campanhas
-- cities.json: lista de todos os municípios brasileiros (no Catarse)
-- categories.json: lista de todas as categorias de campanhas (quadrinhos, jornalismo, etc)
-
-Na pasta dados/brutos/catarse/campanhas haverá contendo um arquivo JSON (project_id.JSON)
-para cada campanha, contendo:
-- detalhes do projeto
-- plano de recompensas
-- pessoa responsável pela campanha
+Campanhas realizadas em [apoia.se](https://apoia.se/).

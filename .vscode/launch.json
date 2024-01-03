@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "Python: Current File",
             "type": "python",
@@ -52,6 +53,16 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args":["-v"]
+        },
+        {
+            "name": "Python: normalizar.py",
+            "type": "python",
+            "request": "launch",
+            "program": "normalizar.py",
+            "cwd": "${workspaceFolder}/scripts/normalizacao",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v", "-a", "2015"]
         }
     ]
 }

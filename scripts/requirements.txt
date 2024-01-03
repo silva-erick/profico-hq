@@ -1,6 +1,6 @@
 argparse
 beautifulsoup4
-nltk
 regex
 requests
+spacy
 urllib3
