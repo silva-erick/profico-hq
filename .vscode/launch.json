@@ -45,6 +45,16 @@
             "args":["-v"]
         },
         {
+            "name": "Python: raspar_catarse_outros.py",
+            "type": "python",
+            "request": "launch",
+            "program": "raspar_catarse_outros.py",
+            "cwd": "${workspaceFolder}/scripts/raspagem",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v"]
+        },
+        {
             "name": "Python: raspar_apoiase.py",
             "type": "python",
             "request": "launch",
@@ -73,6 +83,16 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args":["-v", "-a", "2013"]
+        },
+        {
+            "name": "Python: csv_outros.py",
+            "type": "python",
+            "request": "launch",
+            "program": "csv_outros.py",
+            "cwd": "${workspaceFolder}/scripts/csv",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v", "-l", "DEBUG"]
         }
     ]
 }
