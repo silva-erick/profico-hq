@@ -194,81 +194,7 @@ class Normalizacao:
         about_html = data['detail']['about_html']
         soup = BeautifulSoup(about_html, 'html.parser')
         about_txt = soup.get_text(separator=' ', strip=True)
-        data['detail']['about_html'] = about_txt
-
-        return True
-
-    def _spacy_token_valido(self, text, pos):
-        return (
-            not(' ' in text) 
-            and not ('_' in text) 
-            and (text != 'à') 
-            and (text != 'às') 
-            and (text != 'a') 
-            and (text != 'as') 
-            and (text != 'o') 
-            and (text != 'os') 
-            and (text != 'para') 
-            and (text != 'de') 
-            and (pos == 'NOUN') 
-            and re.match(r'^\w+$', text.lower())
-        )
-
-    def _spacy_processar(self, data):
-        about_txt = data['detail']['about_html']
-
-        # Processamento do texto com spaCy
-        doc = self._nlp(about_txt)
-
-        # Obtenha os lemmas dos tokens que são NOUN (substantivo)
-        lemmas = [token.lemma_.lower() for token in doc if self._spacy_token_valido(token.text, token.pos_)]
-
-        # Calcular a frequencia dos termos no documento
-        freq = {}
-        for lemma in lemmas:
-            if not (lemma in freq):
-                freq[lemma] = 0
-
-                # na primeira ocorrência do termo, contar document_frequency
-                if not (lemma in self._spacy_doc_freq):
-                    self._spacy_doc_freq[lemma] = 1
-                else:
-                    self._spacy_doc_freq[lemma] = self._spacy_doc_freq[lemma] + 1
-
-            freq[lemma] = freq[lemma] + 1
-
-        data['spacy_lemmas'] = lemmas
-        data['spacy_lemmas_freq'] = freq
-
-
-        #entidades
-        entidades = {}
-        for entity in doc.ents:
-            ent = entity.text
-            if not(ent in entidades):
-                entidades[ent] = 0
-
-                if not(ent in self._spacy_doc_entidades_freq):
-                    self._spacy_doc_entidades_freq[ent] = 1
-                else:
-                    self._spacy_doc_entidades_freq[ent] = self._spacy_doc_entidades_freq[ent]+1
-
-            entidades[ent] = entidades[ent] + 1
-
-        data['spacy_entidades'] = entidades
-
-        return True
-    
-    def _spacy_tfidf(self, data):
-        freq = data['spacy_lemmas_freq']
-        tfidf = {}
-        N = len(self._campanhas)
-        for lemma in freq:
-            tf = freq[lemma]
-            df = self._spacy_doc_freq[lemma]
-            tfidf[lemma] = tf * math.log(N/df)
-        
-        data["tfidf"] = tfidf
+        data['detail']['about_txt'] = about_txt
 
         return True
 
@@ -276,23 +202,6 @@ class Normalizacao:
         arquivo_dados = f"{CAMINHO_NORMALIZADOS}/{self._ano}/{data['detail']['project_id']}.json"
         with open(arquivo_dados, 'w') as arquivo_json:
             json.dump(data, arquivo_json)
-
-        return True
-    
-    def _gravar_document_frequency(self):
-        log_verbose(self._verbose, f"Spacy: frequência dos termos no corpus: {len(self._spacy_doc_freq)}")
-        N = len(self._campanhas)
-        df = len(self._spacy_doc_freq)
-        
-        log_verbose(self._verbose, f"Spacy: campanhas: {N}, doc_freq: {df}")
-        arquivo_dados = f"{CAMINHO_NORMALIZADOS}/spacy_frequencia_corpus{self._ano}.json"
-        with open(arquivo_dados, 'w') as arquivo_json:
-            json.dump(self._spacy_doc_freq, arquivo_json)
-
-        log_verbose(self._verbose, f"Spacy: frequências de entidades no no corpus: {len(self._spacy_doc_freq)}")
-        arquivo_dados = f"{CAMINHO_NORMALIZADOS}/spacy_frequencia_entidades_corpus{self._ano}.json"
-        with open(arquivo_dados, 'w') as arquivo_json:
-            json.dump(self._spacy_doc_entidades_freq, arquivo_json)
 
         return True
 
@@ -312,10 +221,7 @@ class Normalizacao:
                 and self._garantir_pastas_normalizacao()
                 and self._percorrer_campanhas(f'Ajustar valores das campanhas para dez/{self._ano}', self._ajustar_valores_campanha)
                 and self._percorrer_campanhas(f'Texto puro', self._ajustar_valor_about)
-                and self._percorrer_campanhas(f'Spacy - processar', self._spacy_processar)
-                and self._percorrer_campanhas(f'Spacy - TF-IDF', self._spacy_tfidf)
                 and self._percorrer_campanhas(f'Gravar arquivos normalizados das campanhas', self._gravar_json_campanhas)
-                and self._gravar_document_frequency()
         )
 
 
