@@ -220,7 +220,7 @@ class Normalizacao:
         result = (result and self._carregar_campanhas()
                 and self._garantir_pastas_normalizacao()
                 and self._percorrer_campanhas(f'Ajustar valores das campanhas para dez/{self._ano}', self._ajustar_valores_campanha)
-                and self._percorrer_campanhas(f'Texto puro', self._ajustar_valor_about)
+                and self._percorrer_campanhas(f'Texto de apresentação: HTML -> Texto', self._ajustar_valor_about)
                 and self._percorrer_campanhas(f'Gravar arquivos normalizados das campanhas', self._gravar_json_campanhas)
         )
 
