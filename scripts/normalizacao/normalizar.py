@@ -4,11 +4,7 @@ from datetime import datetime
 import os
 import json
 
-import spacy
 from bs4 import BeautifulSoup
-import math
-
-import re
 
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
@@ -206,11 +202,6 @@ class Normalizacao:
         return True
 
     def executar(self):
-        # Carregue o modelo do spaCy para português
-        self._nlp = spacy.load('pt_core_news_sm')
-        self._spacy_doc_freq = {}
-        self._spacy_doc_entidades_freq = {}
-
         log_verbose(self._verbose, "Carregar arquivos de apoio")
         result = (self._carregar_conversao_monetaria()
                 and self._carregar_albuns()

@@ -62,7 +62,17 @@
             "cwd": "${workspaceFolder}/scripts/normalizacao",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args":["-v", "-a", "2015"]
+            "args":["-v", "-a", "2013"]
+        },
+        {
+            "name": "Python: spacy_classificar.py",
+            "type": "python",
+            "request": "launch",
+            "program": "spacy_classificar.py",
+            "cwd": "${workspaceFolder}/scripts/normalizacao",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v", "-a", "2013"]
         }
     ]
 }

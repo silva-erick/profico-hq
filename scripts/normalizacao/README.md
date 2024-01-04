@@ -2,21 +2,35 @@
 
 Scripts para normalização dos dados brutos.
 
-# Execução
+# normalizar.py
 
-Para normalizar todas as campanhas de 2011 até o ano de 2023:
+Para normalizar todas as campanhas de 2011 até um determinando ano de interesse:
 
 ```
 python normalizar.py --verbose -a 2023
 ```
 
-# Tipos de normalização
+## Tipos de normalização
 
-## Valor monetário
+### Conversão HTML para TXT
 
 O valor desejado, o valor arrecado e os valores das recompensas serão ajustados,
 de acordo com a [Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
 da AASP, para o valor em dezembro do ano desejado.
+
+### Valor monetário
+
+O valor desejado, o valor arrecado e os valores das recompensas serão ajustados,
+de acordo com a [Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
+da AASP, para o valor em dezembro do ano desejado.
+
+# spacy_classificar.py
+
+Para classificar as campanhas normalizadas até um determinado ano de interesse usando a biblioteca spacy:
+
+```
+python spacy_classificar.py --verbose -a 2023
+```
 
 ## Lemmatização
 
