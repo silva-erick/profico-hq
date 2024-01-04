@@ -10,10 +10,10 @@ Para normalizar todas as campanhas de 2011 até o ano de 2023:
 python normalizar.py --verbose -a 2023
 ```
 
-
 # Tipos de normalização
 
 ## Valor monetário
+
 O valor desejado, o valor arrecado e os valores das recompensas serão ajustados,
 de acordo com a [Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
 da AASP, para o valor em dezembro do ano desejado.

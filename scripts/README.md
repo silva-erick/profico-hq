@@ -28,7 +28,7 @@ No windows, ative o virtual environment para isolar as dependências específica
 desse projeto, evitando conflitos com outros projetos ou com o ambiente global do sistema:
 
 ```
-.\venv\Scripts\activate.bat
+.\venv\Scripts\activate.ps1
 ```
 
 Mude a pasta de trabalho para scripts e baixe as bibliotecas necessárias:
@@ -40,7 +40,11 @@ pip install -r requirements.txt
 Garanta a instalação do módulo pt_core_news_sm, da biblioteca spacy.
 
 ```
-!python -m spacy download pt_core_news_sm
+python -m spacy download pt_core_news_sm
+
+python -m nltk.downloader all
+
+
 ```
 
 ## Scripts
