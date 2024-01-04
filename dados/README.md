@@ -7,6 +7,12 @@ Dados extraídos a partir das fontes de dados de interesse para o projeto, norma
 Para permitir a verificação ou insights, é esperado o mínimo de transformação em relação
 ao que foi lido nas fontes de dados.
 
+## normalizados
+
+A partir dos dados brutos, normalização como ajuste de valores monetários para uma mesma
+data ou conversão de texto HTML para texto puro. Outros índices e cálculos para exploração
+dos dados textuais.
+
 ## csv
 
 CSV, ou Comma Separated Value, é um formato amigável para quem prefere trabalhar direto

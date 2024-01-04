@@ -11,22 +11,26 @@ O valor desejado, o valor arrecado e os valores das recompensas serão ajustados
 de acordo com a [Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
 da AASP, para o valor em dezembro do ano desejado.
 
-## Lemmatização
+## Spacy
+
+Alguns índices e cálculos utilizando a biblioteca spacy para processar os textos das campanhas.
+
+### Lemmatização
 
 O texto de apresentação da campanha é convertido de HTML para texto puro,
 tokenizado (biblioteca spacy) e lemmatizado (biblioteca spacy).
 
-## Frequência do Termo
+### Frequência do Termo
 
 A frequência no texto de todos os tokens classificados como NOUN pela
 biblioteca spacy é calculada e anotada junto ao documento.
 
-## IDF
+### IDF
 
 O valor de IDF (Inverse Document Frequency) do termo é calculado quando
 todo o corpus já foi lemmatizado.
 
-## TF-IDF
+### TF-IDF
 
 Cálculo do TF-IDF para todos os tokens classificados como NOUN pela
 biblioteca spacy.
