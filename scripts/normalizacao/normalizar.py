@@ -6,12 +6,15 @@ import json
 
 from bs4 import BeautifulSoup
 
+import re
+
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CONVERSAO_MONETARIA = "../../dados/brutos/aasp/conversao-monetaria.json"
 CAMINHO_ALBUNS = "../../dados/brutos/guiadosquadrinhos/totais.json"
 CAMINHO_MUNICIPIOS = "../../dados/brutos/catarse/cities.json"
 CAMINHO_CAMPANHAS = "../../dados/brutos/catarse/campanhas"
+
 
 def log_verbose(verbose, msg):
     if verbose:
@@ -36,6 +39,33 @@ class Normalizacao:
     def __init__(self, ano, verbose):
         self._ano = ano
         self._verbose = verbose
+
+    def _carregar_carrapichos(self):
+        self._carrapichos = {}
+        self._carrapichos['Festivais'] = re.compile(r'festiva(l|is)')
+        self._carrapichos['Salões de Humor'] = re.compile(r'sal[aã]o(\s*internacional){0,1}\s*d[eo]\w*humor')
+        self._carrapichos['HQMIX'] = re.compile(r'hqmix')
+        self._carrapichos['CCXP'] = re.compile(r'ccxp')
+        self._carrapichos['FIQ'] = re.compile(r'fiq|festival\s*internacional\s*de\s*quadrinhos')
+        self._carrapichos['Ângelo Agostini'] = re.compile(r'gelo[\s\\\w]+agostini')
+        self._carrapichos['Política'] = re.compile(r'ministr|minist[eé]rio|president|governador|prefeit[oa]|pol[ií]ti|economia|capitalis|comunis[tm]|socialis|anarquis|esquerdis|direitis|reacion[aá]|reaça|autoritari|ditadura|autogest|libertarian')
+        self._carrapichos['Questões de Gênero'] = re.compile(r'machis|feminis|sexismo|empoderamento\s*feminino|direito\s*feminino|direito\*d(e|a|as)\s*mulheres|viol[eê]ncia\s*dom[eé]stica|cultura\s*patriarcal|masculinidade\s*t[oóxica]|feminic[ií]dio|consentimento|(pap[eé]is|normas|estudos*|igualdade|estereótipos*|diversidade|identidade|discriminação)\s*de\s*g[eê]nero')
+        self._carrapichos['LGBTQIA+'] = re.compile(r'homos+exual|bis+exual|trans+exual|pans+exual|transg[eê]ner|\bace\b|as+sexual|ag[eê]nero|big[eê]nero|n[aã]o[\s-]*binário|traveco|travesti|she-*her|gay|sapat[aã]o|s[aá]fico|l[eé]sbica|queer|aliado|sa[ií](r|da)\s*d[eo]\s*arm[aá]rio|espa[çc]o\s*seguro|homofobia|transfobia|lesbofobia|orienta[cç][aã]o\s*sexual|(pap[eé]is|normas|estudos*|igualdade|estereótipos*|diversidade|identidade|discriminação)\s*de\s*g[eê]nero')
+        self._carrapichos['Terror'] = re.compile(r'terror|horror|suspense|sobrenatural|monstro|kaiju|godzila|vampir|lobisomem|zumb[oô]|assassin|corpo\s*seco|m[uú]mia|fantasma|morto|esp[ií]rit|zumbi|zombi|zombie|pos+es+[aã]o|dem[oôó]io|demon[ií]ac|slasher|arrepio|lovecraft|sinistr|claustrofobia|desespero|tens[aã]o|assobrad|sombri[ao]|cemit[eé]rio|abandonad|macabro|medo|desconhecido|as+ustador|maldit[ao]|maldi[çc][ãa]o|apocalipse|distopia')
+        self._carrapichos['Humor'] = re.compile(r'piada|humor|c[oôó]mic[oa]|comicidade|risada|engra[cç]ad|gozad[ao]|divertid|z[ou][eê]i*ra')
+        self._carrapichos['Heróis'] = re.compile(r'her[oó]i|hero[íi]na|super[\s\-]*poder|super[\s\-]*vil|inimigo')
+        self._carrapichos['Luta'] = re.compile(r'luta|combate|oponente|derrota')
+        self._carrapichos['Guerra'] = re.compile(r'guerra|conflito|derrota|disputa|conflito|vit[oó]ria')
+        self._carrapichos['Gêneros'] = re.compile(r'suspense|\bconto|romance|novela|graphic novel|biografia|fic[çc][aã]o|fantasia|\bmang[áa]\b')
+        self._carrapichos['Ficção Científica'] = re.compile(r'rob[ôóo]|andr[oó]id|tecnologia|cyber|ciber|zumb[oô]|planeta|viage[nm]\s*espacial|astronauta|cosmonauta|taikonauta|planeta|space\s*opera|computador|intelig[êe]ncia\s*artificial|i\.a\.|a\.i\.|apocalipse|distopia')
+        self._carrapichos['Fantasia'] = re.compile(r'aventura|saga|elfo|elfa|troll|m[aá]gico|magia|feiticeir|feiti[çc]|castelo|cavaleir|drag[ãa]o|duend|cavalaria|espada|escudo|\blança\b|arqueir')
+        self._carrapichos['Folclore'] = re.compile(r"saci|mula[\s*-]sem[\s*-]cabe|corpo\s*seco|lobisomem|assombra[çc][ãa]|sereia|m[ãa]e\s*d['a]\s*[áa]gua|supersti|loira\s*do|\blenda|cuca|mito\b|mitologia|cemit[ée]rio")
+        self._carrapichos['Zine'] = re.compile(r'zine')
+        self._carrapichos['WebFormatos'] = re.compile(r'web[\s\-]*(comic|quadrinh|tirinh|zine|toon)')
+        self._carrapichos['Erotismo'] = re.compile(r'er[oó]tic|porn[oô]|sad[oô][-\s]mas[oô]|sadomasoquist|bdsm|\+18|18\+|sexo|sexualidade|sacanagem|putaria|gozar|posi[çc][aã]o\s*sexual|fantasia|desejo|libido')
+        self._carrapichos['Religiosidade'] = re.compile(r'cat[óo]lic|crist[ãa]o|gospel|evangelho|\bdeus|santifica|evang[eé]li[zc]|\bbuda\b|budism|bramanism|jesus|\b[ij]av[eé]h*\b|\breza|bendito|bendizer|premoni|profecia|profeta|b[íi]blia|\btor[aá]\b|alco+r[ãa]o|m[ií]stico|misticismo|sobrenatural|pajé|pa[gj]elan|orix[aá]|macumba|umbanda|candonbl|terreiro|oculto|ocultismo')
+        self._carrapichos['Jogos'] = re.compile(r'jogo|\bgame\b|tabuleiro|board|xadrez|gam[ãa]o|cartas|card\b|disputa|conflito|vit[oó]ria')
+        RE_POLITICA = r''
 
     def _carregar_json(self, caminho):
         result = {}
@@ -176,13 +206,13 @@ class Normalizacao:
             raise ValueError(f"Formato de data inválido. {data['detail']['online_date']}")
 
         # ajustar goal e pledged para valor presente
-        data['detail']['goal'] = self._ajustar_valor(data_obj.year, data_obj.month, data['detail']['goal'], self._ano, 12)
-        data['detail']['pledged'] = self._ajustar_valor(data_obj.year, data_obj.month, data['detail']['pledged'], self._ano, 12)
+        data['detail']['goal_ajustado'] = self._ajustar_valor(data_obj.year, data_obj.month, data['detail']['goal'], self._ano, 12)
+        data['detail']['pledged_ajustado'] = self._ajustar_valor(data_obj.year, data_obj.month, data['detail']['pledged'], self._ano, 12)
 
         # ajustar valores das recompensas
         for reward in data['rewards']:
-            reward['minimum_value'] = self._ajustar_valor(data_obj.year, data_obj.month, reward['minimum_value'], self._ano, 12)
-            reward['maximum_contributions'] = self._ajustar_valor(data_obj.year, data_obj.month, reward['maximum_contributions'], self._ano, 12)
+            reward['minimum_value_ajustado'] = self._ajustar_valor(data_obj.year, data_obj.month, reward['minimum_value'], self._ano, 12)
+            #reward['maximum_contributions_ajustado'] = self._ajustar_valor(data_obj.year, data_obj.month, reward['maximum_contributions'], self._ano, 12)
         return True
 
     def _ajustar_valor_about(self, data):
@@ -191,6 +221,41 @@ class Normalizacao:
         soup = BeautifulSoup(about_html, 'html.parser')
         about_txt = soup.get_text(separator=' ', strip=True)
         data['detail']['about_txt'] = about_txt
+
+        return True
+    
+    def _testar_regex_hashtag(self, text, pattern):
+        if not (pattern.search(text) is None):
+            return True
+        else:
+            return False
+
+
+    def _categorizar_hashtags(self, data):
+        about_txt = data['detail']['about_txt'].lower()
+        data["analises_categorias"]={}
+
+        for k, r in self._carrapichos.items():
+            data['analises_categorias'][k] = self._testar_regex_hashtag(about_txt, r)
+
+        return True
+
+    def _categorizar_recompensas(self, data):
+        about_txt = data['detail']['about_txt'].lower()
+        data["analises_recompensas"]={}
+
+        menor_ajustado = 10000000000
+        menor = menor_ajustado
+        for reward in data['rewards']:
+            valor_ajustado = float(reward['minimum_value_ajustado'])
+            if valor_ajustado < menor_ajustado:
+                menor_ajustado = valor_ajustado
+            valor = float(reward['minimum_value'])
+            if valor < menor:
+                menor = valor
+
+        data["analises_recompensas"]['menor_nominal'] = menor
+        data["analises_recompensas"]['menor_ajustado'] = menor_ajustado
 
         return True
 
@@ -202,16 +267,21 @@ class Normalizacao:
         return True
 
     def executar(self):
+        log_verbose(self._verbose, "Carregar regex de categorização")
+        norm._carregar_carrapichos()
+
         log_verbose(self._verbose, "Carregar arquivos de apoio")
         result = (self._carregar_conversao_monetaria()
                 and self._carregar_albuns()
                 and self._carregar_municipios()
         )
+        
         log_verbose(self._verbose, "Carregar campanhas")
         result = (result and self._carregar_campanhas()
                 and self._garantir_pastas_normalizacao()
                 and self._percorrer_campanhas(f'Ajustar valores das campanhas para dez/{self._ano}', self._ajustar_valores_campanha)
                 and self._percorrer_campanhas(f'Texto de apresentação: HTML -> Texto', self._ajustar_valor_about)
+                and self._percorrer_campanhas(f'Categorizar hashtags', self._categorizar_hashtags)
                 and self._percorrer_campanhas(f'Gravar arquivos normalizados das campanhas', self._gravar_json_campanhas)
         )
 

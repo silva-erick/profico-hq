@@ -1,0 +1,308 @@
+espaco_semantico:
+    festival:
+        regex:
+            festival
+    salão de humor:
+        regex:
+            sal[aã]o(\s*internacional){0,1}\s*d[eo]\w*humor
+        items:
+            Ingressante do Salão Internacional de Humor de Piracicaba
+            Salão de Humor da UNACON
+            Salão de Humor de Cerquilho
+            Salão de Humor de Fortaleza
+            Salão de Humor de Piracicaba
+            Salão de Humor Medplan
+            Salão de Humor Universitário de Piracicaba
+            Salão Internacional de Humor de Caratinga
+            Salão Internacional de Humor de Piracicaba
+            Salão Internacional de Humor do Piauí
+    hqmix:
+        regex:
+            hqmix
+        items:
+            29º Troféu HQMIX
+            30º Prêmio HQMix
+            33º Troféu HQMIX
+            34º Troféu HQMix
+            Best New Release and one Troféu HQMIX
+            Best Publication by the HQMIX
+            Desenhista Nacional do Troféu HQMIX
+            Ganhador do Troféu HQMIX 2007
+            Homem (Troféu HQMIX de Publicação Independente Edição Única
+            HqMix
+            HQMIX
+            HQMIx
+            HQmix
+            Hqmix
+            HQMix
+            HQMIX 2007
+            HQMix 2015
+            HQMix 2017 de Melhor Arte-finalista
+            HqMix 2018
+            HQMix 2019 - Melhor Publicação
+            HQMix de 2007
+            HQMix de Melhor Cartunista Brasileiro
+            HQMix de Melhor Publicação de Humor
+            HQMix de Melhor Publicação de Humor 2016
+            HQMix de Melhor Publicação Independente
+            HQMix de Melhor Publicação Independente Edição Única
+            HQMIX de Melhor Revista de Humor
+            HQMix de Melhor Web Quadrinho
+            HQMix de Publicação de Aventura
+            HQMix de Publicação Independente
+            HQMIX de Publicação Independente
+            HQMIX!!
+            HQMIX19
+            https://blog.hqmix.com.br/noticias/lista-de-indicados-ao-29-hqmix/ Selecionada
+            Melhor Livro Teórico do Troféu HQMix
+            OBRAS INDICADAS AO TROFÉU HQMIX
+            prêmio HQMix
+            Prêmio HQMIX
+            Prêmio HQmix
+            Prêmio HQMix
+            Prêmio HQMix de Melhor Cartunista Brasileiro
+            Prêmio HQMIX de Melhor Mini-série
+            Prêmio HQMix de Melhor Publicação de Humor
+            Prêmio HQMix de Melhor Publicação Independente de Grupo
+            Prêmio HQMIX de Melhor Publicação Mix
+            Prêmio HQMix de Melhor Web Quadrinhos
+            prêmio HQMIX19
+            prêmios HQMix
+            Prêmmio HQMix
+            Publicação Mix do 31º Troféu HQMix
+            Troféu HQMix
+            Troféu HQMIX
+            Troféu HQmix
+            Trófeu HQMIX
+            Troféu HQMIX - Publicação Mix
+            Troféu HQMIX 2014
+            Troféu HQMix 2015 de Melhor Edição Especial e Melhor Roteiro
+            Troféu HQMix 2016
+            Troféu HQMix 2022 de Melhor Livro Teórico
+            Troféu HQMix 2023
+            Troféu HQMix awards
+            Troféu HQMIX de Melhor Fanzine
+            Troféu HQMix de Melhor Livro Teórico com História dos Quadrinhos
+            Troféu HQMix de Melhor Publicação Independente de Autor de 2012
+            Troféu HQMIX de Projeto Gráfico
+            Troféu HQMIX de Publicação Independente de Grupo
+            Troféu HQMix de Roteirista Novo Talento
+            Troféu\r\nHQMIX
+            Troféus HQMIX
+            Troféus HQMix
+            Troféus HQMix de Melhor Publicação de Humor
+            Troféus\nHQMix
+            Trouféus HQMix
+            Vencedor do HQMix
+            Vencedora do HQMix de Melhor Publicação Independente de Grupo
+    ccxp:
+        regex:
+            ccxp
+        items:
+            ALLEY CCXP TOUR NORDESTE
+            Artists' Valley da CCXP
+            Artists' Valley da CCXP22
+            CCXP
+            CCXP -
+            CCXP *Quanta Academia de Artes
+            Ccxp 18
+            CCXP 2015
+            CCXP 2016
+            CCXP 2023
+            CCXP Apresentadores
+            CCXP Awards
+            CCXP Cologne
+            CCXP Comic
+            CCXP COMIC
+            CCXP de Pernambuco
+            CCXP de São Paulo
+            CCXP de SP
+            CCXP Juiz Dredd - Lápis
+            CCXP Nordeste
+            CCXP Quer
+            CCXP São Paulo
+            CCXP SP
+            CCXP TOUR
+            CCXP Tour
+            CCXP Tour em Abril?
+            CCXP Words
+            CCXP Worlds
+            CCXP/21
+            CCXP16
+            CCXP17
+            CCXP18
+            CCXP18!
+            CCXP19
+            CCXP19 LOBO SOLITÁRIO
+            CCXP19!
+            CCXP22
+            CCXP23
+            CCXP23 de São Paulo
+            CCXPs de 2018
+            Cirandar CCXP22
+            COMBO CCXP
+            EXCLUSIVA CCXP19 - Assim
+            Lançamento: CCXP
+            LIVE: LANÇAMENTOS CCXP Pauta:
+            LOMBADA QUADRADA CCXP
+            Pacote CCXP
+            Prêmio CCXP Awards
+            RETIRADA CCXP23
+            The convention will be CCXP-Comic
+            Vencedor do CCXP Awards
+    ângelo agostini:
+        regex:
+            gelo[\s\\\w]+agostini
+        items:
+            30º Prêmio Ângelo Agostini
+            33º Angelo Agostini
+            33º Troféu Angelo Agostini
+            Angelo Agostini
+            ANGELO AGOSTINI
+            Ângelo Agostini
+            ANGELO AGOSTINI DE MELHOR
+            Ângelo Agostini de Melhor Lançamento
+            Ângelo Agostini de Melhor Lançamento Independente
+            Ângelo Agostini de Melhor Roteiro
+            Angelo\nAgostini
+            Best Release by Angelo Agostini
+            Festival Angelo\nAgostini-SP
+            Indicado ao Troféu Ângelo Agostini de Melhor Desenhista
+            Prêmio Angelo Agostini
+            prêmio Angelo Agostini
+            Prêmio Ângelo Agostini
+            Prêmio Angelo Agostini de Maior Cartunista do Brasil
+            Prêmio Ângelo Agostini de Melhor Roteiro
+            Prêmio\nAngelo Agostini
+            Prêmios Angelo Agostini
+            Revista Illustrada de Angelo Agostini
+            Trofé Angelo Agostini
+            Troféu Angelo Agostini
+            Troféu Ângelo Agostini
+            Troféu Angelo Agostini - Melhor
+            Troféu Angelo Agostini de Melhor Desenhista
+            Troféu Ângelo Agostini de Melhor Desenhista
+            Troféu Angelo Agostini de Melhor Edição
+            Troféu Ângelo Agostini de Melhor Publicação Independente
+            Troféu Angelo Agostini de Melhor Web Qradrinho de 2014
+            Vencedor do Angelo Agostini
+            Vencedor do Troféu Angelo Agostini
+            Vencedor do troféu Angelo Agostini
+            Vencedora do 35o Troféu Angelo Agostini
+            Vencedora doAngelo Agostini
+    política:
+        regex:
+            ministr|minist[eé]rio|president|governador|prefeit[oa]|pol[ií]ti|economia|capitalis|comunis[tm]|socialis|anarquis|esquerdis|direitis|reacion[aá]|reaça|autoritari|ditadura|autogest|libertarian
+        todos:
+            “A Maldição do Governador
+            A Maldição do Governador
+            A Menina Comunista
+            Análises de Políticas Públicas
+            Anarquista
+            Assessora Política Parlamentar
+            Austrinho & a Economia
+            Biblioteconomia
+            Ciência Política
+            Ciência Política pela Universidade Estácio
+            Cientista política
+            Comentarista Gourmet de Política
+            Comissão de Política Criminal
+            Contabilidade e Economia
+            Ditadura
+            Ditadura Militar
+            Ditadura No Ar
+            Ditadura no Ar
+            Ditadura No Ar - Coração Selvagem
+            Ditadura no Ar - Coração Selvagem
+            Ditadura No Ar - Coração Selvagem Esse
+            Doutora em Ciência Política
+            É POLÍTICA
+            Economia
+            Economia Criativa
+            Economia Criativa do Estado de São Paulo
+            Economia Criativa do Estado do Rio de Janeiro
+            Educação, História e Política
+            Escola Austríaca de Economia
+            Ética e Filosofia Política da Universidade de Valência
+            Governador do Estado
+            Governador Valadares
+            História e Culturas Políticas
+            História Política
+            HUMOR POLITICAMENTE INCORRETO
+            LA NIÑA COMUNISTA
+            Licenciado em História, Especialista em Ciência Política, Moderna Educação
+            Loucos Políticos
+            Menina Comunista
+            MENINA COMUNISTA
+            Mestre em Direito Político e Econômico
+            Palácio do Governador
+            Participação Política
+            politica
+            POLÍTICA
+            Política
+            Política e o Patrimônio Cultural
+            Política é Relação
+            Políticas
+            Políticas Pública
+            Prefeito
+            Prefeito de Santa Verona
+            Presidente
+            Presidente Bernardes
+            Presidente da Comissão de Teses
+            Presidente da Guiné Equatorial
+            Presidente da República
+            Presidente do Brasil
+            Presidente!
+            Professor de Economia da UERN
+            Punk Anarquista
+            Região de Presidente Prudente-SP
+            Socialista Morena
+            Transição Socialista
+    questões de gênero:
+        regex:
+            (machis|feminis|sexismo|empoderamento\s*feminino|direito\s*feminino|direito\*d(e|a|as)\s*mulheres|viol[eê]ncia\s*dom[eé]stica|cultura\s*patriarcal|masculinidade\s*t[oóxica]|feminic[ií]dio|consentimento|(pap[eé]is|normas|estudos*|igualdade|estereótipos*|diversidade|identidade|discriminação)\s*de\s*g[eê]nero)
+    lgbtqia+:
+        regex:
+            (homos+exual|bis+exual|trans+exual|pans+exual|transg[eê]ner|ag[eê]nero|big[eê]nero|n[aã]o[\s-]*binário|traveco|travesti|she-*her|gay|sapat[aã]o|s[aá]fico|l[eé]sbica|queer|aliado|sa[ií](r|da)\s*d[eo]\s*arm[aá]rio|espa[çc]o\s*seguro|homofobia|transfobia|lesbofobia|orienta[cç][aã]o\s*sexual|(pap[eé]is|normas|estudos*|igualdade|estereótipos*|diversidade|identidade|discriminação)\s*de\s*g[eê]nero)
+    terror:
+        regex:
+            (terror|horror|suspense|sobrenatural|monstro|kaiju|godzila|vampir|lobisomem|zumb[oô]|assassin|corpo\s*seco|m[uú]mia|fantasma|morto|esp[ií]rit|zumbi|zombi|zombie|pos+es+[aã]o|dem[oôó]io|demon[ií]ac|slasher|arrepio|lovecraft|sinistr|claustrofobia|desespero|tens[aã]o|assobrad|sombri[ao]|cemit[eé]rio|abandonad|macabro|medo|desconhecido|as+ustador|maldit[ao]|maldi[çc][ãa]o|apocalipse|distopia)
+    humor:
+        regex:
+            (piada|humor|c[oôó]mic[oa]|comicidade|risada|engra[cç]ad|gozad[ao]|divertid|z[ou][eê]i*ra)
+    heroi:
+        regex:
+            (her[oó]i|hero[íi]na|super[\s\-]*poder|super[\s\-]*vil|inimigo)
+    luta:
+        regex:
+            (luta|combate|oponente|derrota)
+    guerra:
+        regex:
+            (guerra|conflito|derrota|disputa|conflito|vit[oó]ria)
+    gêneros:
+        regex:
+            suspense|\bconto|romance|novela|graphic novel|biografia|fic[çc][aã]o|fantasia|\bmang[áa]\b
+    ficção científica:
+        regex:
+            rob[ôóo]|andr[oó]id|tecnologia|cyber|ciber|zumb[oô]|planeta|viage[nm]\s*espacial|astronauta|cosmonauta|taikonauta|planeta|space\s*opera|computador|intelig[êe]ncia\s*artificial|i\.a\.|a\.i\.|apocalipse|distopia
+    fantasia:
+        regex:
+            aventura|saga|elfo|elfa|troll|m[aá]gico|magia|feiticeir|feiti[çc]|castelo|cavaleir|drag[ãa]o|duend|cavalaria|espada|escudo|\blança\b|arqueir
+    folclore:
+        regex:
+            saci|mula[\s*-]sem[\s*-]cabe|corpo\s*seco|lobisomem|assombra[çc][ãa]|sereia|m[ãa]e\s*d['a]\s*[áa]gua|supersti|loira\s*do|\blenda|cuca|mito\b|mitologia|cemit[ée]rio
+    zine:
+        regex:
+            zine
+    webformato:
+        regex:
+            web[\s\-]*(comic|quadrinh|tirinh|zine|toon)
+    erótico:
+        regex:
+            er[oó]tic|porn[oô]|sad[oô][-\s]mas[oô]|sadomasoquist|bdsm|\+18|18\+|sexo|sexualidade|sacanagem|putaria|gozar|posi[çc][aã]o\s*sexual
+    religião:
+        regex:
+            cat[óo]lic|crist[ãa]o|gospel|evangelho|\bdeus|santifica|evang[eé]li[zc]|\bbuda\b|budism|bramanism|jesus|\b[ij]av[eé]h*\b|\breza|bendito|bendizer|premoni|profecia|profeta|b[íi]blia|\btor[aá]\b|alco+r[ãa]o|m[ií]stico|sobrenatural|pajé|pa[gj]elan|orix[aá]|macumba|umbanda|candonbl|terreiro
+    jogos:
+        regex:
+            jogo|\bgame\b|tabuleiro|board|xadrez|gam[ãa]o|cartas|card\b|disputa|conflito|vit[oó]ria

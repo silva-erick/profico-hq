@@ -72,7 +72,7 @@
             "cwd": "${workspaceFolder}/scripts/normalizacao",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args":["-v", "-a", "2013"]
+            "args":["-v", "-a", "2023"]
         },
         {
             "name": "Python: spacy_classificar.py",

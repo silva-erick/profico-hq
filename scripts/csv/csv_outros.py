@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         prog = "csv_outros.py",
-        description='gerar csv a partir dos arquivos finished')
+        description='gerar csv a partir dos arquivos finished para esporte e jornalismo')
     parser.add_argument('-v', '--verbose',
                     action='store_true')  # on/off flag
     parser.add_argument('-l', '--loglevel', choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL'], required=False)

@@ -466,7 +466,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         prog = "raspar_catarse.py",
-        description='Obtém dados de campanhas de financiamento coletivo dos sites monitorados')
+        description='Obtém dados de campanhas de financiamento coletivo de quadrinhos dos sites monitorados')
     parser.add_argument('-v', '--verbose',
                     action='store_true')  # on/off flag
     parser.add_argument('-l', '--loglevel', choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL'])
