@@ -1,0 +1,332 @@
+generos:
+    empresa:
+        full:
+            avuá edições
+            ifl-sp
+            laboralivros
+            lelis
+            macaco dumal hobbies
+            ra\.\s+soares
+            red dragon
+            ugra press
+            varanda
+        contem:
+            editora
+            gr[áa]fica            
+            ltda
+            eireli
+    coletivo:
+        full:
+            bloco narrativo
+            bruno lavoisier & felipe de sá
+            indievisivel press
+            kiwii anônimo
+            marcel e marcelli ibaldo
+            mundo sutil
+            nando motta / jay vaquer
+            omamori studio
+            quadrinhofilia / josé aguiar
+            selo meia-noite
+            união o segredo da lua
+            universo hermes & browni
+        contem:
+            coletivo
+            equipe
+            e*st[uú]dio
+            selo
+            grupo            
+    masculino:
+		full:
+			aj alves
+            atlântida
+            b\.j\. fogueteiro
+            bucaneiro nerd
+            calfa
+            cartoonzando
+            chris pereira
+            d\. l\. werneck
+            ed benes
+            estúdio_casinha
+			fe meyer
+            felipe cagno
+            fernando dep
+            fly
+            franklinmeow
+            gau ferreira
+			haus
+            hb comics studio
+            hiram miller
+            hobrat
+            hyl art
+			kampos
+            katsuya harada
+            lacruz
+            lexy soares
+            lilo viana
+            lorobuono fumetti
+            marcão rocker
+            marmota
+			max andrade
+            mont lunar, o artista gráfico
+            ogui l\.
+            pipocas club
+            pistashi
+            podre flores
+            quadrinhos bagunçados
+            rabelo
+            rafa louzada
+            rafabrilustra
+            rai guimarães
+            red
+			rédi bortoluzzi
+            roteirista empreendedor
+			silva joão
+            sketch comics
+            tulidoim
+            will
+		comeca_com:
+			adriano
+            a[iy][lr]t+o[nm]
+			ala[nm]
+            alberto
+			al*c[iy]r
+            aldo
+			ale(cs|x|ss)and(er|ro)
+			alex
+            anderson
+			andr[ée]
+			ant[oôó]nio
+            arnaldo
+            aparecido
+            augusto
+            bartolomeu
+			brun+o
+			caio
+            ca[íi]que
+            calvino*
+			[ck]arlos*
+			ce[sz]ar
+            cl[ae][iy]ton
+            ch*risth*ian+o
+            daiandreson
+			daniel
+            da[ln]to[nm]
+            d(a|ei)vid
+			delmo
+            d[êe]nis
+            di[eo]go
+			di[oó]genes
+            douglas
+            ede
+            elenilton
+            emers+o[mn]
+            enrico
+            enzo
+			eri(c|k|ck|ch)
+            eron
+			eust[áa]quio
+            evans
+			fabian+o
+			f[áa]bio
+            fab+r[íi]c+io
+            (f|ph)el+[ei]p+[ei]
+            f[ée]lix
+			fernando
+            franklin
+			gabriel
+            g[êe]iso[mn]
+            (ge|j)org+(e|y|io)
+            [gj][eé]rso[nm]
+            g[ei]ovan+[ei]
+            gl(a|ei)dso[nm]
+			gui(lherme){0,1}
+			gu(stavo){0,1}
+            guto
+			isaac
+            isaias
+			isa+que
+			he[ci]tor
+            h[ée]lio
+			he{0,1}leno
+			henrique
+            henry
+            [iy]ag+[ou]
+            [ií]t+al+o
+            j(a|ei|êi|ay)so[nm]
+            jack
+            jaf(é|eth)
+            jão
+            jean
+            jef+ers+o[nm]
+			jo[ãa]o
+            john 
+            jord[iy]
+			jos[ée]
+			josias
+            (j|gi)[úu]l+[iy]o
+            jonath*a[sn]
+            j[úu]n+[iy]or
+            laudo
+            leandro
+            leonardo
+            levi
+            lourenço
+            lorenz+o
+            luan
+			luc+as
+            luc[iy]an+o
+            lu[ií][sz]
+            luissandro
+            math*eus
+            marcel+o
+            marc+os
+            m[áa]rcio
+			m[áa]rio
+			marlon
+            maur[íi]lio
+            mauro
+            m[aá][yi]co[nw]
+            micha*el
+			mizael
+			melquizedeque
+            muril+o
+            naldinho
+			nicolau
+			n[íi]colas
+            nils+o[mn]
+            noé
+			paulo
+			patrick
+			patrux
+            pedro
+            oliver
+			ra(f|ph)ael
+            raimundo
+			rangel
+            raul
+            remerson
+            renato
+            reynerio
+            rich*ardo*
+            robson
+			rodrigo
+            ronaldo
+            samuel
+			sandro
+            selto[nm]
+            serafi[mn]
+            s[eé]rgio
+            severino
+            silmar
+            tal+[ey]s
+			tarc[ií][sz]io
+            th*iago
+			valmar
+            vamberto
+            vandré
+			vic*tor
+			vilso[mn]
+            [vb][ie]n[íi]ci(us|o)
+            [wvf]agn+er
+            [wu][eé]sl+e[yi]
+            [wu]il+ia[mn]
+			wilso[mn]
+			yves
+			z[ée]
+            zigurate
+    feminino:
+        full:
+            @majoryyokomizo
+            aliens of camila
+            bel pardal
+            bunda
+            coati
+            crow
+            delacroix sasha
+            determination maga
+            demi
+            editora de um livro só
+            gem\.i\.ni
+            gótica desanimada
+            goya maru
+            helô d\'angelo
+            kai\s+maxnuk
+            keto pagano
+            kuroi kuraiyuki
+            lovelove6
+            manu cunhas
+            suu hideto
+            titan studio
+            treze
+        comeca_com:
+            adri[ae](l|n)+[aey]
+            ale(cs|ss|x)andra
+            ali[cn]e
+            amanda
+            an+a
+            andressa
+            [âa]ngela
+            ang[ée]lica
+            b[áa]rbara
+            beatriz
+            bet(e|h|ty)
+            brenda
+            camila
+            carol+in+[aey]
+            cec[íi]llia
+            clara
+            cl[aá]udia
+            cristia*n(aey)
+            dan+iel+[aey]
+            dian+a
+            edna
+            el+e[mn]+[yi]
+            el+ian+[ey]
+            eli[sz]a(bet(e|h|ty)){0,1}
+            [ée]ri[ck]a
+            [eé]vel+[iy]n
+            fabian+[eyi]
+            fernanda
+            fl[áa]via
+            franc[ée]lia
+            georgia
+            gi[sz]el+[ey]
+            gl[áa]u(c|ss)ia
+            guta
+            h*el+n+[ay]
+            helo[íi][sz]a
+            (j|gi)[úu]l+[iy]a
+            la[íi]s
+            lana
+            larissa
+            lu[íi][sz]a
+            maria
+            mar[íi]l+ia
+            marina
+            morgh*ana
+            nadja
+            najla
+            n[áa]gel+a
+            nath*[áa]l+(ia|ya*)
+            nat+a[cs]ha
+            nicol+[eyi]
+            pa[ou]lla
+            pahol+a
+            paloma
+            pol[iy]an+a
+            pris*cil+a
+            ra(f|ph)ael+a
+            renata
+            rosan+[aey]
+            sabrina
+            samanta
+            sh[ae]ron
+            s[íiy]lv[iy]a
+            th*a[yi]l+a
+            [vw]an+essa
+            ver[ôo]nic+a
+            vivi
+            vivian(n*[ey]){0,1)
+    outros:
+        full:
+            chandelly kidman
