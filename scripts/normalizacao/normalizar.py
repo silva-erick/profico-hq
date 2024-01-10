@@ -98,10 +98,10 @@ class Normalizacao:
         self._autorias_precisos['coletivo'] = [re.compile(f"^{pat}$") for pat in data['coletivo']['full'] if pat.strip()]
 
         self._autorias_comeca_com={}
-        self._autorias_comeca_com['masculino'] = [re.compile(f"^{pat}") for pat in data['masculino']['comeca_com'] if pat.strip()]
-        self._autorias_comeca_com['feminino'] = [re.compile(f"^{pat}") for pat in data['feminino']['comeca_com'] if pat.strip()]
-        self._autorias_comeca_com['empresa'] = [re.compile(f"^{pat}") for pat in data['empresa']['comeca_com'] if pat.strip()]
-        self._autorias_comeca_com['coletivo'] = [re.compile(f"^{pat}") for pat in data['coletivo']['comeca_com'] if pat.strip()]
+        self._autorias_comeca_com['masculino'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['masculino']['comeca_com'] if pat.strip()]
+        self._autorias_comeca_com['feminino'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['feminino']['comeca_com'] if pat.strip()]
+        self._autorias_comeca_com['empresa'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['empresa']['comeca_com'] if pat.strip()]
+        self._autorias_comeca_com['coletivo'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['coletivo']['comeca_com'] if pat.strip()]
 
         self._autorias_contem={}
         self._autorias_contem['masculino'] = [re.compile(f"{pat}") for pat in data['masculino']['contem'] if pat.strip()]
