@@ -179,7 +179,7 @@
 			"transf[oó]b",
 			"lesbo[oó]b",
 			"orienta[cç][aã]o\\s*sexual",
-			"(pap[eé](l|is)|normas*|estudos*|igualdade|estereótipos*|diversidade|identidades*|discrimina[çc][ãa]o|performance)(\\s*de){0,1}\\s*g[eê]nero"
+			"(pap[eé](l|is)|normas*|estudos*|igualdade|estereótipos*|diversidade|identidades*|discrimina[çc][ãa]o|performance)(\\s*de){0,1}\\s*g[eê]nero",
 			"machismo",
 			"patriarc",
 			"matriarc",
@@ -209,6 +209,10 @@
 			"fantasma",
 			"morto",
 			"morte",
+			"morrer",
+			"matar",
+			"matou",
+			"matava",
 			"esp[ií]rit",
 			"zumbi",
 			"zombi",
@@ -221,7 +225,7 @@
 			"arrepio",
 			"lovecraft",
 			"sinistr",
-			"claustrof[óo]b"
+			"claustrof[óo]b",
 			"desespero",
 			"tens[aã]o",
 			"assobrad",
@@ -256,10 +260,10 @@
 			"gozad[ao]",
 			"divertid",
 			"divers[ãa]o",
-			"z[ou][eê]i*ra"
+			"z[ou][eê]i*ra",
 			""
 		]
-	}},
+	},
 	"herois":{
         "full":[
 			],
@@ -280,7 +284,7 @@
 			"honra",
 			""
 		]
-	}},
+	},
 	"luta":{
         "full":[
 			],
@@ -288,6 +292,8 @@
 		],
 		"contem":[
 			"luta",
+			"lutador",
+			"guerreiro",
 			"combate",
 			"oponente",
 			"derrota",
@@ -305,6 +311,11 @@
 			"ringue",
 			"mma",
 			"oct[oó]gono",
+			"golpe",
+			"defesa",
+			"defen[ds]",
+			"ataque",
+			"atac[ao]",
 			""
 		]
 	},
@@ -314,17 +325,46 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"guerra",
+			"conflito",
+			"defesa",
+			"quartel",
+			"caserna",
+			"derrota",
+			"disputa",
+			"conflito",
+			"inimigo",
+			"vit[oó]ria",
+			"soldad",
+			"general",
+			"comandante",
+			"capitã",
 			""
 		]
 	},
-	"generos_narrativos":{
+	"estilo":{
         "full":[
 			],
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"escritor",
+			"escrita",
+			"escrever",
+			"suspense",
+			"\\bconto",
+			"romance",
+			"novela",
+			"terror",
+			"horror",
+			"ut[oó]p",
+			"dist[oó]p",
+			"cr[ôo]nic",
+			"graphic novel",
+			"biografia",
+			"fic[çc][aãoõ]",
+			"fantasia",
+			"\\bmang[áa]\\b",
 			""
 		]
 	},
@@ -334,7 +374,25 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"rob[ôóo]",
+			"andr[oó]id",
+			"tecnologia",
+			"cyber",
+			"ciber",
+			"zumb[oô]",
+			"planeta",
+			"viage[nm]\\s*(espacial|\\s*no\\s*tempo)",
+			"(astro|cosmo|taiko)nauta",
+			"planeta",
+			"space\\s*opera",
+			"computador",
+			"intelig[êe]ncia\\s*artificial",
+			"i\\.a\\.",
+			"\\bia\\b",
+			"a\\.i\\.",
+			"\\bai\\b",
+			"apocalip",
+			"dist[oó]p",			
 			""
 		]
 	},
@@ -344,7 +402,24 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"arqueir",
+			"aventura",
+			"castelo",
+			"cavalaria",
+			"cavaleir",
+			"drag([ãa]o|[õo]e)",
+			"duend",
+			"elf[oa]",
+			"escudo",
+			"espada",
+			"feiticeir",
+			"feiti[çc]",
+			"flecha",
+			"\\blança\\b",
+			"magia",
+			"m[aá]gico",
+			"saga",
+			"troll",
 			""
 		]
 	},
@@ -354,7 +429,20 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"saci",
+			"mula[\\s*-]sem[\\s*-]cabe",
+			"corpo\\s*seco",
+			"lobisomem",
+			"assombra[çc][ãa]",
+			"sereia",
+			"m[ãa]e\\s*d['a]\\s*[áa]gua",
+			"supersti",
+			"loira\\s*do",
+			"\\blenda",
+			"cuca",
+			"mito\\b",
+			"mitologia",
+			"cemit[ée]rio",
 			""
 		]
 	},
@@ -364,7 +452,7 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"zine",
 			""
 		]
 	},
@@ -374,7 +462,7 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"web[\\s\\-]*(comic|quadrinh|tirinh|zine|toon)",
 			""
 		]
 	},
@@ -384,7 +472,27 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"er[oó]tic",
+			"porn[oô]",
+			"sad[oô][-\\s]mas[oô]",
+			"sadomasoquist",
+			"bdsm",
+			"\\+18",
+			"18\\+",
+			"sexo",
+			"sexualidade",
+			"sacanagem",
+			"putaria",
+			"gozar",
+			"posi[çc][aã]o\\s*sexual",
+			"fantasia",
+			"desejo",
+			"libido",
+			"peito",
+			"vagina",
+			"p[êe]nis",
+			"bunda",
+			"traseiro",
 			""
 		]
 	},
@@ -394,7 +502,39 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"cat[óo]lic",
+			"crist[ãa]o",
+			"gospel",
+			"evangelho",
+			"\\bdeus",
+			"santifica",
+			"evang[eé]li[zc]",
+			"\\bbuda\\b",
+			"budism",
+			"bramanism",
+			"jesus",
+			"\\b[ij]av[eé]h*\\b",
+			"\\breza",
+			"bendito",
+			"bendizer",
+			"premoni",
+			"profecia",
+			"profeta",
+			"b[íi]blia",
+			"\\btor[aá]\\b",
+			"alco+r[ãa]o",
+			"m[ií]stico",
+			"misticismo",
+			"sobrenatural",
+			"pajé",
+			"pa[gj]elan",
+			"orix[aá]",
+			"macumba",
+			"umbanda",
+			"candonbl",
+			"terreiro",
+			"oculto",
+			"ocultismo",
 			""
 		]
 	},
@@ -404,7 +544,17 @@
         "comeca_com":[
 		],
 		"contem":[
-			"sal[aã]o(\\s*internacional){0,1}\\s*d[eo]\\w*humor",
+			"jogo",
+			"\\bgame\\b",
+			"tabuleiro",
+			"board",
+			"xadrez",
+			"gam[ãa]o",
+			"cartas",
+			"card\\b",
+			"disputa",
+			"conflito",
+			"vit[oó]ria",
 			""
 		]
 	}

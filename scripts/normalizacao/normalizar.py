@@ -72,48 +72,43 @@ class Normalizacao:
 
     def _carregar_autorias_padroes(self):
         # abrir arquivo
-        f = open ("./autorias.json", "r", encoding="utf8")
-        
-        # ler arquivo como json
-        data = json.loads(f.read())
-        data['masculino']['full'] = data['masculino'].get('full', [])
-        data['feminino']['full'] = data['feminino'].get('full', [])
-        data['empresa']['full'] = data['empresa'].get('full', [])
-        data['coletivo']['full'] = data['coletivo'].get('full', [])
-        data['outros']['full'] = data['outros'].get('full', [])
+        try:
+            f = open ("./autorias.json", "r", encoding="utf8")
+            
+            # ler arquivo como json
+            data = json.loads(f.read())
+            cats = [
+                'masculino',
+                'feminino',
+                'empresa',
+                'coletivo',
+                'outros'
+                ]
+            estruts = ['full','comeca_com', 'contem']
 
-        data['masculino']['contem'] = data['masculino'].get('contem', [])
-        data['feminino']['contem'] = data['feminino'].get('contem', [])
-        data['empresa']['contem'] = data['empresa'].get('contem', [])
-        data['coletivo']['contem'] = data['coletivo'].get('contem', [])
-        data['outros']['outros'] = data['outros'].get('contem', [])
+            self._autorias_precisos = {}
+            self._autorias_comeca_com={}
+            self._autorias_contem={}
+            for c in cats:
+                for t in estruts:
+                    data[c][t] = data[c].get(t, [])
 
-        data['masculino']['comeca_com'] = data['masculino'].get('comeca_com', [])
-        data['feminino']['comeca_com'] = data['feminino'].get('comeca_com', [])
-        data['empresa']['comeca_com'] = data['empresa'].get('comeca_com', [])
-        data['coletivo']['comeca_com'] = data['coletivo'].get('comeca_com', [])
-        data['outros']['comeca_com'] = data['outros'].get('comeca_com', [])
+                    if t == 'full':
+                        self._autorias_precisos[c] = [re.compile(f"^{pat}$") for pat in data[c][t] if pat.strip()]
+                    elif t == 'comeca_com':
+                        self._autorias_comeca_com[c] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data[c][t] if pat.strip()]
+                    else:
+                        self._autorias_contem[c] = [re.compile(f"{pat}") for pat in data[c][t] if pat.strip()]
 
-        self._autorias_precisos = {}
-        self._autorias_precisos['masculino'] = [re.compile(f"^{pat}$") for pat in data['masculino']['full'] if pat.strip()]
-        self._autorias_precisos['feminino'] = [re.compile(f"^{pat}$") for pat in data['feminino']['full'] if pat.strip()]
-        self._autorias_precisos['empresa'] = [re.compile(f"^{pat}$") for pat in data['empresa']['full'] if pat.strip()]
-        self._autorias_precisos['coletivo'] = [re.compile(f"^{pat}$") for pat in data['coletivo']['full'] if pat.strip()]
-        self._autorias_precisos['outros'] = [re.compile(f"^{pat}$") for pat in data['outros']['full'] if pat.strip()]
-
-        self._autorias_comeca_com={}
-        self._autorias_comeca_com['masculino'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['masculino']['comeca_com'] if pat.strip()]
-        self._autorias_comeca_com['feminino'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['feminino']['comeca_com'] if pat.strip()]
-        self._autorias_comeca_com['empresa'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['empresa']['comeca_com'] if pat.strip()]
-        self._autorias_comeca_com['coletivo'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['coletivo']['comeca_com'] if pat.strip()]
-        self._autorias_comeca_com['outros'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['outros']['comeca_com'] if pat.strip()]
-
-        self._autorias_contem={}
-        self._autorias_contem['masculino'] = [re.compile(f"{pat}") for pat in data['masculino']['contem'] if pat.strip()]
-        self._autorias_contem['feminino'] = [re.compile(f"{pat}") for pat in data['feminino']['contem'] if pat.strip()]
-        self._autorias_contem['empresa'] = [re.compile(f"{pat}") for pat in data['empresa']['contem'] if pat.strip()]
-        self._autorias_contem['coletivo'] = [re.compile(f"{pat}") for pat in data['coletivo']['contem'] if pat.strip()]
-        self._autorias_contem['outros'] = [re.compile(f"{pat}") for pat in data['outros']['contem'] if pat.strip()]
+            return True
+        except Exception as e:
+            # Lidar com a exceção, se necessário
+            log_verbose(self._verbose, f"Erro ao ler o arquivo: {e}")
+            return False
+        finally:
+            # Certifique-se de fechar o arquivo, mesmo em caso de exceção
+            if f:
+                f.close()
 
     def _carregar_categorias_padroes(self):
         self._categorias_padroes = {}
@@ -130,17 +125,76 @@ class Normalizacao:
         #self._categorias_padroes['Humor'] = re.compile(r'piada|humor|c[oôó]mic[oa]|comicidade|risada|engra[cç]ad|gozad[ao]|divertid|z[ou][eê]i*ra')
         #self._categorias_padroes['Heróis'] = re.compile(r'her[oó]i|hero[íi]na|super[\s\-]*poder|super[\s\-]*vil|inimigo')
         #self._categorias_padroes['Luta'] = re.compile(r'luta|combate|oponente|derrota')
-        self._categorias_padroes['Guerra'] = re.compile(r'guerra|conflito|derrota|disputa|conflito|vit[oó]ria')
-        self._categorias_padroes['Gêneros'] = re.compile(r'suspense|\bconto|romance|novela|graphic novel|biografia|fic[çc][aã]o|fantasia|\bmang[áa]\b')
-        self._categorias_padroes['Ficção Científica'] = re.compile(r'rob[ôóo]|andr[oó]id|tecnologia|cyber|ciber|zumb[oô]|planeta|viage[nm]\s*espacial|astronauta|cosmonauta|taikonauta|planeta|space\s*opera|computador|intelig[êe]ncia\s*artificial|i\.a\.|a\.i\.|apocalipse|distopia')
-        self._categorias_padroes['Fantasia'] = re.compile(r'aventura|saga|elfo|elfa|troll|m[aá]gico|magia|feiticeir|feiti[çc]|castelo|cavaleir|drag[ãa]o|duend|cavalaria|espada|escudo|\blança\b|arqueir')
-        self._categorias_padroes['Folclore'] = re.compile(r"saci|mula[\s*-]sem[\s*-]cabe|corpo\s*seco|lobisomem|assombra[çc][ãa]|sereia|m[ãa]e\s*d['a]\s*[áa]gua|supersti|loira\s*do|\blenda|cuca|mito\b|mitologia|cemit[ée]rio")
-        self._categorias_padroes['Zine'] = re.compile(r'zine')
-        self._categorias_padroes['WebFormatos'] = re.compile(r'web[\s\-]*(comic|quadrinh|tirinh|zine|toon)')
-        self._categorias_padroes['Erotismo'] = re.compile(r'er[oó]tic|porn[oô]|sad[oô][-\s]mas[oô]|sadomasoquist|bdsm|\+18|18\+|sexo|sexualidade|sacanagem|putaria|gozar|posi[çc][aã]o\s*sexual|fantasia|desejo|libido')
-        self._categorias_padroes['Religiosidade'] = re.compile(r'cat[óo]lic|crist[ãa]o|gospel|evangelho|\bdeus|santifica|evang[eé]li[zc]|\bbuda\b|budism|bramanism|jesus|\b[ij]av[eé]h*\b|\breza|bendito|bendizer|premoni|profecia|profeta|b[íi]blia|\btor[aá]\b|alco+r[ãa]o|m[ií]stico|misticismo|sobrenatural|pajé|pa[gj]elan|orix[aá]|macumba|umbanda|candonbl|terreiro|oculto|ocultismo')
-        self._categorias_padroes['Jogos'] = re.compile(r'jogo|\bgame\b|tabuleiro|board|xadrez|gam[ãa]o|cartas|card\b|disputa|conflito|vit[oó]ria')
-        RE_POLITICA = r''
+        #self._categorias_padroes['Guerra'] = re.compile(r'guerra|conflito|derrota|disputa|conflito|vit[oó]ria')
+        #self._categorias_padroes['Gêneros'] = re.compile(r'suspense|\bconto|romance|novela|graphic novel|biografia|fic[çc][aã]o|fantasia|\bmang[áa]\b')
+        #self._categorias_padroes['Ficção Científica'] = re.compile(r'rob[ôóo]|andr[oó]id|tecnologia|cyber|ciber|zumb[oô]|planeta|viage[nm]\s*espacial|astronauta|cosmonauta|taikonauta|planeta|space\s*opera|computador|intelig[êe]ncia\s*artificial|i\.a\.|a\.i\.|apocalipse|distopia')
+        #self._categorias_padroes['Fantasia'] = re.compile(r'aventura|saga|elfo|elfa|troll|m[aá]gico|magia|feiticeir|feiti[çc]|castelo|cavaleir|drag[ãa]o|duend|cavalaria|espada|escudo|\blança\b|arqueir')
+        #self._categorias_padroes['Folclore'] = re.compile(r"saci|mula[\s*-]sem[\s*-]cabe|corpo\s*seco|lobisomem|assombra[çc][ãa]|sereia|m[ãa]e\s*d['a]\s*[áa]gua|supersti|loira\s*do|\blenda|cuca|mito\b|mitologia|cemit[ée]rio")
+        #self._categorias_padroes['Zine'] = re.compile(r'zine')
+        #self._categorias_padroes['WebFormatos'] = re.compile(r'web[\s\-]*(comic|quadrinh|tirinh|zine|toon)')
+        #self._categorias_padroes['Erotismo'] = re.compile(r'er[oó]tic|porn[oô]|sad[oô][-\s]mas[oô]|sadomasoquist|bdsm|\+18|18\+|sexo|sexualidade|sacanagem|putaria|gozar|posi[çc][aã]o\s*sexual|fantasia|desejo|libido')
+        #self._categorias_padroes['Religiosidade'] = re.compile(r'cat[óo]lic|crist[ãa]o|gospel|evangelho|\bdeus|santifica|evang[eé]li[zc]|\bbuda\b|budism|bramanism|jesus|\b[ij]av[eé]h*\b|\breza|bendito|bendizer|premoni|profecia|profeta|b[íi]blia|\btor[aá]\b|alco+r[ãa]o|m[ií]stico|misticismo|sobrenatural|pajé|pa[gj]elan|orix[aá]|macumba|umbanda|candonbl|terreiro|oculto|ocultismo')
+        #self._categorias_padroes['Jogos'] = re.compile(r'jogo|\bgame\b|tabuleiro|board|xadrez|gam[ãa]o|cartas|card\b|disputa|conflito|vit[oó]ria')
+
+        # abrir arquivo
+        try:
+            f = open ("./categorias.json", "r", encoding="utf8")
+            
+            # ler arquivo como json
+            data = json.loads(f.read())
+            cats = [
+                'premios_festivais',
+                'saloes_humor',
+                'hqmix',
+                'ccxp',
+                'fiq',
+                'angelo_agostini',
+                'politica',
+                'questoes_genero',
+                'lgbtqiamais',
+                'terror',
+                'humor',
+                'herois',
+                'luta',
+                'guerra',
+                'estilo',
+                'ficcao_cientifica',
+                'fantasia',
+                'folclore',
+                'zine',
+                'webformatos',
+                'erotismo',
+                'religiosidade',
+                'jogos'
+                ]
+            estruts = ['full','comeca_com', 'contem']
+
+            self._categorias_padroes_precisos = {}
+            self._categorias_padroes_comeca_com={}
+            self._categorias_padroes_contem={}
+            for c in cats:
+                for t in estruts:
+                    data[c][t] = data[c].get(t, [])
+
+                    if t == 'full':
+                        self._categorias_padroes_precisos[c] = [re.compile(f"^{pat}$") for pat in data[c][t] if pat.strip()]
+                    elif t == 'comeca_com':
+                        self._categorias_padroes_comeca_com[c] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data[c][t] if pat.strip()]
+                    else:
+                        self._categorias_padroes_contem[c] = [re.compile(f"{pat}") for pat in data[c][t] if pat.strip()]
+
+            return True
+        except Exception as e:
+            # Lidar com a exceção, se necessário
+            log_verbose(self._verbose, f"Erro ao ler o arquivo: {e}")
+
+            return False
+
+        finally:
+            # Certifique-se de fechar o arquivo, mesmo em caso de exceção
+            if f:
+                f.close()
+
 
     def _carregar_json(self, caminho):
         result = {}
@@ -312,8 +366,21 @@ class Normalizacao:
             about_txt = about_txt.lower()
         data["analises_categorias"]={}
 
-        for k, r in self._categorias_padroes.items():
-            data['analises_categorias'][k] = self._testar_regex(about_txt, r)
+        categoria = 'indefinido'
+        cats = [
+            self._categorias_padroes_precisos,
+            self._categorias_padroes_comeca_com,
+            self._categorias_padroes_contem
+            ]
+        for c in cats:
+            for k, v in c.items():
+                for p in v:
+                    data['analises_categorias'][k] = self._testar_regex(about_txt, p)
+                    if data['analises_categorias'][k]:
+                        categoria = k
+                        break
+                #if categoria != 'indefinido':
+                #    break
 
         return True
 
@@ -351,26 +418,24 @@ class Normalizacao:
         name = name.lower().strip()
 
         categoria = 'indefinido'
-        for k, v in self._autorias_precisos.items():
-            for p in v:
-                if self._testar_regex(public_name, p):
-                    categoria = k
+        cats = [
+            self._autorias_precisos,
+            self._autorias_comeca_com,
+            self._autorias_contem
+            ]
+        for c in cats:
+            for k, v in c.items():
+                for p in v:
+                    if self._testar_regex(public_name, p):
+                        categoria = k
+                        break
+                if categoria != 'indefinido':
                     break
-        if categoria=='indefinido':
-            for k, v in self._autorias_comeca_com.items():
-                for p in v:
-                    if self._testar_regex(public_name, p):
-                        categoria = k
-                        break
+            if categoria != 'indefinido':
+                break
 
-        if categoria=='indefinido':
-            for k, v in self._autorias_contem.items():
-                for p in v:
-                    if self._testar_regex(public_name, p):
-                        categoria = k
-                        break
 
-        if categoria=='indefinido':
+        if public_name!='' and categoria=='indefinido':
             primeiro_nome = public_name.split(' ')[0]
             categoria = get_gender(primeiro_nome)
             if categoria is None:
@@ -427,22 +492,32 @@ class Normalizacao:
             json.dump(data, arquivo_json)
 
         return True
+    
+    def _show_message(self, msg):
+        log_verbose(self._verbose, msg)
+        return True
 
     def executar(self):
-        log_verbose(self._verbose, "Carregar regex de categorização")
-        self._carregar_categorias_padroes()
-        self._carregar_autorias_padroes()
+        result = True
+        
+        result = (result
+            and self._show_message("Carregar regex de categorização")
+            and self._carregar_categorias_padroes()
+            and self._carregar_autorias_padroes()
+        )
 
         self._autores = {}
 
-        log_verbose(self._verbose, "Carregar arquivos de apoio")
-        result = (self._carregar_conversao_monetaria()
+        result = (result
+                and self._show_message("Carregar arquivos de apoio")
+                and self._carregar_conversao_monetaria()
                 and self._carregar_albuns()
                 and self._carregar_municipios()
         )
         
-        log_verbose(self._verbose, "Carregar campanhas")
-        result = (result and self._carregar_campanhas()
+        result = (result
+                and self._show_message("Carregar campanhas")
+                and self._carregar_campanhas()
                 and self._garantir_pastas_normalizacao()
                 and self._percorrer_campanhas(f'Ajustar valores das campanhas para dez/{self._ano}', self._ajustar_valores_campanha)
                 and self._percorrer_campanhas(f'Texto de apresentação: HTML -> Texto', self._ajustar_valor_about)
