@@ -7,7 +7,6 @@ import json
 from bs4 import BeautifulSoup
 
 import re
-#import genderbr
 import requests
 
 
@@ -70,35 +69,25 @@ class Normalizacao:
         self._ano = ano
         self._verbose = verbose
 
-    def _carregar_autorias_padroes(self):
+    def _carregar_arquivo_padroes(self, caminho_arquivo, cats, precisos, comeca_com, contem):
         # abrir arquivo
         try:
-            f = open ("./autorias.json", "r", encoding="utf8")
+            f = open (caminho_arquivo, "r", encoding="utf8")
             
             # ler arquivo como json
             data = json.loads(f.read())
-            cats = [
-                'masculino',
-                'feminino',
-                'empresa',
-                'coletivo',
-                'outros'
-                ]
             estruts = ['full','comeca_com', 'contem']
 
-            self._autorias_precisos = {}
-            self._autorias_comeca_com={}
-            self._autorias_contem={}
             for c in cats:
                 for t in estruts:
                     data[c][t] = data[c].get(t, [])
 
                     if t == 'full':
-                        self._autorias_precisos[c] = [re.compile(f"^{pat}$") for pat in data[c][t] if pat.strip()]
+                        precisos[c] = [re.compile(f"^{pat}$") for pat in data[c][t] if pat.strip()]
                     elif t == 'comeca_com':
-                        self._autorias_comeca_com[c] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data[c][t] if pat.strip()]
+                        comeca_com[c] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data[c][t] if pat.strip()]
                     else:
-                        self._autorias_contem[c] = [re.compile(f"{pat}") for pat in data[c][t] if pat.strip()]
+                        contem[c] = [re.compile(f"{pat}") for pat in data[c][t] if pat.strip()]
 
             return True
         except Exception as e:
@@ -110,39 +99,35 @@ class Normalizacao:
             if f:
                 f.close()
 
-    def _carregar_categorias_padroes(self):
-        self._categorias_padroes = {}
-        #self._categorias_padroes['Festivais'] = re.compile(r'festiva(l|is)')
-        #self._categorias_padroes['Salões de Humor'] = re.compile(r'sal[aã]o(\s*internacional){0,1}\s*d[eo]\w*humor')
-        #self._categorias_padroes['HQMIX'] = re.compile(r'hqmix')
-        #self._categorias_padroes['CCXP'] = re.compile(r'ccxp')
-        #self._categorias_padroes['FIQ'] = re.compile(r'fiq|festival\s*internacional\s*de\s*quadrinhos')
-        #self._categorias_padroes['Ângelo Agostini'] = re.compile(r'gelo[\s\\\w]+agostini')
-        #self._categorias_padroes['Política'] = re.compile(r'ministr|minist[eé]rio|president|governador|prefeit[oa]|pol[ií]ti|economia|capitalis|comunis[tm]|socialis|anarquis|esquerdis|direitis|reacion[aá]|reaça|autoritari|ditadura|autogest|libertarian')
-        #self._categorias_padroes['Questões de Gênero'] = re.compile(r'machis|feminis|sexismo|empoderamento\s*feminino|direito\s*feminino|direito\*d(e|a|as)\s*mulheres|viol[eê]ncia\s*dom[eé]stica|cultura\s*patriarcal|masculinidade\s*t[oóxica]|feminic[ií]dio|consentimento|(pap[eé]is|normas|estudos*|igualdade|estereótipos*|diversidade|identidade|discriminação)\s*de\s*g[eê]nero')
-        #self._categorias_padroes['LGBTQIA+'] = re.compile(r'homos+exual|bis+exual|trans+exual|pans+exual|transg[eê]ner|\bace\b|as+sexual|ag[eê]nero|big[eê]nero|n[aã]o[\s-]*binário|traveco|travesti|she-*her|gay|sapat[aã]o|s[aá]fico|l[eé]sbica|queer|aliado|sa[ií](r|da)\s*d[eo]\s*arm[aá]rio|espa[çc]o\s*seguro|homofobia|transfobia|lesbofobia|orienta[cç][aã]o\s*sexual|(pap[eé]is|normas|estudos*|igualdade|estereótipos*|diversidade|identidade|discriminação)\s*de\s*g[eê]nero')
-        #self._categorias_padroes['Terror'] = re.compile(r'terror|horror|suspense|sobrenatural|monstro|kaiju|godzila|vampir|lobisomem|zumb[oô]|assassin|corpo\s*seco|m[uú]mia|fantasma|morto|esp[ií]rit|zumbi|zombi|zombie|pos+es+[aã]o|dem[oôó]io|demon[ií]ac|slasher|arrepio|lovecraft|sinistr|claustrofobia|desespero|tens[aã]o|assobrad|sombri[ao]|cemit[eé]rio|abandonad|macabro|medo|desconhecido|as+ustador|maldit[ao]|maldi[çc][ãa]o|apocalipse|distopia')
-        #self._categorias_padroes['Humor'] = re.compile(r'piada|humor|c[oôó]mic[oa]|comicidade|risada|engra[cç]ad|gozad[ao]|divertid|z[ou][eê]i*ra')
-        #self._categorias_padroes['Heróis'] = re.compile(r'her[oó]i|hero[íi]na|super[\s\-]*poder|super[\s\-]*vil|inimigo')
-        #self._categorias_padroes['Luta'] = re.compile(r'luta|combate|oponente|derrota')
-        #self._categorias_padroes['Guerra'] = re.compile(r'guerra|conflito|derrota|disputa|conflito|vit[oó]ria')
-        #self._categorias_padroes['Gêneros'] = re.compile(r'suspense|\bconto|romance|novela|graphic novel|biografia|fic[çc][aã]o|fantasia|\bmang[áa]\b')
-        #self._categorias_padroes['Ficção Científica'] = re.compile(r'rob[ôóo]|andr[oó]id|tecnologia|cyber|ciber|zumb[oô]|planeta|viage[nm]\s*espacial|astronauta|cosmonauta|taikonauta|planeta|space\s*opera|computador|intelig[êe]ncia\s*artificial|i\.a\.|a\.i\.|apocalipse|distopia')
-        #self._categorias_padroes['Fantasia'] = re.compile(r'aventura|saga|elfo|elfa|troll|m[aá]gico|magia|feiticeir|feiti[çc]|castelo|cavaleir|drag[ãa]o|duend|cavalaria|espada|escudo|\blança\b|arqueir')
-        #self._categorias_padroes['Folclore'] = re.compile(r"saci|mula[\s*-]sem[\s*-]cabe|corpo\s*seco|lobisomem|assombra[çc][ãa]|sereia|m[ãa]e\s*d['a]\s*[áa]gua|supersti|loira\s*do|\blenda|cuca|mito\b|mitologia|cemit[ée]rio")
-        #self._categorias_padroes['Zine'] = re.compile(r'zine')
-        #self._categorias_padroes['WebFormatos'] = re.compile(r'web[\s\-]*(comic|quadrinh|tirinh|zine|toon)')
-        #self._categorias_padroes['Erotismo'] = re.compile(r'er[oó]tic|porn[oô]|sad[oô][-\s]mas[oô]|sadomasoquist|bdsm|\+18|18\+|sexo|sexualidade|sacanagem|putaria|gozar|posi[çc][aã]o\s*sexual|fantasia|desejo|libido')
-        #self._categorias_padroes['Religiosidade'] = re.compile(r'cat[óo]lic|crist[ãa]o|gospel|evangelho|\bdeus|santifica|evang[eé]li[zc]|\bbuda\b|budism|bramanism|jesus|\b[ij]av[eé]h*\b|\breza|bendito|bendizer|premoni|profecia|profeta|b[íi]blia|\btor[aá]\b|alco+r[ãa]o|m[ií]stico|misticismo|sobrenatural|pajé|pa[gj]elan|orix[aá]|macumba|umbanda|candonbl|terreiro|oculto|ocultismo')
-        #self._categorias_padroes['Jogos'] = re.compile(r'jogo|\bgame\b|tabuleiro|board|xadrez|gam[ãa]o|cartas|card\b|disputa|conflito|vit[oó]ria')
+    def _carregar_autorias_padroes(self):
 
-        # abrir arquivo
-        try:
-            f = open ("./categorias.json", "r", encoding="utf8")
-            
-            # ler arquivo como json
-            data = json.loads(f.read())
-            cats = [
+        self._autorias_precisos = {}
+        self._autorias_comeca_com={}
+        self._autorias_contem={}
+
+        return self._carregar_arquivo_padroes(
+            './autorias.json',
+            [
+                'masculino',
+                'feminino',
+                'empresa',
+                'coletivo',
+                'outros'
+                ],
+            self._autorias_precisos,
+            self._autorias_comeca_com,
+            self._autorias_contem
+            )
+
+    def _carregar_categorias_padroes(self):
+
+        self._categorias_padroes_precisos = {}
+        self._categorias_padroes_comeca_com = {}
+        self._categorias_padroes_contem = {}
+
+        return self._carregar_arquivo_padroes(
+            './categorias.json',
+            [
                 'premios_festivais',
                 'saloes_humor',
                 'hqmix',
@@ -166,34 +151,11 @@ class Normalizacao:
                 'erotismo',
                 'religiosidade',
                 'jogos'
-                ]
-            estruts = ['full','comeca_com', 'contem']
-
-            self._categorias_padroes_precisos = {}
-            self._categorias_padroes_comeca_com={}
-            self._categorias_padroes_contem={}
-            for c in cats:
-                for t in estruts:
-                    data[c][t] = data[c].get(t, [])
-
-                    if t == 'full':
-                        self._categorias_padroes_precisos[c] = [re.compile(f"^{pat}$") for pat in data[c][t] if pat.strip()]
-                    elif t == 'comeca_com':
-                        self._categorias_padroes_comeca_com[c] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data[c][t] if pat.strip()]
-                    else:
-                        self._categorias_padroes_contem[c] = [re.compile(f"{pat}") for pat in data[c][t] if pat.strip()]
-
-            return True
-        except Exception as e:
-            # Lidar com a exceção, se necessário
-            log_verbose(self._verbose, f"Erro ao ler o arquivo: {e}")
-
-            return False
-
-        finally:
-            # Certifique-se de fechar o arquivo, mesmo em caso de exceção
-            if f:
-                f.close()
+                ],
+            self._categorias_padroes_precisos,
+            self._categorias_padroes_comeca_com,
+            self._categorias_padroes_contem
+            )
 
 
     def _carregar_json(self, caminho):
