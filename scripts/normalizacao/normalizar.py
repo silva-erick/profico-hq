@@ -92,7 +92,7 @@ class Normalizacao:
             return True
         except Exception as e:
             # Lidar com a exceção, se necessário
-            log_verbose(self._verbose, f"Erro ao ler o arquivo: {e}")
+            log_verbose(self._verbose, f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
             return False
         finally:
             # Certifique-se de fechar o arquivo, mesmo em caso de exceção
@@ -140,8 +140,7 @@ class Normalizacao:
                 'terror',
                 'humor',
                 'herois',
-                'luta',
-                'guerra',
+                'disputa',
                 'estilo',
                 'ficcao_cientifica',
                 'fantasia',
