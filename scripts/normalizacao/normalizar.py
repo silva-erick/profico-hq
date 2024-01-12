@@ -80,34 +80,40 @@ class Normalizacao:
         data['feminino']['full'] = data['feminino'].get('full', [])
         data['empresa']['full'] = data['empresa'].get('full', [])
         data['coletivo']['full'] = data['coletivo'].get('full', [])
+        data['outros']['full'] = data['outros'].get('full', [])
 
         data['masculino']['contem'] = data['masculino'].get('contem', [])
         data['feminino']['contem'] = data['feminino'].get('contem', [])
         data['empresa']['contem'] = data['empresa'].get('contem', [])
         data['coletivo']['contem'] = data['coletivo'].get('contem', [])
+        data['outros']['outros'] = data['outros'].get('contem', [])
 
         data['masculino']['comeca_com'] = data['masculino'].get('comeca_com', [])
         data['feminino']['comeca_com'] = data['feminino'].get('comeca_com', [])
         data['empresa']['comeca_com'] = data['empresa'].get('comeca_com', [])
         data['coletivo']['comeca_com'] = data['coletivo'].get('comeca_com', [])
+        data['outros']['comeca_com'] = data['outros'].get('comeca_com', [])
 
         self._autorias_precisos = {}
         self._autorias_precisos['masculino'] = [re.compile(f"^{pat}$") for pat in data['masculino']['full'] if pat.strip()]
         self._autorias_precisos['feminino'] = [re.compile(f"^{pat}$") for pat in data['feminino']['full'] if pat.strip()]
         self._autorias_precisos['empresa'] = [re.compile(f"^{pat}$") for pat in data['empresa']['full'] if pat.strip()]
         self._autorias_precisos['coletivo'] = [re.compile(f"^{pat}$") for pat in data['coletivo']['full'] if pat.strip()]
+        self._autorias_precisos['outros'] = [re.compile(f"^{pat}$") for pat in data['outros']['full'] if pat.strip()]
 
         self._autorias_comeca_com={}
         self._autorias_comeca_com['masculino'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['masculino']['comeca_com'] if pat.strip()]
         self._autorias_comeca_com['feminino'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['feminino']['comeca_com'] if pat.strip()]
         self._autorias_comeca_com['empresa'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['empresa']['comeca_com'] if pat.strip()]
         self._autorias_comeca_com['coletivo'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['coletivo']['comeca_com'] if pat.strip()]
+        self._autorias_comeca_com['outros'] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data['outros']['comeca_com'] if pat.strip()]
 
         self._autorias_contem={}
         self._autorias_contem['masculino'] = [re.compile(f"{pat}") for pat in data['masculino']['contem'] if pat.strip()]
         self._autorias_contem['feminino'] = [re.compile(f"{pat}") for pat in data['feminino']['contem'] if pat.strip()]
         self._autorias_contem['empresa'] = [re.compile(f"{pat}") for pat in data['empresa']['contem'] if pat.strip()]
         self._autorias_contem['coletivo'] = [re.compile(f"{pat}") for pat in data['coletivo']['contem'] if pat.strip()]
+        self._autorias_contem['outros'] = [re.compile(f"{pat}") for pat in data['outros']['contem'] if pat.strip()]
 
     def _carregar_categorias_padroes(self):
         self._categorias_padroes = {}
@@ -369,6 +375,9 @@ class Normalizacao:
             categoria = get_gender(primeiro_nome)
             if categoria is None:
                 categoria = 'indefinido'
+
+        if categoria=="indefinido":
+            categoria = "outros"
 
         data["analises_autoria"]={}
         data["analises_autoria"]['nome'] =  name
