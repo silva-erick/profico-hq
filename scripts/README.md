@@ -37,16 +37,6 @@ Mude a pasta de trabalho para scripts e baixe as bibliotecas necessárias:
 pip install -r requirements.txt
 ```
 
-Garanta a instalação do módulo pt_core_news_sm, da biblioteca spacy.
-
-```
-python -m spacy download pt_core_news_sm
-
-python -m nltk.downloader all
-
-
-```
-
 ## Scripts
 
 ### Produção (ou raspagem) de dados
@@ -58,5 +48,14 @@ Scripts para produção de dados a partir das fontes de dados:
 
 ### Normalizacao
 
+Scripts para normalização dos dados produzidos no processo de raspagem:
+- atualização de valores monetários
+- classificação de autoria
+- categorias de conteúdo
+- análises de recompensas
 
+### Banco de Dados
 
+Scripts para criação de bancos de dados:
+- sql
+- csv

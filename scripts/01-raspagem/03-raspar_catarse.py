@@ -189,7 +189,7 @@ class CatarseFinishedProjects(BaseCatarseCollectionApi):
     def _get_params(self):
         params = {
             "order": "state_order.asc,state.desc,pledged.desc",
-            "mode": "not.eq.sub",
+            #"mode": "not.eq.sub",
             "category_id": "eq.7",
         }
         return params
@@ -198,7 +198,8 @@ class CatarseFinishedProjects(BaseCatarseCollectionApi):
         return 99
     
     def _get_header_path(self):
-        return '/finished?state_order.asc%2Cstate.desc%2Cpledged.desc&mode=not.eq.sub&category_id=eq.7'
+        #return '/finished?state_order.asc%2Cstate.desc%2Cpledged.desc&mode=not.eq.sub&category_id=eq.7'
+        return '/finished?state_order.asc%2Cstate.desc%2Cpledged.desc&category_id=eq.7'
     
     def execute(self, verbose=False, log_level=logging.WARNING):
         res = super().execute(verbose, log_level)

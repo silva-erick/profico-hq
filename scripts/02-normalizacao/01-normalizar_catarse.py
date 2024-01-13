@@ -406,9 +406,20 @@ class Normalizacao:
             categoria = "outros"
 
         data["analises_autoria"]={}
-        data["analises_autoria"]['nome'] =  name
-        data["analises_autoria"]['nome_publico'] = public_name
-        data["analises_autoria"]['classificacao'] = categoria
+        data["analises_autoria"]["id"] =  data["user"]["id"]
+        data["analises_autoria"]["nome"] =  name
+        data["analises_autoria"]["nome_publico"] = public_name
+        data["analises_autoria"]["classificacao"] = categoria
+
+        data["analises_social"]={}
+        data["analises_social"]["seguidores"] = data["user"]["followers_count"]
+        data["analises_social"]["newsletter"] = data["user"]["newsletter"]
+        data["analises_social"]["seguidores"] = data["user"]["subscribed_to_friends_contributions"]
+        data["analises_social"]["seguidores"] = data["user"]["subscribed_to_new_followers"]
+        data["analises_social"]["seguidores"] = data["user"]["subscribed_to_project_posts"]
+        data["analises_social"]["projetos_contribuidos"] = data["user"]["total_contributed_projects"]
+        data["analises_social"]["projetos_publicados"] = data["user"]["total_published_projects"]
+        data["analises_social"]["seguidores"] = data["user"]["followers_count"]
 
         return True
 
@@ -524,7 +535,7 @@ if __name__ == "__main__":
 
     if not os.path.exists("log"):
         os.makedirs("log")
-    log_filename = f"log/aasp{datetime.today().strftime('%Y%m%d_%H%M%S')}.log"
+    log_filename = f"log/normalizar_{datetime.today().strftime('%Y%m%d_%H%M%S')}.log"
 
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
