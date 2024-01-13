@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.defaultInterpreterPath": "./scripts/venv/Scripts/python.exe",
+		"code-runner.executorMap": {
+			"python": "powersheel ./scripts/venv/Scripts/activate.ps1 && python -u"
+		}
+	}
+}

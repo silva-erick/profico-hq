@@ -65,10 +65,10 @@
             "args":["-v"]
         },
         {
-            "name": "Python: 01-normalizar_catarse.py",
+            "name": "Python: 01-normalizar.py",
             "type": "python",
             "request": "launch",
-            "program": "01-normalizar_catarse.py",
+            "program": "01-normalizar.py",
             "cwd": "${workspaceFolder}/scripts/02-normalizacao",
             "console": "integratedTerminal",
             "justMyCode": true,

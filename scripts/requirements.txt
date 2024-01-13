@@ -4,4 +4,5 @@ nltk
 regex
 requests
 spacy
+unidecode
 urllib3
