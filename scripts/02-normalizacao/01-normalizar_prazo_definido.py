@@ -1,6 +1,6 @@
 import argparse
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import json
 
@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 
 import re
 import requests
+import uuid
+
 
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
@@ -16,6 +18,26 @@ CAMINHO_ALBUNS = "../../dados/brutos/guiadosquadrinhos/totais.json"
 CAMINHO_MUNICIPIOS = "../../dados/brutos/catarse/cities.json"
 CAMINHO_CAMPANHAS_CATARSE = "../../dados/brutos/catarse/campanhas"
 CAMINHO_CAMPANHAS_APOIASE = "../../dados/brutos/apoiase/resumocampanhas"
+
+from datetime import datetime, timedelta
+
+def calcular_diferenca_dias(data_inicial_str, data_final_str):
+    # Converter as strings em objetos datetime
+    data_inicial = datetime.fromisoformat(data_inicial_str.replace('Z', ''))
+    
+    if data_final_str is None:
+        # Se a data final for None, use a data atual
+        data_final = datetime.utcnow()
+    else:
+        data_final = datetime.fromisoformat(data_final_str.replace('Z', ''))
+    
+    # Calcular a diferença em dias
+    diferenca = data_final - data_inicial
+    
+    # Extrair a parte dos dias da diferença
+    diferenca_em_dias = diferenca.days
+    
+    return diferenca_em_dias
 
 
 def log_verbose(verbose, msg):
@@ -214,11 +236,75 @@ class Normalizacao:
     def _adaptar_apoiase(self, campanha_apoiase):
         data = {}
         data['detail'] = {}
-        data['detail']['online_date'] = campanha_apoiase['createdDate']
-        data['detail']['goal']  = campanha_apoiase['goals'][0]['value']
-        data['detail']['pledged'] = campanha_apoiase['supports']['total']['value']
-        data['detail']['about_html'] = campanha_apoiase['about']['desc']
-        data['detail']['address']['city'] = ''
+        data['detail']['user'] = {}
+        data['detail']['address'] = {}
+        data['rewards'] = []
+        data['user'] = {}
+        
+        data['detail']['online_date'] = campanha_apoiase['createdDate']#
+        data['detail']['expires_at'] = campanha_apoiase['dueDate']#
+        data['detail']['goal']  = campanha_apoiase['goals'][0]['value']#
+        data['detail']['about_html'] = campanha_apoiase['about']['desc']#
+        data['detail']['name'] = campanha_apoiase['about']['slogan']
+
+        data['detail']['address']['city'] = campanha_apoiase['complemento']['address']['city']#
+        data['detail']['address']['state_acronym'] = campanha_apoiase['complemento']['address']['state']#
+        data['detail']['city_id'] = -1#
+        data['detail']['content_rating'] = None#
+        data['detail']['contributed_by_friends'] = None#
+        data['detail']['cover_image'] = None#
+        data['detail']['video_cover_image'] = None#
+        data['detail']['online_days'] = calcular_diferenca_dias(campanha_apoiase['createdDate'], campanha_apoiase['dueDate'])#
+        data['detail']['progress'] = campanha_apoiase['supports']['total']['value'] / campanha_apoiase['goals'][0]['value']#
+        data['detail']['is_adult_content'] = False#
+        data['detail']['posts_count'] = 0#
+        data['detail']['project_id'] = campanha_apoiase['_id']#
+        data['detail']['mode'] = 'unknown'#
+        if campanha_apoiase['fundingFrequency'] == 'oneTime':#
+            if campanha_apoiase['fundingModel'] == 'keepWhatYouRaise':#
+                data['detail']['mode'] = 'flex'#
+                if data['detail']['progress'] > 0:#
+                    data['detail']['state'] = 'successful'#
+                else:
+                    data['detail']['state'] = 'failed'#
+            else:#
+                data['detail']['mode'] = 'aon'#
+                if data['detail']['progress'] >= 100:#
+                    data['detail']['state'] = 'successful'#
+                else:#
+                    data['detail']['state'] = 'failed'#
+        elif campanha_apoiase['fundingFrequency'] == 'recurring':#
+            data['detail']['mode'] = 'sub'#
+            data['detail']['state'] = campanha_apoiase['status']#
+
+        data['detail']['total_contributions'] = 0
+        data['detail']['total_contributors'] = 0
+        for camp in campanha_apoiase['complemento']['campaigns']:
+            if camp['_id']==campanha_apoiase['_id']:
+                data['detail']['posts_count'] = camp['contentCount']#
+                data['detail']['total_contributions'] = camp['supports']['total'].get('count', 0)
+                data['detail']['total_contributors'] = camp['supports']['total'].get('count', 0)
+                data['detail']['pledged'] = camp['supports']['total'].get('value', 0)
+
+                #data['user']['id'] = str(uuid.uuid4())
+                data['user']['name'] = camp['name']#
+                data['user']['public_name'] = camp['name']#
+                data['user']['followers_count'] = 0#
+                data['user']['newsletter'] = False#
+                data['user']['subscribed_to_friends_contributions'] = 0#
+                data['user']['subscribed_to_new_followers'] = 0#
+                data['user']['subscribed_to_project_posts'] = 0#
+                data['user']['total_contributed_projects'] = 0#
+                data['user']['total_published_projects'] = 0#
+                data['user']['followers_count'] = 0#
+
+                data['detail']['user'] = data['user']#
+
+                for rwd in camp['rewards']:#
+                    r = {}#
+                    r['minimum_value'] = rwd['value']#
+                    data['rewards'].append(r)#
+                break
 
         return data
     
@@ -385,7 +471,7 @@ class Normalizacao:
         about_txt = data['detail']['about_txt']
         if about_txt is None:
             about_txt = about_txt.lower()
-        data["analises_categorias"]={}
+        data['analises_categorias']={}
 
         categoria = 'indefinido'
         cats = [
@@ -407,7 +493,7 @@ class Normalizacao:
 
     def _classificar_recompensas(self, data):
         about_txt = data['detail']['about_txt'].lower()
-        data["analises_recompensas"]={}
+        data['analises_recompensas']={}
 
         menor_ajustado = 10000000000
         menor = menor_ajustado
@@ -419,9 +505,9 @@ class Normalizacao:
             if valor < menor:
                 menor = valor
 
-        data["analises_recompensas"]['menor_nominal'] = menor
-        data["analises_recompensas"]['menor_ajustado'] = menor_ajustado
-        data["analises_recompensas"]['quantidade'] = len(data['rewards'])
+        data['analises_recompensas']['menor_nominal'] = menor
+        data['analises_recompensas']['menor_ajustado'] = menor_ajustado
+        data['analises_recompensas']['quantidade'] = len(data['rewards'])
 
         return True
 
@@ -465,55 +551,55 @@ class Normalizacao:
         if categoria=="indefinido":
             categoria = "outros"
 
-        data["analises_autoria"]={}
-        data["analises_autoria"]["id"] =  data["user"]["id"]
-        data["analises_autoria"]["nome"] =  name
-        data["analises_autoria"]["nome_publico"] = public_name
-        data["analises_autoria"]["classificacao"] = categoria
+        data['analises_autoria']={}
+        data['analises_autoria']['id'] =  data['user']['id']
+        data['analises_autoria']['nome'] =  name
+        data['analises_autoria']['nome_publico'] = public_name
+        data['analises_autoria']['classificacao'] = categoria
 
-        data["analises_social"]={}
-        data["analises_social"]["seguidores"] = data["user"]["followers_count"]
-        data["analises_social"]["newsletter"] = data["user"]["newsletter"]
-        data["analises_social"]["seguidores"] = data["user"]["subscribed_to_friends_contributions"]
-        data["analises_social"]["seguidores"] = data["user"]["subscribed_to_new_followers"]
-        data["analises_social"]["seguidores"] = data["user"]["subscribed_to_project_posts"]
-        data["analises_social"]["projetos_contribuidos"] = data["user"]["total_contributed_projects"]
-        data["analises_social"]["projetos_publicados"] = data["user"]["total_published_projects"]
-        data["analises_social"]["seguidores"] = data["user"]["followers_count"]
+        data['analises_social']={}
+        data['analises_social']['seguidores'] = data['user']['followers_count']
+        data['analises_social']['newsletter'] = data['user']['newsletter']
+        data['analises_social']['seguidores'] = data['user']['subscribed_to_friends_contributions']
+        data['analises_social']['seguidores'] = data['user']['subscribed_to_new_followers']
+        data['analises_social']['seguidores'] = data['user']['subscribed_to_project_posts']
+        data['analises_social']['projetos_contribuidos'] = data['user']['total_contributed_projects']
+        data['analises_social']['projetos_publicados'] = data['user']['total_published_projects']
+        data['analises_social']['seguidores'] = data['user']['followers_count']
 
         return True
 
     def _classificar_resumo(self, data):
-        data["analises_resumo"]={}
+        data['analises_resumo']={}
 
-        data["analises_resumo"]['municipio']=data['detail']['address']['city']
-        data["analises_resumo"]['uf']=data['detail']['address']['state_acronym']
-        data["analises_resumo"]['city_id'] = data['detail']['city_id']
-        data["analises_resumo"]['content_rating'] = data['detail']['content_rating']
-        data["analises_resumo"]['contributed_by_friends'] = data['detail']['contributed_by_friends']
-        data["analises_resumo"]['capa_imagem'] = not(data['detail']['cover_image'] is None)
-        data["analises_resumo"]['capa_video'] = not(data['detail']['video_cover_image'] is None) or not(data['detail']['video_embed_url'] is None)
-        data["analises_resumo"]['dias_campanha'] = data['detail']['online_days']
-        data["analises_resumo"]['data_fim'] = data['detail']['expires_at']
-        data["analises_resumo"]['data_ini'] = data['detail']['online_date']
-        data["analises_resumo"]['meta'] = data['detail']['goal']
-        data["analises_resumo"]['meta_corrigida'] = data['detail']['goal_ajustado']
-        data["analises_resumo"]['arrecadado'] = data['detail']['pledged']
-        data["analises_resumo"]['arrecadado_corrigido'] = data['detail']['pledged_ajustado']
-        data["analises_resumo"]['percentual_arrecadado'] = data['detail']['progress']
-        data["analises_resumo"]['conteudo_adulto'] = data["detail"]['is_adult_content']
-        data["analises_resumo"]['posts'] = data["detail"]['posts_count']
-        data["analises_resumo"]['project_id'] = data["detail"]['project_id']
-        data["analises_resumo"]['modalidade'] = data["detail"]['mode']
-        data["analises_resumo"]['titulo'] = data["detail"]['name']
-        data["analises_resumo"]['status'] = data["detail"]['state']
-        data["analises_resumo"]['total_contribuicoes'] = data["detail"]['total_contributions']
-        data["analises_resumo"]['total_apoiadores'] = data["detail"]['total_contributors']
+        data['analises_resumo']['municipio']=data['detail']['address']['city']
+        data['analises_resumo']['uf']=data['detail']['address']['state_acronym']
+        data['analises_resumo']['city_id'] = data['detail']['city_id']
+        data['analises_resumo']['content_rating'] = data['detail']['content_rating']
+        data['analises_resumo']['contributed_by_friends'] = data['detail']['contributed_by_friends']
+        data['analises_resumo']['capa_imagem'] = not(data['detail']['cover_image'] is None)
+        data['analises_resumo']['capa_video'] = not(data['detail']['video_cover_image'] is None) or not(data['detail']['video_embed_url'] is None)
+        data['analises_resumo']['dias_campanha'] = data['detail']['online_days']
+        data['analises_resumo']['data_fim'] = data['detail']['expires_at']
+        data['analises_resumo']['data_ini'] = data['detail']['online_date']
+        data['analises_resumo']['meta'] = data['detail']['goal']
+        data['analises_resumo']['meta_corrigida'] = data['detail']['goal_ajustado']
+        data['analises_resumo']['arrecadado'] = data['detail']['pledged']
+        data['analises_resumo']['arrecadado_corrigido'] = data['detail']['pledged_ajustado']
+        data['analises_resumo']['percentual_arrecadado'] = data['detail']['progress']
+        data['analises_resumo']['conteudo_adulto'] = data['detail']['is_adult_content']
+        data['analises_resumo']['posts'] = data['detail']['posts_count']
+        data['analises_resumo']['project_id'] = data['detail']['project_id']
+        data['analises_resumo']['modalidade'] = data['detail']['mode']
+        data['analises_resumo']['titulo'] = data['detail']['name']
+        data['analises_resumo']['status'] = data['detail']['state']
+        data['analises_resumo']['total_contribuicoes'] = data['detail']['total_contributions']
+        data['analises_resumo']['total_apoiadores'] = data['detail']['total_contributors']
 
-        if not (data["detail"]['user']['id'] in self._autores):
-            self._autores[data["detail"]['user']['id']]={
-                "name": data["detail"]['user']['name'],
-                "public_name": data["detail"]['user']['public_name']
+        if not (data['detail']['user']['id'] in self._autores):
+            self._autores[data['detail']['user']['id']]={
+                "name": data['detail']['user']['name'],
+                "public_name": data['detail']['user']['public_name']
             }
 
         return True

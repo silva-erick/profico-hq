@@ -208,9 +208,9 @@ def collect_apoiase(verbose):
         print(f"\tlongest_call: {res.chamada_mais_longa}")
 
     for it in res.resultado:
-        if os.path.exists(f"../../dados/brutos/apoiase/resumocampanhas/{it['_id']}.json"):
-            os.remove(f"../../dados/brutos/apoiase/resumocampanhas/{it['_id']}.json")
-        data_file = f"../../dados/brutos/apoiase/resumocampanhas/{it['_id']}.json"
+        if os.path.exists(f"../../dados/brutos/apoiase/campanhas/{it['_id']}.json"):
+            os.remove(f"../../dados/brutos/apoiase/campanhas/{it['_id']}.json")
+        data_file = f"../../dados/brutos/apoiase/campanhas/{it['_id']}.json"
         with open(data_file, 'w') as json_file:
             json.dump(it, json_file)
 

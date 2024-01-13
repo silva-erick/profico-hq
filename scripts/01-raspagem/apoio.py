@@ -30,6 +30,27 @@ def como_numerico(val, cultura=''):
     
     return None
 
+from datetime import datetime, timedelta
+
+def calcular_diferenca_dias(data_inicial_str, data_final_str):
+    # Converter as strings em objetos datetime
+    data_inicial = datetime.fromisoformat(data_inicial_str.replace('Z', ''))
+    
+    if data_final_str is None:
+        # Se a data final for None, use a data atual
+        data_final = datetime.utcnow()
+    else:
+        data_final = datetime.fromisoformat(data_final_str.replace('Z', ''))
+    
+    # Calcular a diferença em dias
+    diferenca = data_final - data_inicial
+    
+    # Extrair a parte dos dias da diferença
+    diferenca_em_dias = diferenca.days
+    
+    return diferenca_em_dias
+
+
 class ResultadoApi:
     def __init__(self, sucesso):
         self.sucesso = sucesso
