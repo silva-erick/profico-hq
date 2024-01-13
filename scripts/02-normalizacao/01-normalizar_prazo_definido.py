@@ -14,7 +14,8 @@ CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CONVERSAO_MONETARIA = "../../dados/brutos/aasp/conversao-monetaria.json"
 CAMINHO_ALBUNS = "../../dados/brutos/guiadosquadrinhos/totais.json"
 CAMINHO_MUNICIPIOS = "../../dados/brutos/catarse/cities.json"
-CAMINHO_CAMPANHAS = "../../dados/brutos/catarse/campanhas"
+CAMINHO_CAMPANHAS_CATARSE = "../../dados/brutos/catarse/campanhas"
+CAMINHO_CAMPANHAS_APOIASE = "../../dados/brutos/apoiase/resumocampanhas"
 
 
 def log_verbose(verbose, msg):
@@ -210,20 +211,79 @@ class Normalizacao:
 
         return (valor_ini/self._conversao_monetaria[anomes_ini]) * self._conversao_monetaria[anomes_fim]
 
-    def _carregar_campanhas(self):
-        if not os.path.exists(CAMINHO_CAMPANHAS):
+    def _adaptar_apoiase(self, campanha_apoiase):
+        data = {}
+        data['detail'] = {}
+        data['detail']['online_date'] = campanha_apoiase['createdDate']
+        data['detail']['goal']  = campanha_apoiase['goals'][0]['value']
+        data['detail']['pledged'] = campanha_apoiase['supports']['total']['value']
+        data['detail']['about_html'] = campanha_apoiase['about']['desc']
+        data['detail']['address']['city'] = ''
+
+        return data
+    
+    def _carregar_campanhas_apoiase(self):
+        self._show_message('Campanhas apoia.se')
+        if not os.path.exists(CAMINHO_CAMPANHAS_APOIASE):
             return False
         
-        caminho_campanhas = os.listdir(CAMINHO_CAMPANHAS)
+        caminho_campanhas = os.listdir(CAMINHO_CAMPANHAS_APOIASE)
 
         quantidade_campanhas = 0
-
-        self._campanhas = []
 
         # Percorre a lista de arquivos
         for caminho_campanha in caminho_campanhas:
             # Cria o caminho completo para o file
-            full_path = os.path.join(CAMINHO_CAMPANHAS, caminho_campanha)
+            full_path = os.path.join(CAMINHO_CAMPANHAS_APOIASE, caminho_campanha)
+            
+            # Verifica se o caminho é um arquivo
+            if os.path.isfile(full_path) and full_path.endswith(".json"):
+                # abrir arquivo
+                f = open (full_path, "r")
+                
+                # ler arquivo como json
+                data = json.loads(f.read())
+
+                # fechar arquivo
+                f.close()
+
+                data = self._adaptar_apoiase(data)
+
+                # verificar a data de lançamento da campanha
+                try:
+                    data_obj = parse_data(data['detail']['online_date'])
+                except ValueError:
+                    print(f"data original: {data['detail']['online_date']}")
+                    raise ValueError(f"Formato de data inválido. {data['detail']['online_date']}")
+
+                if data_obj.year <= self._ano:
+                    self._campanhas.append(data)
+                else:
+                    continue
+
+                quantidade_campanhas = quantidade_campanhas + 1
+
+                if self._verbose and ((quantidade_campanhas % 25) == 0):
+                    print('.', end='', flush=True)
+
+        print('.')
+        log_verbose(self._verbose, f'Campanhas encontradas: {quantidade_campanhas}')
+        return True
+
+
+    def _carregar_campanhas_catarse(self):
+        self._show_message('Campanhas catarse')
+        if not os.path.exists(CAMINHO_CAMPANHAS_CATARSE):
+            return False
+        
+        caminho_campanhas = os.listdir(CAMINHO_CAMPANHAS_CATARSE)
+
+        quantidade_campanhas = 0
+
+        # Percorre a lista de arquivos
+        for caminho_campanha in caminho_campanhas:
+            # Cria o caminho completo para o file
+            full_path = os.path.join(CAMINHO_CAMPANHAS_CATARSE, caminho_campanha)
             
             # Verifica se o caminho é um arquivo
             if os.path.isfile(full_path) and full_path.endswith(".json"):
@@ -471,6 +531,8 @@ class Normalizacao:
 
     def executar(self):
         result = True
+
+        self._campanhas = []
         
         result = (result
             and self._show_message("Carregar regex de categorização")
@@ -489,7 +551,8 @@ class Normalizacao:
         
         result = (result
                 and self._show_message("Carregar campanhas")
-                and self._carregar_campanhas()
+                and self._carregar_campanhas_catarse()
+                #and self._carregar_campanhas_apoiase()
                 and self._garantir_pastas_normalizacao()
                 and self._percorrer_campanhas(f'Ajustar valores das campanhas para dez/{self._ano}', self._ajustar_valores_campanha)
                 and self._percorrer_campanhas(f'Texto de apresentação: HTML -> Texto', self._ajustar_valor_about)

@@ -8,7 +8,7 @@ Para obter a [Tabela Prática para Cálculo de Atualização Monetária – IPCA
 da AASP, utilize o seguinte comando:
 
 ```
-python raspar_aasp.py --verbose
+python 01-raspar_aasp.py --verbose
 ```
 
 A tabela será salva em arquivo JSON: dados/brutos/aasp/conversao-monetaria.json.
@@ -19,7 +19,7 @@ Para obter o total de obras catalogadas no [Guia dos Quadrinhos](www.guiadosquad
 por ano/mês, utilize o seguinte comando:
 
 ```
-python raspar_guiaquadrinhos.py --verbose
+python 02-raspar_guiaquadrinhos.py --verbose
 ```
 
 A tabela será salva em arquivo JSON: dados/brutos/guiadosquadrinhos/totais.json.
@@ -30,7 +30,7 @@ Para obter todas as campanhas realizadas em [Catarse](https://www.catarse.me/),
 utilize o seguinte comando:
 
 ```
-python raspar_catarse.py --verbose
+python 03-raspar_catarse.py --verbose
 ```
 
 Atenção aos arquivos gerados em dados/brutos/catarse:
@@ -44,14 +44,13 @@ para cada campanha, contendo:
 - plano de recompensas
 - pessoa responsável pela campanha
 
-
 ## raspar_apoiase
 
 Para obter todas as campanhas realizadas em [apoia.se](https://apoia.se/),
 utilize o seguinte comando:
 
 ```
-python raspar_apoiase.py --verbose
+python 04-raspar_apoiase.py --verbose
 ```
 
 Na pasta dados/brutos/apoiase/resumocampanhas haverá arquivos JSON (project_id.JSON)

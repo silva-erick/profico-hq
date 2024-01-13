@@ -76,13 +76,15 @@ class BaseApoiaseCollectionApi:
         all_items = []
         offset = 0
 
-        session = requests.Session()
+        #session = requests.Session()
         total_time = 0
         num_of_calls = 0
         longest_call = 0
         success = False
 
         result = apoio.ResultadoApi(False)
+
+        cache_slug = {}
 
         try:
             logging.debug(f"Items will be fetched in batches of {batch_size}")
@@ -109,6 +111,15 @@ class BaseApoiaseCollectionApi:
                         break  # no items found
 
                     batch_campaigns = batch_campaigns_temp['message']['campaigns']
+                    for camp in batch_campaigns:
+                        slug = camp['slug']
+                        if slug in cache_slug:
+                            camp['complemento'] = cache_slug[slug]
+                        else:
+                            response2 = requests.get(url=f'https://apoia.se/api/v1/users/{slug}')
+                            cache_slug[slug] = json.loads(response2.text)
+                            camp['complemento'] = cache_slug[slug]
+
                     all_items.extend(batch_campaigns)
                     offset += batch_size
                     if len(batch_campaigns) < batch_size:
@@ -177,8 +188,8 @@ class ApoiaseProjects(BaseApoiaseCollectionApi):
 def collect_apoiase(verbose):
     if not os.path.exists("../../dados/brutos/apoiase"):
         os.makedirs("../../dados/brutos/apoiase")
-    if not os.path.exists("../../dados/brutos/apoiase/resumocampanhas"):
-        os.makedirs("../../dados/brutos/apoiase/resumocampanhas")
+    if not os.path.exists("../../dados/brutos/apoiase/campanhas"):
+        os.makedirs("../../dados/brutos/apoiase/campanhas")
 
     api_projetos = ApoiaseProjects(verbose, log_level)
 
