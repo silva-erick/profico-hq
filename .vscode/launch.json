@@ -75,6 +75,16 @@
             "args":["-v", "-a", "2023"]
         },        
         {
+            "name": "Python: 02-exportar-csv.py",
+            "type": "python",
+            "request": "launch",
+            "program": "02-exportar-csv.py",
+            "cwd": "${workspaceFolder}/scripts/02-normalizacao",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v", "-a", "2023"]
+        },        
+        {
             "name": "Python: csv_outros.py",
             "type": "python",
             "request": "launch",

@@ -547,7 +547,7 @@ class Normalizacao:
         about_txt = data['detail']['about_txt']
         if about_txt is None:
             about_txt = about_txt.lower()
-        data['analises_categorias']={}
+        data['categorias']={}
 
         categoria = 'indefinido'
         cats = [
@@ -558,8 +558,8 @@ class Normalizacao:
         for c in cats:
             for k, v in c.items():
                 for p in v:
-                    data['analises_categorias'][k] = self._testar_regex(about_txt, p)
-                    if data['analises_categorias'][k]:
+                    data['categorias'][k] = self._testar_regex(about_txt, p)
+                    if data['categorias'][k]:
                         categoria = k
                         break
                 #if categoria != 'indefinido':
@@ -569,7 +569,7 @@ class Normalizacao:
 
     def _classificar_recompensas(self, data):
         about_txt = data['detail']['about_txt'].lower()
-        data['analises_recompensas']={}
+        data['recompensas']={}
 
         menor_ajustado = 10000000000
         menor = menor_ajustado
@@ -581,9 +581,9 @@ class Normalizacao:
             if valor < menor:
                 menor = valor
 
-        data['analises_recompensas']['menor_nominal'] = menor
-        data['analises_recompensas']['menor_ajustado'] = menor_ajustado
-        data['analises_recompensas']['quantidade'] = len(data['rewards'])
+        data['recompensas']['menor_nominal'] = menor
+        data['recompensas']['menor_ajustado'] = menor_ajustado
+        data['recompensas']['quantidade'] = len(data['rewards'])
 
         return True
 
@@ -625,54 +625,58 @@ class Normalizacao:
                 categoria = self._verificar_genero(primeiro_nome)
                 if categoria is None:
                     categoria = 'indefinido'
+                elif categoria == 'M':
+                    categoria = 'masculino'
+                else:
+                    categoria = 'feminino'
 
         if categoria=="indefinido":
             categoria = "outros"
 
-        data['analises_autoria']={}
-        data['analises_autoria']['id'] =  data['user']['id']
-        data['analises_autoria']['nome'] =  name
-        data['analises_autoria']['nome_publico'] = public_name
-        data['analises_autoria']['classificacao'] = categoria
+        data['autoria']={}
+        data['autoria']['id'] =  data['user']['id']
+        data['autoria']['nome'] =  name
+        data['autoria']['nome_publico'] = public_name
+        data['autoria']['classificacao'] = categoria
 
-        data['analises_social']={}
-        data['analises_social']['seguidores'] = data['user']['followers_count']
-        data['analises_social']['newsletter'] = data['user']['newsletter']
-        data['analises_social']['seguidores'] = data['user']['subscribed_to_friends_contributions']
-        data['analises_social']['seguidores'] = data['user']['subscribed_to_new_followers']
-        data['analises_social']['seguidores'] = data['user']['subscribed_to_project_posts']
-        data['analises_social']['projetos_contribuidos'] = data['user']['total_contributed_projects']
-        data['analises_social']['projetos_publicados'] = data['user']['total_published_projects']
-        data['analises_social']['seguidores'] = data['user']['followers_count']
+        data['social']={}
+        data['social']['seguidores'] = data['user']['followers_count']
+        data['social']['newsletter'] = data['user']['newsletter']
+        data['social']['seguidores'] = data['user']['subscribed_to_friends_contributions']
+        data['social']['seguidores'] = data['user']['subscribed_to_new_followers']
+        data['social']['seguidores'] = data['user']['subscribed_to_project_posts']
+        data['social']['projetos_contribuidos'] = data['user']['total_contributed_projects']
+        data['social']['projetos_publicados'] = data['user']['total_published_projects']
+        data['social']['seguidores'] = data['user']['followers_count']
 
         return True
 
     def _classificar_resumo(self, data):
-        data['analises_resumo']={}
+        data['geral']={}
 
-        data['analises_resumo']['municipio']=data['detail']['address']['city']
-        data['analises_resumo']['uf']=data['detail']['address']['state_acronym']
-        data['analises_resumo']['city_id'] = data['detail']['city_id']
-        data['analises_resumo']['content_rating'] = data['detail']['content_rating']
-        data['analises_resumo']['contributed_by_friends'] = data['detail']['contributed_by_friends']
-        data['analises_resumo']['capa_imagem'] = not(data['detail']['cover_image'] is None)
-        data['analises_resumo']['capa_video'] = (data['detail'].get('video_cover_image', None) is not None) or (data['detail'].get('video_embed_url', None) is not None)
-        data['analises_resumo']['dias_campanha'] = data['detail']['online_days']
-        data['analises_resumo']['data_fim'] = data['detail']['expires_at']
-        data['analises_resumo']['data_ini'] = data['detail']['online_date']
-        data['analises_resumo']['meta'] = data['detail']['goal']
-        data['analises_resumo']['meta_corrigida'] = data['detail']['goal_ajustado']
-        data['analises_resumo']['arrecadado'] = data['detail']['pledged']
-        data['analises_resumo']['arrecadado_corrigido'] = data['detail']['pledged_ajustado']
-        data['analises_resumo']['percentual_arrecadado'] = data['detail']['progress']
-        data['analises_resumo']['conteudo_adulto'] = data['detail']['is_adult_content']
-        data['analises_resumo']['posts'] = data['detail']['posts_count']
-        data['analises_resumo']['project_id'] = data['detail']['project_id']
-        data['analises_resumo']['modalidade'] = data['detail']['mode']
-        data['analises_resumo']['titulo'] = data['detail']['name']
-        data['analises_resumo']['status'] = data['detail']['state']
-        data['analises_resumo']['total_contribuicoes'] = data['detail']['total_contributions']
-        data['analises_resumo']['total_apoiadores'] = data['detail']['total_contributors']
+        data['geral']['municipio']=data['detail']['address']['city']
+        data['geral']['uf']=data['detail']['address']['state_acronym']
+        data['geral']['city_id'] = data['detail']['city_id']
+        data['geral']['content_rating'] = data['detail']['content_rating']
+        data['geral']['contributed_by_friends'] = data['detail']['contributed_by_friends']
+        data['geral']['capa_imagem'] = not(data['detail']['cover_image'] is None)
+        data['geral']['capa_video'] = (data['detail'].get('video_cover_image', None) is not None) or (data['detail'].get('video_embed_url', None) is not None)
+        data['geral']['dias_campanha'] = data['detail']['online_days']
+        data['geral']['data_fim'] = data['detail']['expires_at']
+        data['geral']['data_ini'] = data['detail']['online_date']
+        data['geral']['meta'] = data['detail']['goal']
+        data['geral']['meta_corrigida'] = data['detail']['goal_ajustado']
+        data['geral']['arrecadado'] = data['detail']['pledged']
+        data['geral']['arrecadado_corrigido'] = data['detail']['pledged_ajustado']
+        data['geral']['percentual_arrecadado'] = data['detail']['progress']
+        data['geral']['conteudo_adulto'] = data['detail']['is_adult_content']
+        data['geral']['posts'] = data['detail']['posts_count']
+        data['geral']['project_id'] = data['detail']['project_id']
+        data['geral']['modalidade'] = data['detail']['mode']
+        data['geral']['titulo'] = data['detail']['name']
+        data['geral']['status'] = data['detail']['state']
+        data['geral']['total_contribuicoes'] = data['detail']['total_contributions']
+        data['geral']['total_apoiadores'] = data['detail']['total_contributors']
 
         if not (data['detail']['user']['id'] in self._autores):
             self._autores[data['detail']['user']['id']]={
@@ -684,7 +688,8 @@ class Normalizacao:
 
     def _gravar_json_campanhas(self, data):
         arquivo_dados = f"{CAMINHO_NORMALIZADOS}/{self._ano}/{data['detail']['project_id']}.json"
-        data['analises_resumo']['sobre'] = data['detail']['about_txt']
+        data['geral']['sobre'] = data['detail']['about_txt']
+        
         del data['detail']
         del data['rewards']
         del data['user']
