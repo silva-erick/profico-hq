@@ -184,17 +184,6 @@ class ExportarCsv:
         df.to_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', index=False, columns=colunas, sep=';', decimal=',', encoding='utf-8-sig')
         log_verbose(self._verbose, f'exportar xlsx: {CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.xlsx')
         df.to_excel(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.xlsx', index=False, columns=colunas)
-
-        analise_mencoes = [am for am in colunas if 'mencoes_' in am]
-
-        resultados_mencoes = {}
-        for m in analise_mencoes:
-            parcial = df[df[m] == True]
-            resultados_mencoes[m] = len(parcial)
-        log_verbose(self._verbose, f'exportar mencoes xlsx: {CAMINHO_CSV}/{self._ano}/mencoes_{self._ano}.xlsx')
-        dfmencoes = pd.DataFrame(list(resultados_mencoes.items()), columns=['Chave', 'Quantidade']).set_index('Chave')
-        print(dfmencoes)
-        #dfmencoes.to_excel(f'{CAMINHO_CSV}/{self._ano}/mencoes_{self._ano}.xlsx', index=False, columns=['Chave', 'Quantidade'])
         
         return True
     
