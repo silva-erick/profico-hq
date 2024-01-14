@@ -368,8 +368,10 @@
 			"escritor",
 			"fantasia",
 			"fic[çc][aãoõ]",
+			"g[êe]neros*\\s*narrativ",
 			"graphic novel",
 			"horror",
+			"narrativa",
 			"novela",
 			"romance",
 			"suspense",
@@ -576,6 +578,19 @@
 			"tabuleiro",
 			"vit[oó]ria",
 			"xadrez",
+			""
+		]
+	},
+	"midia_independente":{
+        "full":[
+			],
+        "comeca_com":[
+		],
+		"contem":[
+			"conte[uúdo]\\s*(independente|contra[\\-\\s]*hegem[ôo]nic)",
+			"(meu|nosso)\\s*(canal|blog|youtube|podcast|site)",
+			"(minha|nossa)\\s*p[áa]gina",
+			"produto(r(a|es|as)*|[cç][aã]o)*\\s*de\\s*conte[uú]do",
 			""
 		]
 	}

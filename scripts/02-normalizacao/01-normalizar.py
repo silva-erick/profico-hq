@@ -190,16 +190,16 @@ class Normalizacao:
             self._autorias_contem
             )
 
-    def _carregar_categorias_padroes(self):
+    def _carregar_mencoes_padroes(self):
 
-        self._show_message("> carregando arquivo de padrões - categorias de conteúdo")
+        self._show_message("> carregando arquivo de padrões - menções")
 
-        self._categorias_padroes_precisos = {}
-        self._categorias_padroes_comeca_com = {}
-        self._categorias_padroes_contem = {}
+        self._mencoes_padroes_precisos = {}
+        self._mencoes_padroes_comeca_com = {}
+        self._mencoes_padroes_contem = {}
 
         return self._carregar_arquivo_padroes(
-            './categorias.json',
+            './mencoes.json',
             [
                 'premios_festivais',
                 'saloes_humor',
@@ -222,11 +222,12 @@ class Normalizacao:
                 'webformatos',
                 'erotismo',
                 'religiosidade',
-                'jogos'
+                'jogos',
+                'midia_independente'
                 ],
-            self._categorias_padroes_precisos,
-            self._categorias_padroes_comeca_com,
-            self._categorias_padroes_contem
+            self._mencoes_padroes_precisos,
+            self._mencoes_padroes_comeca_com,
+            self._mencoes_padroes_contem
             )
 
     def _carregar_json(self, caminho):
@@ -543,34 +544,30 @@ class Normalizacao:
         else:
             return False
 
-    def _classificar_categorias(self, data):
+    def _classificar_mencoes(self, data):
         about_txt = data['detail']['about_txt']
         if about_txt is None:
             about_txt = about_txt.lower()
-        data['categorias']={}
-
-        categoria = 'indefinido'
+        #mencao = 'indefinido'
         cats = [
-            self._categorias_padroes_precisos,
-            self._categorias_padroes_comeca_com,
-            self._categorias_padroes_contem
+            self._mencoes_padroes_precisos,
+            self._mencoes_padroes_comeca_com,
+            self._mencoes_padroes_contem
             ]
         for c in cats:
             for k, v in c.items():
                 for p in v:
-                    data['categorias'][k] = self._testar_regex(about_txt, p)
-                    if data['categorias'][k]:
-                        categoria = k
+                    chave = f'mencoes_{k}'
+                    data[chave] = self._testar_regex(about_txt, p)
+                    if data[chave]:
+                        #mencao = k
                         break
-                #if categoria != 'indefinido':
+                #if mencao != 'indefinido':
                 #    break
 
         return True
 
     def _classificar_recompensas(self, data):
-        about_txt = data['detail']['about_txt'].lower()
-        data['recompensas']={}
-
         menor_ajustado = 10000000000
         menor = menor_ajustado
         for reward in data['rewards']:
@@ -581,9 +578,9 @@ class Normalizacao:
             if valor < menor:
                 menor = valor
 
-        data['recompensas']['menor_nominal'] = menor
-        data['recompensas']['menor_ajustado'] = menor_ajustado
-        data['recompensas']['quantidade'] = len(data['rewards'])
+        data['recompensas_menor_nominal'] = menor
+        data['recompensas_menor_ajustado'] = menor_ajustado
+        data['recompensas_quantidade'] = len(data['rewards'])
 
         return True
 
@@ -633,62 +630,59 @@ class Normalizacao:
         if categoria=="indefinido":
             categoria = "outros"
 
-        data['autoria']={}
-        data['autoria']['id'] =  data['user']['id']
-        data['autoria']['nome'] =  name
-        data['autoria']['nome_publico'] = public_name
-        data['autoria']['classificacao'] = categoria
+        data['autoria_id'] =  data['user']['id']
+        data['autoria_nome'] =  name
+        data['autoria_nome_publico'] = public_name
+        data['autoria_classificacao'] = categoria
 
-        data['social']={}
-        data['social']['seguidores'] = data['user']['followers_count']
-        data['social']['newsletter'] = data['user']['newsletter']
-        data['social']['seguidores'] = data['user']['subscribed_to_friends_contributions']
-        data['social']['seguidores'] = data['user']['subscribed_to_new_followers']
-        data['social']['seguidores'] = data['user']['subscribed_to_project_posts']
-        data['social']['projetos_contribuidos'] = data['user']['total_contributed_projects']
-        data['social']['projetos_publicados'] = data['user']['total_published_projects']
-        data['social']['seguidores'] = data['user']['followers_count']
+        data['social_seguidores'] = data['user']['followers_count']
+        data['social_newsletter'] = data['user']['newsletter']
+        data['social_seguidores'] = data['user']['subscribed_to_friends_contributions']
+        data['social_seguidores'] = data['user']['subscribed_to_new_followers']
+        data['social_seguidores'] = data['user']['subscribed_to_project_posts']
+        data['social_projetos_contribuidos'] = data['user']['total_contributed_projects']
+        data['social_projetos_publicados'] = data['user']['total_published_projects']
+        data['social_seguidores'] = data['user']['followers_count']
 
         return True
 
     def _classificar_resumo(self, data):
-        data['geral']={}
 
-        data['geral']['municipio']=data['detail']['address']['city']
-        data['geral']['uf']=data['detail']['address']['state_acronym']
-        data['geral']['city_id'] = data['detail']['city_id']
-        data['geral']['content_rating'] = data['detail']['content_rating']
-        data['geral']['contributed_by_friends'] = data['detail']['contributed_by_friends']
-        data['geral']['capa_imagem'] = not(data['detail']['cover_image'] is None)
-        data['geral']['capa_video'] = (data['detail'].get('video_cover_image', None) is not None) or (data['detail'].get('video_embed_url', None) is not None)
-        data['geral']['dias_campanha'] = data['detail']['online_days']
-        data['geral']['data_fim'] = data['detail']['expires_at']
-        data['geral']['data_ini'] = data['detail']['online_date']
-        data['geral']['meta'] = data['detail']['goal']
-        data['geral']['meta_corrigida'] = data['detail']['goal_ajustado']
-        data['geral']['arrecadado'] = data['detail']['pledged']
-        data['geral']['arrecadado_corrigido'] = data['detail']['pledged_ajustado']
-        data['geral']['percentual_arrecadado'] = data['detail']['progress']
-        data['geral']['conteudo_adulto'] = data['detail']['is_adult_content']
-        data['geral']['posts'] = data['detail']['posts_count']
-        data['geral']['project_id'] = data['detail']['project_id']
-        data['geral']['modalidade'] = data['detail']['mode']
-        data['geral']['titulo'] = data['detail']['name']
-        data['geral']['status'] = data['detail']['state']
-        data['geral']['total_contribuicoes'] = data['detail']['total_contributions']
-        data['geral']['total_apoiadores'] = data['detail']['total_contributors']
+        data['geral_municipio']=data['detail']['address']['city']
+        data['geral_uf']=data['detail']['address']['state_acronym']
+        data['geral_city_id'] = data['detail']['city_id']
+        data['geral_content_rating'] = data['detail']['content_rating']
+        data['geral_contributed_by_friends'] = data['detail']['contributed_by_friends']
+        data['geral_capa_imagem'] = not(data['detail']['cover_image'] is None)
+        data['geral_capa_video'] = (data['detail'].get('video_cover_image', None) is not None) or (data['detail'].get('video_embed_url', None) is not None)
+        data['geral_dias_campanha'] = data['detail']['online_days']
+        data['geral_data_fim'] = data['detail']['expires_at']
+        data['geral_data_ini'] = data['detail']['online_date']
+        data['geral_meta'] = data['detail']['goal']
+        data['geral_meta_corrigida'] = data['detail']['goal_ajustado']
+        data['geral_arrecadado'] = data['detail']['pledged']
+        data['geral_arrecadado_corrigido'] = data['detail']['pledged_ajustado']
+        data['geral_percentual_arrecadado'] = data['detail']['progress']
+        data['geral_conteudo_adulto'] = data['detail']['is_adult_content']
+        data['geral_posts'] = data['detail']['posts_count']
+        data['geral_project_id'] = data['detail']['project_id']
+        data['geral_modalidade'] = data['detail']['mode']
+        data['geral_titulo'] = data['detail']['name']
+        data['geral_status'] = data['detail']['state']
+        data['geral_total_contribuicoes'] = data['detail']['total_contributions']
+        data['geral_total_apoiadores'] = data['detail']['total_contributors']
 
-        if not (data['detail']['user']['id'] in self._autores):
-            self._autores[data['detail']['user']['id']]={
-                "name": data['detail']['user']['name'],
-                "public_name": data['detail']['user']['public_name']
-            }
+        #if not (data['detail']['user']['id'] in self._autores):
+        #    self._autores[data['detail']['user']['id']]={
+        #        "name": data['detail']['user']['name'],
+        #        "public_name": data['detail']['user']['public_name']
+        #    }
 
         return True
 
     def _gravar_json_campanhas(self, data):
         arquivo_dados = f"{CAMINHO_NORMALIZADOS}/{self._ano}/{data['detail']['project_id']}.json"
-        data['geral']['sobre'] = data['detail']['about_txt']
+        data['geral_sobre'] = data['detail']['about_txt']
         
         del data['detail']
         del data['rewards']
@@ -706,13 +700,13 @@ class Normalizacao:
         result = True
 
         self._campanhas = []
-        self._autores = {}
+        #self._autores = {}
 
         
         result = (result
             and self._show_message("Carregar arquivos de apoio")
             and self._carregar_arquivos_frequencia_nomes()
-            and self._carregar_categorias_padroes()
+            and self._carregar_mencoes_padroes()
             and self._carregar_autorias_padroes()
             and self._carregar_conversao_monetaria()
             and self._carregar_albuns()
@@ -726,17 +720,17 @@ class Normalizacao:
             and self._show_message("Normalizar")
             and self._percorrer_campanhas(f'> ajustar valores das campanhas para dez/{self._ano}', self._ajustar_valores_campanha)
             and self._percorrer_campanhas(f'> texto de apresentação: HTML -> Texto', self._ajustar_valor_about)
-            and self._percorrer_campanhas(f'> categorizar textos de apresentação', self._classificar_categorias)
+            and self._percorrer_campanhas(f'> categorizar textos de apresentação', self._classificar_mencoes)
             and self._percorrer_campanhas(f'> categorizar recompensas', self._classificar_recompensas)
             and self._percorrer_campanhas(f'> classificar autoria', self._classificar_autoria)
             and self._percorrer_campanhas(f'> categorizar resumo', self._classificar_resumo)
             and self._percorrer_campanhas(f'> gravar arquivos normalizados das campanhas', self._gravar_json_campanhas)
         )
 
-        if result:
-            arquivo_dados = f"{CAMINHO_NORMALIZADOS}/autores_{self._ano}.json"
-            with open(arquivo_dados, 'w') as arquivo_json:
-                json.dump(self._autores, arquivo_json)
+        #if result:
+        #    arquivo_dados = f"{CAMINHO_NORMALIZADOS}/autores_{self._ano}.json"
+        #    with open(arquivo_dados, 'w') as arquivo_json:
+        #        json.dump(self._autores, arquivo_json)
             
 
 
