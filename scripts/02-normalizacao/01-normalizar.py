@@ -96,6 +96,39 @@ class Normalizacao:
         self._verbose = verbose
         self._nomes_com_genero = {}
 
+    def _carregar_uf_brasileiras(self):
+        self._uf_brasileiras = [
+            'AC',  # Acre
+            'AL',  # Alagoas
+            'AP',  # Amapá
+            'AM',  # Amazonas
+            'BA',  # Bahia
+            'CE',  # Ceará
+            'DF',  # Distrito Federal
+            'ES',  # Espírito Santo
+            'GO',  # Goiás
+            'MA',  # Maranhão
+            'MT',  # Mato Grosso
+            'MS',  # Mato Grosso do Sul
+            'MG',  # Minas Gerais
+            'PA',  # Pará
+            'PB',  # Paraíba
+            'PR',  # Paraná
+            'PE',  # Pernambuco
+            'PI',  # Piauí
+            'RJ',  # Rio de Janeiro
+            'RN',  # Rio Grande do Norte
+            'RS',  # Rio Grande do Sul
+            'RO',  # Rondônia
+            'RR',  # Roraima
+            'SC',  # Santa Catarina
+            'SP',  # São Paulo
+            'SE',  # Sergipe
+            'TO'   # Tocantins
+        ]
+        return True
+    
+
     def _verificar_genero(self, nome):
         if nome not in self._nomes_com_genero:
             return None
@@ -201,7 +234,6 @@ class Normalizacao:
         return self._carregar_arquivo_padroes(
             './mencoes.json',
             [
-                'premios_festivais',
                 'saloes_humor',
                 'hqmix',
                 'ccxp',
@@ -214,7 +246,6 @@ class Normalizacao:
                 'humor',
                 'herois',
                 'disputa',
-                'estilo',
                 'ficcao_cientifica',
                 'fantasia',
                 'folclore',
@@ -547,8 +578,10 @@ class Normalizacao:
     def _classificar_mencoes(self, data):
         about_txt = data['detail']['about_txt']
         if about_txt is None:
-            about_txt = about_txt.lower()
-        #mencao = 'indefinido'
+            about_txt = ''
+
+        about_txt = about_txt.lower()
+
         cats = [
             self._mencoes_padroes_precisos,
             self._mencoes_padroes_comeca_com,
@@ -560,10 +593,7 @@ class Normalizacao:
                     chave = f'mencoes_{k}'
                     data[chave] = self._testar_regex(about_txt, p)
                     if data[chave]:
-                        #mencao = k
                         break
-                #if mencao != 'indefinido':
-                #    break
 
         return True
 
@@ -646,10 +676,17 @@ class Normalizacao:
 
         return True
 
+    def _somente_uf_brasileira(self, uf):
+        if uf in self._uf_brasileiras:
+            return uf
+        
+        return 'XX'
+    
     def _classificar_resumo(self, data):
 
         data['geral_municipio']=data['detail']['address']['city']
         data['geral_uf']=data['detail']['address']['state_acronym']
+        data['geral_uf_br'] = self._somente_uf_brasileira(data['geral_uf'])
         data['geral_city_id'] = data['detail']['city_id']
         data['geral_content_rating'] = data['detail']['content_rating']
         data['geral_contributed_by_friends'] = data['detail']['contributed_by_friends']
@@ -705,6 +742,7 @@ class Normalizacao:
         
         result = (result
             and self._show_message("Carregar arquivos de apoio")
+            and self._carregar_uf_brasileiras()
             and self._carregar_arquivos_frequencia_nomes()
             and self._carregar_mencoes_padroes()
             and self._carregar_autorias_padroes()
@@ -726,6 +764,85 @@ class Normalizacao:
             and self._percorrer_campanhas(f'> categorizar resumo', self._classificar_resumo)
             and self._percorrer_campanhas(f'> gravar arquivos normalizados das campanhas', self._gravar_json_campanhas)
         )
+
+
+        colunas = [
+            'origem',
+
+            'geral_project_id',
+            'geral_titulo',
+            'geral_data_ini',
+            'geral_data_fim',
+            'geral_dias_campanha',
+            'geral_percentual_arrecadado',
+            'geral_meta',
+            'geral_meta_corrigida',
+            'geral_arrecadado',
+            'geral_arrecadado_corrigido',
+            'geral_modalidade',
+            'geral_status',
+            'geral_uf_br',
+            'geral_uf',
+            'geral_municipio',
+            'geral_city_id',
+            'geral_capa_imagem',
+            'geral_capa_video',
+            'geral_content_rating',
+            'geral_conteudo_adulto',
+            'geral_contributed_by_friends',
+            'geral_posts',
+            'geral_total_apoiadores',
+            'geral_total_contribuicoes',
+
+            'autoria_classificacao',
+            'autoria_nome',
+            'autoria_nome_publico',
+
+            'recompensas_menor_nominal',
+            'recompensas_menor_ajustado',
+            'recompensas_quantidade',
+
+            'social_newsletter',
+            'social_projetos_contribuidos',
+            'social_projetos_publicados',
+            'social_seguidores',
+
+            'mencoes_angelo_agostini',
+            'mencoes_ccxp',
+            'mencoes_disputa',
+            'mencoes_erotismo',
+            'mencoes_fantasia',
+            'mencoes_ficcao_cientifica',
+            'mencoes_fiq',
+            'mencoes_folclore',
+            'mencoes_herois',
+            'mencoes_hqmix',
+            'mencoes_humor',
+            'mencoes_jogos',
+            'mencoes_lgbtqiamais',
+            'mencoes_midia_independente',
+            'mencoes_politica',
+            'mencoes_questoes_genero',
+            'mencoes_religiosidade',
+            'mencoes_saloes_humor',
+            'mencoes_terror',
+            'mencoes_webformatos',
+            'mencoes_zine',
+            
+        ]
+
+        df = pd.DataFrame(self._campanhas, columns=colunas)
+
+        analise_mencoes = [am for am in colunas if 'mencoes_' in am]
+
+        resultados_mencoes = {}
+        for m in analise_mencoes:
+            parcial = df[df[m] == True]
+            resultados_mencoes[m] = len(parcial)
+        dfmencoes = pd.DataFrame(list(resultados_mencoes.items()), columns=['Chave', 'Quantidade']).set_index('Chave')
+        print(dfmencoes)
+        #dfmencoes.to_excel(f'{CAMINHO_CSV}/{self._ano}/mencoes_{self._ano}.xlsx', index=False, columns=['Chave', 'Quantidade'])
+        
 
         #if result:
         #    arquivo_dados = f"{CAMINHO_NORMALIZADOS}/autores_{self._ano}.json"

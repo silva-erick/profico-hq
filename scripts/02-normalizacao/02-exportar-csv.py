@@ -4,16 +4,11 @@ from datetime import datetime, timedelta
 import os
 import json
 
-#from bs4 import BeautifulSoup
-
 import re
-#import requests
-#import uuid
 
-#import pandas as pd
-#from unidecode import unidecode
+import pandas as pd
 
-import csv
+#import csv
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CSV = "../../dados/csv"
@@ -74,187 +69,137 @@ class ExportarCsv:
 
         quantidade_campanhas = 0
 
-        # Nome do arquivo CSV
-        nome_arquivo_csv = f'{CAMINHO_CSV}/{self._ano}/campanhas-{self._ano}.csv'
+        colunas = [
+            'origem',
 
-        # Escrever a lista de valores em um arquivo CSV
-        with open(nome_arquivo_csv, mode='w', newline='', encoding='utf-8-sig') as arquivo_csv:
+            'geral_project_id',
+            'geral_titulo',
+            'geral_data_ini',
+            'geral_data_fim',
+            'geral_dias_campanha',
+            'geral_percentual_arrecadado',
+            'geral_meta',
+            'geral_meta_corrigida',
+            'geral_arrecadado',
+            'geral_arrecadado_corrigido',
+            'geral_modalidade',
+            'geral_status',
+            'geral_uf_br',
+            'geral_uf',
+            'geral_municipio',
+            'geral_city_id',
+            'geral_capa_imagem',
+            'geral_capa_video',
+            'geral_content_rating',
+            'geral_conteudo_adulto',
+            'geral_contributed_by_friends',
+            'geral_posts',
+            'geral_total_apoiadores',
+            'geral_total_contribuicoes',
 
-            # Configurar o escritor CSV com o separador ;
-            escritor_csv = csv.writer(arquivo_csv, delimiter=';', escapechar='\\', dialect='excel')
+            'autoria_classificacao',
+            'autoria_nome',
+            'autoria_nome_publico',
 
-            linha = [
-                'origem',
+            'recompensas_menor_nominal',
+            'recompensas_menor_ajustado',
+            'recompensas_quantidade',
 
-                'geral_project_id',
-                'geral_titulo',
-                'geral_data_ini',
-                'geral_data_fim',
-                'geral_dias_campanha',
-                'geral_percentual_arrecadado',
-                'geral_meta',
-                'geral_meta_corrigida',
-                'geral_arrecadado',
-                'geral_arrecadado_corrigido',
-                'geral_modalidade',
-                'geral_status',
-                'geral_uf',
-                'geral_municipio',
-                'geral_city_id',
-                'geral_capa_imagem',
-                'geral_capa_video',
-                'geral_content_rating',
-                'geral_conteudo_adulto',
-                'geral_contributed_by_friends',
-                'geral_posts',
-                'geral_total_apoiadores',
-                'geral_total_contribuicoes',
+            'social_newsletter',
+            'social_projetos_contribuidos',
+            'social_projetos_publicados',
+            'social_seguidores',
 
-                'autoria_classificacao',
-                'autoria_nome',
-                'autoria_nome_publico',
+            'mencoes_angelo_agostini',
+            'mencoes_ccxp',
+            'mencoes_disputa',
+            'mencoes_erotismo',
+            'mencoes_fantasia',
+            'mencoes_ficcao_cientifica',
+            'mencoes_fiq',
+            'mencoes_folclore',
+            'mencoes_herois',
+            'mencoes_hqmix',
+            'mencoes_humor',
+            'mencoes_jogos',
+            'mencoes_lgbtqiamais',
+            'mencoes_midia_independente',
+            'mencoes_politica',
+            'mencoes_questoes_genero',
+            'mencoes_religiosidade',
+            'mencoes_saloes_humor',
+            'mencoes_terror',
+            'mencoes_webformatos',
+            'mencoes_zine',
+            
+        ]
 
-                'recompensas_menor_nominal',
-                'recompensas_menor_ajustado',
-                'recompensas_quantidade',
+        campanhas = []
+        # Percorre a lista de arquivos
+        for caminho_campanha in caminho_campanhas:
+            # Cria o caminho completo para o file
+            full_path = os.path.join(pasta_normalizados, caminho_campanha)
 
-                'social_newsletter',
-                'social_projetos_contribuidos',
-                'social_projetos_publicados',
-                'social_seguidores',
+            # Verifica se o caminho é um arquivo
+            if not os.path.isfile(full_path):
+                continue
+            # Verifica se o caminho é um arquivo
+            if not full_path.endswith(".json"):
+                continue
+            
+            # abrir arquivo
+            f = open (full_path, "r")
+            
+            # ler arquivo como json
+            data = json.loads(f.read())
 
-                'categorias_angelo_agostini',
-                'categorias_ccxp',
-                'categorias_disputa',
-                'categorias_erotismo',
-                'categorias_estilo',
-                'categorias_fantasia',
-                'categorias_ficcao_cientifica',
-                'categorias_fiq',
-                'categorias_folclore',
-                'categorias_herois',
-                'categorias_hqmix',
-                'categorias_humor',
-                'categorias_jogos',
-                'categorias_lgbtqiamais',
-                'categorias_politica',
-                'categorias_premios_festivais',
-                'categorias_questoes_genero',
-                'categorias_religiosidade',
-                'categorias_saloes_humor',
-                'categorias_terror',
-                'categorias_webformatos',
-                'categorias_zine',
-                
-            ]
-            escritor_csv.writerow(linha)
+            # fechar arquivo
+            f.close()
 
-            # Percorre a lista de arquivos
-            for caminho_campanha in caminho_campanhas:
-                # Cria o caminho completo para o file
-                full_path = os.path.join(pasta_normalizados, caminho_campanha)
+            # verificar a data de lançamento da campanha
+            try:
+                data_obj = parse_data(data['geral_data_ini'])
+            except ValueError:
+                print(f"data original: {data['geral_data_ini']}")
+                raise ValueError(f"Formato de data inválido. {data['geral_data_ini']}")
 
-                # Verifica se o caminho é um arquivo
-                if not os.path.isfile(full_path):
-                    continue
-                # Verifica se o caminho é um arquivo
-                if not full_path.endswith(".json"):
-                    continue
-                
-                # abrir arquivo
-                f = open (full_path, "r")
-                
-                # ler arquivo como json
-                data = json.loads(f.read())
+            if data_obj.year > self._ano:
+                continue
 
-                # fechar arquivo
-                f.close()
+            #df = df.append(data, ignore_index=True)
+            #df = pd.concat([pd.DataFrame([data], columns=df.columns), df], ignore_index=True)
+            campanhas.append(data)
 
-                # verificar a data de lançamento da campanha
-                try:
-                    data_obj = parse_data(data['geral']['data_ini'])
-                except ValueError:
-                    print(f"data original: {data['geral']['data_ini']}")
-                    raise ValueError(f"Formato de data inválido. {data['geral']['data_ini']}")
+            quantidade_campanhas = quantidade_campanhas + 1
 
-                if data_obj.year > self._ano:
-                    continue
-
-                linha = [
-                    data['origem'],
-
-                    data['geral']['project_id'],
-                    data['geral']['titulo'],
-                    data['geral']['data_ini'],
-                    data['geral']['data_fim'],
-                    data['geral']['dias_campanha'],
-                    str(data['geral']['percentual_arrecadado']).replace('.',','),
-                    str(data['geral']['meta']).replace('.',','),
-                    str(data['geral']['meta_corrigida']).replace('.',','),
-                    str(data['geral']['arrecadado']).replace('.',','),
-                    str(data['geral']['arrecadado_corrigido']).replace('.',','),
-                    data['geral']['modalidade'],
-                    data['geral']['status'],
-                    data['geral']['uf'],
-                    data['geral']['municipio'],
-                    data['geral']['city_id'],
-                    data['geral']['capa_imagem'],
-                    data['geral']['capa_video'],
-                    data['geral']['content_rating'],
-                    data['geral']['conteudo_adulto'],
-                    data['geral']['contributed_by_friends'],
-                    data['geral']['posts'],
-                    data['geral']['total_apoiadores'],
-                    data['geral']['total_contribuicoes'],
-
-                    data['autoria']['classificacao'],
-                    data['autoria']['nome'],
-                    data['autoria']['nome_publico'],
-
-                    str(data['recompensas']['menor_nominal']).replace('.',','),
-                    str(data['recompensas']['menor_ajustado']).replace('.',','),
-                    data['recompensas']['quantidade'],
-
-                    data['social']['newsletter'],
-                    data['social']['projetos_contribuidos'],
-                    data['social']['projetos_publicados'],
-                    data['social']['seguidores'],
-
-                    data['categorias']['angelo_agostini'],
-                    data['categorias']['ccxp'],
-                    data['categorias']['disputa'],
-                    data['categorias']['erotismo'],
-                    data['categorias']['estilo'],
-                    data['categorias']['fantasia'],
-                    data['categorias']['ficcao_cientifica'],
-                    data['categorias']['fiq'],
-                    data['categorias']['folclore'],
-                    data['categorias']['herois'],
-                    data['categorias']['hqmix'],
-                    data['categorias']['humor'],
-                    data['categorias']['jogos'],
-                    data['categorias']['lgbtqiamais'],
-                    data['categorias']['politica'],
-                    data['categorias']['premios_festivais'],
-                    data['categorias']['questoes_genero'],
-                    data['categorias']['religiosidade'],
-                    data['categorias']['saloes_humor'],
-                    data['categorias']['terror'],
-                    data['categorias']['webformatos'],
-                    data['categorias']['zine'],
-                    
-                ]
-                escritor_csv.writerow(linha)
-
-                quantidade_campanhas = quantidade_campanhas + 1
-
-                if self._verbose and ((quantidade_campanhas % 25) == 0):
-                    print('.', end='', flush=True)
+            if self._verbose and ((quantidade_campanhas % 25) == 0):
+                print('.', end='', flush=True)
 
         print('.')
         log_verbose(self._verbose, f'\tcampanhas encontradas: {quantidade_campanhas}')
+
+        df = pd.DataFrame(campanhas, columns=colunas)
+
+        log_verbose(self._verbose, f'exportar csv: {CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv')
+        df.to_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', index=False, columns=colunas, sep=';', decimal=',', encoding='utf-8-sig')
+        log_verbose(self._verbose, f'exportar xlsx: {CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.xlsx')
+        df.to_excel(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.xlsx', index=False, columns=colunas)
+
+        analise_mencoes = [am for am in colunas if 'mencoes_' in am]
+
+        resultados_mencoes = {}
+        for m in analise_mencoes:
+            parcial = df[df[m] == True]
+            resultados_mencoes[m] = len(parcial)
+        log_verbose(self._verbose, f'exportar mencoes xlsx: {CAMINHO_CSV}/{self._ano}/mencoes_{self._ano}.xlsx')
+        dfmencoes = pd.DataFrame(list(resultados_mencoes.items()), columns=['Chave', 'Quantidade']).set_index('Chave')
+        print(dfmencoes)
+        #dfmencoes.to_excel(f'{CAMINHO_CSV}/{self._ano}/mencoes_{self._ano}.xlsx', index=False, columns=['Chave', 'Quantidade'])
+        
         return True
     
+
+
     def _garantir_pastas(self):
         self._show_message('Verificando pastas')
         log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}")
