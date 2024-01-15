@@ -8,6 +8,8 @@ import re
 
 import pandas as pd
 
+import analises.sinteticos as sint
+
 #import csv
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
@@ -58,20 +60,15 @@ class ExportarCsv:
         self._ano = ano
         self._verbose = verbose
 
-    def _carregar_campanhas(self):
+    def _analisar_campanhas(self):
         self._show_message('> arquivos individuais')
 
         pasta_normalizados = f'{CAMINHO_NORMALIZADOS}/{self._ano}'
         if not os.path.exists(pasta_normalizados):
             return False
         
-        caminho_campanhas = os.listdir(pasta_normalizados)
-
-        quantidade_campanhas = 0
-
         colunas = [
             'origem',
-            'ano',
 
             'geral_project_id',
             'geral_titulo',
@@ -135,57 +132,40 @@ class ExportarCsv:
             
         ]
 
-        campanhas = []
-        # Percorre a lista de arquivos
-        for caminho_campanha in caminho_campanhas:
-            # Cria o caminho completo para o file
-            full_path = os.path.join(pasta_normalizados, caminho_campanha)
+        df = pd.read_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', sep=';', decimal=',')
 
-            # Verifica se o caminho é um arquivo
-            if not os.path.isfile(full_path):
-                continue
-            # Verifica se o caminho é um arquivo
-            if not full_path.endswith(".json"):
-                continue
-            
-            # abrir arquivo
-            f = open (full_path, "r")
-            
-            # ler arquivo como json
-            data = json.loads(f.read())
+        print(f'campanhas: {len(df)}')
 
-            # fechar arquivo
-            f.close()
+        #self._sintetico_modalidade(df)
+        processos = [
+            {'sint_qtd_por_modalidade': sint.calcular_qtd_por_modalidade},
+            {'sint_txsucesso_por_modalidade': sint.calcular_txsucesso_por_modalidade},
+            {'sint_qtd_por_origem_modalidade': sint.calcular_qtd_por_origem_modalidade},
+            {'sint_txsucesso_por_origem_modalidade': sint.calcular_txsucesso_por_origem_modalidade},
+            {'sint_qtd_por_ufbr': sint.calcular_qtd_por_ufbr},
+            {'sint_txsucesso_por_ufbr': sint.calcular_txsucesso_por_ufbr},
 
-            # verificar a data de lançamento da campanha
-            try:
-                data_obj = parse_data(data['geral_data_ini'])
-            except ValueError:
-                print(f"data original: {data['geral_data_ini']}")
-                raise ValueError(f"Formato de data inválido. {data['geral_data_ini']}")
+            {'sint_qtd_por_genero': sint.calcular_qtd_por_genero},
+            {'sint_txsucesso_por_genero': sint.calcular_txsucesso_por_genero},
 
-            if data_obj.year > self._ano:
-                continue
+            {'sint_qtd_por_mencoes': sint.calcular_qtd_por_mencoes},
+            {'sint_txsucesso_por_mencoes': sint.calcular_txsucesso_por_mencoes},
+        ]
 
-            data['ano'] = data_obj.year
-            campanhas.append(data)
+        i = 1
+        for it in processos:
+            for k,v in it.items():
+                pasta = f'{CAMINHO_CSV}/{self._ano}/{i}'
+                if not os.path.exists(pasta):
+                    os.mkdir(pasta)
+                res = v(df, self._ano, pasta, k)
+                print(f'\t.{i}: {k}: {res}')
+                i = i + 1
+                if not res:
+                    return False
 
-            quantidade_campanhas = quantidade_campanhas + 1
-
-            if self._verbose and ((quantidade_campanhas % 25) == 0):
-                print('.', end='', flush=True)
-
-        print('.')
-        log_verbose(self._verbose, f'\tcampanhas encontradas: {quantidade_campanhas}')
-
-        df = pd.DataFrame(campanhas, columns=colunas)
-
-        log_verbose(self._verbose, f'exportar csv: {CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv')
-        df.to_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', index=False, columns=colunas, sep=';', decimal=',', encoding='utf-8-sig')
-        log_verbose(self._verbose, f'exportar xlsx: {CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.xlsx')
-        df.to_excel(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.xlsx', index=False, columns=colunas)
-        
         return True
+    
     
 
 
@@ -221,7 +201,7 @@ class ExportarCsv:
         result = (result
             and self._show_message("Carregando arquivos campanhas")
             and self._garantir_pastas()
-            and self._carregar_campanhas()
+            and self._analisar_campanhas()
         )
             
 
@@ -230,8 +210,8 @@ class ExportarCsv:
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
-        prog = "exportar-csv",
-        description='Exportar os dados como CSV e XLSX')
+        prog = "análises",
+        description='Exportar os dados como CSV, XLSX e Gráficos')
     parser.add_argument('-v', '--verbose',
                     action='store_true')  # on/off flag
     parser.add_argument('-l', '--loglevel', choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL'], required=False)
@@ -254,7 +234,7 @@ if __name__ == "__main__":
 
     if not os.path.exists("log"):
         os.makedirs("log")
-    log_filename = f"log/exportar_csv_{datetime.today().strftime('%Y%m%d_%H%M%S')}.log"
+    log_filename = f"log/analises_{datetime.today().strftime('%Y%m%d_%H%M%S')}.log"
 
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',

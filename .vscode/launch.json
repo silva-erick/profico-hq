@@ -85,6 +85,16 @@
             "args":["-v", "-a", "2023"]
         },        
         {
+            "name": "Python: 03-analises.py",
+            "type": "python",
+            "request": "launch",
+            "program": "03-analises.py",
+            "cwd": "${workspaceFolder}/scripts/02-normalizacao",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v", "-a", "2023"]
+        },        
+        {
             "name": "Python: csv_outros.py",
             "type": "python",
             "request": "launch",
