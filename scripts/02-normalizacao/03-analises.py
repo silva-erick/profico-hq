@@ -136,12 +136,13 @@ class ExportarCsv:
 
         print(f'campanhas: {len(df)}')
 
-        #self._sintetico_modalidade(df)
         processos = [
             {'sint_qtd_por_modalidade': sint.calcular_qtd_por_modalidade},
-            {'sint_txsucesso_por_modalidade': sint.calcular_txsucesso_por_modalidade},
+            {'sint_resumo_por_modalidade': sint.calcular_resumo_por_modalidade},
+
             {'sint_qtd_por_origem_modalidade': sint.calcular_qtd_por_origem_modalidade},
-            {'sint_txsucesso_por_origem_modalidade': sint.calcular_txsucesso_por_origem_modalidade},
+            {'sint_resumo_por_origem_modalidade': sint.calcular_resumo_por_origem_modalidade},
+
             {'sint_qtd_por_ufbr': sint.calcular_qtd_por_ufbr},
             {'sint_txsucesso_por_ufbr': sint.calcular_txsucesso_por_ufbr},
 
@@ -150,6 +151,11 @@ class ExportarCsv:
 
             {'sint_qtd_por_mencoes': sint.calcular_qtd_por_mencoes},
             {'sint_txsucesso_por_mencoes': sint.calcular_txsucesso_por_mencoes},
+
+            {'sint_vlr_por_origem': sint.calcular_vlr_por_origem},
+
+            {'sit_vlr_por_autoria': sint.calcular_vlr_por_autoria},
+            {'sit_qtd_por_autoria': sint.calcular_qtd_por_autoria},
         ]
 
         i = 1
