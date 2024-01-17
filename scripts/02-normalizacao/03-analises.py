@@ -144,18 +144,16 @@ class ExportarCsv:
             {'sint_resumo_por_origem_modalidade': sint.calcular_resumo_por_origem_modalidade},
 
             {'sint_qtd_por_ufbr': sint.calcular_qtd_por_ufbr},
-            {'sint_txsucesso_por_ufbr': sint.calcular_txsucesso_por_ufbr},
+            {'sint_resumo_por_ufbr': sint.calcular_resumo_por_ufbr},
 
             {'sint_qtd_por_genero': sint.calcular_qtd_por_genero},
-            {'sint_txsucesso_por_genero': sint.calcular_txsucesso_por_genero},
+            {'sint_resumo_por_genero': sint.calcular_resumo_por_genero},
+
+            {'sit_qtd_por_autoria': sint.calcular_qtd_por_autoria},
+            {'sit_resumo_por_autoria': sint.calcular_resumo_por_autoria},
 
             {'sint_qtd_por_mencoes': sint.calcular_qtd_por_mencoes},
-            {'sint_txsucesso_por_mencoes': sint.calcular_txsucesso_por_mencoes},
-
-            {'sint_vlr_por_origem': sint.calcular_vlr_por_origem},
-
-            {'sit_vlr_por_autoria': sint.calcular_vlr_por_autoria},
-            {'sit_qtd_por_autoria': sint.calcular_qtd_por_autoria},
+            {'sint_resumo_por_mencoes': sint.calcular_resumo_por_mencoes},
         ]
 
         i = 1
