@@ -114,6 +114,9 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim):
             col_valor_mod_sucesso = f'{modalidade}_valor_sucesso'
 
             col_media_sucesso = f'{modalidade}_media_sucesso'
+            col_std_sucesso = f'{modalidade}_std_sucesso'
+            col_min_sucesso = f'{modalidade}_min_sucesso'
+            col_max_sucesso = f'{modalidade}_max_sucesso'
 
             campanhas_mod = df[
                 (df['geral_modalidade'] == modalidade)
@@ -134,6 +137,9 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim):
                     ]
                 total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
                 valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
+                std_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].std()
+                min_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].min()
+                max_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].max()
             else:
                 campanhas_dim_mod_sucesso = df[
                     (df[col_dim] == dim)
@@ -142,6 +148,9 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim):
                     ]
                 total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
                 valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
+                std_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].std()
+                min_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].min()
+                max_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].max()
 
 
             df_resultado.at[index, col_total] = total_dim_mod
@@ -154,6 +163,10 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim):
 
             df_resultado.at[index, col_valor_mod_sucesso] = valor_dim_mod_sucesso
             df_resultado.at[index, col_media_sucesso] = _dividir(valor_dim_mod_sucesso, total_dim_mod_sucesso)
+            df_resultado.at[index, col_std_sucesso] = std_dim_mod_sucesso
+            df_resultado.at[index, col_min_sucesso] = min_dim_mod_sucesso
+            df_resultado.at[index, col_max_sucesso] = max_dim_mod_sucesso
+
 
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)
@@ -171,6 +184,9 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim):
         formatados[f'{modalidade}_taxa_sucesso'] = {'num_format': '0.00%'}
         formatados[f'{modalidade}_valor_sucesso'] = {'num_format': 'R$ #,##0.00'}
         formatados[f'{modalidade}_media_sucesso'] = {'num_format': 'R$ #,##0.00'}
+        formatados[f'{modalidade}_std_sucesso'] = {'num_format': 'R$ #,##0.00'}
+        formatados[f'{modalidade}_min_sucesso'] = {'num_format': 'R$ #,##0.00'}
+        formatados[f'{modalidade}_max_sucesso'] = {'num_format': 'R$ #,##0.00'}
 
     _gravar_excel_formatado(df_resultado, caminho_arquivo_excel, formatados)
 
@@ -242,6 +258,9 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo):
         col_valor_arrecadado_sucesso = f'arrecadado_sucesso'
 
         col_media_sucesso = f'media_sucesso'
+        col_std_sucesso = f'std_sucesso'
+        col_min_sucesso = f'min_sucesso'
+        col_max_sucesso = f'max_sucesso'
 
         campanhas_mod = df[
             (df['geral_modalidade'] == modalidade)
@@ -256,6 +275,9 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo):
                 ]
             total_mod_sucesso = len(campanhas_mod_sucesso)
             valor_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].sum()
+            std_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].std()
+            min_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].min()
+            max_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].max()
         else:
             # 'total_mod_mencao' na modalidade com referência à 'menção' com status diferente de falha
             campanhas_mod_sucesso = df[
@@ -264,12 +286,18 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo):
                 ]
             total_mod_sucesso = len(campanhas_mod_sucesso)
             valor_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].sum()
+            std_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].std()
+            min_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].min()
+            max_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].max()
         
         df_resultado.at[index, col_valor_arrecadado] = valor_mod
         df_resultado.at[index, col_total_sucesso] = total_mod_sucesso
         df_resultado.at[index, col_valor_arrecadado_sucesso] = valor_mod_sucesso
         df_resultado.at[index, col_taxa_sucesso] = _dividir(total_mod_sucesso, total_mod)
         df_resultado.at[index, col_media_sucesso] = _dividir(valor_mod_sucesso, total_mod_sucesso)
+        df_resultado.at[index, col_std_sucesso] = std_mod_sucesso
+        df_resultado.at[index, col_min_sucesso] = min_mod_sucesso
+        df_resultado.at[index, col_max_sucesso] = max_mod_sucesso
 
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)
@@ -283,6 +311,9 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo):
         'arrecadado': {'num_format': 'R$ #,##0.00'},
         'arrecadado_sucesso': {'num_format': 'R$ #,##0.00'},
         'media_sucesso': {'num_format': 'R$ #,##0.00'},
+        'std_sucesso': {'num_format': 'R$ #,##0.00'},
+        'min_sucesso': {'num_format': 'R$ #,##0.00'},
+        'max_sucesso': {'num_format': 'R$ #,##0.00'},
         })
 
     return True
@@ -409,6 +440,9 @@ def calcular_resumo_por_mencoes(df, ano, pasta, arquivo):
             col_particip = f'{modalidade}_particip'
             col_valor_sucesso = f'{modalidade}_valor_sucesso'
             col_media_sucesso = f'{modalidade}_media_sucesso'
+            col_std_sucesso = f'{modalidade}_std_sucesso'
+            col_min_sucesso = f'{modalidade}_min_sucesso'
+            col_max_sucesso = f'{modalidade}_max_sucesso'
 
             # 'total' na modalidade
             campanhas_modalidade = df[
@@ -432,6 +466,9 @@ def calcular_resumo_por_mencoes(df, ano, pasta, arquivo):
                     ]
                 total_mod_mencao_sucesso = len(campanhas_mod_mencao_sucesso)
                 valor_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].sum()
+                std_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].std()
+                min_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].min()
+                max_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].max()
             else:
                 # 'total_mod_mencao' na modalidade com referência à 'menção' com status diferente de falha
                 campanhas_mod_mencao_sucesso = df[
@@ -441,6 +478,9 @@ def calcular_resumo_por_mencoes(df, ano, pasta, arquivo):
                     ]
                 total_mod_mencao_sucesso = len(campanhas_mod_mencao_sucesso)
                 valor_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].sum()
+                std_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].std()
+                min_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].min()
+                max_mod_mencao_sucesso = campanhas_mod_mencao_sucesso['geral_arrecadado_corrigido'].max()
             
             df_resultado.at[index, 'menção'] = mencao.replace('mencoes_', '')
             df_resultado.at[index, col_total] = total_mod_mencao
@@ -454,6 +494,9 @@ def calcular_resumo_por_mencoes(df, ano, pasta, arquivo):
             df_resultado.at[index, col_valor_sucesso] = valor_mod_mencao_sucesso
             
             df_resultado.at[index, col_media_sucesso] = _dividir(valor_mod_mencao_sucesso, total_mod_mencao_sucesso)
+            df_resultado.at[index, col_std_sucesso] = std_mod_mencao_sucesso
+            df_resultado.at[index, col_min_sucesso] = min_mod_mencao_sucesso
+            df_resultado.at[index, col_max_sucesso] = max_mod_mencao_sucesso
 
 
     # Preencher NaN com 0 para evitar problemas na divisão
@@ -470,6 +513,9 @@ def calcular_resumo_por_mencoes(df, ano, pasta, arquivo):
         formatados[f'{modalidade}_taxa_sucesso'] = {'num_format': '0.00%'}
         formatados[f'{modalidade}_valor_sucesso'] = {'num_format': 'R$ #,##0.00'}
         formatados[f'{modalidade}_media_sucesso'] = {'num_format': 'R$ #,##0.00'}
+        formatados[f'{modalidade}_std_sucesso'] = {'num_format': 'R$ #,##0.00'}
+        formatados[f'{modalidade}_min_sucesso'] = {'num_format': 'R$ #,##0.00'}
+        formatados[f'{modalidade}_max_sucesso'] = {'num_format': 'R$ #,##0.00'}
 
     _gravar_excel_formatado(df_resultado, caminho_arquivo_excel,formatados)
 
