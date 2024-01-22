@@ -102,6 +102,29 @@ construído a partir do Censo do IBGE.
 O infográfico a seguir dá uma ideia geral do conjunto de dados e considera mesmo as campanhas
 que não foram bem sucedidas.
 
+```mermaid
+mindmap
+  root(("`**3487**
+campanhas em Catarse
+e Apoia.se
+(2011-2023)`"))
+    Origins
+      Long history
+      ::icon(fa fa-book)
+      Popularisation
+        British popular psychology author Tony Buzan
+    Research
+      On effectiveness<br/>and features
+      On Automatic creation
+        Uses
+            Creative techniques
+            Strategic planning
+            Argument mapping
+    Tools
+      Pen and paper
+      Mermaid
+```
+
 ![alt text](./_apoio/2/02-consolidada-01-modalidade.png "Infográfico indicando um total de 3487 campanhas no Catarse e no Apoia.se, entre 2011 e 2023. As campanhas pontuais totalizam 2803 campanhas, agrupadas em 1335 tudo ou nada e 1468 flex. As campanhas recorrentes estão em 684.")
 
 A seguir, uma visão similar, com foco no Catarse.
