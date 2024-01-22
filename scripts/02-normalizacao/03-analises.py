@@ -174,26 +174,25 @@ class AnaliseCsv:
                 i = i + 2
                 if not res:
                     return False
+                
+        with open(f'analise-descritiva.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva:
+            template_analise_descritiva = arq_template_analise_descritiva.read()
+                
+        with open(f'analise-descritiva-modalidade.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_modalidade:
+            template_analise_descritiva_modalidade = arq_template_analise_descritiva_modalidade.read()
+                
+        with open(f'analise-descritiva-outros.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_outros:
+            template_analise_descritiva_outros = arq_template_analise_descritiva_outros.read()
 
         with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva.md', 'w', encoding='utf8') as f:
-            f.write(f'# Análise Descritiva\n')
-            f.write(f'A análise descritiva considera o conjunto de dados agrupado por modalidade de financiamento\n')
-            f.write(f'coletivo. Visões complementares são apresentadas com a adição de mais uma dimensão\n')
-            f.write(f'de agrupamento, tal como plataforma, unidade federativa, gênero ou menção a algum tema.\n')
-            f.write(f'de interesse à iniciativa profico-hq.\n')
-            f.write(f'\n')
+            f.write(f'{template_analise_descritiva}\n')
 
             for it in analise_md:
                 for k,v in it.items():
-                    f.write(f'## {k}\n')
-                    f.write(f'\n')
                     if k == 'Modalidade':
-                        f.write(f'A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas\n')
-                        f.write(f'de estatística descritiva para cada modalidade de financiamento.\n')
+                        f.write(f'{template_analise_descritiva_modalidade.replace("$(nome_dimensao)", k)}')
                     else:
-                        f.write(f'A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas\n')
-                        f.write(f'de estatística descritiva para cada modalidade de financiamento e dimensão em destaque ({k}).\n')
-                    f.write('\n')
+                        f.write(f'{template_analise_descritiva_outros.replace("$(nome_dimensao)", k)}')
                     f.write(f'{v}\n')
                     f.write('\n')
                     f.write('\n')

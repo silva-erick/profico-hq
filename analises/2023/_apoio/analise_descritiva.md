@@ -1,14 +1,15 @@
 # Análise Descritiva
+
 A análise descritiva considera o conjunto de dados agrupado por modalidade de financiamento
 coletivo. Visões complementares são apresentadas com a adição de mais uma dimensão
-de agrupamento, tal como plataforma, unidade federativa, gênero ou menção a algum tema.
+de agrupamento, tal como plataforma, unidade federativa, gênero ou menção a algum tema
 de interesse à iniciativa profico-hq.
+
 
 ## Modalidade
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
 de estatística descritiva para cada modalidade de financiamento.
-
 | modalidade   |   total |   arrecadado |   total_sucesso |   arrecadado_sucesso |   taxa_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|--------:|-------------:|----------------:|---------------------:|---------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada |    1.335 |  25.609.919,37 |             830 |          24.063.279,83 |           62,2 |        28.991,90 |      44.961,94 |         41,82 |     679.297,66 |
@@ -19,8 +20,8 @@ de estatística descritiva para cada modalidade de financiamento.
 ## Plataforma
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Plataforma).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Plataforma).
 | modalidade   | origem   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:---------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | catarse  |    1.335 |             830 |      100,0 |           62,2 |     24.063.279,83 |        28.991,90 |      44.961,94 |         41,82 |     679.297,66 |
@@ -33,8 +34,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Unidade Federativa
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Unidade Federativa).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Unidade Federativa).
 | modalidade   | geral_uf_br   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:--------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | AC            |       1 |               0 |        0,1 |            0,0 |            0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
@@ -115,8 +116,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Gênero
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Gênero).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Gênero).
 | modalidade   | autoria_classificacao   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:------------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | coletivo                |      44 |              29 |        3,3 |           65,9 |       710.060,78 |        24.484,85 |      25.328,68 |       4.520,87 |     111.934,90 |
@@ -139,8 +140,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Ângelo Agostini
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Ângelo Agostini).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Ângelo Agostini).
 | modalidade   | mencoes_angelo_agostini   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:--------------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                     |    1.268 |             769 |       95,0 |           60,6 |     21.018.027,02 |        27.331,63 |      36.670,66 |         41,82 |     537.544,55 |
@@ -154,8 +155,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: CCXP
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: CCXP).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: CCXP).
 | modalidade   | mencoes_ccxp   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:---------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False          |    1.179 |             704 |       88,3 |           59,7 |     21.202.461,39 |        30.117,13 |      47.960,71 |         41,82 |     679.297,66 |
@@ -169,8 +170,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Disputa
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Disputa).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Disputa).
 | modalidade   | mencoes_disputa   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False             |     935 |             585 |       70,0 |           62,6 |     17.530.337,95 |        29.966,39 |      50.451,48 |         41,82 |     679.297,66 |
@@ -184,8 +185,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Erotismo
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Erotismo).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Erotismo).
 | modalidade   | mencoes_erotismo   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False              |    1.212 |             748 |       90,8 |           61,7 |     21.757.202,10 |        29.087,17 |      46.703,04 |         41,82 |     679.297,66 |
@@ -199,8 +200,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Fantasia
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Fantasia).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Fantasia).
 | modalidade   | mencoes_fantasia   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False              |    1.056 |             650 |       79,1 |           61,6 |     19.246.444,23 |        29.609,91 |      48.242,72 |         41,82 |     679.297,66 |
@@ -214,8 +215,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Ficcao Científica
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Ficcao Científica).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Ficcao Científica).
 | modalidade   | mencoes_ficcao_cientifica   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:----------------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                       |    1.039 |             651 |       77,8 |           62,7 |     18.661.633,68 |        28.666,10 |      44.525,52 |         41,82 |     679.297,66 |
@@ -229,8 +230,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: FIQ
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: FIQ).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: FIQ).
 | modalidade   | mencoes_fiq   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:--------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False         |    1.116 |             668 |       83,6 |           59,9 |     19.242.021,98 |        28.805,42 |      46.481,14 |         41,82 |     679.297,66 |
@@ -244,8 +245,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Folclore
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Folclore).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Folclore).
 | modalidade   | mencoes_folclore   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False              |    1.135 |             690 |       85,0 |           60,8 |     19.555.959,93 |        28.341,97 |      44.866,48 |         41,82 |     679.297,66 |
@@ -259,8 +260,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Herois
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Herois).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Herois).
 | modalidade   | mencoes_herois   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-----------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False            |    1.059 |             673 |       79,3 |           63,6 |     20.588.794,41 |        30.592,56 |      48.256,73 |         41,82 |     679.297,66 |
@@ -274,8 +275,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: HQMIX
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: HQMIX).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: HQMIX).
 | modalidade   | mencoes_hqmix   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:----------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False           |    1.213 |             722 |       90,9 |           59,5 |     20.304.271,96 |        28.122,26 |      37.985,48 |         41,82 |     537.544,55 |
@@ -289,8 +290,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Humor
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Humor).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Humor).
 | modalidade   | mencoes_humor   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:----------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False           |    1.064 |             633 |       79,7 |           59,5 |     17.565.621,62 |        27.749,80 |      37.329,02 |         41,82 |     537.544,55 |
@@ -304,8 +305,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Jogos
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Jogos).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Jogos).
 | modalidade   | mencoes_jogos   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:----------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False           |    1.051 |             629 |       78,7 |           59,8 |     18.458.513,51 |        29.345,81 |      42.800,98 |         41,82 |     537.544,55 |
@@ -319,8 +320,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: LGBTQIA+
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: LGBTQIA+).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: LGBTQIA+).
 | modalidade   | mencoes_lgbtqiamais   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:----------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                 |    1.253 |             772 |       93,9 |           61,6 |     22.460.722,20 |        29.094,20 |      45.405,66 |         41,82 |     679.297,66 |
@@ -334,8 +335,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Mídia Independente
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Mídia Independente).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Mídia Independente).
 | modalidade   | mencoes_midia_independente   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-----------------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                        |    1.195 |             733 |       89,5 |           61,3 |     19.844.396,73 |        27.072,85 |      42.641,35 |         41,82 |     679.297,66 |
@@ -349,8 +350,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Política
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Política).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Política).
 | modalidade   | mencoes_politica   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False              |    1.095 |             676 |       82,0 |           61,7 |     19.080.546,64 |        28.225,66 |      47.064,71 |         41,82 |     679.297,66 |
@@ -364,8 +365,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Questões de Gênero
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Questões de Gênero).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Questões de Gênero).
 | modalidade   | mencoes_questoes_genero   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:--------------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                     |    1.300 |             806 |       97,4 |           62,0 |     23.440.366,37 |        29.082,34 |      45.408,96 |         41,82 |     679.297,66 |
@@ -379,8 +380,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Religiosidade
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Religiosidade).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Religiosidade).
 | modalidade   | mencoes_religiosidade   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:------------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                   |     975 |             619 |       73,0 |           63,5 |     17.443.278,03 |        28.179,77 |      38.750,17 |         41,82 |     537.544,55 |
@@ -394,8 +395,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Salões de Humor
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Salões de Humor).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Salões de Humor).
 | modalidade   | mencoes_saloes_humor   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-----------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                  |    1.319 |             818 |       98,8 |           62,0 |     23.900.709,90 |        29.218,47 |      45.235,92 |         41,82 |     679.297,66 |
@@ -409,8 +410,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Terror
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Terror).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Terror).
 | modalidade   | mencoes_terror   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:-----------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False            |     839 |             503 |       62,8 |           60,0 |     14.584.160,44 |        28.994,35 |      39.962,68 |         41,82 |     396.557,50 |
@@ -424,8 +425,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Webformatos
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Webformatos).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Webformatos).
 | modalidade   | mencoes_webformatos   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:----------------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False                 |    1.216 |             741 |       91,1 |           60,9 |     21.958.385,24 |        29.633,45 |      46.925,01 |         41,82 |     679.297,66 |
@@ -439,8 +440,8 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 ## Menções: Zine
 
 A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas
-de estatística descritiva para cada modalidade de financiamento e dimensão em destaque (Menções: Zine).
-
+de estatística descritiva para cada modalidade de financiamento e dimensão em destaque
+(Menções: Zine).
 | modalidade   | mencoes_zine   |   total |   total_sucesso |   particip |   taxa_sucesso |   valor_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:---------------|--------:|----------------:|-----------:|---------------:|----------------:|----------------:|--------------:|--------------:|--------------:|
 | tudo ou nada | False          |    1.171 |             718 |       87,7 |           61,3 |     21.747.572,18 |        30.289,10 |      47.556,14 |         41,82 |     679.297,66 |
