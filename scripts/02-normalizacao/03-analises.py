@@ -2,15 +2,12 @@ import argparse
 import logging
 from datetime import datetime, timedelta
 import os
-import json
 
 import re
 
 import pandas as pd
 
-import analises.sinteticos as sint
-
-#import csv
+import analises.descritivo as descr
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CSV = "../../dados/csv"
@@ -55,7 +52,7 @@ def parse_data(data_str):
         except ValueError:
             raise ValueError("Formato de data inválido.")
     
-class ExportarCsv:
+class AnaliseCsv:
     def __init__(self, ano, verbose):
         self._ano = ano
         self._verbose = verbose
@@ -137,36 +134,69 @@ class ExportarCsv:
         print(f'campanhas: {len(df)}')
 
         processos = [
-            {'sint_qtd_por_modalidade': sint.calcular_qtd_por_modalidade},
-            {'sint_resumo_por_modalidade': sint.calcular_resumo_por_modalidade},
-
-            {'sint_qtd_por_origem_modalidade': sint.calcular_qtd_por_origem_modalidade},
-            {'sint_resumo_por_origem_modalidade': sint.calcular_resumo_por_origem_modalidade},
-
-            {'sint_qtd_por_ufbr': sint.calcular_qtd_por_ufbr},
-            {'sint_resumo_por_ufbr': sint.calcular_resumo_por_ufbr},
-
-            {'sint_qtd_por_genero': sint.calcular_qtd_por_genero},
-            {'sint_resumo_por_genero': sint.calcular_resumo_por_genero},
-
-            {'sit_qtd_por_autoria': sint.calcular_qtd_por_autoria},
-            {'sit_resumo_por_autoria': sint.calcular_resumo_por_autoria},
-
-            {'sint_qtd_por_mencoes': sint.calcular_qtd_por_mencoes},
-            {'sint_resumo_por_mencoes': sint.calcular_resumo_por_mencoes},
+            {'Modalidade': descr.calcular_resumo_por_modalidade},
+            {'Plataforma': descr.calcular_resumo_por_origem_modalidade},
+            {'Unidade Federativa': descr.calcular_resumo_por_ufbr},
+            {'Gênero': descr.calcular_resumo_por_genero},
+            #{'Autoria': descr.calcular_resumo_por_autoria},
+            {'Menções: Ângelo Agostini': descr.calcular_resumo_por_mencoes_angelo_agostini},
+            {'Menções: CCXP': descr.calcular_resumo_por_mencoes_ccxp},
+            {'Menções: Disputa': descr.calcular_resumo_por_mencoes_disputa},
+            {'Menções: Erotismo': descr.calcular_resumo_por_mencoes_erotismo},
+            {'Menções: Fantasia': descr.calcular_resumo_por_mencoes_fantasia},
+            {'Menções: Ficcao Científica': descr.calcular_resumo_por_mencoes_ficcao_cientifica},
+            {'Menções: FIQ': descr.calcular_resumo_por_mencoes_fiq},
+            {'Menções: Folclore': descr.calcular_resumo_por_mencoes_folclore},
+            {'Menções: Herois': descr.calcular_resumo_por_mencoes_herois},
+            {'Menções: HQMIX': descr.calcular_resumo_por_mencoes_hqmix},
+            {'Menções: Humor': descr.calcular_resumo_por_mencoes_humor},
+            {'Menções: Jogos': descr.calcular_resumo_por_mencoes_jogos},
+            {'Menções: LGBTQIA+': descr.calcular_resumo_por_mencoes_lgbtqiamais},
+            {'Menções: Mídia Independente': descr.calcular_resumo_por_mencoes_midia_independente},
+            {'Menções: Política': descr.calcular_resumo_por_mencoes_politica},
+            {'Menções: Questões de Gênero': descr.calcular_resumo_por_mencoes_questoes_genero},
+            {'Menções: Religiosidade': descr.calcular_resumo_por_mencoes_religiosidade},
+            {'Menções: Salões de Humor': descr.calcular_resumo_por_mencoes_saloes_humor},
+            {'Menções: Terror': descr.calcular_resumo_por_mencoes_terror},
+            {'Menções: Webformatos': descr.calcular_resumo_por_mencoes_webformatos},
+            {'Menções: Zine': descr.calcular_resumo_por_mencoes_zine},
         ]
 
-        i = 1
+        analise_md = []
+        i = 2
         for it in processos:
             for k,v in it.items():
                 pasta = f'{CAMINHO_CSV}/{self._ano}/{i}'
                 if not os.path.exists(pasta):
                     os.mkdir(pasta)
-                res = v(df, self._ano, pasta, k)
+                res = v(df, self._ano, pasta, k, analise_md)
                 print(f'\t.{i}: {k}: {res}')
-                i = i + 1
+                i = i + 2
                 if not res:
                     return False
+
+        with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva.md', 'w', encoding='utf8') as f:
+            f.write(f'# Análise Descritiva\n')
+            f.write(f'A análise descritiva considera o conjunto de dados agrupado por modalidade de financiamento\n')
+            f.write(f'coletivo. Visões complementares são apresentadas com a adição de mais uma dimensão\n')
+            f.write(f'de agrupamento, tal como plataforma, unidade federativa, gênero ou menção a algum tema.\n')
+            f.write(f'de interesse à iniciativa profico-hq.\n')
+            f.write(f'\n')
+
+            for it in analise_md:
+                for k,v in it.items():
+                    f.write(f'## {k}\n')
+                    f.write(f'\n')
+                    if k == 'Modalidade':
+                        f.write(f'A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas\n')
+                        f.write(f'de estatística descritiva para cada modalidade de financiamento.\n')
+                    else:
+                        f.write(f'A tabela a seguir considera apenas as campanhas bem sucedidas, apresentando as medidas\n')
+                        f.write(f'de estatística descritiva para cada modalidade de financiamento e dimensão em destaque ({k}).\n')
+                    f.write('\n')
+                    f.write(f'{v}\n')
+                    f.write('\n')
+                    f.write('\n')
 
         return True
     
@@ -250,5 +280,5 @@ if __name__ == "__main__":
     if args.verbose:
         print(f"Processar campanhas até {args.ano}")
 
-    arquivo_csv = ExportarCsv(args.ano, args.verbose)
+    arquivo_csv = AnaliseCsv(args.ano, args.verbose)
     arquivo_csv.executar()

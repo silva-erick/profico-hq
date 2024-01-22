@@ -6,6 +6,7 @@ pandas
 regex
 requests
 spacy
+tabulate
 unidecode
 urllib3
 xlsxwriter
