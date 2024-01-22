@@ -55,6 +55,47 @@ A modalidade _recorrente_ se baseia na contribuição periódica das pessoas apo
 os propósitos deste relatório, a campanha será considerada bem sucedida se receber ao menos
 um apoio de qualquer valor.
 
+## Correção Monetária
+
+O valor desejado (meta), o valor arrecado e os valores das recompensas serão ajustados,
+de acordo com a [Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
+da AASP, para o valor em dezembro de 2023.
+
+## Gênero
+
+Na maior parte dos casos, foi possível identificar se quem organiza a campanha é uma
+pessoa _individual_, que pode ter gênero determinado como _masculino_ ou _feminino_,
+ou um _coletivo_, que pode ser classificado como _empresa_ ou como _coletivo_ de artistas.
+
+Esta classificação acontece é realizada automaticamente por script, que segue algumas
+regras.
+
+### Empresas
+
+A análise dos dados apontou uma série de nomes públicos relacionados a empresas,
+organizações, institutos, associações e similares. Foi construída uma base de
+conhecimento contendo as seguintes regras para o nome público:
+- possui palavras fortes como LTDA, Eireli ou editora
+- está numa lista conhecida de empresas
+
+### Coletivo
+
+A categoria coletivo segue regras parecidas às de empresas, mas no contexto
+de coletivos de artistas. O nome público:
+- possui palavras frotes como coletivo, equipe, estúdio, studio, selo ou grupo
+- está numa lista conhecida de coletivos
+
+### Individual
+
+Quando o nome público de autoria associado à campanha não foi classificado
+como _empresa_ ou _coletivo_, verifica-se se o nome público:
+- está numa lista conhecida de nomes de artistas ou personas marcados como
+_masculino_ ou _feminino_;
+- tem como primeira palavra mais frequente (acima de 75%) como
+_masculino_ ou _feminino_. Neste caso, utilizou-se o
+[dataset de nomes do brasil.io](https://brasil.io/dataset/genero-nomes/nomes/),
+construído a partir do Censo do IBGE.
+
 # Análises 
 
 ## Infográficos

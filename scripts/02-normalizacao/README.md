@@ -14,9 +14,7 @@ python normalizar.py --verbose -a 2023
 
 ### Conversão HTML para TXT
 
-O valor desejado, o valor arrecado e os valores das recompensas serão ajustados,
-de acordo com a [Tabela Prática para Cálculo de Atualização Monetária – IPCA-E](https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/)
-da AASP, para o valor em dezembro do ano desejado.
+Para facilitar a análise ou classificação automática de conteúdo, o texto em HTML será convertido para texto puro.
 
 ### Valor monetário
 
