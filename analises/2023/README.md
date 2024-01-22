@@ -3,23 +3,54 @@
 > [!WARNING] 
 > **Atenção:** relatório em construção. Sentindo falta de algo? Só avisar.
 
-Organização anual do conhecimento obtido a partir dos dados produzidos
-pela iniciativa [profico-hq](https://github.com/silva-erick/profico-hq),
-referente aos dados entre 2011 e 2023.
 
 # Introdução
 
+A proposta do Relatório Anual profico-hq é a organização do conhecimento
+obtido a partir dos dados produzidos pela iniciativa
+[profico-hq](https://github.com/silva-erick/profico-hq). O relatório de 2023
+analisa as campanhas desde 2011 até dezembro de 2023.
+
+# Conceitos
+
+## Ecossistema de Quadrinhos
+
 As campanhas de financiamento coletivo classificadas como quadrinhos nas plataformas
 [Catarse](https://www.catarse.me/) e [Apoia.se](https://apoia.se/) normalmente
-se articulam para captar recursos para viabilizar a impressão de edições físicas (álbuns).
+se articulam para a produção de quadrinhos. As **campanhas pontuais** (modalidades
+_flex_ ou _tudo ou nada_), isto é, aquelas com data de encerramento definida, se organizam
+para viabilizar a impressão de edições físicas (álbuns). As **campanhas recorrentes**,
+por outro lado, se organizam para viabilizar a produção contínua em canais digitais
+(_webformatos_), tal como redes sociais ou _newsletters_.
 
-Este ecossistema, contudo, se diversifica em outras formas de produção de conteúdo.
-Uma delas, ainda relacionada à produção de pessoas quadrinhistas, está relacionada
-à publicação recorrente de webquadrinhos, normalmente distribuídos em redes sociais
-ou newsletters. Em menor quantidade, mas ainda em número relevante, também se verifica
-a existência de campanhas para financiar canais de youtube, blogs ou sites voltados
-para a divulgação de obras e da cultura – às vezes especializados em quadrinhos,
-às vezes genericamente denominados geek, abordando outras mídias, tal como livro e cinema.
+Em menor quantidade, mas ainda em número relevante, também se verifica a existência
+de campanhas para financiar canais de _youtube_, _blogs_ ou _sites_ voltados
+para a divulgação de obras e da cultura. Estes canais podem ser mais especializados
+em quadrinhos ou cobrirem as mídias comumente associadas a conteúdo _geek_ - por exemplo,
+quadrinhos, RPG, games, livro e cinema.
+
+## Modalidades de Financiamento
+
+Quando uma campanha de arrecadação é publicada numa plataforma, pessoas apoiadoras podem
+contribuir utilizando as formas de pagamento disponíveis. A modalidade de financiamento
+pode ser _recorrente_, _tudo ou nada_ ou _flex_.
+
+> [!WARNING] 
+> As modalidades de financiamento a seguir são categorias de análise. Por favor, antes de
+> lançar uma campanha de financiamento coletivo, leia as regras, recomendações e termos de
+> uso da plataforma.
+
+A modalidade _tudo ou nada_ precisa atingir a meta definida na data de encerramento para ser
+considerada _bem sucedida_. O valor arrecadado é liberado para as pessoas organizadoras
+já descontando as taxas de administração definidas pela plataforma. Quando não for
+bem sucedida, o dinheiro das pessoas apoiadoras é ressarcido. _Flex_ também é uma modalidade
+pontual, mas as pessoas organizadoras recebem o valor arrecadado mesmo que a campanha
+não tenha atingido a meta na data de encerramento. A campanha não é bem sucedida quando
+não recebe apoios ou encerra antecipadamente.
+
+A modalidade _recorrente_ se baseia na contribuição periódica das pessoas apoiadoras. Para
+os propósitos deste relatório, a campanha será considerada bem sucedida se receber ao menos
+um apoio de qualquer valor.
 
 # Análises 
 
