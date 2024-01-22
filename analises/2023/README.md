@@ -11,6 +11,9 @@ obtido a partir dos dados produzidos pela iniciativa
 [profico-hq](https://github.com/silva-erick/profico-hq). O relatório de 2023
 analisa as campanhas desde 2011 até dezembro de 2023.
 
+> [!WARNING] 
+> Pendente.
+
 # Conceitos
 
 ## Ecossistema de Quadrinhos
@@ -71,7 +74,7 @@ Outra visão, agora com foco no Apoia.se.
 ## Análise Descritiva
 
 Para uma visão mais detalhada do conjunto de dados
-Acesse a [Análise descritiva](./_apoio/analise_descritiva.md) para entender como os dados
+Acesse a [análise descritiva](./_apoio/analise_descritiva.md) para entender como os dados
 se comportam em conjunto (total arrecadado, média por campanha, desvio padrão, etc):
 - por modalidade;
 - por modalidade e alguma dimensão de interesse (plataforma, unidade federativa, gênero
