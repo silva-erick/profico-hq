@@ -1,10 +1,7 @@
 # profico-hq - Relatório Anual 2023
 
-<mark style="background-color: lightyellow">**Atenção:** relatório em construção.
-Sentindo falta de algo? Por via das dúvidas, só avisar. Talvez eu ainda não tenha
-tido tempo de trabalhar - ou eu nem tinha considerado e vou ficar feliz se
-o relatório puder ser melhorado.
-</mark>
+> [!WARNING] 
+> **Atenção:** relatório em construção. Sentindo falta de algo? Só avisar.
 
 Organização anual do conhecimento obtido a partir dos dados produzidos
 pela iniciativa [profico-hq](https://github.com/silva-erick/profico-hq),
@@ -51,8 +48,15 @@ ou menção a algum tema de interesse para a iniciativa profico-hq).
 
 ## Pontos notáveis
 
-<mark style="background-color: lightyellow">Pendente</mark>
+> [!WARNING] 
+> Pendente
 
 ## Análise temporal
 
-<mark style="background-color: lightyellow">Pendente</mark>
+> [!WARNING] 
+> Pendente
+
+# Conclusões
+
+> [!WARNING] 
+> Pendente
