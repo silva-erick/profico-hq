@@ -71,6 +71,11 @@ Outra visão, agora com foco no Apoia.se.
 
 ![alt text](./_apoio/4/02-consolidada-03-apoiase.png "Infográfico indicando um total de 632 campanhas no Apoia.se, entre 2016 e 2023. As campanhas pontuais totalizam 28035 campanhas, agrupadas em 0 tudo ou nada e 5 flex. As campanhas recorrentes estão em 627.")
 
+## Pontos notáveis
+
+> [!WARNING] 
+> Pendente
+
 ## Análise Descritiva
 
 Para uma visão mais detalhada do conjunto de dados
@@ -79,11 +84,6 @@ se comportam em conjunto (total arrecadado, média por campanha, desvio padrão,
 - por modalidade;
 - por modalidade e alguma dimensão de interesse (plataforma, unidade federativa, gênero
 ou menção a algum tema de interesse para a iniciativa profico-hq).
-
-## Pontos notáveis
-
-> [!WARNING] 
-> Pendente
 
 ## Análise temporal
 
