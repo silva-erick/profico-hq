@@ -104,19 +104,17 @@ que não foram bem sucedidas.
 
 ```mermaid
 mindmap
-  root(("` **3487**
+  root(("**3487**
 campanhas em Catarse
 e Apoia.se
-(2011-2023) `"))
-    camp_pontual("`2803 campanhas pontuais`")
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    camp_pontual("`684 campanhas recorrentes`")
-        camp_pontual_taxa_sucesso["`**22,22%** taxa de sucesso`"]
-        camp_pontual_arr_mensal["`**R$ 43.186,96** arrecadado mensal`"]
-        camp_pontual_arr_med_mensal["`**R$ 284,12/campanha** arrecadação média mensal`"]
+(2011-2023) "))
+    camp_pontual("**2803** campanhas pontuais")
+        camp_pontual_tudo_ou_nada["**1335** tudo ou nada"]
+        camp_pontual_flex["**1468** flex"]
+    camp_recorrente("**684** campanhas recorrentes")
+        camp_recorrente_taxa_sucesso["**22,22%** taxa de sucesso"]
+        camp_recorrente_arr_mensal["**R$ 43.186,96** arrecadado mensal"]
+        camp_recorrente_arr_med_mensal["**R$ 284,12/campanha** arrecadação média mensal"]
 ```
 
 ![alt text](./_apoio/2/02-consolidada-01-modalidade.png "Infográfico indicando um total de 3487 campanhas no Catarse e no Apoia.se, entre 2011 e 2023. As campanhas pontuais totalizam 2803 campanhas, agrupadas em 1335 tudo ou nada e 1468 flex. As campanhas recorrentes estão em 684.")
