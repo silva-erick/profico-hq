@@ -105,11 +105,11 @@ foi utilizada.
 
 ## Infográficos
 
-[Visão Geral](infograficos_visao_geral.md)
+[Visão Geral](./infograficos_visao_geral.md)
 
-[Catarse](infograficos_visao_geral_catarse.md)
+[Catarse](./infograficos_visao_geral_catarse.md)
 
-[Apoia.se](infograficos_visao_geral_apoiase.md)
+[Apoia.se](./infograficos_visao_geral_apoiase.md)
 
 
 ## Pontos notáveis
