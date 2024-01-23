@@ -60,42 +60,44 @@ class AnaliseCsv:
 
     def _realizar_analise_descritiva(self, df):
         processos = [
-            {'Modalidade': descr.calcular_resumo_por_modalidade},
-            {'Plataforma': descr.calcular_resumo_por_origem_modalidade},
-            {'Unidade Federativa': descr.calcular_resumo_por_ufbr},
-            {'Gênero': descr.calcular_resumo_por_genero},
-            #{'Autoria': descr.calcular_resumo_por_autoria},
-            {'Menções: Ângelo Agostini': descr.calcular_resumo_por_mencoes_angelo_agostini},
-            {'Menções: CCXP': descr.calcular_resumo_por_mencoes_ccxp},
-            {'Menções: Disputa': descr.calcular_resumo_por_mencoes_disputa},
-            {'Menções: Erotismo': descr.calcular_resumo_por_mencoes_erotismo},
-            {'Menções: Fantasia': descr.calcular_resumo_por_mencoes_fantasia},
-            {'Menções: Ficcao Científica': descr.calcular_resumo_por_mencoes_ficcao_cientifica},
-            {'Menções: FIQ': descr.calcular_resumo_por_mencoes_fiq},
-            {'Menções: Folclore': descr.calcular_resumo_por_mencoes_folclore},
-            {'Menções: Herois': descr.calcular_resumo_por_mencoes_herois},
-            {'Menções: HQMIX': descr.calcular_resumo_por_mencoes_hqmix},
-            {'Menções: Humor': descr.calcular_resumo_por_mencoes_humor},
-            {'Menções: Jogos': descr.calcular_resumo_por_mencoes_jogos},
-            {'Menções: LGBTQIA+': descr.calcular_resumo_por_mencoes_lgbtqiamais},
-            {'Menções: Mídia Independente': descr.calcular_resumo_por_mencoes_midia_independente},
-            {'Menções: Política': descr.calcular_resumo_por_mencoes_politica},
-            {'Menções: Questões de Gênero': descr.calcular_resumo_por_mencoes_questoes_genero},
-            {'Menções: Religiosidade': descr.calcular_resumo_por_mencoes_religiosidade},
-            {'Menções: Salões de Humor': descr.calcular_resumo_por_mencoes_saloes_humor},
-            {'Menções: Terror': descr.calcular_resumo_por_mencoes_terror},
-            {'Menções: Webformatos': descr.calcular_resumo_por_mencoes_webformatos},
-            {'Menções: Zine': descr.calcular_resumo_por_mencoes_zine},
+            {'Modalidade': {'arq': 'sint_resumo_por_modalidade', 'func': descr.calcular_resumo_por_modalidade}},
+            {'Plataforma': {'arq':'sint_resumo_por_origem_modalidade', 'func': descr.calcular_resumo_por_origem_modalidade}},
+            {'Unidade Federativa': {'arq': 'sint_resumo_por_ufbr', 'func': descr.calcular_resumo_por_ufbr}},
+            {'Gênero': {'arq': 'sint_resumo_por_genero', 'func': descr.calcular_resumo_por_genero}},
+            #{'Autoria': {'arq': 'sint_resumo_por_autoria', 'func': descr.calcular_resumo_por_autoria}},
+            {'Menções: Ângelo Agostini': {'arq': 'sint_resumo_por_mencoes_angelo_agostini', 'func': descr.calcular_resumo_por_mencoes_angelo_agostini}},
+            {'Menções: CCXP': {'arq': 'sint_resumo_por_mencoes_ccxp', 'func': descr.calcular_resumo_por_mencoes_ccxp}},
+            {'Menções: Disputa': {'arq': 'sint_resumo_por_mencoes_disputa', 'func': descr.calcular_resumo_por_mencoes_disputa}},
+            {'Menções: Erotismo': {'arq': 'sint_resumo_por_mencoes_erotismo', 'func': descr.calcular_resumo_por_mencoes_erotismo}},
+            {'Menções: Fantasia': {'arq': 'sint_resumo_por_mencoes_fantasia', 'func': descr.calcular_resumo_por_mencoes_fantasia}},
+            {'Menções: Ficcao Científica': {'arq': 'sint_resumo_por_mencoes_ficcao_cientifica', 'func': descr.calcular_resumo_por_mencoes_ficcao_cientifica}},
+            {'Menções: FIQ': {'arq': 'sint_resumo_por_mencoes_fiq', 'func': descr.calcular_resumo_por_mencoes_fiq}},
+            {'Menções: Folclore': {'arq': 'sint_resumo_por_mencoes_folclore', 'func': descr.calcular_resumo_por_mencoes_folclore}},
+            {'Menções: Herois': {'arq': 'sint_resumo_por_mencoes_herois', 'func': descr.calcular_resumo_por_mencoes_herois}},
+            {'Menções: HQMIX': {'arq': 'sint_resumo_por_mencoes_hqmix', 'func': descr.calcular_resumo_por_mencoes_hqmix}},
+            {'Menções: Humor': {'arq': 'sint_resumo_por_mencoes_humor', 'func': descr.calcular_resumo_por_mencoes_humor}},
+            {'Menções: Jogos': {'arq': 'sint_resumo_por_mencoes_jogos', 'func': descr.calcular_resumo_por_mencoes_jogos}},
+            {'Menções: LGBTQIA+': {'arq': 'sint_resumo_por_mencoes_lgbtqiamais', 'func': descr.calcular_resumo_por_mencoes_lgbtqiamais}},
+            {'Menções: Mídia Independente': {'arq': 'sint_resumo_por_mencoes_midia_independente', 'func': descr.calcular_resumo_por_mencoes_midia_independente}},
+            {'Menções: Política': {'arq': 'sint_resumo_por_mencoes_politica', 'func': descr.calcular_resumo_por_mencoes_politica}},
+            {'Menções: Questões de Gênero': {'arq': 'sint_resumo_por_mencoes_questoes_genero', 'func': descr.calcular_resumo_por_mencoes_questoes_genero}},
+            {'Menções: Religiosidade': {'arq': 'sint_resumo_por_mencoes_religiosidade', 'func': descr.calcular_resumo_por_mencoes_religiosidade}},
+            {'Menções: Salões de Humor': {'arq': 'sint_resumo_por_mencoes_saloes_humor', 'func': descr.calcular_resumo_por_mencoes_saloes_humor}},
+            {'Menções: Terror': {'arq': 'sint_resumo_por_mencoes_terror', 'func': descr.calcular_resumo_por_mencoes_terror}},
+            {'Menções: Webformatos': {'arq': 'sint_resumo_por_mencoes_webformatos', 'func': descr.calcular_resumo_por_mencoes_webformatos}},
+            {'Menções: Zine': {'arq': 'sint_resumo_por_mencoes_zine', 'func': descr.calcular_resumo_por_mencoes_zine}},
         ]
 
         analise_md = []
         i = 2
         for it in processos:
             for k,v in it.items():
+                funcao_mapeada = v['func']
+                nome_arquivo = v['arq']
                 pasta = f'{CAMINHO_CSV}/{self._ano}/{i}'
                 if not os.path.exists(pasta):
                     os.mkdir(pasta)
-                res = v(df, self._ano, pasta, k, analise_md)
+                res = funcao_mapeada(df, self._ano, pasta, nome_arquivo, analise_md)
                 print(f'\t.{i}: {k}: {res}')
                 i = i + 2
                 if not res:
