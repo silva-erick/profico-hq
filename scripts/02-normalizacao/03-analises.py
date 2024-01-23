@@ -58,6 +58,8 @@ class AnaliseCsv:
         self._verbose = verbose
 
     def _realizar_analise_descritiva(self, df):
+        print(f'Análise descritiva')
+        
         processos = [
             {'Modalidade': {'arq': 'sint_resumo_por_modalidade', 'func': descr.calcular_resumo_por_modalidade}},
             {'Plataforma': {'arq':'sint_resumo_por_origem_modalidade', 'func': descr.calcular_resumo_por_origem_modalidade}},
