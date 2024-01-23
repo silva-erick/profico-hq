@@ -91,8 +91,8 @@ def _gravar_excel_formatado(df_resultado, caminho_arquivo_excel, colunas_formato
                 planilha.set_column(col_idx, col_idx, cell_format=writer.book.add_format(formato_excel))
 
 # calcular o resumo de campanhas por dim e modalidades
-def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim, analise_md):
-    colunas = ['geral_modalidade', col_dim]
+def _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col_dim, analise_md):
+    colunas = ['ano', 'geral_modalidade', col_dim]
     df_resultado = df.groupby(colunas).size().reset_index(name='total')
 
     # estender o df com mais colunas
@@ -225,8 +225,8 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim, analis
     return True
 
 # calcular a taxa de sucesso de campanhas por modalidades
-def calcular_resumo_por_modalidade(df, ano, pasta, arquivo, analise_md):
-    colunas = ['geral_modalidade']
+def calcular_temporal_por_modalidade(df, ano, pasta, arquivo, analise_md):
+    colunas = ['ano', 'geral_modalidade']
     df_resultado = df.groupby(colunas).size().reset_index(name='total')
 
     # estender o df com mais colunas
@@ -338,123 +338,123 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo, analise_md):
     return True
 
 # calcular o resumo de campanhas por origem e modalidades
-def calcular_resumo_por_origem_modalidade(df, ano, pasta, arquivo, analise_md):
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, 'origem', analise_md)
+def calcular_temporal_por_origem_modalidade(df, ano, pasta, arquivo, analise_md):
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, 'origem', analise_md)
 
 # calcular o resumo de campanhas por uf_br
-def calcular_resumo_por_ufbr(df, ano, pasta, arquivo, analise_md):
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, 'geral_uf_br', analise_md)
+def calcular_temporal_por_ufbr(df, ano, pasta, arquivo, analise_md):
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, 'geral_uf_br', analise_md)
 
 # calcular o resumo de campanhas por gênero
-def calcular_resumo_por_genero(df, ano, pasta, arquivo, analise_md):
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, 'autoria_classificacao', analise_md)
+def calcular_temporal_por_genero(df, ano, pasta, arquivo, analise_md):
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, 'autoria_classificacao', analise_md)
 
 # calcular o resumo de campanhas por autoria e seus respectivos status
-def calcular_resumo_por_autoria(df, ano, pasta, arquivo, analise_md):
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, 'autoria_nome_publico', analise_md)
+def calcular_temporal_por_autoria(df, ano, pasta, arquivo, analise_md):
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, 'autoria_nome_publico', analise_md)
 
-# return _calcular_resumo_por_dim_modalidade(df[(df[col] == True)], ano, pasta, arquivo, col, analise_md)
+# return _calcular_temporal_por_dim_modalidade(df[(df[col] == True)], ano, pasta, arquivo, col, analise_md)
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_angelo_agostini(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_angelo_agostini(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_angelo_agostini'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_ccxp(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_ccxp(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_ccxp'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_disputa(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_disputa(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_disputa'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_erotismo(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_erotismo(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_erotismo'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_fantasia(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_fantasia(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_fantasia'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_ficcao_cientifica(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_ficcao_cientifica(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_ficcao_cientifica'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_fiq(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_fiq(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_fiq'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_folclore(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_folclore(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_folclore'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_herois(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_herois(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_herois'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_hqmix(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_hqmix(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_hqmix'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_humor(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_humor(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_humor'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_jogos(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_jogos(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_jogos'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_lgbtqiamais(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_lgbtqiamais(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_lgbtqiamais'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_midia_independente(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_midia_independente(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_midia_independente'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_politica(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_politica(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_politica'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_questoes_genero(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_questoes_genero(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_questoes_genero'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_religiosidade(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_religiosidade(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_religiosidade'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_saloes_humor(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_saloes_humor(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_saloes_humor'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_terror(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_terror(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_terror'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_webformatos(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_webformatos(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_webformatos'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
 
 # calcular o resumo de menção de acordo com a modalidade das campanhas
-def calcular_resumo_por_mencoes_zine(df, ano, pasta, arquivo, analise_md):
+def calcular_temporal_por_mencoes_zine(df, ano, pasta, arquivo, analise_md):
     col =  'mencoes_zine'
-    return _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
+    return _calcular_temporal_por_dim_modalidade(df, ano, pasta, arquivo, col, analise_md)
