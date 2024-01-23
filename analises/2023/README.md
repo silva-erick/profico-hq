@@ -180,7 +180,7 @@ mindmap
 ## Análise Descritiva
 
 Para uma visão mais detalhada do conjunto de dados acesse
-a [Análise Descritiva](./_apoio/analise_descritiva/README.md), que indica como
+a [Análise Descritiva](./analise_descritiva/README.md), que indica como
 o conjunto de dados se comporta em relação às modalidades de financiamento e,
 adicionalmente, em relação a algumas dimensões de interesse: plataforma de financiamento,
 unidade federativa, gênero ou menção a algum tema de interesse para a
