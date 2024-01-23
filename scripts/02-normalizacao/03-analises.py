@@ -8,6 +8,7 @@ import re
 import pandas as pd
 
 import analises.descritivo as descr
+import analises.temporal as tempo
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CSV = "../../dados/csv"
@@ -57,82 +58,7 @@ class AnaliseCsv:
         self._ano = ano
         self._verbose = verbose
 
-    def _analisar_campanhas(self):
-        self._show_message('> arquivos individuais')
-
-        pasta_normalizados = f'{CAMINHO_NORMALIZADOS}/{self._ano}'
-        if not os.path.exists(pasta_normalizados):
-            return False
-        
-        colunas = [
-            'origem',
-
-            'geral_project_id',
-            'geral_titulo',
-            'geral_data_ini',
-            'geral_data_fim',
-            'geral_dias_campanha',
-            'geral_percentual_arrecadado',
-            'geral_meta',
-            'geral_meta_corrigida',
-            'geral_arrecadado',
-            'geral_arrecadado_corrigido',
-            'geral_modalidade',
-            'geral_status',
-            'geral_uf_br',
-            'geral_uf',
-            'geral_municipio',
-            'geral_city_id',
-            'geral_capa_imagem',
-            'geral_capa_video',
-            'geral_content_rating',
-            'geral_conteudo_adulto',
-            'geral_contributed_by_friends',
-            'geral_posts',
-            'geral_total_apoiadores',
-            'geral_total_contribuicoes',
-
-            'autoria_classificacao',
-            'autoria_nome',
-            'autoria_nome_publico',
-
-            'recompensas_menor_nominal',
-            'recompensas_menor_ajustado',
-            'recompensas_quantidade',
-
-            'social_newsletter',
-            'social_projetos_contribuidos',
-            'social_projetos_publicados',
-            'social_seguidores',
-
-            'mencoes_angelo_agostini',
-            'mencoes_ccxp',
-            'mencoes_disputa',
-            'mencoes_erotismo',
-            'mencoes_fantasia',
-            'mencoes_ficcao_cientifica',
-            'mencoes_fiq',
-            'mencoes_folclore',
-            'mencoes_herois',
-            'mencoes_hqmix',
-            'mencoes_humor',
-            'mencoes_jogos',
-            'mencoes_lgbtqiamais',
-            'mencoes_midia_independente',
-            'mencoes_politica',
-            'mencoes_questoes_genero',
-            'mencoes_religiosidade',
-            'mencoes_saloes_humor',
-            'mencoes_terror',
-            'mencoes_webformatos',
-            'mencoes_zine',
-            
-        ]
-
-        df = pd.read_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', sep=';', decimal=',')
-
-        print(f'campanhas: {len(df)}')
-
+    def _realizar_analise_descritiva(self, df):
         processos = [
             {'Modalidade': descr.calcular_resumo_por_modalidade},
             {'Plataforma': descr.calcular_resumo_por_origem_modalidade},
@@ -196,6 +122,20 @@ class AnaliseCsv:
                     f.write(f'{v}\n')
                     f.write('\n')
                     f.write('\n')
+
+    def _analisar_campanhas(self):
+        self._show_message('> arquivos individuais')
+
+        pasta_normalizados = f'{CAMINHO_NORMALIZADOS}/{self._ano}'
+        if not os.path.exists(pasta_normalizados):
+            return False
+        
+        df = pd.read_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', sep=';', decimal=',')
+
+        print(f'campanhas: {len(df)}')
+
+        self._realizar_analise_descritiva(df)
+
 
         return True
     

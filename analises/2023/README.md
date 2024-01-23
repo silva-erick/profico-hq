@@ -16,6 +16,15 @@ analisa as campanhas desde 2011 até dezembro de 2023.
 
 # Conceitos
 
+```mermaid
+xychart-beta
+    title "Sales Revenue"
+    x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+    y-axis "Revenue (in $)" 4000 --> 11000
+    bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+    line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+```
+
 ## Ecossistema de Quadrinhos
 
 As campanhas de financiamento coletivo classificadas como quadrinhos nas plataformas
@@ -52,8 +61,8 @@ não tenha atingido a meta na data de encerramento. A campanha não é bem suced
 não recebe apoios ou encerra antecipadamente.
 
 A modalidade _recorrente_ se baseia na contribuição periódica das pessoas apoiadoras. Para
-os propósitos deste relatório, a campanha será considerada bem sucedida se receber ao menos
-um apoio de qualquer valor.
+os propósitos deste relatório, a campanha recorrente será considerada bem sucedida
+se receber ao menos um apoio de qualquer valor.
 
 ## Correção Monetária
 
@@ -95,6 +104,11 @@ _masculino_ ou _feminino_;
 _masculino_ ou _feminino_. Neste caso, utilizou-se o
 [dataset de nomes do brasil.io](https://brasil.io/dataset/genero-nomes/nomes/),
 construído a partir do Censo do IBGE.
+
+### Outros
+
+Nos casos onde não foi possível classificar a autoria, a categoria _outros_
+foi utilizada.
 
 # Análises 
 
@@ -174,8 +188,14 @@ mindmap
 
 ## Análise Descritiva
 
-Para uma visão mais detalhada do conjunto de dados
-Acesse a [análise descritiva](./_apoio/analise_descritiva.md) para entender como os dados
+Para uma visão mais detalhada do conjunto de dados acesse
+a [análise descritiva](./_apoio/analise_descritiva.md), que indica como
+o comjunto de dados se comporta em relação às modalidades de financiamento e,
+adicionalmente, em relação a algumas dimensões de interesse: plataforma de financiamento,
+unidade federativa, gênero ou menção a algum tema de interesse para a
+iniciativa [profico-hq](https://github.com/silva-erick/profico-hq).
+
+ para entender como os dados
 se comportam em conjunto (total arrecadado, média por campanha, desvio padrão, etc):
 - por modalidade;
 - por modalidade e alguma dimensão de interesse (plataforma, unidade federativa, gênero
