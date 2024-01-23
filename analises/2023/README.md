@@ -105,6 +105,10 @@ foi utilizada.
 
 ## Infográficos
 
+Os infográficos dão uma visão geral sobre as campanhas realizadas nas plataformas
+[Catarse](https://www.catarse.me/) e [Apoia.se](https://apoia.se/), com dados
+sobre a quantidade de campanhas, o volume arrecadado ou a taxa de sucesso.
+
 [Visão Geral](./infograficos_visao_geral.md)
 
 [Catarse](./infograficos_visao_geral_catarse.md)
