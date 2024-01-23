@@ -19,7 +19,6 @@ def formatar_com_milhares(string_com_numeros):
     string_com_numeros = re.sub(r'(\d)(?=(\d{3})+(\.\d{0,2})?\s)', r'\1,', string_com_numeros)
 
     # Trocar ponto por vírgula e vírgula por ponto para números com zero ou duas casas decimais
-    #string_com_numeros = re.sub(r'(\d+(\.\d{0,2})?)', lambda x: x.group().replace('.', 'TEMPORARY_DOT').replace(',', '.').replace('TEMPORARY_DOT', ','), string_com_numeros)
     string_com_numeros = re.sub(r'(\d{1,3}((,\d{3})+)?(\.\d{0,2})?)', lambda x: x.group().replace('.', 'TEMPORARY_DOT').replace(',', '.').replace('TEMPORARY_DOT', ','), string_com_numeros)
 
     return string_com_numeros
@@ -77,9 +76,6 @@ def _gravar_excel_formatado(df_resultado, caminho_arquivo_excel, colunas_formato
     with pd.ExcelWriter(caminho_arquivo_excel, engine='xlsxwriter') as writer:
         # Salva o DataFrame no Excel
         df_resultado.to_excel(writer, sheet_name='Sheet1', index=False)
-
-        # Obtém o objeto de formatação do escritor
-        #formato_excel = writer.book.add_format({'num_format': '0.00%'})
 
         # Obtém o objeto de planilha
         planilha = writer.sheets['Sheet1']
@@ -152,7 +148,6 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim, analis
 
         df_resultado.at[index, col_total] = int(total_dim_mod)
         df_resultado.at[index, col_total_sucesso] = int(total_dim_mod_sucesso)
-        #df_resultado.at[index, col_total_falha] = int(total_dim_mod - total_dim_mod_sucesso)
 
         df_resultado.at[index, col_particip] = _dividir(total_dim_mod, total_mod)
 
@@ -188,8 +183,6 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim, analis
 
     df_formatado = df_resultado.copy()
 
-    #colunas_numericas = df_formatado.select_dtypes(include=['float64']).columns
-    #df_formatado[colunas_numericas] = df_formatado[colunas_numericas].map(formatar_numero)
     for coluna in df_formatado.columns:
         if coluna.startswith('total'):
             df_formatado[coluna] = df_formatado[coluna].map(formatar_int)
@@ -217,10 +210,6 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim, analis
     mk_table = formatar_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
 
     analise_md.append({arquivo: mk_table})
-
-    # # Redirecione a saída para um arquivo Markdown
-    # with open(f'{pasta}/tabela_descritiva.md', 'w', encoding='utf8') as f:
-    #     f.write(mk_table)
 
     return True
 
@@ -284,7 +273,6 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo, analise_md):
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)
 
-    #print(df_resultado)
     df_resultado.to_csv(f'{pasta}/{arquivo}_{ano}.csv', index=False, sep=';', decimal=',', encoding='utf-8-sig')
 
     caminho_arquivo_excel = f'{pasta}/{arquivo}_{ano}.xlsx'
@@ -300,8 +288,6 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo, analise_md):
 
     df_formatado = df_resultado.copy()
 
-    #colunas_numericas = df_formatado.select_dtypes(include=['float64']).columns
-    #df_formatado[colunas_numericas] = df_formatado[colunas_numericas].map(formatar_numero)
     for coluna in df_formatado.columns:
         if coluna.startswith('total'):
             df_formatado[coluna] = df_formatado[coluna].map(formatar_int)
@@ -330,10 +316,6 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo, analise_md):
     mk_table = formatar_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
 
     analise_md.append({arquivo: mk_table})
-
-    # # Redirecione a saída para um arquivo Markdown
-    # with open(f'{pasta}/tabela_descritiva.md', 'w') as f:
-    #     f.write(mk_table)
 
     return True
 
