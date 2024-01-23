@@ -8,7 +8,6 @@ import re
 import pandas as pd
 
 import analises.descritivo as descr
-import analises.temporal as tempo
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CSV = "../../dados/csv"
@@ -88,18 +87,25 @@ class AnaliseCsv:
             {'Menções: Zine': {'arq': 'sint_resumo_por_mencoes_zine', 'func': descr.calcular_resumo_por_mencoes_zine}},
         ]
 
+        mapa_titulo = {}
         analise_md = []
-        i = 2
+        i = 1
+        pasta = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva'
+        if not os.path.exists(pasta):
+            os.mkdir(pasta)
+        pasta = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/dados'
+        if not os.path.exists(pasta):
+            os.mkdir(pasta)
         for it in processos:
             for k,v in it.items():
                 funcao_mapeada = v['func']
                 nome_arquivo = v['arq']
-                pasta = f'{CAMINHO_CSV}/{self._ano}/{i}'
+                mapa_titulo[nome_arquivo] = k
                 if not os.path.exists(pasta):
                     os.mkdir(pasta)
                 res = funcao_mapeada(df, self._ano, pasta, nome_arquivo, analise_md)
                 print(f'\t.{i}: {k}: {res}')
-                i = i + 2
+                i = i + 1
                 if not res:
                     return False
                 
@@ -112,18 +118,29 @@ class AnaliseCsv:
         with open(f'analise-descritiva-outros.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_outros:
             template_analise_descritiva_outros = arq_template_analise_descritiva_outros.read()
 
-        with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva.md', 'w', encoding='utf8') as f:
+        with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/README.md', 'w', encoding='utf8') as f:
             f.write(f'{template_analise_descritiva}\n')
 
             for it in analise_md:
                 for k,v in it.items():
-                    if k == 'Modalidade':
-                        f.write(f'{template_analise_descritiva_modalidade.replace("$(nome_dimensao)", k)}')
-                    else:
-                        f.write(f'{template_analise_descritiva_outros.replace("$(nome_dimensao)", k)}')
-                    f.write(f'{v}\n')
-                    f.write('\n')
-                    f.write('\n')
+                    titulo = mapa_titulo[k]
+                    caminho = f'./{k}.md'
+                    f.write(f'[{titulo}]({caminho})\n\n')
+
+                    with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/{k}.md', 'w', encoding='utf8') as md_descritivo:
+                        if k == 'sint_resumo_por_modalidade':
+                            md_descritivo.write(f'{template_analise_descritiva_modalidade.replace("$(nome_dimensao)", mapa_titulo[k])}')
+                        else:
+                            md_descritivo.write(f'{template_analise_descritiva_outros.replace("$(nome_dimensao)", mapa_titulo[k])}')
+
+                        md_descritivo.write('\n')
+                        md_descritivo.write(f'{v}')
+                        md_descritivo.write('\n')
+
+                        md_descritivo.close()
+
+
+            f.close()
 
     def _analisar_campanhas(self):
         self._show_message('> arquivos individuais')

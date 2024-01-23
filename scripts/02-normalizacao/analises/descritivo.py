@@ -218,9 +218,9 @@ def _calcular_resumo_por_dim_modalidade(df, ano, pasta, arquivo, col_dim, analis
 
     analise_md.append({arquivo: mk_table})
 
-    # Redirecione a saída para um arquivo Markdown
-    with open(f'{pasta}/tabela_descritiva.md', 'w', encoding='utf8') as f:
-        f.write(mk_table)
+    # # Redirecione a saída para um arquivo Markdown
+    # with open(f'{pasta}/tabela_descritiva.md', 'w', encoding='utf8') as f:
+    #     f.write(mk_table)
 
     return True
 
@@ -331,9 +331,9 @@ def calcular_resumo_por_modalidade(df, ano, pasta, arquivo, analise_md):
 
     analise_md.append({arquivo: mk_table})
 
-    # Redirecione a saída para um arquivo Markdown
-    with open(f'{pasta}/tabela_descritiva.md', 'w') as f:
-        f.write(mk_table)
+    # # Redirecione a saída para um arquivo Markdown
+    # with open(f'{pasta}/tabela_descritiva.md', 'w') as f:
+    #     f.write(mk_table)
 
     return True
 
