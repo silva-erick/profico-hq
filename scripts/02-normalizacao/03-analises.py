@@ -8,6 +8,8 @@ import re
 import pandas as pd
 
 import analises.descritivo as descr
+import analises.pontos_notaveis as notaveis
+
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CSV = "../../dados/csv"
@@ -58,91 +60,151 @@ class AnaliseCsv:
         self._verbose = verbose
 
     def _realizar_analise_descritiva(self, df):
-        print(f'Análise descritiva')
+        print(f'. Análise descritiva')
         
         processos = [
-            {'Modalidade': {'arq': 'sint_resumo_por_modalidade', 'func': descr.calcular_resumo_por_modalidade}},
-            {'Plataforma': {'arq':'sint_resumo_por_origem_modalidade', 'func': descr.calcular_resumo_por_origem_modalidade}},
-            {'Unidade Federativa': {'arq': 'sint_resumo_por_ufbr', 'func': descr.calcular_resumo_por_ufbr}},
-            {'Gênero': {'arq': 'sint_resumo_por_genero', 'func': descr.calcular_resumo_por_genero}},
-            #{'Autoria': {'arq': 'sint_resumo_por_autoria', 'func': descr.calcular_resumo_por_autoria}},
-            {'Menções: Ângelo Agostini': {'arq': 'sint_resumo_por_mencoes_angelo_agostini', 'func': descr.calcular_resumo_por_mencoes_angelo_agostini}},
-            {'Menções: CCXP': {'arq': 'sint_resumo_por_mencoes_ccxp', 'func': descr.calcular_resumo_por_mencoes_ccxp}},
-            {'Menções: Disputa': {'arq': 'sint_resumo_por_mencoes_disputa', 'func': descr.calcular_resumo_por_mencoes_disputa}},
-            {'Menções: Erotismo': {'arq': 'sint_resumo_por_mencoes_erotismo', 'func': descr.calcular_resumo_por_mencoes_erotismo}},
-            {'Menções: Fantasia': {'arq': 'sint_resumo_por_mencoes_fantasia', 'func': descr.calcular_resumo_por_mencoes_fantasia}},
-            {'Menções: Ficcao Científica': {'arq': 'sint_resumo_por_mencoes_ficcao_cientifica', 'func': descr.calcular_resumo_por_mencoes_ficcao_cientifica}},
-            {'Menções: FIQ': {'arq': 'sint_resumo_por_mencoes_fiq', 'func': descr.calcular_resumo_por_mencoes_fiq}},
-            {'Menções: Folclore': {'arq': 'sint_resumo_por_mencoes_folclore', 'func': descr.calcular_resumo_por_mencoes_folclore}},
-            {'Menções: Herois': {'arq': 'sint_resumo_por_mencoes_herois', 'func': descr.calcular_resumo_por_mencoes_herois}},
-            {'Menções: HQMIX': {'arq': 'sint_resumo_por_mencoes_hqmix', 'func': descr.calcular_resumo_por_mencoes_hqmix}},
-            {'Menções: Humor': {'arq': 'sint_resumo_por_mencoes_humor', 'func': descr.calcular_resumo_por_mencoes_humor}},
-            {'Menções: Jogos': {'arq': 'sint_resumo_por_mencoes_jogos', 'func': descr.calcular_resumo_por_mencoes_jogos}},
-            {'Menções: LGBTQIA+': {'arq': 'sint_resumo_por_mencoes_lgbtqiamais', 'func': descr.calcular_resumo_por_mencoes_lgbtqiamais}},
-            {'Menções: Mídia Independente': {'arq': 'sint_resumo_por_mencoes_midia_independente', 'func': descr.calcular_resumo_por_mencoes_midia_independente}},
-            {'Menções: Política': {'arq': 'sint_resumo_por_mencoes_politica', 'func': descr.calcular_resumo_por_mencoes_politica}},
-            {'Menções: Questões de Gênero': {'arq': 'sint_resumo_por_mencoes_questoes_genero', 'func': descr.calcular_resumo_por_mencoes_questoes_genero}},
-            {'Menções: Religiosidade': {'arq': 'sint_resumo_por_mencoes_religiosidade', 'func': descr.calcular_resumo_por_mencoes_religiosidade}},
-            {'Menções: Salões de Humor': {'arq': 'sint_resumo_por_mencoes_saloes_humor', 'func': descr.calcular_resumo_por_mencoes_saloes_humor}},
-            {'Menções: Terror': {'arq': 'sint_resumo_por_mencoes_terror', 'func': descr.calcular_resumo_por_mencoes_terror}},
-            {'Menções: Webformatos': {'arq': 'sint_resumo_por_mencoes_webformatos', 'func': descr.calcular_resumo_por_mencoes_webformatos}},
-            {'Menções: Zine': {'arq': 'sint_resumo_por_mencoes_zine', 'func': descr.calcular_resumo_por_mencoes_zine}},
+            {'Modalidade': {'arq': 'sint_resumo_por_modalidade', 'func': descr.gerar_resumo_por_modalidade}},
+            {'Plataforma': {'arq':'sint_resumo_por_origem_modalidade', 'func': descr.gerar_resumo_por_origem_modalidade}},
+            {'Unidade Federativa': {'arq': 'sint_resumo_por_ufbr', 'func': descr.gerar_resumo_por_ufbr}},
+            {'Gênero': {'arq': 'sint_resumo_por_genero', 'func': descr.gerar_resumo_por_genero}},
+            #{'Autoria': {'arq': 'sint_resumo_por_autoria', 'func': descr.gerar_resumo_por_autoria}},
+            {'Menções: Ângelo Agostini': {'arq': 'sint_resumo_por_mencoes_angelo_agostini', 'func': descr.gerar_resumo_por_mencoes_angelo_agostini}},
+            {'Menções: CCXP': {'arq': 'sint_resumo_por_mencoes_ccxp', 'func': descr.gerar_resumo_por_mencoes_ccxp}},
+            {'Menções: Disputa': {'arq': 'sint_resumo_por_mencoes_disputa', 'func': descr.gerar_resumo_por_mencoes_disputa}},
+            {'Menções: Erotismo': {'arq': 'sint_resumo_por_mencoes_erotismo', 'func': descr.gerar_resumo_por_mencoes_erotismo}},
+            {'Menções: Fantasia': {'arq': 'sint_resumo_por_mencoes_fantasia', 'func': descr.gerar_resumo_por_mencoes_fantasia}},
+            {'Menções: Ficcao Científica': {'arq': 'sint_resumo_por_mencoes_ficcao_cientifica', 'func': descr.gerar_resumo_por_mencoes_ficcao_cientifica}},
+            {'Menções: FIQ': {'arq': 'sint_resumo_por_mencoes_fiq', 'func': descr.gerar_resumo_por_mencoes_fiq}},
+            {'Menções: Folclore': {'arq': 'sint_resumo_por_mencoes_folclore', 'func': descr.gerar_resumo_por_mencoes_folclore}},
+            {'Menções: Herois': {'arq': 'sint_resumo_por_mencoes_herois', 'func': descr.gerar_resumo_por_mencoes_herois}},
+            {'Menções: HQMIX': {'arq': 'sint_resumo_por_mencoes_hqmix', 'func': descr.gerar_resumo_por_mencoes_hqmix}},
+            {'Menções: Humor': {'arq': 'sint_resumo_por_mencoes_humor', 'func': descr.gerar_resumo_por_mencoes_humor}},
+            {'Menções: Jogos': {'arq': 'sint_resumo_por_mencoes_jogos', 'func': descr.gerar_resumo_por_mencoes_jogos}},
+            {'Menções: LGBTQIA+': {'arq': 'sint_resumo_por_mencoes_lgbtqiamais', 'func': descr.gerar_resumo_por_mencoes_lgbtqiamais}},
+            {'Menções: Mídia Independente': {'arq': 'sint_resumo_por_mencoes_midia_independente', 'func': descr.gerar_resumo_por_mencoes_midia_independente}},
+            {'Menções: Política': {'arq': 'sint_resumo_por_mencoes_politica', 'func': descr.gerar_resumo_por_mencoes_politica}},
+            {'Menções: Questões de Gênero': {'arq': 'sint_resumo_por_mencoes_questoes_genero', 'func': descr.gerar_resumo_por_mencoes_questoes_genero}},
+            {'Menções: Religiosidade': {'arq': 'sint_resumo_por_mencoes_religiosidade', 'func': descr.gerar_resumo_por_mencoes_religiosidade}},
+            {'Menções: Salões de Humor': {'arq': 'sint_resumo_por_mencoes_saloes_humor', 'func': descr.gerar_resumo_por_mencoes_saloes_humor}},
+            {'Menções: Terror': {'arq': 'sint_resumo_por_mencoes_terror', 'func': descr.gerar_resumo_por_mencoes_terror}},
+            {'Menções: Webformatos': {'arq': 'sint_resumo_por_mencoes_webformatos', 'func': descr.gerar_resumo_por_mencoes_webformatos}},
+            {'Menções: Zine': {'arq': 'sint_resumo_por_mencoes_zine', 'func': descr.gerar_resumo_por_mencoes_zine}},
         ]
 
         mapa_titulo = {}
         analise_md = []
         i = 1
-        pasta = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva'
-        if not os.path.exists(pasta):
-            os.mkdir(pasta)
-        pasta = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/dados'
-        if not os.path.exists(pasta):
-            os.mkdir(pasta)
-        for it in processos:
-            for k,v in it.items():
-                funcao_mapeada = v['func']
-                nome_arquivo = v['arq']
-                mapa_titulo[nome_arquivo] = k
-                if not os.path.exists(pasta):
-                    os.mkdir(pasta)
-                res = funcao_mapeada(df, self._ano, pasta, nome_arquivo, analise_md)
-                print(f'\t.{i}: {k}: {res}')
-                i = i + 1
-                if not res:
-                    return False
-                
-        with open(f'analise-descritiva.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva:
-            template_analise_descritiva = arq_template_analise_descritiva.read()
+        pasta_md = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva'
+        if not os.path.exists(pasta_md):
+            os.mkdir(pasta_md)
+        pasta_dados = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/dados'
+        if not os.path.exists(pasta_dados):
+            os.mkdir(pasta_dados)
                 
         with open(f'analise-descritiva-modalidade.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_modalidade:
             template_analise_descritiva_modalidade = arq_template_analise_descritiva_modalidade.read()
+            arq_template_analise_descritiva_modalidade.close()
                 
         with open(f'analise-descritiva-outros.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_outros:
             template_analise_descritiva_outros = arq_template_analise_descritiva_outros.read()
+            arq_template_analise_descritiva_outros.close()
+                
+        with open(f'analise-descritiva.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva:
+            template_analise_descritiva = arq_template_analise_descritiva.read()
 
         with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/README.md', 'w', encoding='utf8') as f:
             f.write(f'{template_analise_descritiva}\n')
 
-            for it in analise_md:
-                for k,v in it.items():
-                    titulo = mapa_titulo[k]
-                    caminho = f'./{k}.md'
+            for it in processos:
+                for titulo, maeamento_funcao in it.items():
+                    funcao_mapeada = maeamento_funcao['func']
+                    nome_arquivo = maeamento_funcao['arq']
+                    mapa_titulo[nome_arquivo] = titulo
+                    
+                    caminho = f'./{nome_arquivo}.md'
                     f.write(f'[{titulo}]({caminho})\n\n')
 
-                    with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/{k}.md', 'w', encoding='utf8') as md_descritivo:
-                        if k == 'sint_resumo_por_modalidade':
-                            md_descritivo.write(f'{template_analise_descritiva_modalidade.replace("$(nome_dimensao)", mapa_titulo[k])}')
-                        else:
-                            md_descritivo.write(f'{template_analise_descritiva_outros.replace("$(nome_dimensao)", mapa_titulo[k])}')
+                    if nome_arquivo == 'sint_resumo_por_modalidade':
+                        template = (f'{template_analise_descritiva_modalidade.replace("$(nome_dimensao)", titulo)}')
+                    else:
+                        template = (f'{template_analise_descritiva_outros.replace("$(nome_dimensao)", titulo)}')
 
-                        md_descritivo.write('\n')
-                        md_descritivo.write(f'{v}')
-                        md_descritivo.write('\n')
+                    res = funcao_mapeada(df,
+                                        self._ano,
+                                        pasta_md,
+                                        pasta_dados,
+                                        nome_arquivo,
+                                        titulo,
+                                        template,
+                                        analise_md
+                                        )
+                    
+                    print(f'\t.{i}: {titulo}: {res}')
+                    i = i + 1
+                    if not res:
+                        return False
 
-                        md_descritivo.close()
+        f.close()
 
+        return True
 
-            f.close()
+    def _realizar_analise_pontos_notaveis(self, df):
+        print(f'. Pontos notáveis')
+        
+        processos = [
+            {'Unidade Federativa': {'arq': 'notaveis_por_ufbr', 'func': notaveis.gerar_ranking_por_ufbr}},
+            {'Gênero': {'arq': 'notaveis_por_genero', 'func': notaveis.gerar_ranking_por_genero}},
+            {'Autoria': {'arq': 'notaveis_por_autoria', 'func': notaveis.gerar_ranking_por_autoria}},
+        ]
+
+        mapa_titulo = {}
+        analise_md = []
+        i = 1
+        pasta_md = f'{CAMINHO_CSV}/{self._ano}/pontos_notaveis'
+        if not os.path.exists(pasta_md):
+            os.mkdir(pasta_md)
+        pasta_dados = f'{CAMINHO_CSV}/{self._ano}/pontos_notaveis/dados'
+        if not os.path.exists(pasta_dados):
+            os.mkdir(pasta_dados)
+                
+        with open(f'pontos-notaveis-outros.template.md', 'r', encoding='utf8') as arq_template_pontos_notaveis_modalidade:
+            template_pontos_notaveis_modalidade = arq_template_pontos_notaveis_modalidade.read()
+            arq_template_pontos_notaveis_modalidade.close()
+                
+        with open(f'pontos-notaveis.template.md', 'r', encoding='utf8') as arq_template_pontos_notaveis:
+            template_pontos_notaveis = arq_template_pontos_notaveis.read()
+
+        with open(f'{CAMINHO_CSV}/{self._ano}/pontos_notaveis/README.md', 'w', encoding='utf8') as f:
+            f.write(f'{template_pontos_notaveis}\n')
+
+            for it in processos:
+                for titulo, maeamento_funcao in it.items():
+                    funcao_mapeada = maeamento_funcao['func']
+                    nome_arquivo = maeamento_funcao['arq']
+                    mapa_titulo[nome_arquivo] = titulo
+                    
+                    caminho = f'./{nome_arquivo}.md'
+                    f.write(f'[{titulo}]({caminho})\n\n')
+
+                    template = (f'{template_pontos_notaveis_modalidade.replace("$(nome_dimensao)", titulo)}')
+
+                    res = funcao_mapeada(df,
+                                        self._ano,
+                                        pasta_md,
+                                        pasta_dados,
+                                        nome_arquivo,
+                                        titulo,
+                                        template
+                                        )
+                                        
+                    print(f'\t.{i}: {titulo}: {res}')
+                    i = i + 1
+                    if not res:
+                        return False
+
+        f.close()
+
+        return True
 
     def _analisar_campanhas(self):
         self._show_message('> arquivos individuais')
@@ -155,10 +217,13 @@ class AnaliseCsv:
 
         print(f'campanhas: {len(df)}')
 
-        self._realizar_analise_descritiva(df)
+        resultado = (
+            self._realizar_analise_descritiva(df)
+            and self._realizar_analise_pontos_notaveis(df)
+        )
 
 
-        return True
+        return resultado
     
     
 
