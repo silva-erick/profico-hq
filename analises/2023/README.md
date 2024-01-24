@@ -118,7 +118,7 @@ sobre a quantidade de campanhas, o volume arrecadado ou a taxa de sucesso.
 
 ## Pontos notáveis
 
-Acesse [Pontos Notáveis](./pontos-notaveis/README.md) para investigar alguns
+Acesse [Pontos Notáveis](./pontos_notaveis/README.md) para investigar alguns
 destaques sobre o conjunto de dados.
 
 > [!WARNING] 
