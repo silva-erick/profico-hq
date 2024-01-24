@@ -205,10 +205,10 @@ def gerar_ranking_por_autoria(df, ano, pasta_md, pasta_dados, arquivo, titulo,  
     top_campanhas_flex = df_flex.groupby(col_dim)['total'].mean().nlargest(20)
     top_campanhas_sub = df_sub.groupby(col_dim)['total'].mean().nlargest(20)
 
-    # Top 5 das UF com maiores taxas de sucesso para cada geral_modalidade
-    top_taxa_sucesso_aon = df_aon.groupby(col_dim)['taxa_sucesso'].mean().nlargest(20)
-    top_taxa_sucesso_flex = df_flex.groupby(col_dim)['taxa_sucesso'].mean().nlargest(20)
-    top_taxa_sucesso_sub = df_sub.groupby(col_dim)['taxa_sucesso'].mean().nlargest(20)
+    # # Top 5 das UF com maiores taxas de sucesso para cada geral_modalidade
+    # top_taxa_sucesso_aon = df_aon.groupby(col_dim)['taxa_sucesso'].mean().nlargest(20)
+    # top_taxa_sucesso_flex = df_flex.groupby(col_dim)['taxa_sucesso'].mean().nlargest(20)
+    # top_taxa_sucesso_sub = df_sub.groupby(col_dim)['taxa_sucesso'].mean().nlargest(20)
 
     # Top 5 das UF com maior arrecadação para cada geral_modalidade
     top_arrecadacao_aon = df_aon.groupby(col_dim)['valor_sucesso'].sum().nlargest(20)
@@ -230,15 +230,15 @@ def gerar_ranking_por_autoria(df, ano, pasta_md, pasta_dados, arquivo, titulo,  
         texto = texto.replace('$(top)', '20')
         md_descritivo.write(f'{texto}')
 
-        texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso.template.md', mod_aon, titulo, top_taxa_sucesso_aon, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
-        texto = texto.replace('$(top)', '20')
-        md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso.template.md', mod_flex, titulo, top_taxa_sucesso_flex, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
-        texto = texto.replace('$(top)', '20')
-        md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso-recorrente.template.md', mod_sub, titulo, top_taxa_sucesso_sub, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
-        texto = texto.replace('$(top)', '20')
-        md_descritivo.write(f'{texto}')
+        # texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso.template.md', mod_aon, titulo, top_taxa_sucesso_aon, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
+        # texto = texto.replace('$(top)', '20')
+        # md_descritivo.write(f'{texto}')
+        # texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso.template.md', mod_flex, titulo, top_taxa_sucesso_flex, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
+        # texto = texto.replace('$(top)', '20')
+        # md_descritivo.write(f'{texto}')
+        # texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso-recorrente.template.md', mod_sub, titulo, top_taxa_sucesso_sub, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
+        # texto = texto.replace('$(top)', '20')
+        # md_descritivo.write(f'{texto}')
 
         texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '20')

@@ -119,10 +119,8 @@ sobre a quantidade de campanhas, o volume arrecadado ou a taxa de sucesso.
 ## Pontos notáveis
 
 Acesse [Pontos Notáveis](./pontos_notaveis/README.md) para investigar alguns
-destaques sobre o conjunto de dados.
-
-> [!WARNING] 
-> Pendente
+destaques sobre o conjunto de dados. A ideia é oferecer rankings por
+unidade federativa, gênero de pessoas autoras e até pessoas autoras.
 
 ## Análise Descritiva
 
