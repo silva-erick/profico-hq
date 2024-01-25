@@ -1,7 +1,10 @@
 # Modalidade: Tudo ou Nada - Série Anual
 
 A tabela a seguir representa a série anual das campanhas na modalidade
-($nome_modalidade).
+Tudo ou Nada.
+
+## Gráficos
+
 
 |    ano |   total |   total_sucesso |   arrecadado_sucesso |   taxa_sucesso |   media_sucesso |
 |-------:|--------:|----------------:|---------------------:|---------------:|----------------:|

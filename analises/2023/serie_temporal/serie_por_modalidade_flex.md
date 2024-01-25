@@ -1,7 +1,10 @@
 # Modalidade: Flex - Série Anual
 
 A tabela a seguir representa a série anual das campanhas na modalidade
-($nome_modalidade).
+Flex.
+
+## Gráficos
+
 
 |    ano |   total |   total_sucesso |   arrecadado_sucesso |   taxa_sucesso |   media_sucesso |
 |-------:|--------:|----------------:|---------------------:|---------------:|----------------:|
