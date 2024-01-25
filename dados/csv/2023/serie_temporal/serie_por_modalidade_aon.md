@@ -3,8 +3,6 @@
 A tabela a seguir representa a série anual das campanhas na modalidade
 Tudo ou Nada.
 
-## Gráficos
-
 
 |    ano |   total |   total_sucesso |   arrecadado_sucesso |   taxa_sucesso |   media_sucesso |
 |-------:|--------:|----------------:|---------------------:|---------------:|----------------:|
@@ -22,13 +20,21 @@ Tudo ou Nada.
 |  2022  |     133 |              81 |           2.345.603,52 |           60,9 |        28.958,07 |
 |  2023  |     134 |              96 |           3.236.850,99 |           71,6 |        33.717,20 |
 
-Modalidade Tudo ou Nada: Arrecadação Anual
+## Gráficos
+
+Modalidade Tudo ou Nada: Total de Campanhas
 
 ![Gráfico XY com o título "Modalidade Tudo ou Nada: Total de Campanhas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./serie_por_modalidade_aon-campanhas.png "Modalidade Tudo ou Nada: Total de Campanhas")
 
+Modalidade Tudo ou Nada: Total de Campanhas bem Sucedidas
+
 ![Gráfico XY com o título "Modalidade Tudo ou Nada: Total de Campanhas bem Sucedidas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./serie_por_modalidade_aon-bem-sucedidas.png "Modalidade Tudo ou Nada: Total de Campanhas bem Sucedidas")
 
+Modalidade Tudo ou Nada: Arrecadação Anual
+
 ![Gráfico XY com o título "Modalidade Tudo ou Nada: Arrecadação Anual". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./serie_por_modalidade_aon-arrecadado.png "Modalidade Tudo ou Nada: Arrecadação Anual")
+
+Modalidade Tudo ou Nada: Taxa de Sucesso
 
 ![Gráfico XY com o título "Modalidade Tudo ou Nada: Taxa de Sucesso". O eixo X é uma escala de anos. O eixo Y é uma escala de porcento.](./serie_por_modalidade_aon-taxa-sucesso.png "Modalidade Tudo ou Nada: Taxa de Sucesso")
 

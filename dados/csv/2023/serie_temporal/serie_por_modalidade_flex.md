@@ -3,8 +3,6 @@
 A tabela a seguir representa a série anual das campanhas na modalidade
 Flex.
 
-## Gráficos
-
 
 |    ano |   total |   total_sucesso |   arrecadado_sucesso |   taxa_sucesso |   media_sucesso |
 |-------:|--------:|----------------:|---------------------:|---------------:|----------------:|
@@ -17,13 +15,21 @@ Flex.
 |  2022  |     308 |             305 |           4.130.315,02 |           99,0 |        13.542,02 |
 |  2023  |     269 |             260 |           2.681.143,46 |           96,7 |        10.312,09 |
 
-Modalidade Flex: Arrecadação Anual
+## Gráficos
+
+Modalidade Flex: Total de Campanhas
 
 ![Gráfico XY com o título "Modalidade Flex: Total de Campanhas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./serie_por_modalidade_flex-campanhas.png "Modalidade Flex: Total de Campanhas")
 
+Modalidade Flex: Total de Campanhas bem Sucedidas
+
 ![Gráfico XY com o título "Modalidade Flex: Total de Campanhas bem Sucedidas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./serie_por_modalidade_flex-bem-sucedidas.png "Modalidade Flex: Total de Campanhas bem Sucedidas")
 
+Modalidade Flex: Arrecadação Anual
+
 ![Gráfico XY com o título "Modalidade Flex: Arrecadação Anual". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./serie_por_modalidade_flex-arrecadado.png "Modalidade Flex: Arrecadação Anual")
+
+Modalidade Flex: Taxa de Sucesso
 
 ![Gráfico XY com o título "Modalidade Flex: Taxa de Sucesso". O eixo X é uma escala de anos. O eixo Y é uma escala de porcento.](./serie_por_modalidade_flex-taxa-sucesso.png "Modalidade Flex: Taxa de Sucesso")
 
