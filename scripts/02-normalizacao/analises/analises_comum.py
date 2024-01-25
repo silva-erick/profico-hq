@@ -19,7 +19,10 @@ def formatar_com_milhares(string_com_numeros):
     string_com_numeros = re.sub(r'(\d)(?=(\d{3})+(\.\d{0,2})?\s)', r'\1,', string_com_numeros)
 
     # Trocar ponto por vírgula e vírgula por ponto para números com zero ou duas casas decimais
-    string_com_numeros = re.sub(r'(\d{1,3}((,\d{3})+)?(\.\d{0,2})?)', lambda x: x.group().replace('.', 'TEMPORARY_DOT').replace(',', '.').replace('TEMPORARY_DOT', ','), string_com_numeros)
+    string_com_numeros = re.sub(r'[\+\-]{0,1}(\d{1,3}((,\d{3})+)?(\.\d{0,2})?)', lambda x: x.group().replace('.', 'TEMPORARY_DOT').replace(',', '.').replace('TEMPORARY_DOT', ','), string_com_numeros)
+
+    string_com_numeros = re.sub(r'!(\d+)!', r' \1 ', string_com_numeros)
+
 
     return string_com_numeros
 
@@ -64,6 +67,11 @@ def formatar_int(valor):
         valor_int = int(valor)
     return f'{valor_int}'
 
+
+# Função para não formatar
+def formatar_nada(valor):
+    return f'!{valor}!'
+
 # divide dois números, mas se o divisor for zero, apenas retorna zero
 def _dividir(dividendo, divisor):
     if divisor == 0:
@@ -87,17 +95,19 @@ def _gravar_excel_formatado(df_resultado, caminho_arquivo_excel, colunas_formato
                 planilha.set_column(col_idx, col_idx, cell_format=writer.book.add_format(formato_excel))
 
 
-
 # calcular o resumo de campanhas por dim e modalidades
 def _calcular_resumo_por_dim_modalidade(df, col_dim):
-    colunas = ['geral_modalidade', col_dim]
+
+    col_modalidade = 'geral_modalidade'
+
+    colunas = [col_modalidade, col_dim]
     df_resultado = df.groupby(colunas).size().reset_index(name='total')
 
     # estender o df com mais colunas
     for index, row in df_resultado.iterrows():
         dim = row[col_dim]
         total_dim = row['total']
-        modalidade = row['geral_modalidade']
+        modalidade = row[col_modalidade]
 
         col_total = f'total'
         col_total_sucesso = f'total_sucesso'
@@ -114,20 +124,20 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
         col_max_sucesso = f'max_sucesso'
 
         campanhas_mod = df[
-            (df['geral_modalidade'] == modalidade)
+            (df[col_modalidade] == modalidade)
             ]
         total_mod = len(campanhas_mod)
 
         campanhas_dim_mod = df[
             (df[col_dim] == dim)
-            & (df['geral_modalidade'] == modalidade)
+            & (df[col_modalidade] == modalidade)
             ]
         total_dim_mod = len(campanhas_dim_mod)
 
         if modalidade == 'sub':
             campanhas_dim_mod_sucesso = df[
                 (df[col_dim] == dim)
-                & (df['geral_modalidade'] == modalidade)
+                & (df[col_modalidade] == modalidade)
                 & (df['geral_total_contribuicoes'] > 0)
                 ]
             total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
@@ -138,7 +148,7 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
         else:
             campanhas_dim_mod_sucesso = df[
                 (df[col_dim] == dim)
-                & (df['geral_modalidade'] == modalidade)
+                & (df[col_modalidade] == modalidade)
                 & (df['geral_status'] != 'failed')
                 ]
             total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
@@ -161,6 +171,70 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
         df_resultado.at[index, col_min_sucesso] = min_dim_mod_sucesso
         df_resultado.at[index, col_max_sucesso] = max_dim_mod_sucesso
 
+
+    # Preencher NaN com 0 para evitar problemas na divisão
+    df_resultado = df_resultado.fillna(0)
+
+    return df_resultado
+
+
+# calcular série anual de campanhas por dim e modalidades
+def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
+
+    col_modalidade = 'geral_modalidade'
+    colunas = ['ano', col_dim]
+    df_resultado = df[
+        df[col_modalidade] == modalidade
+    ].groupby(colunas).size().reset_index(name='total')
+
+    # estender o df com mais colunas
+    for index, row in df_resultado.iterrows():
+        dim = row[col_dim]
+        total_dim = row['total']
+
+        col_total = f'total'
+        col_total_sucesso = f'total_sucesso'
+
+        col_taxa_sucesso = f'taxa_sucesso'
+        col_valor_mod_sucesso = f'valor_sucesso'
+        col_media_sucesso = f'media_sucesso'
+
+        campanhas_mod = df[
+            (df[col_modalidade] == modalidade)
+            ]
+        total_mod = len(campanhas_mod)
+
+        campanhas_dim_mod = df[
+            (df[col_dim] == dim)
+            & (df[col_modalidade] == modalidade)
+            ]
+        total_dim_mod = len(campanhas_dim_mod)
+
+        if modalidade == 'sub':
+            campanhas_dim_mod_sucesso = df[
+                (df[col_dim] == dim)
+                & (df[col_modalidade] == modalidade)
+                & (df['geral_total_contribuicoes'] > 0)
+                ]
+            total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
+            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
+        else:
+            campanhas_dim_mod_sucesso = df[
+                (df[col_dim] == dim)
+                & (df[col_modalidade] == modalidade)
+                & (df['geral_status'] != 'failed')
+                ]
+            total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
+            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
+
+
+        df_resultado.at[index, col_total] = int(total_dim_mod)
+        df_resultado.at[index, col_total_sucesso] = int(total_dim_mod_sucesso)
+
+        df_resultado.at[index, col_taxa_sucesso] = _dividir(total_dim_mod_sucesso, total_dim_mod)
+
+        df_resultado.at[index, col_valor_mod_sucesso] = valor_dim_mod_sucesso
+        df_resultado.at[index, col_media_sucesso] = _dividir(valor_dim_mod_sucesso, total_dim_mod_sucesso)
 
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)

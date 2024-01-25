@@ -9,6 +9,7 @@ import pandas as pd
 
 import analises.descritivo as descr
 import analises.pontos_notaveis as notaveis
+import analises.temporal as tempr
 
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
@@ -206,6 +207,96 @@ class AnaliseCsv:
 
         return True
 
+    def _realizar_analise_temporal(self, df):
+        print(f'. Análise temporal')
+        
+        processos = [
+            {'Modalidade: Tudo ou Nada': {'arq': 'serie_por_modalidade_aon', 'func': tempr.gerar_serie_por_modalidade_aon}},
+            {'Modalidade: Flex': {'arq': 'serie_por_modalidade_flex', 'func': tempr.gerar_serie_por_modalidade_flex}},
+            #{'Plataforma': {'arq':'serie_por_origem_modalidade', 'func': tempr.gerar_serie_por_origem_modalidade}},
+            #{'Unidade Federativa': {'arq': 'serie_por_ufbr', 'func': tempr.gerar_serie_por_ufbr}},
+            #{'Gênero': {'arq': 'serie_por_genero', 'func': tempr.gerar_serie_por_genero}},
+            ##{'Autoria': {'arq': 'serie_por_autoria', 'func': tempr.gerar_serie_por_autoria}},
+            #{'Menções: Ângelo Agostini': {'arq': 'serie_por_mencoes_angelo_agostini', 'func': tempr.gerar_serie_por_mencoes_angelo_agostini}},
+            #{'Menções: CCXP': {'arq': 'serie_por_mencoes_ccxp', 'func': tempr.gerar_serie_por_mencoes_ccxp}},
+            #{'Menções: Disputa': {'arq': 'serie_por_mencoes_disputa', 'func': tempr.gerar_serie_por_mencoes_disputa}},
+            #{'Menções: Erotismo': {'arq': 'serie_por_mencoes_erotismo', 'func': tempr.gerar_serie_por_mencoes_erotismo}},
+            #{'Menções: Fantasia': {'arq': 'serie_por_mencoes_fantasia', 'func': tempr.gerar_serie_por_mencoes_fantasia}},
+            #{'Menções: Ficcao Científica': {'arq': 'serie_por_mencoes_ficcao_cientifica', 'func': tempr.gerar_serie_por_mencoes_ficcao_cientifica}},
+            #{'Menções: FIQ': {'arq': 'serie_por_mencoes_fiq', 'func': tempr.gerar_serie_por_mencoes_fiq}},
+            #{'Menções: Folclore': {'arq': 'serie_por_mencoes_folclore', 'func': tempr.gerar_serie_por_mencoes_folclore}},
+            #{'Menções: Herois': {'arq': 'serie_por_mencoes_herois', 'func': tempr.gerar_serie_por_mencoes_herois}},
+            #{'Menções: HQMIX': {'arq': 'serie_por_mencoes_hqmix', 'func': tempr.gerar_serie_por_mencoes_hqmix}},
+            #{'Menções: Humor': {'arq': 'serie_por_mencoes_humor', 'func': tempr.gerar_serie_por_mencoes_humor}},
+            #{'Menções: Jogos': {'arq': 'serie_por_mencoes_jogos', 'func': tempr.gerar_serie_por_mencoes_jogos}},
+            #{'Menções: LGBTQIA+': {'arq': 'serie_por_mencoes_lgbtqiamais', 'func': tempr.gerar_serie_por_mencoes_lgbtqiamais}},
+            #{'Menções: Mídia Independente': {'arq': 'serie_por_mencoes_midia_independente', 'func': tempr.gerar_serie_por_mencoes_midia_independente}},
+            #{'Menções: Política': {'arq': 'serie_por_mencoes_politica', 'func': tempr.gerar_serie_por_mencoes_politica}},
+            #{'Menções: Questões de Gênero': {'arq': 'serie_por_mencoes_questoes_genero', 'func': tempr.gerar_serie_por_mencoes_questoes_genero}},
+            #{'Menções: Religiosidade': {'arq': 'serie_por_mencoes_religiosidade', 'func': tempr.gerar_serie_por_mencoes_religiosidade}},
+            #{'Menções: Salões de Humor': {'arq': 'serie_por_mencoes_saloes_humor', 'func': tempr.gerar_serie_por_mencoes_saloes_humor}},
+            #{'Menções: Terror': {'arq': 'serie_por_mencoes_terror', 'func': tempr.gerar_serie_por_mencoes_terror}},
+            #{'Menções: Webformatos': {'arq': 'serie_por_mencoes_webformatos', 'func': tempr.gerar_serie_por_mencoes_webformatos}},
+            #{'Menções: Zine': {'arq': 'serie_por_mencoes_zine', 'func': tempr.gerar_serie_por_mencoes_zine}},
+        ]
+
+        mapa_titulo = {}
+        analise_md = []
+        i = 1
+        pasta_md = f'{CAMINHO_CSV}/{self._ano}/serie_temporal'
+        if not os.path.exists(pasta_md):
+            os.mkdir(pasta_md)
+        pasta_dados = f'{CAMINHO_CSV}/{self._ano}/serie_temporal/dados'
+        if not os.path.exists(pasta_dados):
+            os.mkdir(pasta_dados)
+                
+        with open(f'analise-temporal-modalidade.template.md', 'r', encoding='utf8') as arq_template_serie_temporal_modalidade:
+            template_serie_temporal_modalidade = arq_template_serie_temporal_modalidade.read()
+            arq_template_serie_temporal_modalidade.close()
+                
+        with open(f'analise-temporal-outros.template.md', 'r', encoding='utf8') as arq_template_serie_temporal_outros:
+            template_serie_temporal_outros = arq_template_serie_temporal_outros.read()
+            arq_template_serie_temporal_outros.close()
+                
+        with open(f'analise-temporal.template.md', 'r', encoding='utf8') as arq_template_serie_temporal:
+            template_serie_temporal = arq_template_serie_temporal.read()
+
+        with open(f'{CAMINHO_CSV}/{self._ano}/serie_temporal/README.md', 'w', encoding='utf8') as f:
+            f.write(f'{template_serie_temporal}\n')
+
+            for it in processos:
+                for titulo, maeamento_funcao in it.items():
+                    funcao_mapeada = maeamento_funcao['func']
+                    nome_arquivo = maeamento_funcao['arq']
+                    mapa_titulo[nome_arquivo] = titulo
+                    
+                    caminho = f'./{nome_arquivo}.md'
+                    f.write(f'[{titulo}]({caminho})\n\n')
+
+                    if nome_arquivo.startswith('serie_por_modalidade_'):
+                        template = (f'{template_serie_temporal_modalidade.replace("$(nome_dimensao)", titulo)}')
+                    else:
+                        template = (f'{template_serie_temporal_outros.replace("$(nome_dimensao)", titulo)}')
+
+                    res = funcao_mapeada(df,
+                                        self._ano,
+                                        pasta_md,
+                                        pasta_dados,
+                                        nome_arquivo,
+                                        titulo,
+                                        template,
+                                        analise_md
+                                        )
+                    
+                    print(f'\t.{i}: {titulo}: {res}')
+                    i = i + 1
+                    if not res:
+                        return False
+
+        f.close()
+
+        return True
+
     def _analisar_campanhas(self):
         self._show_message('> arquivos individuais')
 
@@ -220,13 +311,11 @@ class AnaliseCsv:
         resultado = (
             self._realizar_analise_descritiva(df)
             and self._realizar_analise_pontos_notaveis(df)
+            and self._realizar_analise_temporal(df)
         )
 
 
         return resultado
-    
-    
-
 
     def _garantir_pastas(self):
         self._show_message('Verificando pastas')
@@ -262,8 +351,6 @@ class AnaliseCsv:
             and self._garantir_pastas()
             and self._analisar_campanhas()
         )
-            
-
 
 
 if __name__ == "__main__":
@@ -276,7 +363,7 @@ if __name__ == "__main__":
     parser.add_argument('-l', '--loglevel', choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL'], required=False)
     # Adiciona o argumento obrigatório -a/--ano
     parser.add_argument('-a', '--ano', type=int, required=True, help='Ano limite para consolidação')
-    
+
     args = parser.parse_args()
 
     log_level = logging.WARNING

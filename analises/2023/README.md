@@ -124,7 +124,7 @@ unidade federativa, gênero de pessoas autoras e até pessoas autoras.
 
 ## Análise Descritiva
 
-Para uma visão mais detalhada do conjunto de dados acesse
+Para uma visão mais descritiva do conjunto de dados acesse
 a [Análise Descritiva](./analise_descritiva/README.md), que indica como
 o conjunto de dados se comporta em relação às modalidades de financiamento e,
 adicionalmente, em relação a algumas dimensões de interesse: plataforma de financiamento,
@@ -141,6 +141,14 @@ ou menção a algum tema de interesse para a iniciativa profico-hq).
 
 > [!WARNING] 
 > Pendente
+
+Para uma visão anualizada do conjunto de dados acesse
+a [Análise: Série Anual](./serie_temporal/README.md), que apresenta ano a ano
+vários recortes das campanhas de financiamento coletivo em relação à modalidade
+e algumas dimensões de interesse: plataforma de financiamento,
+unidade federativa, gênero ou menção a algum tema de interesse para a
+iniciativa [profico-hq](https://github.com/silva-erick/profico-hq).
+
 
 # Conclusões
 

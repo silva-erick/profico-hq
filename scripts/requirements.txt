@@ -1,5 +1,6 @@
 argparse
 beautifulsoup4
+matplotlib
 nltk
 openpyxl
 pandas
