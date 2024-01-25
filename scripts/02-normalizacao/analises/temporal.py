@@ -61,11 +61,39 @@ def _gerar_serie_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, tit
 
     return True
 
-# formatar milhares
-def formatar_com_milhares(valor, pos):
-    #val = comum.formatar_com_milhares(str(valor))
-    #return val
+# formatar moeda
+def numero_moeda(valor, pos):
     return f'R$ {valor:,.0f}'.replace(',', '_').replace('.', ',').replace('_', '.')
+
+# formatar porcento
+def numero_porcento(valor, pos):
+    valor = valor * 100
+    return f'{valor:,.1f}%'.replace(',', '_').replace('.', ',').replace('_', '.')
+
+# formatar inteiro
+def numero_inteiro(valor, pos):
+    return comum.formatar_int(str(valor))
+
+def _gerar_grafico(df_resultado, col_dim, pasta_md, arquivo, tipo_grafico, titulo, eixo_x, eixo_y, funcao_formatacao):
+    plt.figure(figsize=(10, 6))
+    plt.plot(df_resultado['ano'], df_resultado[col_dim], marker='o', linestyle='-')
+
+    # Adicionar etiquetas em cada ponto de dado
+    for i, (ano, valor) in enumerate(zip(df_resultado['ano'], df_resultado[col_dim])):
+        plt.text(ano, valor, funcao_formatacao(valor, 0), ha='left', va='bottom')
+
+    plt.title(titulo)
+    plt.xlabel(eixo_x)
+    plt.ylabel(eixo_y)
+
+    # Usar números sem notação científica no eixo y
+    formatter = FuncFormatter(funcao_formatacao)
+    plt.gca().yaxis.set_major_formatter(formatter)
+
+    plt.grid(True)
+
+    # Salvar o gráfico como uma imagem (por exemplo, PNG)
+    plt.savefig(f'{pasta_md}/{arquivo}-{tipo_grafico}.png')
 
 
 # calcular a série anual de campanhas por uma modalidade
@@ -126,29 +154,13 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
         'media_sucesso': {'num_format': 'R$ #,##0.00'},
         })
 
-    plt.figure(figsize=(10, 6))
-    plt.plot(df_resultado['ano'], df_resultado['arrecadado_sucesso'], marker='o', linestyle='-')
 
-    # Adicionar etiquetas em cada ponto de dado
-    for i, (ano, valor) in enumerate(zip(df_resultado['ano'], df_resultado['arrecadado_sucesso'])):
-        plt.text(ano, valor, formatar_com_milhares(valor, 0), ha='left', va='bottom')
-
-    plt.title(f'Modalidade {nome_modalidade}: Arrecadação Anual')
-    plt.xlabel('Ano')
-    plt.ylabel('Arrecadação')
-
-    # Usar números sem notação científica no eixo y
-    formatter = FuncFormatter(formatar_com_milhares)
-    plt.gca().yaxis.set_major_formatter(formatter)
-
-    plt.grid(True)
-
-    # Salvar o gráfico como uma imagem (por exemplo, PNG)
-    plt.savefig(f'{pasta_md}/{arquivo}-arrecadado.png')
-
-    # Mostrar o gráfico (opcional)
-    #plt.show()
-
+    _gerar_grafico(df_resultado, 'total', pasta_md, arquivo, 'campanhas', f'Modalidade {nome_modalidade}: Total de Campanhas', 'Ano', 'Campanhas', numero_inteiro)
+    _gerar_grafico(df_resultado, 'total_sucesso', pasta_md, arquivo, 'bem-sucedidas', f'Modalidade {nome_modalidade}: Total de Campanhas bem Sucedidas', 'Ano', 'Campanhas', numero_inteiro)
+    _gerar_grafico(df_resultado, 'arrecadado_sucesso', pasta_md, arquivo, 'arrecadado', f'Modalidade {nome_modalidade}: Arrecadação Anual', 'Ano', 'Arrecadação', numero_moeda)
+    _gerar_grafico(df_resultado, 'taxa_sucesso', pasta_md, arquivo, 'taxa-sucesso', f'Modalidade {nome_modalidade}: Taxa de Sucesso', 'Ano', 'Taxa de Sucesso', numero_porcento)
+    _gerar_grafico(df_resultado, 'media_sucesso', pasta_md, arquivo, 'media-sucesso', f'Modalidade {nome_modalidade}: Média Arrecadada', 'Ano', 'Média', numero_moeda)
+    
     df_formatado = df_resultado.copy()
 
     for coluna in df_formatado.columns:
@@ -184,7 +196,24 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
         md_descritivo.write(f'Modalidade {nome_modalidade}: Arrecadação Anual')
         md_descritivo.write('\n')
         md_descritivo.write('\n')
+
+        md_descritivo.write(f'![Gráfico XY com o título "Modalidade {nome_modalidade}: Total de Campanhas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./{arquivo}-campanhas.png "Modalidade {nome_modalidade}: Total de Campanhas")')
+        md_descritivo.write('\n')
+        md_descritivo.write('\n')
+
+        md_descritivo.write(f'![Gráfico XY com o título "Modalidade {nome_modalidade}: Total de Campanhas bem Sucedidas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./{arquivo}-bem-sucedidas.png "Modalidade {nome_modalidade}: Total de Campanhas bem Sucedidas")')
+        md_descritivo.write('\n')
+        md_descritivo.write('\n')
+
         md_descritivo.write(f'![Gráfico XY com o título "Modalidade {nome_modalidade}: Arrecadação Anual". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./{arquivo}-arrecadado.png "Modalidade {nome_modalidade}: Arrecadação Anual")')
+        md_descritivo.write('\n')
+        md_descritivo.write('\n')
+
+        md_descritivo.write(f'![Gráfico XY com o título "Modalidade {nome_modalidade}: Taxa de Sucesso". O eixo X é uma escala de anos. O eixo Y é uma escala de porcento.](./{arquivo}-taxa-sucesso.png "Modalidade {nome_modalidade}: Taxa de Sucesso")')
+        md_descritivo.write('\n')
+        md_descritivo.write('\n')
+
+        md_descritivo.write(f'![Gráfico XY com o título "Modalidade {nome_modalidade}: Média Arrecadada". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./{arquivo}-media-sucesso.png "Modalidade {nome_modalidade}: Média Arrecadada")')
         md_descritivo.write('\n')
         md_descritivo.write('\n')
 
@@ -193,7 +222,6 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
     analise_md.append({arquivo: mk_table})
 
     return True
-
 
 # calcular a série anual de campanhas pela modalidade tudo ou nada
 def gerar_serie_por_modalidade_aon(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):

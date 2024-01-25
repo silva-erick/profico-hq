@@ -62,7 +62,7 @@ def formatar_float(valor):
 # Função para formatar os números
 def formatar_int(valor):
     if isinstance(valor, str):
-        valor_int = int(valor.replace('.00', ''))
+        valor_int = int(valor.replace('.00', '').replace('.0', ''))
     else:
         valor_int = int(valor)
     return f'{valor_int}'

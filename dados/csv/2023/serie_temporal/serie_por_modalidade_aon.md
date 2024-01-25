@@ -21,5 +21,13 @@ A tabela a seguir representa a série anual das campanhas na modalidade
 
 Modalidade Tudo ou Nada: Arrecadação Anual
 
+![Gráfico XY com o título "Modalidade Tudo ou Nada: Total de Campanhas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./serie_por_modalidade_aon-campanhas.png "Modalidade Tudo ou Nada: Total de Campanhas")
+
+![Gráfico XY com o título "Modalidade Tudo ou Nada: Total de Campanhas bem Sucedidas". O eixo X é uma escala de anos. O eixo Y é uma escala valores inteiros.](./serie_por_modalidade_aon-bem-sucedidas.png "Modalidade Tudo ou Nada: Total de Campanhas bem Sucedidas")
+
 ![Gráfico XY com o título "Modalidade Tudo ou Nada: Arrecadação Anual". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./serie_por_modalidade_aon-arrecadado.png "Modalidade Tudo ou Nada: Arrecadação Anual")
+
+![Gráfico XY com o título "Modalidade Tudo ou Nada: Taxa de Sucesso". O eixo X é uma escala de anos. O eixo Y é uma escala de porcento.](./serie_por_modalidade_aon-taxa-sucesso.png "Modalidade Tudo ou Nada: Taxa de Sucesso")
+
+![Gráfico XY com o título "Modalidade Tudo ou Nada: Média Arrecadada". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./serie_por_modalidade_aon-media-sucesso.png "Modalidade Tudo ou Nada: Média Arrecadada")
 
