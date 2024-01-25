@@ -181,7 +181,12 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
         md_descritivo.write(f'{mk_table}')
         md_descritivo.write('\n')
         md_descritivo.write('\n')
-        md_descritivo.write(f'[Alt text](./{arquivo}-arrecadado.png "Modalidade {nome_modalidade}: Arrecadação Anual")')
+        md_descritivo.write(f'Modalidade {nome_modalidade}: Arrecadação Anual')
+        md_descritivo.write('\n')
+        md_descritivo.write('\n')
+        md_descritivo.write(f'![Gráfico XY com o título "Modalidade {nome_modalidade}: Arrecadação Anual". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./{arquivo}-arrecadado.png "Modalidade {nome_modalidade}: Arrecadação Anual")')
+        md_descritivo.write('\n')
+        md_descritivo.write('\n')
 
         md_descritivo.close()
 

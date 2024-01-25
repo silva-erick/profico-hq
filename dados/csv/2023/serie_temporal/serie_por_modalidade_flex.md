@@ -14,4 +14,7 @@ A tabela a seguir representa a série anual das campanhas na modalidade
 |  2022  |     308 |             305 |           4.130.315,02 |           99,0 |        13.542,02 |
 |  2023  |     269 |             260 |           2.681.143,46 |           96,7 |        10.312,09 |
 
-! [Alt text](./serie_por_modalidade_flex-arrecadado.png "Modalidade Flex: Arrecadação Anual")
+Modalidade Flex: Arrecadação Anual
+
+![Gráfico XY com o título "Modalidade Flex: Arrecadação Anual". O eixo X é uma escala de anos. O eixo Y é uma escala valores monetários.](./serie_por_modalidade_flex-arrecadado.png "Modalidade Flex: Arrecadação Anual")
+
