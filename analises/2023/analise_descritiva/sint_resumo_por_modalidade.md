@@ -32,7 +32,7 @@ são apresentados para cada modalidade e compreendem uma visão alternativa
 
 ```mermaid
 mindmap
-  root(("3487 campanhas em Catarse e Apoia.se (2011-2023)"))
+  root(("3487 campanhas em Catarse e Apoia.se (2011-2023) "))
     camp_pontual("2803 campanhas pontuais")
       camp_pontual_tudo_ou_nada("1335 tudo ou nada")
         camp_pontual_tudo_ou_nada_taxa_sucesso["62,2% taxa de sucesso"]
