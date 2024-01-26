@@ -352,6 +352,8 @@ class AnaliseCsv:
             and self._analisar_campanhas()
         )
 
+        print(f'Encerramento: {datetime.now()}')
+
 
 if __name__ == "__main__":
 
