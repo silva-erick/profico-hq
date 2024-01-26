@@ -1,4 +1,4 @@
-﻿geral_modalidade;geral_uf_br;total;total_sucesso;particip;taxa_sucesso;valor_sucesso;media_sucesso;std_sucesso;min_sucesso;max_sucesso
+﻿geral_modalidade;geral_uf_br;total;total_sucesso;particip;taxa_sucesso;arrecadado_sucesso;media_sucesso;std_sucesso;min_sucesso;max_sucesso
 aon;AC;1;0,0;0,000749063670411985;0,0;0,0;0,0;0,0;0,0;0,0
 aon;AL;7;5,0;0,0052434456928838954;0,7142857142857143;55859,2613776098;11171,85227552196;3760,9161471023394;6855,800343179311;15562,692552702536
 aon;AM;14;4,0;0,010486891385767791;0,2857142857142857;34236,008448110726;8559,002112027682;4714,557407418181;3774,4218846939934;12904,8841260866

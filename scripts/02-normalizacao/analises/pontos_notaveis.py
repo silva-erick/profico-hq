@@ -25,7 +25,7 @@ def _obter_markdown(serie, dimensao_analisada, nome_coluna, coluna_valor, nome_c
         else:
             alinhamento_md.append('left')
 
-    mk_table = comum.formatar_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
+    mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
 
     return mk_table
 
@@ -70,9 +70,9 @@ def gerar_ranking_por_ufbr(df, ano, pasta_md, pasta_dados, arquivo, titulo,  tem
     top_taxa_sucesso_sub = df_sub.groupby(col_dim)['taxa_sucesso'].mean().nlargest(5)
 
     # Top 5 das UF com maior arrecadação para cada geral_modalidade
-    top_arrecadacao_aon = df_aon.groupby(col_dim)['valor_sucesso'].sum().nlargest(5)
-    top_arrecadacao_flex = df_flex.groupby(col_dim)['valor_sucesso'].sum().nlargest(5)
-    top_arrecadacao_sub = df_sub.groupby(col_dim)['valor_sucesso'].sum().nlargest(5)
+    top_arrecadacao_aon = df_aon.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(5)
+    top_arrecadacao_flex = df_flex.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(5)
+    top_arrecadacao_sub = df_sub.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(5)
 
     with open(f'{pasta_md}/{arquivo}.md', 'w', encoding='utf8') as md_descritivo:
         md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo)}')
@@ -99,13 +99,13 @@ def gerar_ranking_por_ufbr(df, ano, pasta_md, pasta_dados, arquivo, titulo,  tem
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')
 
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_flex, titulo, top_arrecadacao_flex, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_flex, titulo, top_arrecadacao_flex, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso-recorrente.template.md', mod_sub, titulo, top_arrecadacao_sub, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso-recorrente.template.md', mod_sub, titulo, top_arrecadacao_sub, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')        
 
@@ -141,9 +141,9 @@ def gerar_ranking_por_genero(df, ano, pasta_md, pasta_dados, arquivo, titulo,  t
     top_taxa_sucesso_sub = df_sub.groupby(col_dim)['taxa_sucesso'].mean().nlargest(5)
 
     # Top 5 das UF com maior arrecadação para cada geral_modalidade
-    top_arrecadacao_aon = df_aon.groupby(col_dim)['valor_sucesso'].sum().nlargest(5)
-    top_arrecadacao_flex = df_flex.groupby(col_dim)['valor_sucesso'].sum().nlargest(5)
-    top_arrecadacao_sub = df_sub.groupby(col_dim)['valor_sucesso'].sum().nlargest(5)
+    top_arrecadacao_aon = df_aon.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(5)
+    top_arrecadacao_flex = df_flex.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(5)
+    top_arrecadacao_sub = df_sub.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(5)
 
     with open(f'{pasta_md}/{arquivo}.md', 'w', encoding='utf8') as md_descritivo:
         md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo)}')
@@ -170,13 +170,13 @@ def gerar_ranking_por_genero(df, ano, pasta_md, pasta_dados, arquivo, titulo,  t
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')
 
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_flex, titulo, top_arrecadacao_flex, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_flex, titulo, top_arrecadacao_flex, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso-recorrente.template.md', mod_sub, titulo, top_arrecadacao_sub, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso-recorrente.template.md', mod_sub, titulo, top_arrecadacao_sub, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '5')
         md_descritivo.write(f'{texto}')        
 
@@ -206,9 +206,9 @@ def gerar_ranking_por_autoria(df, ano, pasta_md, pasta_dados, arquivo, titulo,  
     top_campanhas_sub = df_sub.groupby(col_dim)['total'].mean().nlargest(20)
 
     # Top 5 das UF com maior arrecadação para cada geral_modalidade
-    top_arrecadacao_aon = df_aon.groupby(col_dim)['valor_sucesso'].sum().nlargest(20)
-    top_arrecadacao_flex = df_flex.groupby(col_dim)['valor_sucesso'].sum().nlargest(20)
-    top_arrecadacao_sub = df_sub.groupby(col_dim)['valor_sucesso'].sum().nlargest(20)
+    top_arrecadacao_aon = df_aon.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(20)
+    top_arrecadacao_flex = df_flex.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(20)
+    top_arrecadacao_sub = df_sub.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(20)
 
     with open(f'{pasta_md}/{arquivo}.md', 'w', encoding='utf8') as md_descritivo:
         md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo)}')
@@ -225,13 +225,13 @@ def gerar_ranking_por_autoria(df, ano, pasta_md, pasta_dados, arquivo, titulo,  
         texto = texto.replace('$(top)', '20')
         md_descritivo.write(f'{texto}')
 
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '20')
         md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_flex, titulo, top_arrecadacao_flex, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_flex, titulo, top_arrecadacao_flex, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '20')
         md_descritivo.write(f'{texto}')
-        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso-recorrente.template.md', mod_sub, titulo, top_arrecadacao_sub, col_dim, titulo_dim, 'valor_sucesso', 'Arrecadado')
+        texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso-recorrente.template.md', mod_sub, titulo, top_arrecadacao_sub, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
         texto = texto.replace('$(top)', '20')
         md_descritivo.write(f'{texto}')        
 

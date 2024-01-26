@@ -45,7 +45,7 @@ def _gerar_serie_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, tit
     df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(mapeamento)
     df_formatado.rename(columns={'geral_modalidade': 'modalidade'}, inplace=True)
 
-    mk_table = comum.formatar_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
+    mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
 
     with open(f'{pasta_md}/{arquivo}.md', 'w', encoding='utf8') as md_descritivo:
         md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo)}')
@@ -184,7 +184,7 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
         else:
             alinhamento_md.append('left')
 
-    mk_table = comum.formatar_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
+    mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
 
     with open(f'{pasta_md}/{arquivo}.md', 'w', encoding='utf8') as md_descritivo:
         md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo).replace("$(nome_modalidade)", nome_modalidade)}')

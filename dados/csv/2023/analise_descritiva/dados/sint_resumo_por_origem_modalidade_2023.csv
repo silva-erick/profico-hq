@@ -1,4 +1,4 @@
-﻿geral_modalidade;origem;total;total_sucesso;particip;taxa_sucesso;valor_sucesso;media_sucesso;std_sucesso;min_sucesso;max_sucesso
+﻿geral_modalidade;origem;total;total_sucesso;particip;taxa_sucesso;arrecadado_sucesso;media_sucesso;std_sucesso;min_sucesso;max_sucesso
 aon;catarse;1335;830,0;1,0;0,6217228464419475;24063279,827323027;28991,903406413287;44961,935369492014;41,81688448509265;679297,6600721752
 flex;apoia.se;5;0,0;0,0034059945504087193;0,0;0,0;0,0;0,0;0,0;0,0
 flex;catarse;1463;1383,0;0,9965940054495913;0,9453178400546821;18362131,937559098;13277,029600548878;33934,82811955066;10,771639144290464;708972,7845446636

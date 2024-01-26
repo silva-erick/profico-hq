@@ -92,7 +92,7 @@
             "cwd": "${workspaceFolder}/scripts/02-normalizacao",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args":["-v", "-a", "2016"]
+            "args":["-v", "-a", "2023"]
         },        
         {
             "name": "Python: csv_outros.py",

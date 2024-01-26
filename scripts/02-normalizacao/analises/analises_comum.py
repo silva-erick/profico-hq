@@ -14,7 +14,7 @@ padrão (inglês, en-US) e trabalhar na string gerada para garantir:
 também não foi aplicada formatação de números como porcento ou moeda. vamos trabalhar para
 isso acontecer.
 '''
-def formatar_com_milhares(string_com_numeros):
+def formatar_tabelamarkdown_com_milhares(string_com_numeros):
     # Aplicar a formatação com milhares para números com zero ou duas casas decimais
     string_com_numeros = re.sub(r'(\d)(?=(\d{3})+(\.\d{0,2})?\s)', r'\1,', string_com_numeros)
 
@@ -23,6 +23,18 @@ def formatar_com_milhares(string_com_numeros):
 
     string_com_numeros = re.sub(r'!(\d+)!', r' \1 ', string_com_numeros)
 
+
+    return string_com_numeros
+
+def formatar_com_milhares(string_com_numeros):
+    string_com_numeros = formatar_numero(string_com_numeros) + ' '
+    # Aplicar a formatação com milhares para números com zero ou duas casas decimais
+    string_com_numeros = re.sub(r'(\d)(?=(\d{3})+(\.\d{0,2})?\s)', r'\1,', string_com_numeros)
+
+    # Trocar ponto por vírgula e vírgula por ponto para números com zero ou duas casas decimais
+    string_com_numeros = re.sub(r'[\+\-]{0,1}(\d{1,3}((,\d{3})+)?(\.\d{0,2})?)', lambda x: x.group().replace('.', 'TEMPORARY_DOT').replace(',', '.').replace('TEMPORARY_DOT', ','), string_com_numeros)
+
+    string_com_numeros = string_com_numeros.replace(' ', '')
 
     return string_com_numeros
 
@@ -118,7 +130,7 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
         col_particip = f'particip'
 
         col_taxa_sucesso = f'taxa_sucesso'
-        col_valor_mod_sucesso = f'valor_sucesso'
+        col_valor_mod_sucesso = f'arrecadado_sucesso'
 
         col_media_sucesso = f'media_sucesso'
         col_std_sucesso = f'std_sucesso'
@@ -198,7 +210,7 @@ def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
         col_total_sucesso = f'total_sucesso'
 
         col_taxa_sucesso = f'taxa_sucesso'
-        col_valor_mod_sucesso = f'valor_sucesso'
+        col_valor_mod_sucesso = f'arrecadado_sucesso'
         col_media_sucesso = f'media_sucesso'
 
         campanhas_mod = df[
