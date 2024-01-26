@@ -36,7 +36,7 @@ são apresentados para cada modalidade e compreendem uma visão alternativa
 
 ```mermaid
 mindmap
-  root((2855 campanhas em Catarse e Apoia.se (2011-2023)))
+  root(("2855 campanhas em Catarse e Apoia.se (2011-2023)"))
     camp_pontual("2798 campanhas pontuais")
       camp_pontual_tudo_ou_nada("1335 tudo ou nada")
         camp_pontual_tudo_ou_nada_taxa_sucesso["62,2% taxa de sucesso"]
@@ -63,7 +63,7 @@ são apresentados para cada modalidade e compreendem uma visão alternativa
 
 ```mermaid
 mindmap
-  root((632 campanhas em Catarse e Apoia.se (2016-2023)))
+  root(("632 campanhas em Catarse e Apoia.se (2016-2023)"))
     camp_pontual("5 campanhas pontuais")
       camp_pontual_tudo_ou_nada("0 tudo ou nada")
         camp_pontual_tudo_ou_nada_taxa_sucesso["0,0% taxa de sucesso"]

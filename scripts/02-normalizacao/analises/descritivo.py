@@ -170,7 +170,7 @@ def _gerar_mermaid(df, df_resumo, origens):
 
     mermaid = mermaid + f'```mermaid\n'
     mermaid = mermaid + f'mindmap\n'
-    mermaid = mermaid + f'  root(({total_campanhas} campanhas em Catarse e Apoia.se ({menor_ano}-{maior_ano})))\n'
+    mermaid = mermaid + f'  root(("{total_campanhas} campanhas em Catarse e Apoia.se ({menor_ano}-{maior_ano})"))\n'
     mermaid = mermaid + f'    camp_pontual("{total_campanhas_pontuais} campanhas pontuais")\n'
     mermaid = mermaid + f'      camp_pontual_tudo_ou_nada("{total_campanhas_aon} tudo ou nada")\n'
     mermaid = mermaid + f'        camp_pontual_tudo_ou_nada_taxa_sucesso["{comum.formatar_percent(taxa_sucesso_aon).replace(".", ",")}% taxa de sucesso"]\n'
