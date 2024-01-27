@@ -278,7 +278,7 @@ class AnaliseCsv:
                     caminho = f'./{nome_arquivo}.md'
                     f.write(f'[{titulo}]({caminho})\n\n')
 
-                    if nome_arquivo == 'analise-temporal-sub.template.md':
+                    if nome_arquivo == 'serie_por_modalidade_sub':
                         template = (f'{template_serie_temporal_sub.replace("$(nome_dimensao)", titulo)}')
                     elif nome_arquivo.startswith('serie_por_modalidade_'):
                         template = (f'{template_serie_temporal_modalidade.replace("$(nome_dimensao)", titulo)}')
