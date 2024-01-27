@@ -251,6 +251,10 @@ class AnaliseCsv:
         if not os.path.exists(pasta_dados):
             os.mkdir(pasta_dados)
                 
+        with open(f'analise-temporal-sub.template.md', 'r', encoding='utf8') as arq_template_serie_temporal_sub:
+            template_serie_temporal_sub = arq_template_serie_temporal_sub.read()
+            arq_template_serie_temporal_sub.close()
+                
         with open(f'analise-temporal-modalidade.template.md', 'r', encoding='utf8') as arq_template_serie_temporal_modalidade:
             template_serie_temporal_modalidade = arq_template_serie_temporal_modalidade.read()
             arq_template_serie_temporal_modalidade.close()
@@ -274,7 +278,9 @@ class AnaliseCsv:
                     caminho = f'./{nome_arquivo}.md'
                     f.write(f'[{titulo}]({caminho})\n\n')
 
-                    if nome_arquivo.startswith('serie_por_modalidade_'):
+                    if nome_arquivo == 'analise-temporal-sub.template.md':
+                        template = (f'{template_serie_temporal_sub.replace("$(nome_dimensao)", titulo)}')
+                    elif nome_arquivo.startswith('serie_por_modalidade_'):
                         template = (f'{template_serie_temporal_modalidade.replace("$(nome_dimensao)", titulo)}')
                     else:
                         template = (f'{template_serie_temporal_outros.replace("$(nome_dimensao)", titulo)}')

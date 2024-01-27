@@ -1,7 +1,14 @@
 # Modalidade: Flex - Série Anual
 
 A tabela a seguir representa a série anual das campanhas na modalidade
-Flex.
+Flex. Colunas:
+- ano: ano de início da campanha;
+- total: total de campanhas;
+- total_sucesso: total de campanhas bem sucedidas;
+- arrecadado_sucesso: valor total arrecadado pelas campanhas bem sucedidas;
+- taxa_sucesso: relação entre o total de campanhas bem sucedidas e o total de campanhas;
+- media_sucesso: valor arrecadado médio pelas campanhas bem sucedidas.
+
 
 
 |    ano |   total |   total_sucesso |   arrecadado_sucesso |   taxa_sucesso |   media_sucesso |
