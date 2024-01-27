@@ -213,6 +213,7 @@ class AnaliseCsv:
         processos = [
             {'Modalidade: Tudo ou Nada': {'arq': 'serie_por_modalidade_aon', 'func': tempr.gerar_serie_por_modalidade_aon}},
             {'Modalidade: Flex': {'arq': 'serie_por_modalidade_flex', 'func': tempr.gerar_serie_por_modalidade_flex}},
+            {'Modalidade: Recorrente': {'arq': 'serie_por_modalidade_sub', 'func': tempr.gerar_serie_por_modalidade_sub}},
             #{'Plataforma': {'arq':'serie_por_origem_modalidade', 'func': tempr.gerar_serie_por_origem_modalidade}},
             #{'Unidade Federativa': {'arq': 'serie_por_ufbr', 'func': tempr.gerar_serie_por_ufbr}},
             #{'Gênero': {'arq': 'serie_por_genero', 'func': tempr.gerar_serie_por_genero}},

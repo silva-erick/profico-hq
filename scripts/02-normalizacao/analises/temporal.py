@@ -154,12 +154,19 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
         'media_sucesso': {'num_format': 'R$ #,##0.00'},
         })
 
+    if modalidade == 'sub':
+        _gerar_grafico(df_resultado, 'total', pasta_md, arquivo, 'campanhas', f'Modalidade {nome_modalidade}: Ano de Início da Campanha', 'Ano', 'Campanhas', numero_inteiro)
+        _gerar_grafico(df_resultado, 'total_sucesso', pasta_md, arquivo, 'bem-sucedidas', f'Modalidade {nome_modalidade}: Total de Campanhas bem Sucedidas/Ano de Início da Campanha', 'Ano', 'Campanhas', numero_inteiro)
+        _gerar_grafico(df_resultado, 'arrecadado_sucesso', pasta_md, arquivo, 'arrecadado', f'Modalidade {nome_modalidade}: Arrecadação Atual/Ano de Início da Campanha', 'Ano', 'Arrecadação', numero_moeda)
+        _gerar_grafico(df_resultado, 'taxa_sucesso', pasta_md, arquivo, 'taxa-sucesso', f'Modalidade {nome_modalidade}: Taxa de Sucesso Atual/Ano de Início da Campanha', 'Ano', 'Taxa de Sucesso', numero_porcento)
+        _gerar_grafico(df_resultado, 'media_sucesso', pasta_md, arquivo, 'media-sucesso', f'Modalidade {nome_modalidade}: Média Arrecadada Atual/Ano de Início da Campanha', 'Ano', 'Média', numero_moeda)
+    else:
+        _gerar_grafico(df_resultado, 'total', pasta_md, arquivo, 'campanhas', f'Modalidade {nome_modalidade}: Total de Campanhas', 'Ano', 'Campanhas', numero_inteiro)
+        _gerar_grafico(df_resultado, 'total_sucesso', pasta_md, arquivo, 'bem-sucedidas', f'Modalidade {nome_modalidade}: Total de Campanhas bem Sucedidas', 'Ano', 'Campanhas', numero_inteiro)
+        _gerar_grafico(df_resultado, 'arrecadado_sucesso', pasta_md, arquivo, 'arrecadado', f'Modalidade {nome_modalidade}: Arrecadação Anual', 'Ano', 'Arrecadação', numero_moeda)
+        _gerar_grafico(df_resultado, 'taxa_sucesso', pasta_md, arquivo, 'taxa-sucesso', f'Modalidade {nome_modalidade}: Taxa de Sucesso', 'Ano', 'Taxa de Sucesso', numero_porcento)
+        _gerar_grafico(df_resultado, 'media_sucesso', pasta_md, arquivo, 'media-sucesso', f'Modalidade {nome_modalidade}: Média Arrecadada', 'Ano', 'Média', numero_moeda)
 
-    _gerar_grafico(df_resultado, 'total', pasta_md, arquivo, 'campanhas', f'Modalidade {nome_modalidade}: Total de Campanhas', 'Ano', 'Campanhas', numero_inteiro)
-    _gerar_grafico(df_resultado, 'total_sucesso', pasta_md, arquivo, 'bem-sucedidas', f'Modalidade {nome_modalidade}: Total de Campanhas bem Sucedidas', 'Ano', 'Campanhas', numero_inteiro)
-    _gerar_grafico(df_resultado, 'arrecadado_sucesso', pasta_md, arquivo, 'arrecadado', f'Modalidade {nome_modalidade}: Arrecadação Anual', 'Ano', 'Arrecadação', numero_moeda)
-    _gerar_grafico(df_resultado, 'taxa_sucesso', pasta_md, arquivo, 'taxa-sucesso', f'Modalidade {nome_modalidade}: Taxa de Sucesso', 'Ano', 'Taxa de Sucesso', numero_porcento)
-    _gerar_grafico(df_resultado, 'media_sucesso', pasta_md, arquivo, 'media-sucesso', f'Modalidade {nome_modalidade}: Média Arrecadada', 'Ano', 'Média', numero_moeda)
     
     df_formatado = df_resultado.copy()
 
@@ -240,6 +247,10 @@ def gerar_serie_por_modalidade_aon(df, ano, pasta_md, pasta_dados, arquivo, titu
 # calcular a série anual de campanhas pela modalidade Flex
 def gerar_serie_por_modalidade_flex(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
     return _gerar_serie_por_modalidade(df, ano, 'flex', 'Flex', pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
+
+# calcular a série anual de campanhas pela modalidade Recorrente
+def gerar_serie_por_modalidade_sub(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
+    return _gerar_serie_por_modalidade(df, ano, 'sub', 'Recorrente', pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
 
 # gerar o resumo de campanhas por origem e modalidades
 def gerar_serie_por_origem_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):

@@ -14,3 +14,5 @@ de interesse à iniciativa [profico-hq](https://github.com/silva-erick/profico-h
 
 [Modalidade: Flex](./serie_por_modalidade_flex.md)
 
+[Modalidade: Recorrente](./serie_por_modalidade_sub.md)
+

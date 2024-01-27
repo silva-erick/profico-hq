@@ -6,43 +6,18 @@
 
 ## Introdução
 
-A proposta do Relatório Anual profico-hq é a organização do conhecimento
-obtido a partir dos dados produzidos pela iniciativa
-[profico-hq](https://github.com/silva-erick/profico-hq). O relatório de 2023
-analisa as campanhas desde 2011 até dezembro de 2023.
-
-> [!WARNING] 
-> Pendente.
+A proposta do Relatório Anual profico-hq é o levantamento, análise e interpretação
+de dados de campanhas de financiamento coletivo de quadrinhos. Este relatório,
+ano base 2023, analisa as campanhas desde 2011 até dezembro de 2023.
 
 ## Conceitos
 
 Muitos conceitos utilizados neste relatório para o tratamento, análise e interpretação
-de dados são apresentados na seção [Conceitos](./conceitos.md).
-
-<!--
-## Metodologia
-
-[Metodologia](./metodologia.md)
-
-> [!WARNING] 
-> Pendente.
--->
+de dados são apresentados na seção [Conceitos](./conceitos.md). Alguns dos conceitos
+abordados são _modalidade de financiamento coletivo_, _correção monetária_,
+_categorização de conteúdo_ e _gênero_.
 
 ## Análises 
-
-<!--
-### Infográficos
-
-Os infográficos dão uma visão geral sobre as campanhas realizadas nas plataformas
-[Catarse](https://www.catarse.me/) e [Apoia.se](https://apoia.se/), com dados
-sobre a quantidade de campanhas, o volume arrecadado ou a taxa de sucesso.
-
-[Visão Geral](./infograficos_visao_geral.md)
-
-[Catarse](./infograficos_visao_geral_catarse.md)
-
-[Apoia.se](./infograficos_visao_geral_apoiase.md)
--->
 
 ### Análise Descritiva
 
@@ -57,9 +32,10 @@ iniciativa [profico-hq](https://github.com/silva-erick/profico-hq).
 
 Em [Análise: Série Anual](./serie_temporal/README.md) o conjunto de dados
 é analisado numa perspectiva anual, oferecendo uma visão de movimento
-das campanhas dentro de cada modalidade. Esse movimento também é analisado
-a partir de dimensões de interesse: plataforma de financiamento,
-unidade federativa, gênero ou categoria de conteúdo.
+das campanhas dentro de cada modalidade, com tabelas e gráficos.
+Esse movimento também é analisado a partir de dimensões de interesse:
+plataforma de financiamento, unidade federativa, gênero ou categoria
+de conteúdo.
 
 ### Pontos notáveis
 
