@@ -175,9 +175,9 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
         df_resultado.at[index, col_total] = int(total_dim_mod)
         df_resultado.at[index, col_total_sucesso] = int(total_dim_mod_sucesso)
 
-        df_resultado.at[index, col_particip] = _dividir(total_dim_mod, total_mod)
+        df_resultado.at[index, col_particip] = 100 * _dividir(total_dim_mod, total_mod)
 
-        df_resultado.at[index, col_taxa_sucesso] = _dividir(total_dim_mod_sucesso, total_dim_mod)
+        df_resultado.at[index, col_taxa_sucesso] = 100 * _dividir(total_dim_mod_sucesso, total_dim_mod)
 
         df_resultado.at[index, col_valor_mod_sucesso] = valor_dim_mod_sucesso
         df_resultado.at[index, col_media_sucesso] = _dividir(valor_dim_mod_sucesso, total_dim_mod_sucesso)
@@ -188,6 +188,10 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
 
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)
+
+    # garantir colunas int64:
+    df_resultado[col_total] = df_resultado[col_total].round().astype('int64')
+    df_resultado[col_total_sucesso] = df_resultado[col_total_sucesso].round().astype('int64')
 
     return df_resultado
 

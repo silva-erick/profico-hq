@@ -1,6 +1,6 @@
 # Ranking: Autoria
 
-Ranking por _total_ (quantidade de campanhas realizadas), _valor_sucesso_
+Ranking por _total_ (quantidade de campanhas realizadas), _arrecadado_sucesso_
 (valor acumulado com campanhas bem sucedidas) e _taxa_sucesso_ (taxa de sucesso
 das campanhas).
 
@@ -9,57 +9,57 @@ As análises serão realizadas por Modalidade e Autoria.
 
 ## Total, Modalidade: Tudo ou Nada
 
-Top 20 _Autoria_, por _total_, em _Tudo ou Nada_.
+Top 5 _Autoria_, por _total_, em _Tudo ou Nada_.
 
-| Autoria                                    |   Total |
-|:-------------------------------------------|--------:|
-| figura editora                             |      23 |
-| editora draco                              |      19 |
-| felipe cagno                               |      19 |
-| rapha pinheiro                             |      13 |
-| caio oliveira                              |       9 |
-| editora quadriculando                      |       9 |
-| rafael koff                                |       9 |
-| dieferson trindade                         |       8 |
-| gustavo borges                             |       8 |
-| hiro kawahara                              |       7 |
-| pedro hutsch balboni                       |       7 |
-| andré carim de oliveira - múltiplo estúdio |       6 |
-| diego sanches                              |       6 |
-| fábio coala cavalcanti                     |       6 |
-| leonardo finocchi                          |       6 |
-| paulo kielwagen                            |       6 |
-| phellip willian gruber                     |       6 |
-| rafael marçal                              |       6 |
-| talles rodrigues                           |       6 |
-| yoshi itice                                |       6 |
+| geral_modalidade   | autoria_nome_publico                       |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:-------------------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| aon                | figura editora                             |      23 |              22 |       1,72 |          95,65 |           2.839.992,82 |       129.090,58 |      84.991,88 |      22.984,29 |     264.585,91 |
+| aon                | editora draco                              |      19 |              19 |       1,42 |         100,00 |            492.606,35 |        25.926,65 |      14.189,58 |       7.716,33 |      53.271,79 |
+| aon                | felipe cagno                               |      19 |              18 |       1,42 |          94,74 |            831.396,52 |        46.188,70 |      20.390,29 |      12.234,57 |      82.270,87 |
+| aon                | rapha pinheiro                             |      13 |              12 |       0,97 |          92,31 |            190.094,30 |        15.841,19 |      11.845,55 |       2.401,23 |      34.695,91 |
+| aon                | caio oliveira                              |       9 |               8 |       0,67 |          88,89 |            180.197,39 |        22.524,67 |       8.137,23 |      13.997,91 |      39.440,42 |
+| aon                | editora quadriculando                      |       9 |               5 |       0,67 |          55,56 |             28.465,71 |         5.693,14 |       6.086,61 |         54,54 |      12.814,96 |
+| aon                | rafael koff                                |       9 |               9 |       0,67 |         100,00 |            197.213,50 |        21.912,61 |      13.280,17 |       9.166,02 |      47.762,94 |
+| aon                | dieferson trindade                         |       8 |               7 |       0,60 |          87,50 |             40.755,22 |         5.822,17 |       3.439,07 |       1.682,05 |      10.155,00 |
+| aon                | gustavo borges                             |       8 |               8 |       0,60 |         100,00 |            451.934,82 |        56.491,85 |      17.452,79 |      27.288,62 |      85.108,68 |
+| aon                | hiro kawahara                              |       7 |               6 |       0,52 |          85,71 |            498.673,32 |        83.112,22 |      17.948,06 |      59.328,44 |     104.662,96 |
+| aon                | pedro hutsch balboni                       |       7 |               7 |       0,52 |         100,00 |             87.902,88 |        12.557,55 |       7.422,61 |       2.167,66 |      23.111,07 |
+| aon                | andré carim de oliveira - múltiplo estúdio |       6 |               0 |       0,45 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| aon                | diego sanches                              |       6 |               6 |       0,45 |         100,00 |            257.779,23 |        42.963,21 |      20.649,90 |      17.180,74 |      73.814,54 |
+| aon                | fábio coala cavalcanti                     |       6 |               6 |       0,45 |         100,00 |            372.969,57 |        62.161,60 |      17.689,93 |      29.354,59 |      81.237,55 |
+| aon                | leonardo finocchi                          |       6 |               6 |       0,45 |         100,00 |             68.408,70 |        11.401,45 |       4.165,65 |       3.458,60 |      14.803,56 |
+| aon                | paulo kielwagen                            |       6 |               6 |       0,45 |         100,00 |            133.813,76 |        22.302,29 |       6.118,38 |      15.202,56 |      30.882,97 |
+| aon                | phellip willian gruber                     |       6 |               5 |       0,45 |          83,33 |            208.376,81 |        41.675,36 |      22.358,08 |      16.051,85 |      69.353,20 |
+| aon                | rafael marçal                              |       6 |               5 |       0,45 |          83,33 |             75.121,06 |        15.024,21 |       5.673,30 |       8.500,73 |      22.579,43 |
+| aon                | talles rodrigues                           |       6 |               5 |       0,45 |          83,33 |            112.441,48 |        22.488,30 |       6.799,80 |      10.775,55 |      28.486,60 |
+| aon                | yoshi itice                                |       6 |               6 |       0,45 |         100,00 |            141.085,98 |        23.514,33 |       8.903,54 |      15.411,04 |      36.837,37 |
 
 ## Total, Modalidade: Flex
 
-Top 20 _Autoria_, por _total_, em _Flex_.
+Top 5 _Autoria_, por _total_, em _Flex_.
 
-| Autoria                |   Total |
-|:-----------------------|--------:|
-| skript editora         |     178 |
-| tai editora            |      36 |
-| indievisivel press     |      29 |
-| editora quadriculando  |      24 |
-| ub editora             |      21 |
-| red dragon             |      20 |
-| estúdio armon          |      16 |
-| graphite editora       |      16 |
-| risco editora          |      16 |
-| francisco ucha         |      15 |
-| jp da silva            |      13 |
-| sam ruben ati hart     |      12 |
-| editora 85             |      11 |
-| germana viana          |      11 |
-| editora saicã          |       9 |
-| flávio almeida         |       9 |
-| gabriel arrais         |       9 |
-| spitter dragon editora |       9 |
-| editora noir           |       8 |
-| mirage estúdio         |       7 |
+| geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| flex               | skript editora         |     178 |             178 |      12,13 |         100,00 |           2.458.348,22 |        13.810,95 |      20.728,01 |        293,39 |     157.001,80 |
+| flex               | tai editora            |      36 |              36 |       2,45 |         100,00 |            627.399,44 |        17.427,76 |      17.492,48 |       1.001,33 |      68.554,60 |
+| flex               | indievisivel press     |      29 |              29 |       1,98 |         100,00 |            753.248,41 |        25.974,08 |      34.170,03 |       2.573,70 |     169.836,91 |
+| flex               | editora quadriculando  |      24 |              24 |       1,63 |         100,00 |            142.660,19 |         5.944,17 |       4.758,73 |        210,35 |      16.381,03 |
+| flex               | ub editora             |      21 |              21 |       1,43 |         100,00 |            211.508,23 |        10.071,82 |       3.987,21 |       4.992,85 |      24.041,45 |
+| flex               | red dragon             |      20 |              20 |       1,36 |         100,00 |            192.506,34 |         9.625,32 |      13.378,69 |        199,53 |      42.352,39 |
+| flex               | estúdio armon          |      16 |              16 |       1,09 |         100,00 |             56.156,42 |         3.509,78 |       1.466,56 |       1.264,75 |       6.823,54 |
+| flex               | graphite editora       |      16 |              16 |       1,09 |         100,00 |            697.265,75 |        43.579,11 |      20.217,72 |       4.900,51 |      73.946,65 |
+| flex               | risco editora          |      16 |              16 |       1,09 |         100,00 |            268.088,71 |        16.755,54 |      14.636,58 |       1.315,59 |      46.407,93 |
+| flex               | francisco ucha         |      15 |              15 |       1,02 |         100,00 |            135.618,94 |         9.041,26 |       7.416,97 |       1.862,01 |      28.611,48 |
+| flex               | jp da silva            |      13 |              13 |       0,89 |         100,00 |              9.850,31 |          757,72 |        341,13 |        287,07 |       1.420,53 |
+| flex               | sam ruben ati hart     |      12 |              12 |       0,82 |         100,00 |             82.042,22 |         6.836,85 |       4.493,54 |        730,26 |      16.998,72 |
+| flex               | editora 85             |      11 |              11 |       0,75 |         100,00 |            640.993,99 |        58.272,18 |      28.422,41 |      13.480,30 |     103.442,87 |
+| flex               | germana viana          |      11 |              11 |       0,75 |         100,00 |            164.116,98 |        14.919,73 |       7.475,11 |       4.202,56 |      28.706,59 |
+| flex               | editora saicã          |       9 |               9 |       0,61 |         100,00 |            500.749,57 |        55.638,84 |      26.225,32 |      30.099,58 |     118.699,04 |
+| flex               | flávio almeida         |       9 |               9 |       0,61 |         100,00 |              3.014,33 |          334,93 |        299,12 |         40,22 |        773,03 |
+| flex               | gabriel arrais         |       9 |               9 |       0,61 |         100,00 |             90.334,84 |        10.037,20 |       4.467,00 |       4.958,58 |      15.680,07 |
+| flex               | spitter dragon editora |       9 |               9 |       0,61 |         100,00 |             23.477,21 |         2.608,58 |       1.406,77 |        790,53 |       5.184,74 |
+| flex               | editora noir           |       8 |               8 |       0,54 |         100,00 |            228.129,14 |        28.516,14 |      19.784,23 |      10.096,29 |      67.911,03 |
+| flex               | mirage estúdio         |       7 |               7 |       0,48 |         100,00 |             12.695,70 |         1.813,67 |        929,95 |        936,16 |       3.686,93 |
 
 ## Total, Modalidade: Recorrente
 
@@ -67,84 +67,154 @@ Top 20 _Autoria_, por _total_, em _Flex_.
 > Nesta modalidade de financiamento, os cálculos representam
 > uma fotografia das campanhas em dezembro/2023.
 
-Top 20 _Autoria_, por _total_, em _Recorrente_.
+Top 5 _Autoria_, por _total_, em _Recorrente_.
 
-| Autoria                             |   Total |
-|:------------------------------------|--------:|
-| canal marvei                        |       2 |
-| gil mendes                          |       2 |
-| jao de merda                        |       2 |
-| jarlan félix                        |       2 |
-| liverpool comics                    |       2 |
-| mercenários                         |       2 |
-| misterio                            |       2 |
-| talessak                            |       2 |
-| "sou da casa" - blog casadaptada    |       1 |
-| #alice                              |       1 |
-| 1 real a hora                       |       1 |
-| 99 balões                           |       1 |
-| @majoryyokomizo                     |       1 |
-| a caverna do shinzankuro            |       1 |
-| a educação move o mundo. apoie-nos! |       1 |
-| a jornada pelos muitos mundos       |       1 |
-| a lenda dos cinco mundos            |       1 |
-| a margem é o centro                 |       1 |
-| a menina e a criatura               |       1 |
-| a trash mess quer dominar o mundo   |       1 |
+| geral_modalidade   | autoria_nome_publico                |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:------------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| sub                | canal marvei                        |       2 |               0 |       0,29 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | gil mendes                          |       2 |               1 |       0,29 |          50,00 |               152,75 |          152,75 |          0,00 |        152,75 |        152,75 |
+| sub                | jao de merda                        |       2 |               0 |       0,29 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | jarlan félix                        |       2 |               0 |       0,29 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | liverpool comics                    |       2 |               0 |       0,29 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | mercenários                         |       2 |               0 |       0,29 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | misterio                            |       2 |               0 |       0,29 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | talessak                            |       2 |               0 |       0,29 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | "sou da casa" - blog casadaptada    |       1 |               1 |       0,15 |         100,00 |                77,77 |           77,77 |          0,00 |         77,77 |         77,77 |
+| sub                | #alice                              |       1 |               1 |       0,15 |         100,00 |                46,93 |           46,93 |          0,00 |         46,93 |         46,93 |
+| sub                | 1 real a hora                       |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | 99 balões                           |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | @majoryyokomizo                     |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | a caverna do shinzankuro            |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | a educação move o mundo. apoie-nos! |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | a jornada pelos muitos mundos       |       1 |               1 |       0,15 |         100,00 |               196,32 |          196,32 |          0,00 |        196,32 |        196,32 |
+| sub                | a lenda dos cinco mundos            |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | a margem é o centro                 |       1 |               1 |       0,15 |         100,00 |               386,05 |          386,05 |          0,00 |        386,05 |        386,05 |
+| sub                | a menina e a criatura               |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| sub                | a trash mess quer dominar o mundo   |       1 |               0 |       0,15 |           0,00 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+
+## Taxa de Sucesso, Modalidade: Tudo ou Nada
+
+Top 5 _Autoria_, por _taxa_sucesso_, em _Tudo ou Nada_.
+
+| geral_modalidade   | autoria_nome_publico             |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:---------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| aon                | (samba)                          |       1 |               1 |       0,07 |         100,00 |             33.779,54 |        33.779,54 |          0,00 |      33.779,54 |      33.779,54 |
+| aon                | 101 games brasil                 |       1 |               1 |       0,07 |         100,00 |             23.808,60 |        23.808,60 |          0,00 |      23.808,60 |      23.808,60 |
+| aon                | @flavio_frm                      |       1 |               1 |       0,07 |         100,00 |             63.636,98 |        63.636,98 |          0,00 |      63.636,98 |      63.636,98 |
+| aon                | @majoryyokomizo                  |       1 |               1 |       0,07 |         100,00 |              5.302,94 |         5.302,94 |          0,00 |       5.302,94 |       5.302,94 |
+| aon                | a maldição de boa fortuna        |       1 |               1 |       0,07 |         100,00 |             44.390,62 |        44.390,62 |          0,00 |      44.390,62 |      44.390,62 |
+| aon                | adriano de melo kitani           |       1 |               1 |       0,07 |         100,00 |             12.215,71 |        12.215,71 |          0,00 |      12.215,71 |      12.215,71 |
+| aon                | adriano ferrera                  |       1 |               1 |       0,07 |         100,00 |              4.992,17 |         4.992,17 |          0,00 |       4.992,17 |       4.992,17 |
+| aon                | alessandra lacerda               |       1 |               1 |       0,07 |         100,00 |              2.122,52 |         2.122,52 |          0,00 |       2.122,52 |       2.122,52 |
+| aon                | alessio esteves                  |       1 |               1 |       0,07 |         100,00 |             11.166,09 |        11.166,09 |          0,00 |      11.166,09 |      11.166,09 |
+| aon                | alex d'ates                      |       1 |               1 |       0,07 |         100,00 |             10.174,25 |        10.174,25 |          0,00 |      10.174,25 |      10.174,25 |
+| aon                | alexandre dal gallo              |       1 |               1 |       0,07 |         100,00 |              6.220,10 |         6.220,10 |          0,00 |       6.220,10 |       6.220,10 |
+| aon                | alexandre leoni                  |       1 |               1 |       0,07 |         100,00 |             38.756,00 |        38.756,00 |          0,00 |      38.756,00 |      38.756,00 |
+| aon                | alexandro lima                   |       1 |               1 |       0,07 |         100,00 |              8.290,26 |         8.290,26 |          0,00 |       8.290,26 |       8.290,26 |
+| aon                | alice monstrinho                 |       1 |               1 |       0,07 |         100,00 |             13.679,96 |        13.679,96 |          0,00 |      13.679,96 |      13.679,96 |
+| aon                | alice pereira                    |       1 |               1 |       0,07 |         100,00 |             10.588,86 |        10.588,86 |          0,00 |      10.588,86 |      10.588,86 |
+| aon                | aliens of camila                 |       1 |               1 |       0,07 |         100,00 |             10.439,84 |        10.439,84 |          0,00 |      10.439,84 |      10.439,84 |
+| aon                | allan macedo de novaes           |       1 |               1 |       0,07 |         100,00 |             12.228,18 |        12.228,18 |          0,00 |      12.228,18 |      12.228,18 |
+| aon                | amanda calmon martinelli         |       1 |               1 |       0,07 |         100,00 |             25.480,31 |        25.480,31 |          0,00 |      25.480,31 |      25.480,31 |
+| aon                | amanda martinelli e cainã fontes |       1 |               1 |       0,07 |         100,00 |             12.699,98 |        12.699,98 |          0,00 |      12.699,98 |      12.699,98 |
+| aon                | amanda ribeiro marques           |       1 |               1 |       0,07 |         100,00 |             12.496,76 |        12.496,76 |          0,00 |      12.496,76 |      12.496,76 |
+
+## Taxa de Sucesso, Modalidade: Flex
+
+Top 5 _Autoria_, por _taxa_sucesso_, em _Flex_.
+
+| geral_modalidade   | autoria_nome_publico                  |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:--------------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| flex               | 4nju                                  |       1 |               1 |       0,07 |         100,00 |              5.124,52 |         5.124,52 |          0,00 |       5.124,52 |       5.124,52 |
+| flex               | @larrysahart                          |       1 |               1 |       0,07 |         100,00 |              3.748,46 |         3.748,46 |          0,00 |       3.748,46 |       3.748,46 |
+| flex               | @majoryyokomizo                       |       2 |               2 |       0,14 |         100,00 |              9.893,76 |         4.946,88 |        227,96 |       4.785,68 |       5.108,07 |
+| flex               | ademar vieira                         |       3 |               3 |       0,20 |         100,00 |             44.215,16 |        14.738,39 |       5.859,26 |       8.271,17 |      19.693,13 |
+| flex               | adri a.                               |       3 |               3 |       0,20 |         100,00 |             42.087,49 |        14.029,16 |      10.797,45 |       6.665,74 |      26.424,08 |
+| flex               | adriano ferreira da silva             |       3 |               3 |       0,20 |         100,00 |             59.564,74 |        19.854,91 |       6.165,49 |      13.739,03 |      26.068,83 |
+| flex               | adriano ferrera                       |       4 |               4 |       0,27 |         100,00 |             13.385,54 |         3.346,38 |       1.698,61 |       1.446,37 |       5.511,43 |
+| flex               | adriano gon                           |       1 |               1 |       0,07 |         100,00 |               880,06 |          880,06 |          0,00 |        880,06 |        880,06 |
+| flex               | adriano loyola                        |       2 |               2 |       0,14 |         100,00 |             22.388,33 |        11.194,17 |       3.412,18 |       8.781,39 |      13.606,94 |
+| flex               | adriel e vinicius em mortos não falam |       1 |               1 |       0,07 |         100,00 |               254,24 |          254,24 |          0,00 |        254,24 |        254,24 |
+| flex               | aj alves                              |       1 |               1 |       0,07 |         100,00 |                11,93 |           11,93 |          0,00 |         11,93 |         11,93 |
+| flex               | alan alves de oliveira                |       1 |               1 |       0,07 |         100,00 |               131,70 |          131,70 |          0,00 |        131,70 |        131,70 |
+| flex               | alan marques                          |       1 |               1 |       0,07 |         100,00 |               729,77 |          729,77 |          0,00 |        729,77 |        729,77 |
+| flex               | aldefran melo da silva                |       1 |               1 |       0,07 |         100,00 |              1.678,28 |         1.678,28 |          0,00 |       1.678,28 |       1.678,28 |
+| flex               | aldo maes dos anjos                   |       2 |               2 |       0,14 |         100,00 |              4.097,60 |         2.048,80 |       1.159,57 |       1.228,86 |       2.868,74 |
+| flex               | alex d'ates                           |       1 |               1 |       0,07 |         100,00 |              1.503,10 |         1.503,10 |          0,00 |       1.503,10 |       1.503,10 |
+| flex               | alex genaro                           |       2 |               2 |       0,14 |         100,00 |             21.506,91 |        10.753,45 |       2.744,08 |       8.813,10 |      12.693,81 |
+| flex               | alex mir                              |       6 |               6 |       0,41 |         100,00 |             47.477,31 |         7.912,88 |       4.530,21 |       2.784,98 |      13.156,38 |
+| flex               | alexandre carvalho                    |       2 |               2 |       0,14 |         100,00 |              8.461,44 |         4.230,72 |       1.452,56 |       3.203,61 |       5.257,83 |
+| flex               | alexandre de nadal                    |       1 |               1 |       0,07 |         100,00 |              4.583,95 |         4.583,95 |          0,00 |       4.583,95 |       4.583,95 |
+
+## Taxa de Sucesso, Modalidade: Recorrente
+
+> [!WARNING] 
+> Nesta modalidade de financiamento, os cálculos representam
+> uma fotografia das campanhas em dezembro/2023.
+
+Top 5 _Autoria_, por _taxa_sucesso_, em _Recorrente_.
+
+| geral_modalidade   | autoria_nome_publico             |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:---------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| sub                | "sou da casa" - blog casadaptada |       1 |               1 |       0,15 |         100,00 |                77,77 |           77,77 |          0,00 |         77,77 |         77,77 |
+| sub                | #alice                           |       1 |               1 |       0,15 |         100,00 |                46,93 |           46,93 |          0,00 |         46,93 |         46,93 |
+| sub                | a jornada pelos muitos mundos    |       1 |               1 |       0,15 |         100,00 |               196,32 |          196,32 |          0,00 |        196,32 |        196,32 |
+| sub                | a margem é o centro              |       1 |               1 |       0,15 |         100,00 |               386,05 |          386,05 |          0,00 |        386,05 |        386,05 |
+| sub                | adao de lima jr artes            |       1 |               1 |       0,15 |         100,00 |                 6,10 |            6,10 |          0,00 |          6,10 |          6,10 |
+| sub                | ajudando o chunan!               |       1 |               1 |       0,15 |         100,00 |                37,28 |           37,28 |          0,00 |         37,28 |         37,28 |
+| sub                | ajude a saikai!!!                |       1 |               1 |       0,15 |         100,00 |               657,08 |          657,08 |          0,00 |        657,08 |        657,08 |
+| sub                | além dos quadrinhos              |       1 |               1 |       0,15 |         100,00 |                40,66 |           40,66 |          0,00 |         40,66 |         40,66 |
+| sub                | ana luiza koehler                |       1 |               1 |       0,15 |         100,00 |               476,39 |          476,39 |          0,00 |        476,39 |        476,39 |
+| sub                | anime center                     |       1 |               1 |       0,15 |         100,00 |               221,31 |          221,31 |          0,00 |        221,31 |        221,31 |
+| sub                | antonio alan mangaka             |       1 |               1 |       0,15 |         100,00 |               127,07 |          127,07 |          0,00 |        127,07 |        127,07 |
+| sub                | apenas um pedro                  |       1 |               1 |       0,15 |         100,00 |               156,52 |          156,52 |          0,00 |        156,52 |        156,52 |
+| sub                | apoie a arte da racka            |       1 |               1 |       0,15 |         100,00 |               129,73 |          129,73 |          0,00 |        129,73 |        129,73 |
+| sub                | apoie minha produção de conteúdo |       1 |               1 |       0,15 |         100,00 |                21,25 |           21,25 |          0,00 |         21,25 |         21,25 |
+| sub                | apoie o bacellar - cartunismo    |       1 |               1 |       0,15 |         100,00 |               128,51 |          128,51 |          0,00 |        128,51 |        128,51 |
+| sub                | apoie o calvet                   |       1 |               1 |       0,15 |         100,00 |                10,32 |           10,32 |          0,00 |         10,32 |         10,32 |
+| sub                | apoie the king in the sun        |       1 |               1 |       0,15 |         100,00 |               152,45 |          152,45 |          0,00 |        152,45 |        152,45 |
+| sub                | apoio na moralzinha              |       1 |               1 |       0,15 |         100,00 |                 6,33 |            6,33 |          0,00 |          6,33 |          6,33 |
+| sub                | armon em ação!                   |       1 |               1 |       0,15 |         100,00 |                90,20 |           90,20 |          0,00 |         90,20 |         90,20 |
+| sub                | arroi cum legumao                |       1 |               1 |       0,15 |         100,00 |               114,59 |          114,59 |          0,00 |        114,59 |        114,59 |
 
 ## Valor Acumulado das campanhas bem sucedidas, Modalidade: Tudo ou Nada
 
-Top 20 _Autoria_, por _valor_sucesso_, em _Tudo ou Nada_.
+Top 5 _Autoria_, por _arrecadado_sucesso_, em _Tudo ou Nada_.
 
-| Autoria                 |   Arrecadado |
-|:------------------------|-------------:|
-| figura editora          |   2.839.992,82 |
-| carlos ruas             |   1.294.072,39 |
-| felipe cagno            |    831.396,52 |
-| lark                    |    537.544,55 |
-| hiro kawahara           |    498.673,32 |
-| editora draco           |    492.606,35 |
-| gustavo borges          |    451.934,82 |
-| will leite              |    391.611,35 |
-| fábio coala cavalcanti  |    372.969,57 |
-| guilherme infante       |    343.806,89 |
-| helô d'angelo           |    300.471,62 |
-| téo & o mini mundo      |    271.641,20 |
-| bräo                    |    267.357,28 |
-| hugo canuto             |    260.725,35 |
-| diego sanches           |    257.779,23 |
-| cartunista das cavernas |    245.675,55 |
-| felipe folgosi          |    241.222,83 |
-| phellip willian gruber  |    208.376,81 |
-| rafael koff             |    197.213,50 |
-| rapha pinheiro          |    190.094,30 |
+| geral_modalidade   | autoria_nome_publico    |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| aon                | figura editora          |      23 |              22 |       1,72 |          95,65 |           2.839.992,82 |       129.090,58 |      84.991,88 |      22.984,29 |     264.585,91 |
+| aon                | carlos ruas             |       3 |               3 |       0,22 |         100,00 |           1.294.072,39 |       431.357,46 |     232.501,76 |     218.217,23 |     679.297,66 |
+| aon                | felipe cagno            |      19 |              18 |       1,42 |          94,74 |            831.396,52 |        46.188,70 |      20.390,29 |      12.234,57 |      82.270,87 |
+| aon                | lark                    |       1 |               1 |       0,07 |         100,00 |            537.544,55 |       537.544,55 |          0,00 |     537.544,55 |     537.544,55 |
+| aon                | hiro kawahara           |       7 |               6 |       0,52 |          85,71 |            498.673,32 |        83.112,22 |      17.948,06 |      59.328,44 |     104.662,96 |
+| aon                | editora draco           |      19 |              19 |       1,42 |         100,00 |            492.606,35 |        25.926,65 |      14.189,58 |       7.716,33 |      53.271,79 |
+| aon                | gustavo borges          |       8 |               8 |       0,60 |         100,00 |            451.934,82 |        56.491,85 |      17.452,79 |      27.288,62 |      85.108,68 |
+| aon                | will leite              |       4 |               4 |       0,30 |         100,00 |            391.611,35 |        97.902,84 |      39.110,18 |      52.769,15 |     148.192,26 |
+| aon                | fábio coala cavalcanti  |       6 |               6 |       0,45 |         100,00 |            372.969,57 |        62.161,60 |      17.689,93 |      29.354,59 |      81.237,55 |
+| aon                | guilherme infante       |       4 |               4 |       0,30 |         100,00 |            343.806,89 |        85.951,72 |      21.644,83 |      53.732,34 |      98.936,89 |
+| aon                | helô d'angelo           |       3 |               3 |       0,22 |         100,00 |            300.471,62 |       100.157,21 |      26.581,34 |      71.034,30 |     123.112,70 |
+| aon                | téo & o mini mundo      |       3 |               3 |       0,22 |         100,00 |            271.641,20 |        90.547,07 |      43.718,08 |      49.828,53 |     136.747,60 |
+| aon                | bräo                    |       5 |               5 |       0,37 |         100,00 |            267.357,28 |        53.471,46 |      12.882,78 |      35.877,86 |      70.978,22 |
+| aon                | hugo canuto             |       3 |               3 |       0,22 |         100,00 |            260.725,35 |        86.908,45 |      64.758,05 |      42.082,29 |     161.153,63 |
+| aon                | diego sanches           |       6 |               6 |       0,45 |         100,00 |            257.779,23 |        42.963,21 |      20.649,90 |      17.180,74 |      73.814,54 |
+| aon                | cartunista das cavernas |       5 |               5 |       0,37 |         100,00 |            245.675,55 |        49.135,11 |      11.430,06 |      32.389,14 |      58.977,56 |
+| aon                | felipe folgosi          |       3 |               3 |       0,22 |         100,00 |            241.222,83 |        80.407,61 |      14.064,35 |      69.031,35 |      96.132,74 |
+| aon                | phellip willian gruber  |       6 |               5 |       0,45 |          83,33 |            208.376,81 |        41.675,36 |      22.358,08 |      16.051,85 |      69.353,20 |
+| aon                | rafael koff             |       9 |               9 |       0,67 |         100,00 |            197.213,50 |        21.912,61 |      13.280,17 |       9.166,02 |      47.762,94 |
+| aon                | rapha pinheiro          |      13 |              12 |       0,97 |          92,31 |            190.094,30 |        15.841,19 |      11.845,55 |       2.401,23 |      34.695,91 |
 
 ## Valor Acumulado das campanhas bem sucedidas, Modalidade: Flex
 
-Top 20 _Autoria_, por _valor_sucesso_, em _Flex_.
+Top 5 _Autoria_, por _arrecadado_sucesso_, em _Flex_.
 
-| Autoria                     |   Arrecadado |
-|:----------------------------|-------------:|
-| skript editora              |   2.458.348,22 |
-| carlos ruas                 |   1.263.897,95 |
-| indievisivel press          |    753.248,41 |
-| todavia livros              |    708.972,78 |
-| graphite editora            |    697.265,75 |
-| editora 85                  |    640.993,99 |
-| tai editora                 |    627.399,44 |
-| chiaroscuro studios         |    529.072,36 |
-| editora saicã               |    500.749,57 |
-| editora seguinte            |    475.290,95 |
-| felipe folgosi              |    270.555,95 |
-| risco editora               |    268.088,71 |
-| editora tundra              |    234.413,20 |
-| hugo canuto                 |    229.071,97 |
-| editora noir                |    228.129,14 |
-| editora universo fantástico |    227.776,40 |
-| ub editora                  |    211.508,23 |
-| conrad editora              |    203.551,22 |
-| will leite                  |    196.897,75 |
-| red dragon                  |    192.506,34 |
+| geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| flex               | skript editora         |     178 |             178 |      12,13 |         100,00 |           2.458.348,22 |        13.810,95 |      20.728,01 |        293,39 |     157.001,80 |
+| flex               | carlos ruas            |       5 |               5 |       0,34 |         100,00 |           1.263.897,95 |       252.779,59 |     146.954,56 |     106.425,79 |     442.290,11 |
+| flex               | indievisivel press     |      29 |              29 |       1,98 |         100,00 |            753.248,41 |        25.974,08 |      34.170,03 |       2.573,70 |     169.836,91 |
+| flex               | todavia livros         |       1 |               1 |       0,07 |         100,00 |            708.972,78 |       708.972,78 |          0,00 |     708.972,78 |     708.972,78 |
+| flex               | graphite editora       |      16 |              16 |       1,09 |         100,00 |            697.265,75 |        43.579,11 |      20.217,72 |       4.900,51 |      73.946,65 |
 
 ## Valor Acumulado das campanhas bem sucedidas, Modalidade: Recorrente
 
@@ -152,28 +222,13 @@ Top 20 _Autoria_, por _valor_sucesso_, em _Flex_.
 > Nesta modalidade de financiamento, os cálculos representam
 > uma fotografia das campanhas em dezembro/2023.
 
-Top 20 _Autoria_, por _valor_sucesso_, em _Recorrente_.
+Top 5 _Autoria_, por _arrecadado_sucesso_, em _Recorrente_.
 
-| Autoria                                |   Arrecadado |
-|:---------------------------------------|-------------:|
-| projeto força.br                       |      5.087,08 |
-| clubinho dos caídos                    |      3.475,05 |
-| revoltirinhas                          |      3.384,29 |
-| matheus joy boy                        |      2.998,54 |
-| dona anésia & cia                      |      1.809,10 |
-| mina de hq                             |      1.753,37 |
-| mangateca dicria                       |      1.594,03 |
-| tralhas do jon                         |      1.135,98 |
-| desenhos do nando                      |       834,85 |
-| ajude a saikai!!!                      |       657,08 |
-| panelinha da batatinha                 |       651,16 |
-| ilha kaijuu                            |       613,03 |
-| sense life                             |       606,04 |
-| clube do pedro leite                   |       595,31 |
-| clube dos problemas & cia              |       575,83 |
-| gráfica neubert / editora kalima (off) |       538,44 |
-| clube do vida de suporte               |       538,07 |
-| central hqs                            |       486,18 |
-| editora kimera                         |       483,84 |
-| ana luiza koehler                      |       476,39 |
+| geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
+|:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
+| sub                | projeto força.br       |       1 |               1 |       0,15 |         100,00 |              5.087,08 |         5.087,08 |          0,00 |       5.087,08 |       5.087,08 |
+| sub                | clubinho dos caídos    |       1 |               1 |       0,15 |         100,00 |              3.475,05 |         3.475,05 |          0,00 |       3.475,05 |       3.475,05 |
+| sub                | revoltirinhas          |       1 |               1 |       0,15 |         100,00 |              3.384,29 |         3.384,29 |          0,00 |       3.384,29 |       3.384,29 |
+| sub                | matheus joy boy        |       1 |               1 |       0,15 |         100,00 |              2.998,54 |         2.998,54 |          0,00 |       2.998,54 |       2.998,54 |
+| sub                | dona anésia & cia      |       1 |               1 |       0,15 |         100,00 |              1.809,10 |         1.809,10 |          0,00 |       1.809,10 |       1.809,10 |
 

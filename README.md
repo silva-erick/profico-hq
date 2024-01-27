@@ -4,6 +4,9 @@ A iniciativa *profico-hq* reúne scripts, dados e análises sobre histórias em 
 que tiveram campanhas de arrecadação conduzidas em plataformas de financiamento coletivo
 no Brasil.
 
+>[!NOTE]
+>Chegou aqui para ver o relatório anual? Link direto: [Relatório Anual 2023](./analises/README.md).
+
 ## Por que esse nome?
 
 O termo profico-hq vem de:

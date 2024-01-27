@@ -18,11 +18,11 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 
 | modalidade   | origem   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
 |:-------------|:---------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
-| tudo ou nada | catarse  |    1.335 |             830 |      100,0 |           62,2 |          24.063.279,83 |        28.991,90 |      44.961,94 |         41,82 |     679.297,66 |
-| flex         | apoia.se |       5 |               0 |        0,3 |            0,0 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
-| flex         | catarse  |    1.463 |            1.383 |       99,7 |           94,5 |          18.362.131,94 |        13.277,03 |      33.934,83 |         10,77 |     708.972,78 |
-| recorrente   | apoia.se |     627 |             137 |       91,7 |           21,9 |             39.550,44 |          288,69 |        682,40 |          1,09 |       5.087,08 |
-| recorrente   | catarse  |      57 |              15 |        8,3 |           26,3 |              3.636,52 |          242,43 |        198,40 |         10,98 |        538,44 |
+| tudo ou nada | catarse  |    1.335 |             830 |    10.000,0 |         6.217,2 |          24.063.279,83 |        28.991,90 |      44.961,94 |         41,82 |     679.297,66 |
+| flex         | apoia.se |       5 |               0 |       34,1 |            0,0 |                 0,00 |            0,00 |          0,00 |          0,00 |          0,00 |
+| flex         | catarse  |    1.463 |            1.383 |     9.965,9 |         9.453,2 |          18.362.131,94 |        13.277,03 |      33.934,83 |         10,77 |     708.972,78 |
+| recorrente   | apoia.se |     627 |             137 |     9.166,7 |         2.185,0 |             39.550,44 |          288,69 |        682,40 |          1,09 |       5.087,08 |
+| recorrente   | catarse  |      57 |              15 |      833,3 |         2.631,6 |              3.636,52 |          242,43 |        198,40 |         10,98 |        538,44 |
 
 
 ## Infográfico - Visão Geral: Catarse
@@ -39,15 +39,15 @@ mindmap
   root(("2855 campanhas em Catarse e Apoia.se (2011-2023)"))
     camp_pontual("2798 campanhas pontuais")
         camp_pontual_tudo_ou_nada("1335 tudo ou nada")
-            camp_pontual_tudo_ou_nada_taxa_sucesso["62,2% taxa de sucesso"]
+            camp_pontual_tudo_ou_nada_taxa_sucesso["6217,2% taxa de sucesso"]
             camp_pontual_tudo_ou_nada_arr["R$ 24.063.279,83 total arrecadado"]
             camp_pontual_tudo_ou_nada_arr_med["R$ 28.991,90/campanha arrecadação média"]
         camp_pontual_flex("1463 flex")
-            camp_pontual_flex_taxa_sucesso["94,5% taxa de sucesso"]
+            camp_pontual_flex_taxa_sucesso["9453,2% taxa de sucesso"]
             camp_pontual_flex_arr_mensal["R$ 18.362.131,94 total arrecadado"]
             camp_pontual_flex_arr_med_mensal["R$ 13.277,03/campanha arrecadação média"]
     camp_recorrente("57 campanhas recorrentes")
-        camp_recorrente_taxa_sucesso["26,3% taxa de sucesso"]
+        camp_recorrente_taxa_sucesso["2631,6% taxa de sucesso"]
         camp_recorrente_arr_mensal["R$ 3.636,52 arrecadado mensal"]
         camp_recorrente_arr_med_mensal["R$ 242,43/campanha arrecadação média mensal"]
 ```
@@ -74,7 +74,7 @@ mindmap
             camp_pontual_flex_arr_mensal["R$ 0,00 total arrecadado"]
             camp_pontual_flex_arr_med_mensal["R$ 0,00/campanha arrecadação média"]
     camp_recorrente("627 campanhas recorrentes")
-        camp_recorrente_taxa_sucesso["21,9% taxa de sucesso"]
+        camp_recorrente_taxa_sucesso["2185,0% taxa de sucesso"]
         camp_recorrente_arr_mensal["R$ 39.550,44 arrecadado mensal"]
         camp_recorrente_arr_med_mensal["R$ 288,69/campanha arrecadação média mensal"]
 ```
