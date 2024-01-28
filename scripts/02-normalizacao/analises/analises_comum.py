@@ -286,8 +286,11 @@ def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
 
     return df_resultado
 
-def remover_colunas_apoio(lista_df, colunas_apoio):
-    for df in lista_df:
-        for col in colunas_apoio:
-            if col in df:
-                df.drop(columns=[col])
+def remover_colunas_apoio(dict_df, colunas_apoio):
+    res = {}
+    for mod in ['aon', 'flex', 'sub']:
+        if mod in dict_df:
+            df_temp = dict_df[mod].drop(columns=colunas_apoio)
+            res[mod] = df_temp
+
+    return res

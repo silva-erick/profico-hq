@@ -1,5 +1,20 @@
 import pandas as pd
 import analises.analises_comum as comum
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# formatar moeda
+def numero_moeda(valor, pos):
+    return f'R$ {valor:,.0f}'.replace(',', '_').replace('.', ',').replace('_', '.')
+
+# formatar porcento
+def numero_porcento(valor, pos):
+    valor = valor * 100
+    return f'{valor:,.1f}%'.replace(',', '_').replace('.', ',').replace('_', '.')
+
+# formatar inteiro
+def numero_inteiro(valor, pos):
+    return comum.formatar_int(str(valor))
 
 def _obter_markdown(df_resultado, dimensao_analisada, nome_coluna, coluna_valor, nome_coluna_valor):
 
@@ -28,39 +43,10 @@ def _obter_markdown(df_resultado, dimensao_analisada, nome_coluna, coluna_valor,
 
     return mk_table
 
-def _gerar_texto(ano, caminho_arquivo_template, modalidade, titulo, df, col_dim, titulo_dim, col_rank, titulo_rank):
-    with open(caminho_arquivo_template, 'r', encoding='utf8') as md_total:
-        template_total = md_total.read()
-
-    texto = template_total.replace('$(modalidade)', modalidade)
-    texto = texto.replace('$(nome_dimensao)', titulo)
-    texto = texto.replace('$(ano)', str(ano))
-    texto = texto.replace('$(col_dim)', col_dim)
-
-    resultado = f'{texto}\n'
-    mk_table = _obter_markdown(df, col_dim, titulo_dim, col_rank, titulo_rank)
-    resultado = f'{resultado}{mk_table}\n\n'
-    
-    return resultado
-
-def _converter_para_df(df, serie, col_dim, col_ranking, total):
-
-    res = []
-    for index, data in serie.items():
-        it = {}
-
-        for key, row in df[df[col_dim]==index].iterrows():
-            for c in df.columns:
-                it[c] = row[c]
-
-        res.append(it)
-
-    return pd.DataFrame(res)
-
-def _determinar_ranking_total(df, col_dim, ranking_total):
+def _determinar_ranking(df, col_ranking, ranking_total):
     # Crie uma cópia do DataFrame para evitar o aviso "SettingWithCopyWarning"
     df = df.copy()
-    df['pontuacao_composta'] = 1000*df['total'] + df['taxa_sucesso']
+    df['pontuacao_composta'] = 1000*df[col_ranking] + df['taxa_sucesso']
 
     # Obter os índices dos maiores valores na pontuação composta
     top_indices_total = df.nlargest(ranking_total, 'pontuacao_composta').index
@@ -68,129 +54,126 @@ def _determinar_ranking_total(df, col_dim, ranking_total):
     # Filtrar o DataFrame original com base nos índices obtidos
     top_campanhas = df.loc[top_indices_total]
 
-    #print(top_campanhas)
-
     return top_campanhas
 
-# gerar os rankings de campanhas por col_dim
-def gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, col_dim, titulo_dim, ranking_total, ranking_taxasucesso, ranking_valor, ranking_media, ranking_apoiomedio, ranking_contribuicoes):
+def _rankear_por_modalidade(df_aon, df_flex, df_sub, col_ranking, ranking_total):
+    res = {}
 
-    mod_aon = 'Tudo ou Nada'
-    mod_flex = 'Flex'
-    mod_sub = 'Recorrente'
+    res['aon']  = _determinar_ranking(df_aon , col_ranking, ranking_total)
+    res['flex'] = _determinar_ranking(df_flex, col_ranking, ranking_total)
+    res['sub']  = _determinar_ranking(df_sub , col_ranking, ranking_total)
+
+    res = comum.remover_colunas_apoio(res, [
+        'pontuacao_composta',
+    ])
+
+    return res
+
+
+def _gerar_grafico_barras(orientacao, df_resultado, col_categoria, col_valor, pasta_dados, arquivo, tipo_grafico, titulo, eixo_x, eixo_y, funcao_formatacao):
+    plt.figure(figsize=(10, 6))
+
+    # Criar uma figura com mais espaço para o eixo y
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    # Criar um gráfico de barras horizontais
+    bars = ax.barh(df_resultado[col_categoria], df_resultado[col_valor])
+
+    # if orientacao.lower() == 'h':
+    #     plt.barh(df_resultado[col_categoria], df_resultado[col_valor])
+    # else:
+    #     plt.bar(df_resultado[col_categoria], df_resultado[col_valor])
+
+    #Adicionar etiquetas em cada ponto de dado
+    for i, (categ, valor) in enumerate(zip(df_resultado[col_categoria], df_resultado[col_valor])):
+        plt.text(valor, i, funcao_formatacao(valor, 0), ha='left', va='bottom')
+
+    # # Adicionar etiquetas aos pontos de dados
+    # for bar in bars:
+    #     plt.text(bar.get_width(), bar.get_y() + bar.get_height()/2, 
+    #             str(int(bar.get_width())), ha='left', va='center')
+
+    plt.title(titulo)
+    plt.xlabel(eixo_y)
+    plt.ylabel('categoria')
+
+    # Usar números sem notação científica no eixo x
+    formatter = FuncFormatter(funcao_formatacao)
+    plt.gca().xaxis.set_major_formatter(formatter)
+
+    # Ajustar automaticamente o layout para evitar sobreposições
+    plt.tight_layout()
+
+    plt.grid(True)
+
+    # Salvar o gráfico como uma imagem (por exemplo, PNG)
+    plt.savefig(f'{pasta_dados}/{arquivo}-{tipo_grafico}.png')
+
+
+def _gerar_texto_por_modalidades(ano, modalidades, template_modalidade, titulo_modalidade, titulo, df_modalidades, col_dim, titulo_dim, col_rank, titulo_rank, val_rank, pasta_dados, arquivo, funcao_formatacao):
+
+    resultado = ''
+    for mod in modalidades:
+        with open(template_modalidade[mod], 'r', encoding='utf8') as md_total:
+            template_total = md_total.read()
+
+        texto = template_total.replace('$(modalidade)', titulo_modalidade[mod])
+        texto = texto.replace('$(nome_dimensao)', titulo)
+        texto = texto.replace('$(ano)', str(ano))
+        texto = texto.replace('$(col_dim)', col_dim)
+        texto = texto.replace('$(top)', f'{val_rank}')
+
+
+        _gerar_grafico_barras('H', df_modalidades[mod], col_dim, col_rank, pasta_dados, arquivo, f'{col_rank}-{mod}', f'{titulo} - {titulo_rank} - {titulo_modalidade[mod]}', col_dim, titulo_rank, funcao_formatacao)
+
+        mk_table = _obter_markdown(df_modalidades[mod], col_dim, titulo_dim, col_rank, titulo_rank)
+        resultado = f'{resultado}\n\n{texto}\n{mk_table}\n\n'
+    
+    return f'## {titulo_rank}\n\n{resultado}'
+
+
+# gerar os rankings de campanhas por col_dim
+def gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, col_dim, titulo_dim, ranking_total, ranking_taxasucesso, ranking_valor, ranking_media, ranking_apoiomedio, ranking_contribuicoes, ranking_contribuicoesmedias):
+
+    modalidades = ['aon', 'flex', 'sub']
+    titulos_modalidades = {}
+    titulos_modalidades['aon'] = 'Tudo ou Nada'
+    titulos_modalidades['flex'] = 'Flex'
+    titulos_modalidades['sub'] = 'Recorrente'
 
     df_resultado = comum._calcular_resumo_por_dim_modalidade(df, col_dim)
 
     # Filtrar o DataFrame para cada geral_modalidade
     df_aon = df_resultado[df_resultado['geral_modalidade'] == 'aon']
-    total_aon = df_aon['total'].sum()
-
     df_flex = df_resultado[df_resultado['geral_modalidade'] == 'flex']
-    total_flex = len(df_flex)
-
     df_sub = df_resultado[df_resultado['geral_modalidade'] == 'sub']
-    total_sub = len(df_sub)
 
     # Top 5 das UF com mais campanhas realizadas para cada geral_modalidade
     if ( ranking_total > 0):
-        top_campanhas_aon = _determinar_ranking_total(df_aon, col_dim, ranking_total)
-        top_campanhas_flex = df_flex.groupby(col_dim)['total'].mean().nlargest(ranking_total)
-        top_campanhas_flex = _determinar_ranking_total(df_flex, col_dim, ranking_total)
-        top_campanhas_sub = df_sub.groupby(col_dim)['total'].mean().nlargest(ranking_total)
-        top_campanhas_sub = _determinar_ranking_total(df_sub, col_dim, ranking_total)
-
-        comum.remover_colunas_apoio([
-            top_campanhas_aon,
-            top_campanhas_flex,
-            top_campanhas_sub,
-        ], [
-            'pontuacao_composta',
-        ])
+        top_campanhas = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'total', ranking_total)
 
     # Top 5 das UF com maiores taxas de sucesso para cada geral_modalidade
     if (ranking_contribuicoes > 0):
-        top_contribuicoes_aon = df_aon.groupby(col_dim)['contribuicoes'].mean().nlargest(ranking_contribuicoes)
-        top_contribuicoes_aon = _converter_para_df(df_aon, top_contribuicoes_aon, col_dim, 'total', total_aon)
-        top_contribuicoes_flex = df_flex.groupby(col_dim)['contribuicoes'].mean().nlargest(ranking_contribuicoes)
-        top_contribuicoes_flex = _converter_para_df(df_flex, top_contribuicoes_flex, col_dim, 'total', total_flex)
-        top_contribuicoes_sub = df_sub.groupby(col_dim)['contribuicoes'].mean().nlargest(ranking_contribuicoes)
-        top_contribuicoes_sub = _converter_para_df(df_sub, top_contribuicoes_sub, col_dim, 'total', total_sub)
-
-        comum.remover_colunas_apoio([
-            top_contribuicoes_aon,
-            top_contribuicoes_flex,
-            top_contribuicoes_sub,
-        ], [
-            'pontuacao_composta',
-        ])
+        top_contribuicoes = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'contribuicoes', ranking_total)
 
     # Top 5 das UF com maiores taxas de sucesso para cada geral_modalidade
     if (ranking_taxasucesso > 0):
-        top_taxa_sucesso_aon = df_aon.groupby(col_dim)['taxa_sucesso'].mean().nlargest(ranking_taxasucesso)
-        top_taxa_sucesso_aon = _converter_para_df(df_aon, top_taxa_sucesso_aon, col_dim, 'total', total_aon)
-        top_taxa_sucesso_flex = df_flex.groupby(col_dim)['taxa_sucesso'].mean().nlargest(ranking_taxasucesso)
-        top_taxa_sucesso_flex = _converter_para_df(df_flex, top_taxa_sucesso_flex, col_dim, 'total', total_flex)
-        top_taxa_sucesso_sub = df_sub.groupby(col_dim)['taxa_sucesso'].mean().nlargest(ranking_taxasucesso)
-        top_taxa_sucesso_sub = _converter_para_df(df_sub, top_taxa_sucesso_sub, col_dim, 'total', total_sub)
-
-        comum.remover_colunas_apoio([
-            top_taxa_sucesso_aon,
-            top_taxa_sucesso_flex,
-            top_taxa_sucesso_sub,
-        ], [
-            'pontuacao_composta',
-        ])
+        top_taxa_sucesso = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'taxa_sucesso', ranking_total)
 
     # Top 5 das UF com maior arrecadação para cada geral_modalidade
     if (ranking_valor > 0):
-        top_arrecadacao_aon = df_aon.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(ranking_valor)
-        top_arrecadacao_aon = _converter_para_df(df_aon, top_arrecadacao_aon, col_dim, 'total', total_aon)
-        top_arrecadacao_flex = df_flex.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(ranking_valor)
-        top_arrecadacao_flex = _converter_para_df(df_flex, top_arrecadacao_flex, col_dim, 'total', total_flex)
-        top_arrecadacao_sub = df_sub.groupby(col_dim)['arrecadado_sucesso'].sum().nlargest(ranking_valor)
-        top_arrecadacao_sub = _converter_para_df(df_sub, top_arrecadacao_sub, col_dim, 'total', total_sub)
-
-        comum.remover_colunas_apoio([
-            top_arrecadacao_aon,
-            top_arrecadacao_flex,
-            top_arrecadacao_sub,
-        ], [
-            'pontuacao_composta',
-        ])
+        top_arrecadacao = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'arrecadado_sucesso', ranking_total)
 
     # Top 5 das UF com maior arrecadação para cada geral_modalidade
     if (ranking_media > 0):
-        top_media_aon = df_aon.groupby(col_dim)['media_sucesso'].sum().nlargest(ranking_valor)
-        top_media_aon = _converter_para_df(df_aon, top_media_aon, col_dim, 'total', total_aon)
-        top_media_flex = df_flex.groupby(col_dim)['media_sucesso'].sum().nlargest(ranking_valor)
-        top_media_flex = _converter_para_df(df_flex, top_media_flex, col_dim, 'total', total_flex)
-        top_media_sub = df_sub.groupby(col_dim)['media_sucesso'].sum().nlargest(ranking_valor)
-        top_media_sub = _converter_para_df(df_sub, top_media_sub, col_dim, 'total', total_sub)
-
-        comum.remover_colunas_apoio([
-            top_media_aon,
-            top_media_flex,
-            top_media_sub,
-        ], [
-            'pontuacao_composta',
-        ])
+        top_media = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'media_sucesso', ranking_total)
 
     # Top 5 das UF com maior arrecadação para cada geral_modalidade
     if (ranking_apoiomedio > 0):
-        top_apoiomedio_aon = df_aon.groupby(col_dim)['apoio_medio'].sum().nlargest(ranking_valor)
-        top_apoiomedio_aon = _converter_para_df(df_aon, top_apoiomedio_aon, col_dim, 'total', total_aon)
-        top_apoiomedio_flex = df_flex.groupby(col_dim)['apoio_medio'].sum().nlargest(ranking_valor)
-        top_apoiomedio_flex = _converter_para_df(df_flex, top_apoiomedio_flex, col_dim, 'total', total_flex)
-        top_apoiomedio_sub = df_sub.groupby(col_dim)['apoio_medio'].sum().nlargest(ranking_valor)
-        top_apoiomedio_sub = _converter_para_df(df_sub, top_apoiomedio_sub, col_dim, 'total', total_sub)
+        top_apoiomedio = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'apoio_medio', ranking_total)
 
-        comum.remover_colunas_apoio([
-            top_apoiomedio_aon,
-            top_apoiomedio_flex,
-            top_apoiomedio_sub,
-        ], [
-            'pontuacao_composta',
-        ])
+    if (ranking_contribuicoesmedias > 0):
+        top_contribuicoesmedias = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'media_contribuicoes', ranking_total)
 
     with open(f'{pasta_md}/{arquivo}.md', 'w', encoding='utf8') as md_descritivo:
         md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo)}')
@@ -198,70 +181,60 @@ def gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, te
         md_descritivo.write('\n')
 
         if ( ranking_total > 0):
-            texto = _gerar_texto(ano, 'pontos-notaveis-total.template.md', mod_aon, titulo, top_campanhas_aon, col_dim, titulo_dim, 'total', 'Total')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-total.template.md', mod_flex, titulo, top_campanhas_flex, col_dim, titulo_dim, 'total', 'Total')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-total-recorrente.template.md', mod_sub, titulo, top_campanhas_sub, col_dim, titulo_dim, 'total', 'Total')
-            texto = texto.replace('$(top)', '5')
+            texto = _gerar_texto_por_modalidades(ano, modalidades, {
+                'aon': 'pontos-notaveis-total.template.md',
+                'flex': 'pontos-notaveis-total.template.md',
+                'sub': 'pontos-notaveis-total-recorrente.template.md',
+            }, titulos_modalidades, titulo, top_campanhas, col_dim, titulo_dim, 'total', 'Total de Campanhas', ranking_total, pasta_dados, arquivo, numero_inteiro)
             md_descritivo.write(f'{texto}')
 
         if ( ranking_contribuicoes > 0):
-            texto = _gerar_texto(ano, 'pontos-notaveis-totalcontribuicoes.template.md', mod_aon, titulo, top_contribuicoes_aon, col_dim, titulo_dim, 'contribuicoes', 'Contribuições')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-totalcontribuicoes.template.md', mod_flex, titulo, top_contribuicoes_flex, col_dim, titulo_dim, 'contribuicoes', 'Contribuições')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-totalcontribuicoes-recorrente.template.md', mod_sub, titulo, top_contribuicoes_sub, col_dim, titulo_dim, 'contribuicoes', 'Contribuições')
-            texto = texto.replace('$(top)', '5')
+            texto = _gerar_texto_por_modalidades(ano, modalidades, {
+                'aon': 'pontos-notaveis-totalcontribuicoes.template.md',
+                'flex': 'pontos-notaveis-totalcontribuicoes.template.md',
+                'sub': 'pontos-notaveis-totalcontribuicoes-recorrente.template.md',
+            }, titulos_modalidades, titulo, top_contribuicoes, col_dim, titulo_dim, 'contribuicoes', 'Total de Contribuições', ranking_contribuicoes, pasta_dados, arquivo, numero_inteiro)
             md_descritivo.write(f'{texto}')
 
         if (ranking_taxasucesso > 0):
-            texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso.template.md', mod_aon, titulo, top_taxa_sucesso_aon, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso.template.md', mod_flex, titulo, top_taxa_sucesso_flex, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-taxa-sucesso-recorrente.template.md', mod_sub, titulo, top_taxa_sucesso_sub, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso')
-            texto = texto.replace('$(top)', '5')
+            texto = _gerar_texto_por_modalidades(ano, modalidades, {
+                'aon': 'pontos-notaveis-taxa-sucesso.template.md',
+                'flex': 'pontos-notaveis-taxa-sucesso.template.md',
+                'sub': 'pontos-notaveis-taxa-sucesso-recorrente.template.md',
+            }, titulos_modalidades, titulo, top_taxa_sucesso, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso', ranking_taxasucesso, pasta_dados, arquivo, numero_porcento)
             md_descritivo.write(f'{texto}')
 
         if (ranking_valor > 0):
-            texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_aon, titulo, top_arrecadacao_aon, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
-            texto = texto.replace('$(top)', '5')
+            texto = _gerar_texto_por_modalidades(ano, modalidades, {
+                'aon': 'pontos-notaveis-valor-sucesso.template.md',
+                'flex': 'pontos-notaveis-valor-sucesso.template.md',
+                'sub': 'pontos-notaveis-valor-sucesso-recorrente.template.md',
+            }, titulos_modalidades, titulo, top_arrecadacao, col_dim, titulo_dim, 'arrecadado_sucesso', 'Valor Total Arrecadado', ranking_valor, pasta_dados, arquivo, numero_moeda)
             md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso.template.md', mod_flex, titulo, top_arrecadacao_flex, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-valor-sucesso-recorrente.template.md', mod_sub, titulo, top_arrecadacao_sub, col_dim, titulo_dim, 'arrecadado_sucesso', 'Arrecadado')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')        
 
         if (ranking_media > 0):
-            texto = _gerar_texto(ano, 'pontos-notaveis-media-sucesso.template.md', mod_aon, titulo, top_media_aon, col_dim, titulo_dim, 'media_sucesso', 'Arrecadação Média')
-            texto = texto.replace('$(top)', '5')
+            texto = _gerar_texto_por_modalidades(ano, modalidades, {
+                'aon': 'pontos-notaveis-media-sucesso.template.md',
+                'flex': 'pontos-notaveis-media-sucesso.template.md',
+                'sub': 'pontos-notaveis-media-sucesso-recorrente.template.md',
+            }, titulos_modalidades, titulo, top_media, col_dim, titulo_dim, 'media_sucesso', 'Valor Arrecadado Médio', ranking_media, pasta_dados, arquivo, numero_moeda)
             md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-media-sucesso.template.md', mod_flex, titulo, top_media_flex, col_dim, titulo_dim, 'media_sucesso', 'Arrecadação Média')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-media-sucesso-recorrente.template.md', mod_sub, titulo, top_media_sub, col_dim, titulo_dim, 'media_sucesso', 'Arrecadação Média')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')        
 
         if (ranking_apoiomedio > 0):
-            texto = _gerar_texto(ano, 'pontos-notaveis-mediaapoio-sucesso.template.md', mod_aon, titulo, top_apoiomedio_aon, col_dim, titulo_dim, 'apoio_medio', 'Apoio Médio')
-            texto = texto.replace('$(top)', '5')
+            texto = _gerar_texto_por_modalidades(ano, modalidades, {
+                'aon': 'pontos-notaveis-mediaapoio-sucesso.template.md',
+                'flex': 'pontos-notaveis-mediaapoio-sucesso.template.md',
+                'sub': 'pontos-notaveis-mediaapoio-sucesso-recorrente.template.md',
+            }, titulos_modalidades, titulo, top_apoiomedio, col_dim, titulo_dim, 'apoio_medio', 'Valor Apoiado Médio', ranking_apoiomedio, pasta_dados, arquivo, numero_moeda)
             md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-mediaapoio-sucesso.template.md', mod_flex, titulo, top_apoiomedio_flex, col_dim, titulo_dim, 'apoio_medio', 'Apoio Médio')
-            texto = texto.replace('$(top)', '5')
+
+        if (ranking_contribuicoesmedias > 0):
+            texto = _gerar_texto_por_modalidades(ano, modalidades, {
+                'aon': 'pontos-notaveis-mediacontribuicoes.template.md',
+                'flex': 'pontos-notaveis-mediacontribuicoes.template.md',
+                'sub': 'pontos-notaveis-mediacontribuicoes-recorrente.template.md',
+            }, titulos_modalidades, titulo, top_contribuicoesmedias, col_dim, titulo_dim, 'media_contribuicoes', 'Média de Contribuições', ranking_contribuicoesmedias, pasta_dados, arquivo, numero_inteiro)
             md_descritivo.write(f'{texto}')
-            texto = _gerar_texto(ano, 'pontos-notaveis-mediaapoio-sucesso-recorrente.template.md', mod_sub, titulo, top_apoiomedio_sub, col_dim, titulo_dim, 'apoio_medio', 'Apoio Médio')
-            texto = texto.replace('$(top)', '5')
-            md_descritivo.write(f'{texto}')        
 
         md_descritivo.close()
 
@@ -269,12 +242,12 @@ def gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, te
 
 # gerar os rankings de campanhas por uf_br
 def gerar_ranking_por_ufbr(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
-    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'geral_uf_br', 'UF', 5, 5, 5, 5, 5, 5)
+    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'geral_uf_br', 'UF', 5, 5, 5, 5, 5, 5, 5)
 
 # gerar os rankings de campanhas por gênero
 def gerar_ranking_por_genero(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
-    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_classificacao', 'Gênero', 5, 5, 5, 5, 5, 5)
+    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_classificacao', 'Gênero', 5, 5, 5, 5, 5, 5, 5)
 
 # gerar os rankings de campanhas por autoria
 def gerar_ranking_por_autoria(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
-    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_nome_publico', 'Autoria', 10, 0, 10, 10, 10, 10)
+    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_nome_publico', 'Autoria', 10, 0, 10, 10, 10, 10, 10)
