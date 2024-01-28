@@ -9,7 +9,7 @@ def numero_moeda(valor, pos):
 
 # formatar porcento
 def numero_porcento(valor, pos):
-    valor = valor * 100
+    valor = valor
     return f'{valor:,.1f}%'.replace(',', '_').replace('.', ',').replace('_', '.')
 
 # formatar inteiro
@@ -70,28 +70,22 @@ def _rankear_por_modalidade(df_aon, df_flex, df_sub, col_ranking, ranking_total)
     return res
 
 
-def _gerar_grafico_barras(orientacao, df_resultado, col_categoria, col_valor, pasta_dados, arquivo, tipo_grafico, titulo, eixo_x, eixo_y, funcao_formatacao):
-    plt.figure(figsize=(10, 6))
+def _gerar_grafico_barras_horizontais(df_resultado, col_categoria, col_valor, pasta_dados, arquivo, tipo_grafico, titulo, eixo_x, eixo_y, funcao_formatacao):
+    altura_grafico = 3
+    if (len(df_resultado)>5):
+        altura_grafico = 6
+
+    plt.figure(figsize=(10, altura_grafico))
 
     # Criar uma figura com mais espaço para o eixo y
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(8, altura_grafico))
 
     # Criar um gráfico de barras horizontais
     bars = ax.barh(df_resultado[col_categoria], df_resultado[col_valor])
 
-    # if orientacao.lower() == 'h':
-    #     plt.barh(df_resultado[col_categoria], df_resultado[col_valor])
-    # else:
-    #     plt.bar(df_resultado[col_categoria], df_resultado[col_valor])
-
     #Adicionar etiquetas em cada ponto de dado
     for i, (categ, valor) in enumerate(zip(df_resultado[col_categoria], df_resultado[col_valor])):
         plt.text(valor, i, funcao_formatacao(valor, 0), ha='left', va='bottom')
-
-    # # Adicionar etiquetas aos pontos de dados
-    # for bar in bars:
-    #     plt.text(bar.get_width(), bar.get_y() + bar.get_height()/2, 
-    #             str(int(bar.get_width())), ha='left', va='center')
 
     plt.title(titulo)
     plt.xlabel(eixo_y)
@@ -123,11 +117,10 @@ def _gerar_texto_por_modalidades(ano, modalidades, template_modalidade, titulo_m
         texto = texto.replace('$(col_dim)', col_dim)
         texto = texto.replace('$(top)', f'{val_rank}')
 
-
-        _gerar_grafico_barras('H', df_modalidades[mod], col_dim, col_rank, pasta_dados, arquivo, f'{col_rank}-{mod}', f'{titulo} - {titulo_rank} - {titulo_modalidade[mod]}', col_dim, titulo_rank, funcao_formatacao)
+        _gerar_grafico_barras_horizontais(df_modalidades[mod], col_dim, col_rank, pasta_dados, arquivo, f'{col_rank}-{mod}', f'{titulo} - {titulo_rank} - {titulo_modalidade[mod]}', col_dim, titulo_rank, funcao_formatacao)
 
         mk_table = _obter_markdown(df_modalidades[mod], col_dim, titulo_dim, col_rank, titulo_rank)
-        resultado = f'{resultado}\n\n{texto}\n{mk_table}\n\n'
+        resultado = f'{resultado}\n\n{texto}\n\n{mk_table}\n\n\n![Gráfico de barras horizontal com o título "{titulo} - {titulo_rank} - {titulo_modalidade[mod]}". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/{arquivo}-{col_rank}-{mod}.png "{titulo} - {titulo_rank} - {titulo_modalidade[mod]}")\n\n'
     
     return f'## {titulo_rank}\n\n{resultado}'
 

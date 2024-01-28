@@ -34,6 +34,7 @@ As análises serão realizadas por Modalidade e Autoria. Colunas:
 <!--Total de Campanhas-->
 Top 10 _Autoria_, por _total_, em _Tudo ou Nada_.
 
+
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
 | aon                | figura editora         |      23 |              22 |       1,72 |          95,65 |           2.839.992,82 |       129.090,58 |      84.991,88 |      22.984,29 |     264.585,91 |        150,61 |           18.857 |                857,14 |
@@ -48,11 +49,15 @@ Top 10 _Autoria_, por _total_, em _Tudo ou Nada_.
 | aon                | pedro hutsch balboni   |       7 |               7 |       0,52 |         100,00 |             87.902,88 |        12.557,55 |       7.422,61 |       2.167,66 |      23.111,07 |         88,43 |             994 |                142,00 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Total de Campanhas - Tudo ou Nada". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-total-aon.png "Autoria - Total de Campanhas - Tudo ou Nada")
+
+
 
 ### Modalidade: Flex
 
 <!--Total de Campanhas-->
 Top 10 _Autoria_, por _total_, em _Flex_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -68,6 +73,9 @@ Top 10 _Autoria_, por _total_, em _Flex_.
 | flex               | francisco ucha         |      15 |              15 |       1,02 |         100,00 |            135.618,94 |         9.041,26 |       7.416,97 |       1.862,01 |      28.611,48 |        100,09 |            1.355 |                 90,33 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Total de Campanhas - Flex". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-total-flex.png "Autoria - Total de Campanhas - Flex")
+
+
 
 ### Modalidade: Recorrente
 
@@ -77,6 +85,7 @@ Top 10 _Autoria_, por _total_, em _Flex_.
 > uma fotografia das campanhas em dezembro/2023.
 
 Top 10 _Autoria_, por _total_, em _Recorrente_.
+
 
 | geral_modalidade   | autoria_nome_publico             |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:---------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -91,6 +100,9 @@ Top 10 _Autoria_, por _total_, em _Recorrente_.
 | sub                | "sou da casa" - blog casadaptada |       1 |               1 |       0,15 |         100,00 |                77,77 |           77,77 |          0,00 |         77,77 |         77,77 |         38,89 |               2 |                  2,00 |
 | sub                | #alice                           |       1 |               1 |       0,15 |         100,00 |                46,93 |           46,93 |          0,00 |         46,93 |         46,93 |          9,39 |               5 |                  5,00 |
 
+
+![Gráfico de barras horizontal com o título "Autoria - Total de Campanhas - Recorrente". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-total-sub.png "Autoria - Total de Campanhas - Recorrente")
+
 ## Total de Contribuições
 
 
@@ -99,6 +111,7 @@ Top 10 _Autoria_, por _total_, em _Recorrente_.
 
 <!--Total de Contribuições-->
 Top 10 _Autoria_, por _contribuicoes_, em _Tudo ou Nada_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -114,11 +127,15 @@ Top 10 _Autoria_, por _contribuicoes_, em _Tudo ou Nada_.
 | aon                | helô d'angelo          |       3 |               3 |       0,22 |         100,00 |            300.471,62 |       100.157,21 |      26.581,34 |      71.034,30 |     123.112,70 |         77,88 |            3.858 |               1.286,00 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Total de Contribuições - Tudo ou Nada". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-contribuicoes-aon.png "Autoria - Total de Contribuições - Tudo ou Nada")
+
+
 
 ### Modalidade: Flex
 
 <!--Total de Contribuições-->
 Top 10 _Autoria_, por _contribuicoes_, em _Flex_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -134,6 +151,9 @@ Top 10 _Autoria_, por _contribuicoes_, em _Flex_.
 | flex               | ub editora             |      21 |              21 |       1,43 |         100,00 |            211.508,23 |        10.071,82 |       3.987,21 |       4.992,85 |      24.041,45 |         59,83 |            3.535 |                168,33 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Total de Contribuições - Flex". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-contribuicoes-flex.png "Autoria - Total de Contribuições - Flex")
+
+
 
 ### Modalidade: Recorrente
 
@@ -143,6 +163,7 @@ Top 10 _Autoria_, por _contribuicoes_, em _Flex_.
 > uma fotografia das campanhas em dezembro/2023.
 
 Top 10 _Autoria_, por _contribuicoes_, em _Recorrente_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -157,6 +178,9 @@ Top 10 _Autoria_, por _contribuicoes_, em _Recorrente_.
 | sub                | mangateca dicria       |       1 |               1 |       0,15 |         100,00 |              1.594,03 |         1.594,03 |          0,00 |       1.594,03 |       1.594,03 |         28,98 |              55 |                 55,00 |
 | sub                | panelinha da batatinha |       1 |               1 |       0,15 |         100,00 |               651,16 |          651,16 |          0,00 |        651,16 |        651,16 |         12,06 |              54 |                 54,00 |
 
+
+![Gráfico de barras horizontal com o título "Autoria - Total de Contribuições - Recorrente". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-contribuicoes-sub.png "Autoria - Total de Contribuições - Recorrente")
+
 ## Valor Total Arrecadado
 
 
@@ -165,6 +189,7 @@ Top 10 _Autoria_, por _contribuicoes_, em _Recorrente_.
 
 <!--Valor Total Arrecadado-->
 Top 10 _Autoria_, por _arrecadado_sucesso_, em _Tudo ou Nada_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -180,11 +205,15 @@ Top 10 _Autoria_, por _arrecadado_sucesso_, em _Tudo ou Nada_.
 | aon                | guilherme infante      |       4 |               4 |       0,30 |         100,00 |            343.806,89 |        85.951,72 |      21.644,83 |      53.732,34 |      98.936,89 |        117,18 |            2.934 |                733,50 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Valor Total Arrecadado - Tudo ou Nada". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-arrecadado_sucesso-aon.png "Autoria - Valor Total Arrecadado - Tudo ou Nada")
+
+
 
 ### Modalidade: Flex
 
 <!--Valor Total Arrecadado-->
 Top 10 _Autoria_, por _arrecadado_sucesso_, em _Flex_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -200,6 +229,9 @@ Top 10 _Autoria_, por _arrecadado_sucesso_, em _Flex_.
 | flex               | editora seguinte       |       1 |               1 |       0,07 |         100,00 |            475.290,95 |       475.290,95 |          0,00 |     475.290,95 |     475.290,95 |        103,68 |            4.584 |               4.584,00 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Valor Total Arrecadado - Flex". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-arrecadado_sucesso-flex.png "Autoria - Valor Total Arrecadado - Flex")
+
+
 
 ### Modalidade: Recorrente
 
@@ -209,6 +241,7 @@ Top 10 _Autoria_, por _arrecadado_sucesso_, em _Flex_.
 > uma fotografia das campanhas em dezembro/2023.
 
 Top 10 _Autoria_, por _arrecadado_sucesso_, em _Recorrente_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -223,6 +256,9 @@ Top 10 _Autoria_, por _arrecadado_sucesso_, em _Recorrente_.
 | sub                | desenhos do nando      |       1 |               1 |       0,15 |         100,00 |               834,85 |          834,85 |          0,00 |        834,85 |        834,85 |         18,15 |              46 |                 46,00 |
 | sub                | ajude a saikai!!!      |       1 |               1 |       0,15 |         100,00 |               657,08 |          657,08 |          0,00 |        657,08 |        657,08 |         31,29 |              21 |                 21,00 |
 
+
+![Gráfico de barras horizontal com o título "Autoria - Valor Total Arrecadado - Recorrente". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-arrecadado_sucesso-sub.png "Autoria - Valor Total Arrecadado - Recorrente")
+
 ## Valor Arrecadado Médio
 
 
@@ -231,6 +267,7 @@ Top 10 _Autoria_, por _arrecadado_sucesso_, em _Recorrente_.
 
 <!--Valor Médio Arrecadado-->
 Top 10 _Autoria_, por _media_sucesso_, em _Tudo ou Nada_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -246,11 +283,15 @@ Top 10 _Autoria_, por _media_sucesso_, em _Tudo ou Nada_.
 | aon                | téo & o mini mundo     |       3 |               3 |       0,22 |         100,00 |            271.641,20 |        90.547,07 |      43.718,08 |      49.828,53 |     136.747,60 |         79,10 |            3.434 |               1.144,67 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Valor Arrecadado Médio - Tudo ou Nada". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-media_sucesso-aon.png "Autoria - Valor Arrecadado Médio - Tudo ou Nada")
+
+
 
 ### Modalidade: Flex
 
 <!--Valor Médio Arrecadado-->
 Top 10 _Autoria_, por _media_sucesso_, em _Flex_.
+
 
 | geral_modalidade   | autoria_nome_publico      |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:--------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -266,6 +307,9 @@ Top 10 _Autoria_, por _media_sucesso_, em _Flex_.
 | flex               | pedro mauro               |       3 |               3 |       0,20 |         100,00 |            188.559,91 |        62.853,30 |      50.087,95 |      28.195,53 |     120.281,21 |        145,72 |            1.294 |                431,33 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Valor Arrecadado Médio - Flex". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-media_sucesso-flex.png "Autoria - Valor Arrecadado Médio - Flex")
+
+
 
 ### Modalidade: Recorrente
 
@@ -275,6 +319,7 @@ Top 10 _Autoria_, por _media_sucesso_, em _Flex_.
 > uma fotografia das campanhas em dezembro/2023.
 
 Top 10 _Autoria_, por _media_sucesso_, em _Recorrente_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -289,6 +334,9 @@ Top 10 _Autoria_, por _media_sucesso_, em _Recorrente_.
 | sub                | desenhos do nando      |       1 |               1 |       0,15 |         100,00 |               834,85 |          834,85 |          0,00 |        834,85 |        834,85 |         18,15 |              46 |                 46,00 |
 | sub                | ajude a saikai!!!      |       1 |               1 |       0,15 |         100,00 |               657,08 |          657,08 |          0,00 |        657,08 |        657,08 |         31,29 |              21 |                 21,00 |
 
+
+![Gráfico de barras horizontal com o título "Autoria - Valor Arrecadado Médio - Recorrente". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-media_sucesso-sub.png "Autoria - Valor Arrecadado Médio - Recorrente")
+
 ## Valor Apoiado Médio
 
 
@@ -297,6 +345,7 @@ Top 10 _Autoria_, por _media_sucesso_, em _Recorrente_.
 
 <!--Valor Médio Apoiado-->
 Top 10 _Autoria_, por _apoio_medio_, em _Tudo ou Nada_.
+
 
 | geral_modalidade   | autoria_nome_publico           |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -312,11 +361,15 @@ Top 10 _Autoria_, por _apoio_medio_, em _Tudo ou Nada_.
 | aon                | a maldição de boa fortuna      |       1 |               1 |       0,07 |         100,00 |             44.390,62 |        44.390,62 |          0,00 |      44.390,62 |      44.390,62 |        234,87 |             189 |                189,00 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Valor Apoiado Médio - Tudo ou Nada". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-apoio_medio-aon.png "Autoria - Valor Apoiado Médio - Tudo ou Nada")
+
+
 
 ### Modalidade: Flex
 
 <!--Valor Médio Apoiado-->
 Top 10 _Autoria_, por _apoio_medio_, em _Flex_.
+
 
 | geral_modalidade   | autoria_nome_publico                  |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:--------------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -332,6 +385,9 @@ Top 10 _Autoria_, por _apoio_medio_, em _Flex_.
 | flex               | reginaldo carlota                     |       6 |               6 |       0,41 |         100,00 |             80.267,84 |        13.377,97 |      11.032,05 |       4.574,39 |      29.751,69 |        174,50 |             460 |                 76,67 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Valor Apoiado Médio - Flex". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-apoio_medio-flex.png "Autoria - Valor Apoiado Médio - Flex")
+
+
 
 ### Modalidade: Recorrente
 
@@ -341,6 +397,7 @@ Top 10 _Autoria_, por _apoio_medio_, em _Flex_.
 > uma fotografia das campanhas em dezembro/2023.
 
 Top 10 _Autoria_, por _apoio_medio_, em _Recorrente_.
+
 
 | geral_modalidade   | autoria_nome_publico               |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -355,6 +412,9 @@ Top 10 _Autoria_, por _apoio_medio_, em _Recorrente_.
 | sub                | viver de quadrinhos!               |       1 |               1 |       0,15 |         100,00 |               146,19 |          146,19 |          0,00 |        146,19 |        146,19 |         48,73 |               3 |                  3,00 |
 | sub                | editora kimera                     |       1 |               1 |       0,15 |         100,00 |               483,84 |          483,84 |          0,00 |        483,84 |        483,84 |         48,38 |              10 |                 10,00 |
 
+
+![Gráfico de barras horizontal com o título "Autoria - Valor Apoiado Médio - Recorrente". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-apoio_medio-sub.png "Autoria - Valor Apoiado Médio - Recorrente")
+
 ## Média de Contribuições
 
 
@@ -363,6 +423,7 @@ Top 10 _Autoria_, por _apoio_medio_, em _Recorrente_.
 
 <!--Média de Contribuições-->
 Top 10 _Autoria_, por _media_contribuicoes_, em _Tudo ou Nada_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -378,11 +439,15 @@ Top 10 _Autoria_, por _media_contribuicoes_, em _Tudo ou Nada_.
 | aon                | juliana lossio         |       1 |               1 |       0,07 |         100,00 |             84.595,59 |        84.595,59 |          0,00 |      84.595,59 |      84.595,59 |         98,48 |             859 |                859,00 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Média de Contribuições - Tudo ou Nada". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-media_contribuicoes-aon.png "Autoria - Média de Contribuições - Tudo ou Nada")
+
+
 
 ### Modalidade: Flex
 
 <!--Média de Contribuições-->
 Top 10 _Autoria_, por _media_contribuicoes_, em _Flex_.
+
 
 | geral_modalidade   | autoria_nome_publico              |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:----------------------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -398,6 +463,9 @@ Top 10 _Autoria_, por _media_contribuicoes_, em _Flex_.
 | flex               | diversidade nerd | chris gonzatti |       1 |               1 |       0,07 |         100,00 |             50.461,78 |        50.461,78 |          0,00 |      50.461,78 |      50.461,78 |         91,75 |             550 |                550,00 |
 
 
+![Gráfico de barras horizontal com o título "Autoria - Média de Contribuições - Flex". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-media_contribuicoes-flex.png "Autoria - Média de Contribuições - Flex")
+
+
 
 ### Modalidade: Recorrente
 
@@ -407,6 +475,7 @@ Top 10 _Autoria_, por _media_contribuicoes_, em _Flex_.
 > uma fotografia das campanhas em dezembro/2023.
 
 Top 10 _Autoria_, por _media_contribuicoes_, em _Recorrente_.
+
 
 | geral_modalidade   | autoria_nome_publico   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
 |:-------------------|:-----------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
@@ -420,4 +489,7 @@ Top 10 _Autoria_, por _media_contribuicoes_, em _Recorrente_.
 | sub                | ilha kaijuu            |       1 |               1 |       0,15 |         100,00 |               613,03 |          613,03 |          0,00 |        613,03 |        613,03 |         10,75 |              57 |                 57,00 |
 | sub                | mangateca dicria       |       1 |               1 |       0,15 |         100,00 |              1.594,03 |         1.594,03 |          0,00 |       1.594,03 |       1.594,03 |         28,98 |              55 |                 55,00 |
 | sub                | panelinha da batatinha |       1 |               1 |       0,15 |         100,00 |               651,16 |          651,16 |          0,00 |        651,16 |        651,16 |         12,06 |              54 |                 54,00 |
+
+
+![Gráfico de barras horizontal com o título "Autoria - Média de Contribuições - Recorrente". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/notaveis_por_autoria-media_contribuicoes-sub.png "Autoria - Média de Contribuições - Recorrente")
 
