@@ -11,5 +11,8 @@ de estatística descritiva para cada modalidade de financiamento. Colunas:
 - media_sucesso: valor arrecadado médio pelas campanhas bem sucedidas;
 - std_sucesso: desvio padrão médio (ref: valor arrecadado) pelas campanhas bem sucedidas;
 - min_sucesso: menor valor arrecadado médio entre as campanhas bem sucedidas;
-- max_sucesso: maior valor arrecadado médio entre as campanhas bem sucedidas.
+- max_sucesso: maior valor arrecadado médio entre as campanhas bem sucedidas;
+- apoio_medio: apoio médio entre as campanhas bem sucedidas;
+- contribuicoes: total de contribuições entre as campanhas bem sucedidas;
+- media_contribuicoes: média de contribuições entre as campanhas bem sucedidas.
 

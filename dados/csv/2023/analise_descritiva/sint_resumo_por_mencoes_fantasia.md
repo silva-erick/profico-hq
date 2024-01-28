@@ -13,14 +13,17 @@ de estatística descritiva para cada modalidade de financiamento e dimensão em 
 - media_sucesso: valor arrecadado médio pelas campanhas bem sucedidas;
 - std_sucesso: desvio padrão médio (ref: valor arrecadado) pelas campanhas bem sucedidas;
 - min_sucesso: menor valor arrecadado médio entre as campanhas bem sucedidas;
-- max_sucesso: maior valor arrecadado médio entre as campanhas bem sucedidas.
+- max_sucesso: maior valor arrecadado médio entre as campanhas bem sucedidas;
+- apoio_medio: apoio médio entre as campanhas bem sucedidas;
+- contribuicoes: total de contribuições entre as campanhas bem sucedidas;
+- media_contribuicoes: média de contribuições entre as campanhas bem sucedidas.
 
 
-| modalidade   | mencoes_fantasia   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |
-|:-------------|:-------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|
-| tudo ou nada | False              |    1.056 |             650 |     7.910,1 |         6.155,3 |          19.246.444,23 |        29.609,91 |      48.242,72 |         41,82 |     679.297,66 |
-| tudo ou nada | True               |     279 |             180 |     2.089,9 |         6.451,6 |           4.816.835,60 |        26.760,20 |      30.295,09 |         94,90 |     264.585,91 |
-| flex         | False              |    1.142 |            1.065 |     7.779,3 |         9.325,7 |          12.621.534,92 |        11.851,21 |      29.509,21 |         10,77 |     475.290,95 |
-| flex         | True               |     326 |             318 |     2.220,7 |         9.754,6 |           5.740.597,02 |        18.052,19 |      45.474,47 |         43,14 |     708.972,78 |
-| recorrente   | False              |     643 |             136 |     9.400,6 |         2.115,1 |             41.223,62 |          303,11 |        684,06 |          1,09 |       5.087,08 |
-| recorrente   | True               |      41 |              16 |      599,4 |         3.902,4 |              1.963,34 |          122,71 |        134,98 |          5,28 |        538,44 |
+| modalidade   | mencoes_fantasia   |   total |   total_sucesso |   particip |   taxa_sucesso |   arrecadado_sucesso |   media_sucesso |   std_sucesso |   min_sucesso |   max_sucesso |   apoio_medio |   contribuicoes |   media_contribuicoes |
+|:-------------|:-------------------|--------:|----------------:|-----------:|---------------:|---------------------:|----------------:|--------------:|--------------:|--------------:|--------------:|----------------:|----------------------:|
+| tudo ou nada | False              |    1.056 |             650 |     7.910,1 |         6.155,3 |          19.246.444,23 |        29.609,91 |      48.242,72 |         41,82 |     679.297,66 |         91,85 |          209.535 |                322,36 |
+| tudo ou nada | True               |     279 |             180 |     2.089,9 |         6.451,6 |           4.816.835,60 |        26.760,20 |      30.295,09 |         94,90 |     264.585,91 |         89,17 |           54.018 |                300,10 |
+| flex         | False              |    1.142 |            1.065 |     7.779,3 |         9.325,7 |          12.621.534,92 |        11.851,21 |      29.509,21 |         10,77 |     475.290,95 |         89,37 |          141.221 |                132,60 |
+| flex         | True               |     326 |             318 |     2.220,7 |         9.754,6 |           5.740.597,02 |        18.052,19 |      45.474,47 |         43,14 |     708.972,78 |         91,96 |           62.425 |                196,31 |
+| recorrente   | False              |     643 |             136 |     9.400,6 |         2.115,1 |             41.223,62 |          303,11 |        684,06 |          1,09 |       5.087,08 |         19,36 |            2.129 |                 15,65 |
+| recorrente   | True               |      41 |              16 |      599,4 |         3.902,4 |              1.963,34 |          122,71 |        134,98 |          5,28 |        538,44 |         24,85 |              79 |                  4,94 |

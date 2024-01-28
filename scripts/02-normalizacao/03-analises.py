@@ -1,6 +1,8 @@
 import argparse
 import logging
 from datetime import datetime, timedelta
+import time
+
 import os
 
 import re
@@ -130,6 +132,7 @@ class AnaliseCsv:
                     else:
                         template = (f'{template_analise_descritiva_outros.replace("$(nome_dimensao)", titulo)}')
 
+                    tempo_ini = time.time()
                     res = funcao_mapeada(df,
                                         self._ano,
                                         pasta_md,
@@ -140,7 +143,9 @@ class AnaliseCsv:
                                         analise_md
                                         )
                     
-                    print(f'\t.{i}: {titulo}: {res}')
+                    tempo_fim = time.time()
+                    deltaT = tempo_fim - tempo_ini
+                    print(f'\t.{i}: {titulo}: {res} - deltaT: {deltaT:.3f}s')
                     i = i + 1
                     if not res:
                         return False
@@ -189,6 +194,7 @@ class AnaliseCsv:
 
                     template = (f'{template_pontos_notaveis_modalidade.replace("$(nome_dimensao)", titulo)}')
 
+                    tempo_ini = time.time()
                     res = funcao_mapeada(df,
                                         self._ano,
                                         pasta_md,
@@ -197,8 +203,10 @@ class AnaliseCsv:
                                         titulo,
                                         template
                                         )
-                                        
-                    print(f'\t.{i}: {titulo}: {res}')
+                    
+                    tempo_fim = time.time()
+                    deltaT = tempo_fim - tempo_ini
+                    print(f'\t.{i}: {titulo}: {res} - deltaT: {deltaT:.3f}s')
                     i = i + 1
                     if not res:
                         return False
@@ -285,6 +293,7 @@ class AnaliseCsv:
                     else:
                         template = (f'{template_serie_temporal_outros.replace("$(nome_dimensao)", titulo)}')
 
+                    tempo_ini = time.time()
                     res = funcao_mapeada(df,
                                         self._ano,
                                         pasta_md,
@@ -295,7 +304,9 @@ class AnaliseCsv:
                                         analise_md
                                         )
                     
-                    print(f'\t.{i}: {titulo}: {res}')
+                    tempo_fim = time.time()
+                    deltaT = tempo_fim - tempo_ini
+                    print(f'\t.{i}: {titulo}: {res} - deltaT: {deltaT:.3f}s')
                     i = i + 1
                     if not res:
                         return False
