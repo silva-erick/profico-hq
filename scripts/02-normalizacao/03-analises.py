@@ -13,6 +13,8 @@ import analises.descritivo as descr
 import analises.pontos_notaveis as notaveis
 import analises.temporal as tempr
 
+import analises.analises_comum as comum
+
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CSV = "../../dados/csv"
@@ -219,13 +221,8 @@ class AnaliseCsv:
                     if not res:
                         return False
 
-            titulos_modalidades = {}
-            titulos_modalidades['aon'] = 'Tudo ou Nada'
-            titulos_modalidades['flex'] = 'Flex'
-            titulos_modalidades['sub'] = 'Recorrente'
-            for mod in ['aon', 'flex', 'sub']:
-
-                f.write(f'## {titulos_modalidades[mod]}\n\n')
+            for mod in comum.MODALIDADES:
+                f.write(f'## {comum.TITULOS_MODALIDADES[mod]}\n\n')
                 for ag in arquivos_gerados:
                     if ag['mod'] == mod:
                         f.write(f'[{ag["titulo"]}](./{ag["arquivo"]})\n\n')

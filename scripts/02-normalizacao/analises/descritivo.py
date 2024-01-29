@@ -64,8 +64,7 @@ def _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, ti
         else:
             alinhamento_md.append('left')
 
-    mapeamento = {'aon': 'tudo ou nada', 'flex': 'flex', 'sub': 'recorrente'}
-    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(mapeamento)
+    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(comum.TITULOS_MODALIDADES_LOWER)
     df_formatado.rename(columns={'geral_modalidade': 'modalidade'}, inplace=True)
 
     mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
@@ -135,13 +134,13 @@ def _gerar_mermaid(df, df_resumo, origens):
 
     for index, row in df_resumo.iterrows():
         modalidade = row['geral_modalidade']
-        if modalidade == 'aon':
+        if modalidade == comum.CAMPANHA_AON:
             total_campanhas_aon = row['total']
             total_campanhas_pontuais = total_campanhas_pontuais + total_campanhas_aon
             taxa_sucesso_aon = row['taxa_sucesso']
             arrecadado_sucesso_aon = row[col_arrecadado_sucesso]
             media_sucesso_aon = row['media_sucesso']
-        elif modalidade == 'flex':
+        elif modalidade == comum.CAMPANHA_FLEX:
             total_campanhas_flex = row['total']
             total_campanhas_pontuais = total_campanhas_pontuais + total_campanhas_flex
             taxa_sucesso_flex = row['taxa_sucesso']
@@ -214,7 +213,7 @@ def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,
             ]
         valor_mod = campanhas_mod['geral_arrecadado_corrigido'].sum()
 
-        if modalidade == 'sub':
+        if modalidade == comum.CAMPANHA_SUB:
             # 'total_mod_mencao' na modalidade com referência à 'menção' com status diferente de falha
             campanhas_mod_sucesso = df[
                 (df['geral_modalidade'] == modalidade)
@@ -287,8 +286,7 @@ def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,
         else:
             alinhamento_md.append('left')
 
-    mapeamento = {'aon': 'tudo ou nada', 'flex': 'flex', 'sub': 'recorrente'}
-    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(mapeamento)
+    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(comum.TITULOS_MODALIDADES_LOWER)
     df_formatado.rename(columns={'geral_modalidade': 'modalidade'}, inplace=True)
 
     mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))

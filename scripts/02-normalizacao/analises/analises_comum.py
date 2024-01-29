@@ -1,6 +1,25 @@
 import pandas as pd
 import re
 
+CAMPANHA_AON    = 'aon'
+CAMPANHA_FLEX   = 'flex'
+CAMPANHA_SUB    = 'sub'
+
+MODALIDADES     = [CAMPANHA_AON, CAMPANHA_FLEX, CAMPANHA_SUB]
+
+TITULOS_MODALIDADES = {
+    CAMPANHA_AON    : 'Tudo ou Nada',
+    CAMPANHA_FLEX   : 'Flex',
+    CAMPANHA_SUB    : 'Recorrente',
+}
+
+TITULOS_MODALIDADES_LOWER = {
+    CAMPANHA_AON    : 'tudo ou nada',
+    CAMPANHA_FLEX   : 'flex',
+    CAMPANHA_SUB    : 'fecorrente',
+}
+
+
 '''
 a função de exportação para markdown, disponível no pandas, e que usa a biblioteca tabulate,
 não estava com bom comportamento para alinhamento de colunas ou formatação de números para
@@ -288,7 +307,7 @@ def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
 
 def remover_colunas_apoio(dict_df, colunas_apoio):
     res = {}
-    for mod in ['aon', 'flex', 'sub']:
+    for mod in [CAMPANHA_AON, CAMPANHA_FLEX, CAMPANHA_SUB]:
         if mod in dict_df:
             df_temp = dict_df[mod].drop(columns=colunas_apoio)
             res[mod] = df_temp

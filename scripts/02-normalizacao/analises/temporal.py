@@ -7,7 +7,7 @@ from matplotlib.ticker import FuncFormatter
 # gerar o resumo de campanhas por dim e modalidades
 def _gerar_serie_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col_dim, analise_md):
 
-    df_resultado = comum._calcular_serie_por_dim_modalidade(df, 'aon', col_dim)
+    df_resultado = comum._calcular_serie_por_dim_modalidade(df, comum.CAMPANHA_AON, col_dim)
 
     colunas = df_resultado.columns
 
@@ -41,8 +41,7 @@ def _gerar_serie_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, tit
         else:
             alinhamento_md.append('left')
 
-    mapeamento = {'aon': 'tudo ou nada', 'flex': 'flex', 'sub': 'recorrente'}
-    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(mapeamento)
+    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(comum.TITULOS_MODALIDADES_LOWER)
     df_formatado.rename(columns={'geral_modalidade': 'modalidade'}, inplace=True)
 
     mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
@@ -118,7 +117,7 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
 
         col_media_sucesso = f'media_sucesso'
 
-        if modalidade == 'sub':
+        if modalidade == comum.CAMPANHA_SUB:
             # 'total_mod_mencao' na modalidade com referência à 'menção' com status diferente de falha
             campanhas_mod_sucesso = df[
                 (df[col_modalidade] == modalidade)
@@ -154,7 +153,7 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
         'media_sucesso': {'num_format': 'R$ #,##0.00'},
         })
 
-    if modalidade == 'sub':
+    if modalidade == comum.CAMPANHA_SUB:
         _gerar_grafico(df_resultado, 'total', pasta_md, arquivo, 'campanhas', f'Modalidade {nome_modalidade}: Ano de Início da Campanha', 'Ano', 'Campanhas', numero_inteiro)
         _gerar_grafico(df_resultado, 'total_sucesso', pasta_md, arquivo, 'bem-sucedidas', f'Modalidade {nome_modalidade}: Total de Campanhas bem Sucedidas/Ano de Início da Campanha', 'Ano', 'Campanhas', numero_inteiro)
         _gerar_grafico(df_resultado, 'arrecadado_sucesso', pasta_md, arquivo, 'arrecadado', f'Modalidade {nome_modalidade}: Arrecadação Atual/Ano de Início da Campanha', 'Ano', 'Arrecadação', numero_moeda)
@@ -242,15 +241,15 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
 
 # calcular a série anual de campanhas pela modalidade tudo ou nada
 def gerar_serie_por_modalidade_aon(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    return _gerar_serie_por_modalidade(df, ano, 'aon', 'Tudo ou Nada', pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
+    return _gerar_serie_por_modalidade(df, ano, comum.CAMPANHA_AON, comum.TITULOS_MODALIDADES[comum.CAMPANHA_AON], pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
 
 # calcular a série anual de campanhas pela modalidade Flex
 def gerar_serie_por_modalidade_flex(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    return _gerar_serie_por_modalidade(df, ano, 'flex', 'Flex', pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
+    return _gerar_serie_por_modalidade(df, ano, comum.CAMPANHA_FLEX, comum.TITULOS_MODALIDADES[comum.CAMPANHA_FLEX], pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
 
 # calcular a série anual de campanhas pela modalidade Recorrente
 def gerar_serie_por_modalidade_sub(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    return _gerar_serie_por_modalidade(df, ano, 'sub', 'Recorrente', pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
+    return _gerar_serie_por_modalidade(df, ano, comum.CAMPANHA_SUB, comum.TITULOS_MODALIDADES[comum.CAMPANHA_SUB], pasta_md, pasta_dados, arquivo, titulo,  template, analise_md)
 
 # gerar o resumo de campanhas por origem e modalidades
 def gerar_serie_por_origem_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
