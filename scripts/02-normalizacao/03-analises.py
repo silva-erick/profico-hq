@@ -172,6 +172,9 @@ class AnaliseCsv:
         pasta_dados = f'{CAMINHO_CSV}/{self._ano}/pontos_notaveis/dados'
         if not os.path.exists(pasta_dados):
             os.mkdir(pasta_dados)
+        pasta_graficos = f'{CAMINHO_CSV}/{self._ano}/pontos_notaveis/graficos'
+        if not os.path.exists(pasta_graficos):
+            os.mkdir(pasta_graficos)
                 
         with open(f'pontos-notaveis-outros.template.md', 'r', encoding='utf8') as arq_template_pontos_notaveis_modalidade:
             template_pontos_notaveis_modalidade = arq_template_pontos_notaveis_modalidade.read()
@@ -183,6 +186,9 @@ class AnaliseCsv:
         with open(f'{CAMINHO_CSV}/{self._ano}/pontos_notaveis/README.md', 'w', encoding='utf8') as f:
             f.write(f'{template_pontos_notaveis}\n')
 
+
+            arquivos_gerados = []
+
             for it in processos:
                 for titulo, maeamento_funcao in it.items():
                     funcao_mapeada = maeamento_funcao['func']
@@ -190,12 +196,14 @@ class AnaliseCsv:
                     mapa_titulo[nome_arquivo] = titulo
                     
                     caminho = f'./{nome_arquivo}.md'
-                    f.write(f'[{titulo}]({caminho})\n\n')
+                    #f.write(f'[{titulo}]({caminho})\n\n')
 
                     template = (f'{template_pontos_notaveis_modalidade.replace("$(nome_dimensao)", titulo)}')
 
                     tempo_ini = time.time()
-                    res = funcao_mapeada(df,
+                    res = funcao_mapeada(
+                                        arquivos_gerados,
+                                        df,
                                         self._ano,
                                         pasta_md,
                                         pasta_dados,
@@ -210,6 +218,17 @@ class AnaliseCsv:
                     i = i + 1
                     if not res:
                         return False
+
+            titulos_modalidades = {}
+            titulos_modalidades['aon'] = 'Tudo ou Nada'
+            titulos_modalidades['flex'] = 'Flex'
+            titulos_modalidades['sub'] = 'Recorrente'
+            for mod in ['aon', 'flex', 'sub']:
+
+                f.write(f'## {titulos_modalidades[mod]}\n\n')
+                for ag in arquivos_gerados:
+                    if ag['mod'] == mod:
+                        f.write(f'[{ag["titulo"]}](./{ag["arquivo"]})\n\n')
 
         f.close()
 

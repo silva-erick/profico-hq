@@ -1,4 +1,4 @@
-### Modalidade: $(modalidade)
+<!-- ### Modalidade: $(modalidade) -->
 
 <!--Total de Campanhas-->
 > [!WARNING] 

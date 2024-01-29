@@ -100,6 +100,7 @@ def _gerar_grafico_barras_horizontais(df_resultado, col_categoria, col_valor, pa
 
     plt.grid(True)
 
+    
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
     plt.savefig(f'{pasta_dados}/{arquivo}-{tipo_grafico}.png')
 
@@ -117,16 +118,16 @@ def _gerar_texto_por_modalidades(ano, modalidades, template_modalidade, titulo_m
         texto = texto.replace('$(col_dim)', col_dim)
         texto = texto.replace('$(top)', f'{val_rank}')
 
-        _gerar_grafico_barras_horizontais(df_modalidades[mod], col_dim, col_rank, pasta_dados, arquivo, f'{col_rank}-{mod}', f'{titulo} - {titulo_rank} - {titulo_modalidade[mod]}', col_dim, titulo_rank, funcao_formatacao)
+        _gerar_grafico_barras_horizontais(df_modalidades[mod], col_dim, col_rank, f'{pasta_dados}/graficos', arquivo, f'{col_rank}-{mod}', f'{titulo} - {titulo_rank} - {titulo_modalidade[mod]}', col_dim, titulo_rank, funcao_formatacao)
 
         mk_table = _obter_markdown(df_modalidades[mod], col_dim, titulo_dim, col_rank, titulo_rank)
-        resultado = f'{resultado}\n\n{texto}\n\n{mk_table}\n\n\n![Gráfico de barras horizontal com o título "{titulo} - {titulo_rank} - {titulo_modalidade[mod]}". O eixo X é a dimensão analisada, o eixo Y as categorias](./dados/{arquivo}-{col_rank}-{mod}.png "{titulo} - {titulo_rank} - {titulo_modalidade[mod]}")\n\n'
+        resultado = f'{resultado}\n\n{texto}\n\n{mk_table}\n\n\n![Gráfico de barras horizontal com o título "{titulo} - {titulo_rank} - {titulo_modalidade[mod]}". O eixo X é a dimensão analisada, o eixo Y as categorias](./graficos/{arquivo}-{col_rank}-{mod}.png "{titulo} - {titulo_rank} - {titulo_modalidade[mod]}")\n\n'
     
     return f'## {titulo_rank}\n\n{resultado}'
 
 
 # gerar os rankings de campanhas por col_dim
-def gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, col_dim, titulo_dim, ranking_total, ranking_taxasucesso, ranking_valor, ranking_media, ranking_apoiomedio, ranking_contribuicoes, ranking_contribuicoesmedias):
+def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, arquivo, titulo, template, col_dim, titulo_dim, ranking_total, ranking_taxasucesso, ranking_valor, ranking_media, ranking_apoiomedio, ranking_contribuicoes, ranking_contribuicoesmedias):
 
     modalidades = ['aon', 'flex', 'sub']
     titulos_modalidades = {}
@@ -141,106 +142,106 @@ def gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, te
     df_flex = df_resultado[df_resultado['geral_modalidade'] == 'flex']
     df_sub = df_resultado[df_resultado['geral_modalidade'] == 'sub']
 
-    # Top 5 das UF com mais campanhas realizadas para cada geral_modalidade
     if ( ranking_total > 0):
         top_campanhas = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'total', ranking_total)
 
-    # Top 5 das UF com maiores taxas de sucesso para cada geral_modalidade
     if (ranking_contribuicoes > 0):
         top_contribuicoes = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'contribuicoes', ranking_total)
 
-    # Top 5 das UF com maiores taxas de sucesso para cada geral_modalidade
     if (ranking_taxasucesso > 0):
         top_taxa_sucesso = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'taxa_sucesso', ranking_total)
 
-    # Top 5 das UF com maior arrecadação para cada geral_modalidade
     if (ranking_valor > 0):
         top_arrecadacao = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'arrecadado_sucesso', ranking_total)
 
-    # Top 5 das UF com maior arrecadação para cada geral_modalidade
     if (ranking_media > 0):
         top_media = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'media_sucesso', ranking_total)
 
-    # Top 5 das UF com maior arrecadação para cada geral_modalidade
     if (ranking_apoiomedio > 0):
         top_apoiomedio = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'apoio_medio', ranking_total)
 
     if (ranking_contribuicoesmedias > 0):
         top_contribuicoesmedias = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'media_contribuicoes', ranking_total)
 
-    with open(f'{pasta_md}/{arquivo}.md', 'w', encoding='utf8') as md_descritivo:
-        md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo)}')
+    for mod in modalidades:
+        arquivos_gerados.append({
+            'mod': mod,
+            'arquivo':f'{arquivo}-{mod}.md',
+            'titulo': f'Rankings: {titulo}'
+        })
+        with open(f'{pasta_md}/{arquivo}-{mod}.md', 'w', encoding='utf8') as md_descritivo:
+            md_descritivo.write(f'{template.replace("$(nome_dimensao)", titulo).replace("$(modalidade)", titulos_modalidades[mod])}')
 
-        md_descritivo.write('\n')
+            md_descritivo.write('\n')
 
-        if ( ranking_total > 0):
-            texto = _gerar_texto_por_modalidades(ano, modalidades, {
-                'aon': 'pontos-notaveis-total.template.md',
-                'flex': 'pontos-notaveis-total.template.md',
-                'sub': 'pontos-notaveis-total-recorrente.template.md',
-            }, titulos_modalidades, titulo, top_campanhas, col_dim, titulo_dim, 'total', 'Total de Campanhas', ranking_total, pasta_dados, arquivo, numero_inteiro)
-            md_descritivo.write(f'{texto}')
+            if ( ranking_total > 0):
+                texto = _gerar_texto_por_modalidades(ano, [mod], {
+                    'aon': 'pontos-notaveis-total.template.md',
+                    'flex': 'pontos-notaveis-total.template.md',
+                    'sub': 'pontos-notaveis-total-recorrente.template.md',
+                }, {mod: titulos_modalidades[mod]}, titulo, top_campanhas, col_dim, titulo_dim, 'total', 'Total de Campanhas', ranking_total, pasta_md, arquivo, numero_inteiro)
+                md_descritivo.write(f'{texto}')
 
-        if ( ranking_contribuicoes > 0):
-            texto = _gerar_texto_por_modalidades(ano, modalidades, {
-                'aon': 'pontos-notaveis-totalcontribuicoes.template.md',
-                'flex': 'pontos-notaveis-totalcontribuicoes.template.md',
-                'sub': 'pontos-notaveis-totalcontribuicoes-recorrente.template.md',
-            }, titulos_modalidades, titulo, top_contribuicoes, col_dim, titulo_dim, 'contribuicoes', 'Total de Contribuições', ranking_contribuicoes, pasta_dados, arquivo, numero_inteiro)
-            md_descritivo.write(f'{texto}')
+            if ( ranking_contribuicoes > 0):
+                texto = _gerar_texto_por_modalidades(ano, [mod], {
+                    'aon': 'pontos-notaveis-totalcontribuicoes.template.md',
+                    'flex': 'pontos-notaveis-totalcontribuicoes.template.md',
+                    'sub': 'pontos-notaveis-totalcontribuicoes-recorrente.template.md',
+                }, {mod: titulos_modalidades[mod]}, titulo, top_contribuicoes, col_dim, titulo_dim, 'contribuicoes', 'Total de Contribuições', ranking_contribuicoes, pasta_md, arquivo, numero_inteiro)
+                md_descritivo.write(f'{texto}')
 
-        if (ranking_taxasucesso > 0):
-            texto = _gerar_texto_por_modalidades(ano, modalidades, {
-                'aon': 'pontos-notaveis-taxa-sucesso.template.md',
-                'flex': 'pontos-notaveis-taxa-sucesso.template.md',
-                'sub': 'pontos-notaveis-taxa-sucesso-recorrente.template.md',
-            }, titulos_modalidades, titulo, top_taxa_sucesso, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso', ranking_taxasucesso, pasta_dados, arquivo, numero_porcento)
-            md_descritivo.write(f'{texto}')
+            if (ranking_taxasucesso > 0):
+                texto = _gerar_texto_por_modalidades(ano, [mod], {
+                    'aon': 'pontos-notaveis-taxa-sucesso.template.md',
+                    'flex': 'pontos-notaveis-taxa-sucesso.template.md',
+                    'sub': 'pontos-notaveis-taxa-sucesso-recorrente.template.md',
+                }, {mod: titulos_modalidades[mod]}, titulo, top_taxa_sucesso, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso', ranking_taxasucesso, pasta_md, arquivo, numero_porcento)
+                md_descritivo.write(f'{texto}')
 
-        if (ranking_valor > 0):
-            texto = _gerar_texto_por_modalidades(ano, modalidades, {
-                'aon': 'pontos-notaveis-valor-sucesso.template.md',
-                'flex': 'pontos-notaveis-valor-sucesso.template.md',
-                'sub': 'pontos-notaveis-valor-sucesso-recorrente.template.md',
-            }, titulos_modalidades, titulo, top_arrecadacao, col_dim, titulo_dim, 'arrecadado_sucesso', 'Valor Total Arrecadado', ranking_valor, pasta_dados, arquivo, numero_moeda)
-            md_descritivo.write(f'{texto}')
+            if (ranking_valor > 0):
+                texto = _gerar_texto_por_modalidades(ano, [mod], {
+                    'aon': 'pontos-notaveis-valor-sucesso.template.md',
+                    'flex': 'pontos-notaveis-valor-sucesso.template.md',
+                    'sub': 'pontos-notaveis-valor-sucesso-recorrente.template.md',
+                }, {mod: titulos_modalidades[mod]}, titulo, top_arrecadacao, col_dim, titulo_dim, 'arrecadado_sucesso', 'Valor Total Arrecadado', ranking_valor, pasta_md, arquivo, numero_moeda)
+                md_descritivo.write(f'{texto}')
 
-        if (ranking_media > 0):
-            texto = _gerar_texto_por_modalidades(ano, modalidades, {
-                'aon': 'pontos-notaveis-media-sucesso.template.md',
-                'flex': 'pontos-notaveis-media-sucesso.template.md',
-                'sub': 'pontos-notaveis-media-sucesso-recorrente.template.md',
-            }, titulos_modalidades, titulo, top_media, col_dim, titulo_dim, 'media_sucesso', 'Valor Arrecadado Médio', ranking_media, pasta_dados, arquivo, numero_moeda)
-            md_descritivo.write(f'{texto}')
+            if (ranking_media > 0):
+                texto = _gerar_texto_por_modalidades(ano, [mod], {
+                    'aon': 'pontos-notaveis-media-sucesso.template.md',
+                    'flex': 'pontos-notaveis-media-sucesso.template.md',
+                    'sub': 'pontos-notaveis-media-sucesso-recorrente.template.md',
+                }, {mod: titulos_modalidades[mod]}, titulo, top_media, col_dim, titulo_dim, 'media_sucesso', 'Valor Arrecadado Médio', ranking_media, pasta_md, arquivo, numero_moeda)
+                md_descritivo.write(f'{texto}')
 
-        if (ranking_apoiomedio > 0):
-            texto = _gerar_texto_por_modalidades(ano, modalidades, {
-                'aon': 'pontos-notaveis-mediaapoio-sucesso.template.md',
-                'flex': 'pontos-notaveis-mediaapoio-sucesso.template.md',
-                'sub': 'pontos-notaveis-mediaapoio-sucesso-recorrente.template.md',
-            }, titulos_modalidades, titulo, top_apoiomedio, col_dim, titulo_dim, 'apoio_medio', 'Valor Apoiado Médio', ranking_apoiomedio, pasta_dados, arquivo, numero_moeda)
-            md_descritivo.write(f'{texto}')
+            if (ranking_apoiomedio > 0):
+                texto = _gerar_texto_por_modalidades(ano, [mod], {
+                    'aon': 'pontos-notaveis-mediaapoio-sucesso.template.md',
+                    'flex': 'pontos-notaveis-mediaapoio-sucesso.template.md',
+                    'sub': 'pontos-notaveis-mediaapoio-sucesso-recorrente.template.md',
+                }, {mod: titulos_modalidades[mod]}, titulo, top_apoiomedio, col_dim, titulo_dim, 'apoio_medio', 'Valor Apoiado Médio', ranking_apoiomedio, pasta_md, arquivo, numero_moeda)
+                md_descritivo.write(f'{texto}')
 
-        if (ranking_contribuicoesmedias > 0):
-            texto = _gerar_texto_por_modalidades(ano, modalidades, {
-                'aon': 'pontos-notaveis-mediacontribuicoes.template.md',
-                'flex': 'pontos-notaveis-mediacontribuicoes.template.md',
-                'sub': 'pontos-notaveis-mediacontribuicoes-recorrente.template.md',
-            }, titulos_modalidades, titulo, top_contribuicoesmedias, col_dim, titulo_dim, 'media_contribuicoes', 'Média de Contribuições', ranking_contribuicoesmedias, pasta_dados, arquivo, numero_inteiro)
-            md_descritivo.write(f'{texto}')
+            if (ranking_contribuicoesmedias > 0):
+                texto = _gerar_texto_por_modalidades(ano, [mod], {
+                    'aon': 'pontos-notaveis-mediacontribuicoes.template.md',
+                    'flex': 'pontos-notaveis-mediacontribuicoes.template.md',
+                    'sub': 'pontos-notaveis-mediacontribuicoes-recorrente.template.md',
+                }, {mod: titulos_modalidades[mod]}, titulo, top_contribuicoesmedias, col_dim, titulo_dim, 'media_contribuicoes', 'Média de Contribuições', ranking_contribuicoesmedias, pasta_md, arquivo, numero_inteiro)
+                md_descritivo.write(f'{texto}')
 
-        md_descritivo.close()
+            md_descritivo.close()
 
     return True
 
 # gerar os rankings de campanhas por uf_br
-def gerar_ranking_por_ufbr(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
-    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'geral_uf_br', 'UF', 5, 5, 5, 5, 5, 5, 5)
+def gerar_ranking_por_ufbr(arquivos_gerados, df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
+    return gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'geral_uf_br', 'UF', 5, 5, 5, 5, 5, 5, 5)
 
 # gerar os rankings de campanhas por gênero
-def gerar_ranking_por_genero(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
-    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_classificacao', 'Gênero', 5, 5, 5, 5, 5, 5, 5)
+def gerar_ranking_por_genero(arquivos_gerados, df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
+    return gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_classificacao', 'Gênero', 5, 5, 5, 5, 5, 5, 5)
 
 # gerar os rankings de campanhas por autoria
-def gerar_ranking_por_autoria(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
-    return gerar_ranking_por_coldim(df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_nome_publico', 'Autoria', 10, 0, 10, 10, 10, 10, 10)
+def gerar_ranking_por_autoria(arquivos_gerados, df, ano, pasta_md, pasta_dados, arquivo, titulo,  template):
+    return gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, arquivo, titulo, template, 'autoria_nome_publico', 'Autoria', 10, 0, 10, 10, 10, 10, 10)

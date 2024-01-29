@@ -3,9 +3,27 @@
 Rankings de algumas dimensões de interesse, para cada modalidade de financiamento coletivo.
 
 
-[Unidade Federativa](./notaveis_por_ufbr.md)
+## Tudo ou Nada
 
-[Gênero](./notaveis_por_genero.md)
+[Rankings: Unidade Federativa](./notaveis_por_ufbr-aon.md)
 
-[Autoria](./notaveis_por_autoria.md)
+[Rankings: Gênero](./notaveis_por_genero-aon.md)
+
+[Rankings: Autoria](./notaveis_por_autoria-aon.md)
+
+## Flex
+
+[Rankings: Unidade Federativa](./notaveis_por_ufbr-flex.md)
+
+[Rankings: Gênero](./notaveis_por_genero-flex.md)
+
+[Rankings: Autoria](./notaveis_por_autoria-flex.md)
+
+## Recorrente
+
+[Rankings: Unidade Federativa](./notaveis_por_ufbr-sub.md)
+
+[Rankings: Gênero](./notaveis_por_genero-sub.md)
+
+[Rankings: Autoria](./notaveis_por_autoria-sub.md)
 

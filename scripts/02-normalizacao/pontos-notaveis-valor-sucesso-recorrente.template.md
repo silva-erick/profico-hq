@@ -1,4 +1,4 @@
-### Modalidade: $(modalidade)
+<!-- ### Modalidade: $(modalidade) -->
 
 <!--Valor Total Arrecadado-->
 > [!WARNING] 

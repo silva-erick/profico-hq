@@ -1,4 +1,4 @@
-### Modalidade: $(modalidade)
+<!-- ### Modalidade: $(modalidade) -->
 
 <!--Taxa de Sucesso-->
 > [!WARNING] 

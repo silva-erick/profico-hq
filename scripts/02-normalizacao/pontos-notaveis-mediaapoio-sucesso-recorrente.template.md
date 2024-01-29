@@ -1,4 +1,4 @@
-### Modalidade: $(modalidade)
+<!-- ### Modalidade: $(modalidade) -->
 
 <!--Valor Médio Apoiado-->
 > [!WARNING] 

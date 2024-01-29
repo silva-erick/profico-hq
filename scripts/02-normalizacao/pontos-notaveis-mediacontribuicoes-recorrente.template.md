@@ -1,4 +1,4 @@
-### Modalidade: $(modalidade)
+<!-- ### Modalidade: $(modalidade) -->
 
 <!--Média de Contribuições-->
 > [!WARNING] 
