@@ -47,7 +47,7 @@ def _obter_markdown(df_resultado, dimensao_analisada, nome_coluna, coluna_valor,
 def _determinar_ranking(df, col_ranking, ranking_total):
     # Crie uma cópia do DataFrame para evitar o aviso "SettingWithCopyWarning"
     df = df.copy()
-    df['pontuacao_composta'] = 1000*df[col_ranking] + df['taxa_sucesso']
+    df['pontuacao_composta'] = 1000*df[col_ranking] + df[comum.DFCOL_TAXA_SUCESSO]
 
     # Obter os índices dos maiores valores na pontuação composta
     top_indices_total = df.nlargest(ranking_total, 'pontuacao_composta').index
@@ -139,25 +139,25 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
     df_sub = df_resultado[df_resultado[colunaslib.COL_GERAL_MODALIDADE] == comum.CAMPANHA_SUB]
 
     if ( ranking_total > 0):
-        top_campanhas = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'total', ranking_total)
+        top_campanhas = _rankear_por_modalidade(df_aon, df_flex, df_sub, comum.DFCOL_TOTAL, ranking_total)
 
     if (ranking_contribuicoes > 0):
-        top_contribuicoes = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'contribuicoes', ranking_total)
+        top_contribuicoes = _rankear_por_modalidade(df_aon, df_flex, df_sub, comum.DFCOL_CONTRIBUICOES, ranking_total)
 
     if (ranking_taxasucesso > 0):
-        top_taxa_sucesso = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'taxa_sucesso', ranking_total)
+        top_taxa_sucesso = _rankear_por_modalidade(df_aon, df_flex, df_sub, comum.DFCOL_TAXA_SUCESSO, ranking_total)
 
     if (ranking_valor > 0):
-        top_arrecadacao = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'arrecadado_sucesso', ranking_total)
+        top_arrecadacao = _rankear_por_modalidade(df_aon, df_flex, df_sub, comum.DFCOL_ARRECADADO_SUCESSO, ranking_total)
 
     if (ranking_media > 0):
-        top_media = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'media_sucesso', ranking_total)
+        top_media = _rankear_por_modalidade(df_aon, df_flex, df_sub, comum.DFCOL_MEDIA_SUCESSO, ranking_total)
 
     if (ranking_apoiomedio > 0):
-        top_apoiomedio = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'apoio_medio', ranking_total)
+        top_apoiomedio = _rankear_por_modalidade(df_aon, df_flex, df_sub, comum.DFCOL_APOIO_MEDIO, ranking_total)
 
     if (ranking_contribuicoesmedias > 0):
-        top_contribuicoesmedias = _rankear_por_modalidade(df_aon, df_flex, df_sub, 'media_contribuicoes', ranking_total)
+        top_contribuicoesmedias = _rankear_por_modalidade(df_aon, df_flex, df_sub, comum.DFCOL_MEDIA_CONTRIBUICOES, ranking_total)
 
     for mod in comum.MODALIDADES:
         arquivos_gerados.append({
@@ -175,7 +175,7 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
                     comum.CAMPANHA_AON: 'pontos-notaveis-total.template.md',
                     comum.CAMPANHA_FLEX: 'pontos-notaveis-total.template.md',
                     comum.CAMPANHA_SUB: 'pontos-notaveis-total-recorrente.template.md',
-                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_campanhas, col_dim, titulo_dim, 'total', 'Total de Campanhas', ranking_total, pasta_md, arquivo, numero_inteiro)
+                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_campanhas, col_dim, titulo_dim, comum.DFCOL_TOTAL, 'Total de Campanhas', ranking_total, pasta_md, arquivo, numero_inteiro)
                 md_descritivo.write(f'{texto}')
 
             if ( ranking_contribuicoes > 0):
@@ -183,7 +183,7 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
                     comum.CAMPANHA_AON: 'pontos-notaveis-totalcontribuicoes.template.md',
                     comum.CAMPANHA_FLEX: 'pontos-notaveis-totalcontribuicoes.template.md',
                     comum.CAMPANHA_SUB: 'pontos-notaveis-totalcontribuicoes-recorrente.template.md',
-                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_contribuicoes, col_dim, titulo_dim, 'contribuicoes', 'Total de Contribuições', ranking_contribuicoes, pasta_md, arquivo, numero_inteiro)
+                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_contribuicoes, col_dim, titulo_dim, comum.DFCOL_CONTRIBUICOES, 'Total de Contribuições', ranking_contribuicoes, pasta_md, arquivo, numero_inteiro)
                 md_descritivo.write(f'{texto}')
 
             if (ranking_taxasucesso > 0):
@@ -191,7 +191,7 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
                     comum.CAMPANHA_AON: 'pontos-notaveis-taxa-sucesso.template.md',
                     comum.CAMPANHA_FLEX: 'pontos-notaveis-taxa-sucesso.template.md',
                     comum.CAMPANHA_SUB: 'pontos-notaveis-taxa-sucesso-recorrente.template.md',
-                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_taxa_sucesso, col_dim, titulo_dim, 'taxa_sucesso', 'Taxa de Sucesso', ranking_taxasucesso, pasta_md, arquivo, numero_porcento)
+                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_taxa_sucesso, col_dim, titulo_dim, comum.DFCOL_TAXA_SUCESSO, 'Taxa de Sucesso', ranking_taxasucesso, pasta_md, arquivo, numero_porcento)
                 md_descritivo.write(f'{texto}')
 
             if (ranking_valor > 0):
@@ -199,7 +199,7 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
                     comum.CAMPANHA_AON: 'pontos-notaveis-valor-sucesso.template.md',
                     comum.CAMPANHA_FLEX: 'pontos-notaveis-valor-sucesso.template.md',
                     comum.CAMPANHA_SUB: 'pontos-notaveis-valor-sucesso-recorrente.template.md',
-                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_arrecadacao, col_dim, titulo_dim, 'arrecadado_sucesso', 'Valor Total Arrecadado', ranking_valor, pasta_md, arquivo, numero_moeda)
+                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_arrecadacao, col_dim, titulo_dim, comum.DFCOL_ARRECADADO_SUCESSO, 'Valor Total Arrecadado', ranking_valor, pasta_md, arquivo, numero_moeda)
                 md_descritivo.write(f'{texto}')
 
             if (ranking_media > 0):
@@ -207,7 +207,7 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
                     comum.CAMPANHA_AON: 'pontos-notaveis-media-sucesso.template.md',
                     comum.CAMPANHA_FLEX: 'pontos-notaveis-media-sucesso.template.md',
                     comum.CAMPANHA_SUB: 'pontos-notaveis-media-sucesso-recorrente.template.md',
-                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_media, col_dim, titulo_dim, 'media_sucesso', 'Valor Arrecadado Médio', ranking_media, pasta_md, arquivo, numero_moeda)
+                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_media, col_dim, titulo_dim, comum.DFCOL_MEDIA_SUCESSO, 'Valor Arrecadado Médio', ranking_media, pasta_md, arquivo, numero_moeda)
                 md_descritivo.write(f'{texto}')
 
             if (ranking_apoiomedio > 0):
@@ -215,7 +215,7 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
                     comum.CAMPANHA_AON: 'pontos-notaveis-mediaapoio-sucesso.template.md',
                     comum.CAMPANHA_FLEX: 'pontos-notaveis-mediaapoio-sucesso.template.md',
                     comum.CAMPANHA_SUB: 'pontos-notaveis-mediaapoio-sucesso-recorrente.template.md',
-                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_apoiomedio, col_dim, titulo_dim, 'apoio_medio', 'Valor Apoiado Médio', ranking_apoiomedio, pasta_md, arquivo, numero_moeda)
+                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_apoiomedio, col_dim, titulo_dim, comum.DFCOL_APOIO_MEDIO, 'Valor Apoiado Médio', ranking_apoiomedio, pasta_md, arquivo, numero_moeda)
                 md_descritivo.write(f'{texto}')
 
             if (ranking_contribuicoesmedias > 0):
@@ -223,7 +223,7 @@ def gerar_ranking_por_coldim(arquivos_gerados, df, ano, pasta_md, pasta_dados, a
                     comum.CAMPANHA_AON: 'pontos-notaveis-mediacontribuicoes.template.md',
                     comum.CAMPANHA_FLEX: 'pontos-notaveis-mediacontribuicoes.template.md',
                     comum.CAMPANHA_SUB: 'pontos-notaveis-mediacontribuicoes-recorrente.template.md',
-                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_contribuicoesmedias, col_dim, titulo_dim, 'media_contribuicoes', 'Média de Contribuições', ranking_contribuicoesmedias, pasta_md, arquivo, numero_inteiro)
+                }, {mod: comum.TITULOS_MODALIDADES[mod]}, titulo, top_contribuicoesmedias, col_dim, titulo_dim, comum.DFCOL_MEDIA_CONTRIBUICOES, 'Média de Contribuições', ranking_contribuicoesmedias, pasta_md, arquivo, numero_inteiro)
                 md_descritivo.write(f'{texto}')
 
             md_descritivo.close()

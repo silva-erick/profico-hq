@@ -16,12 +16,12 @@ def _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, ti
 
     caminho_arquivo_excel = f'{pasta_dados}/{arquivo}_{ano}.xlsx'
     formatados = {}
-    formatados[f'particip'] = {'num_format': '0.00%'}
-    formatados[f'taxa_sucesso'] = {'num_format': '0.00%'}
-    formatados[f'arrecadado_sucesso'] = {'num_format': 'R$ #,##0.00'}
-    formatados[f'media_sucesso'] = {'num_format': 'R$ #,##0.00'}
-    formatados[f'std_sucesso'] = {'num_format': 'R$ #,##0.00'}
-    formatados[f'min_sucesso'] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_PARTICIP] = {'num_format': '0.00%'}
+    formatados[comum.DFCOL_TAXA_SUCESSO] = {'num_format': '0.00%'}
+    formatados[comum.DFCOL_ARRECADADO_SUCESSO] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_MEDIA_SUCESSO] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_STD_SUCESSO] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_MIN_SUCESSO] = {'num_format': 'R$ #,##0.00'}
     formatados[f'max_sucesso'] = {'num_format': 'R$ #,##0.00'}
 
     comum._gravar_excel_formatado(df_resultado, caminho_arquivo_excel, formatados)
@@ -29,11 +29,11 @@ def _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, ti
     df_formatado = df_resultado.copy()
 
     for coluna in df_formatado.columns:
-        if coluna.startswith('total'):
+        if coluna.startswith(comum.DFCOL_TOTAL):
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_int)
-        elif coluna =='particip':
+        elif coluna ==comum.DFCOL_PARTICIP:
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_percent)
-        elif coluna =='taxa_sucesso':
+        elif coluna ==comum.DFCOL_TAXA_SUCESSO:
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_percent)
         elif df_formatado[coluna].dtype.name == 'float64':
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_numero)
@@ -108,13 +108,11 @@ def _gerar_string_origens(origens):
 
 def _gerar_mermaid(df, df_resumo, origens):
 
-    col_arrecadado_sucesso = 'arrecadado_sucesso'
-
     mermaid = ''
 
-    total_campanhas = df_resumo['total'].sum()
-    menor_ano = df['ano'].min()
-    maior_ano = df['ano'].max()
+    total_campanhas = df_resumo[comum.DFCOL_TOTAL].sum()
+    menor_ano = df[comum.DFCOL_ANO].min()
+    maior_ano = df[comum.DFCOL_ANO].max()
 
     total_campanhas_pontuais = 0
     total_campanhas_aon = 0
@@ -136,22 +134,22 @@ def _gerar_mermaid(df, df_resumo, origens):
     for index, row in df_resumo.iterrows():
         modalidade = row[colunaslib.COL_GERAL_MODALIDADE]
         if modalidade == comum.CAMPANHA_AON:
-            total_campanhas_aon = row['total']
+            total_campanhas_aon = row[comum.DFCOL_TOTAL]
             total_campanhas_pontuais = total_campanhas_pontuais + total_campanhas_aon
-            taxa_sucesso_aon = row['taxa_sucesso']
-            arrecadado_sucesso_aon = row[col_arrecadado_sucesso]
-            media_sucesso_aon = row['media_sucesso']
+            taxa_sucesso_aon = row[comum.DFCOL_TAXA_SUCESSO]
+            arrecadado_sucesso_aon = row[comum.DFCOL_ARRECADADO_SUCESSO]
+            media_sucesso_aon = row[comum.DFCOL_MEDIA_SUCESSO]
         elif modalidade == comum.CAMPANHA_FLEX:
-            total_campanhas_flex = row['total']
+            total_campanhas_flex = row[comum.DFCOL_TOTAL]
             total_campanhas_pontuais = total_campanhas_pontuais + total_campanhas_flex
-            taxa_sucesso_flex = row['taxa_sucesso']
-            arrecadado_sucesso_flex = row[col_arrecadado_sucesso]
-            media_sucesso_flex = row['media_sucesso']
+            taxa_sucesso_flex = row[comum.DFCOL_TAXA_SUCESSO]
+            arrecadado_sucesso_flex = row[comum.DFCOL_ARRECADADO_SUCESSO]
+            media_sucesso_flex = row[comum.DFCOL_MEDIA_SUCESSO]
         else:
-            total_campanhas_sub = row['total']
-            taxa_sucesso_sub = row['taxa_sucesso']
-            arrecadado_sucesso_sub = row[col_arrecadado_sucesso]
-            media_sucesso_sub = row['media_sucesso']
+            total_campanhas_sub = row[comum.DFCOL_TOTAL]
+            taxa_sucesso_sub = row[comum.DFCOL_TAXA_SUCESSO]
+            arrecadado_sucesso_sub = row[comum.DFCOL_ARRECADADO_SUCESSO]
+            media_sucesso_sub = row[comum.DFCOL_MEDIA_SUCESSO]
 
 
     mermaid = mermaid + f'\n'
@@ -192,22 +190,12 @@ def _gerar_mermaid(df, df_resumo, origens):
 # calcular a taxa de sucesso de campanhas por modalidades
 def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
     colunas = [colunaslib.COL_GERAL_MODALIDADE]
-    df_resultado = df.groupby(colunas).size().reset_index(name='total')
+    df_resultado = df.groupby(colunas).size().reset_index(name=comum.DFCOL_TOTAL)
 
     # estender o df com mais colunas
     for index, row in df_resultado.iterrows():
         modalidade = row[colunaslib.COL_GERAL_MODALIDADE]
-        total_mod = row['total']
-
-        col_taxa_sucesso = f'taxa_sucesso'
-        col_valor_arrecadado = f'arrecadado'
-        col_total_sucesso = f'total_sucesso'
-        col_valor_arrecadado_sucesso = f'arrecadado_sucesso'
-
-        col_media_sucesso = f'media_sucesso'
-        col_std_sucesso = f'std_sucesso'
-        col_min_sucesso = f'min_sucesso'
-        col_max_sucesso = f'max_sucesso'
+        total_mod = row[comum.DFCOL_TOTAL]
 
         campanhas_mod = df[
             (df[colunaslib.COL_GERAL_MODALIDADE] == modalidade)
@@ -237,14 +225,14 @@ def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,
             min_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
             max_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
         
-        df_resultado.at[index, col_valor_arrecadado] = valor_mod
-        df_resultado.at[index, col_total_sucesso] = int(total_mod_sucesso)
-        df_resultado.at[index, col_valor_arrecadado_sucesso] = valor_mod_sucesso
-        df_resultado.at[index, col_taxa_sucesso] = comum._dividir(total_mod_sucesso, total_mod)
-        df_resultado.at[index, col_media_sucesso] = comum._dividir(valor_mod_sucesso, total_mod_sucesso)
-        df_resultado.at[index, col_std_sucesso] = std_mod_sucesso
-        df_resultado.at[index, col_min_sucesso] = min_mod_sucesso
-        df_resultado.at[index, col_max_sucesso] = max_mod_sucesso
+        df_resultado.at[index, comum.DFCOL_ARRECADADO] = valor_mod
+        df_resultado.at[index, comum.DFCOL_TOTAL_SUCESSO] = int(total_mod_sucesso)
+        df_resultado.at[index, comum.DFCOL_ARRECADADO_SUCESSO] = valor_mod_sucesso
+        df_resultado.at[index, comum.DFCOL_TAXA_SUCESSO] = comum._dividir(total_mod_sucesso, total_mod)
+        df_resultado.at[index, comum.DFCOL_MEDIA_SUCESSO] = comum._dividir(valor_mod_sucesso, total_mod_sucesso)
+        df_resultado.at[index, comum.DFCOL_STD_SUCESSO] = std_mod_sucesso
+        df_resultado.at[index, comum.DFCOL_MIN_SUCESSO] = min_mod_sucesso
+        df_resultado.at[index, comum.DFCOL_MAX_SUCESSO] = max_mod_sucesso
 
     mermaid = _gerar_mermaid(df, df_resultado, ['Catarse', 'Apoia.se'])
 
@@ -255,23 +243,23 @@ def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,
 
     caminho_arquivo_excel = f'{pasta_dados}/{arquivo}_{ano}.xlsx'
     comum._gravar_excel_formatado(df_resultado, caminho_arquivo_excel, {
-        'taxa_sucesso': {'num_format': '0.00%'},
-        'arrecadado': {'num_format': 'R$ #,##0.00'},
-        'arrecadado_sucesso': {'num_format': 'R$ #,##0.00'},
-        'media_sucesso': {'num_format': 'R$ #,##0.00'},
-        'std_sucesso': {'num_format': 'R$ #,##0.00'},
-        'min_sucesso': {'num_format': 'R$ #,##0.00'},
+        comum.DFCOL_TAXA_SUCESSO: {'num_format': '0.00%'},
+        comum.DFCOL_ARRECADADO: {'num_format': 'R$ #,##0.00'},
+        comum.DFCOL_ARRECADADO_SUCESSO: {'num_format': 'R$ #,##0.00'},
+        comum.DFCOL_MEDIA_SUCESSO: {'num_format': 'R$ #,##0.00'},
+        comum.DFCOL_STD_SUCESSO: {'num_format': 'R$ #,##0.00'},
+        comum.DFCOL_MIN_SUCESSO: {'num_format': 'R$ #,##0.00'},
         'max_sucesso': {'num_format': 'R$ #,##0.00'},
         })
 
     df_formatado = df_resultado.copy()
 
     for coluna in df_formatado.columns:
-        if coluna.startswith('total'):
+        if coluna.startswith(comum.DFCOL_TOTAL):
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_int)
-        elif coluna =='particip':
+        elif coluna ==comum.DFCOL_PARTICIP:
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_percent)
-        elif coluna =='taxa_sucesso':
+        elif coluna ==comum.DFCOL_TAXA_SUCESSO:
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_percent)
         elif df_formatado[coluna].dtype.name == 'float64':
             df_formatado[coluna] = df_formatado[coluna].map(comum.formatar_numero)

@@ -20,6 +20,27 @@ TITULOS_MODALIDADES_LOWER = {
     CAMPANHA_SUB    : 'recorrente',
 }
 
+DFCOL_ANO = f'ano'
+DFCOL_TOTAL = f'total'
+DFCOL_TOTAL_SUCESSO = f'total_sucesso'
+DFCOL_TOTAL_FALHA = f'total_falha'
+
+DFCOL_PARTICIP = f'particip'
+
+DFCOL_TAXA_SUCESSO = f'taxa_sucesso'
+DFCOL_ARRECADADO = f'arrecadado'
+DFCOL_ARRECADADO_SUCESSO = f'arrecadado_sucesso'
+
+DFCOL_MEDIA_SUCESSO = f'media_sucesso'
+DFCOL_STD_SUCESSO = f'std_sucesso'
+DFCOL_MIN_SUCESSO = f'min_sucesso'
+DFCOL_MAX_SUCESSO = f'max_sucesso'
+
+DFCOL_APOIO_MEDIO = f'apoio_medio'
+DFCOL_CONTRIBUICOES = f'contribuicoes'
+DFCOL_MEDIA_CONTRIBUICOES = f'media_contribuicoes'
+
+
 
 '''
 a função de exportação para markdown, disponível no pandas, e que usa a biblioteca tabulate,
@@ -143,24 +164,6 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
         total_dim = row['total']
         modalidade = row[col_modalidade]
 
-        col_total = f'total'
-        col_total_sucesso = f'total_sucesso'
-        col_total_falha = f'total_falha'
-
-        col_particip = f'particip'
-
-        col_taxa_sucesso = f'taxa_sucesso'
-        col_valor_mod_sucesso = f'arrecadado_sucesso'
-
-        col_media_sucesso = f'media_sucesso'
-        col_std_sucesso = f'std_sucesso'
-        col_min_sucesso = f'min_sucesso'
-        col_max_sucesso = f'max_sucesso'
-
-        col_apoio_medio = f'apoio_medio'
-        col_contribuicoes = f'contribuicoes'
-        col_media_contribuicoes = f'media_contribuicoes'
-
         campanhas_mod = df[
             (df[col_modalidade] == modalidade)
             ]
@@ -199,31 +202,31 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
             contribuicoes = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
 
 
-        df_resultado.at[index, col_total] = int(total_dim_mod)
-        df_resultado.at[index, col_total_sucesso] = int(total_dim_mod_sucesso)
+        df_resultado.at[index, DFCOL_TOTAL] = int(total_dim_mod)
+        df_resultado.at[index, DFCOL_TOTAL_SUCESSO] = int(total_dim_mod_sucesso)
 
-        df_resultado.at[index, col_particip] = 100 * _dividir(total_dim_mod, total_mod)
+        df_resultado.at[index, DFCOL_PARTICIP] = 100 * _dividir(total_dim_mod, total_mod)
 
-        df_resultado.at[index, col_taxa_sucesso] = 100 * _dividir(total_dim_mod_sucesso, total_dim_mod)
+        df_resultado.at[index, DFCOL_TAXA_SUCESSO] = 100 * _dividir(total_dim_mod_sucesso, total_dim_mod)
 
-        df_resultado.at[index, col_valor_mod_sucesso] = valor_dim_mod_sucesso
-        df_resultado.at[index, col_media_sucesso] = _dividir(valor_dim_mod_sucesso, total_dim_mod_sucesso)
-        df_resultado.at[index, col_std_sucesso] = std_dim_mod_sucesso
-        df_resultado.at[index, col_min_sucesso] = min_dim_mod_sucesso
-        df_resultado.at[index, col_max_sucesso] = max_dim_mod_sucesso
+        df_resultado.at[index, DFCOL_ARRECADADO_SUCESSO] = valor_dim_mod_sucesso
+        df_resultado.at[index, DFCOL_MEDIA_SUCESSO] = _dividir(valor_dim_mod_sucesso, total_dim_mod_sucesso)
+        df_resultado.at[index, DFCOL_STD_SUCESSO] = std_dim_mod_sucesso
+        df_resultado.at[index, DFCOL_MIN_SUCESSO] = min_dim_mod_sucesso
+        df_resultado.at[index, DFCOL_MAX_SUCESSO] = max_dim_mod_sucesso
 
-        df_resultado.at[index, col_apoio_medio] = _dividir(valor_dim_mod_sucesso, contribuicoes)
-        df_resultado.at[index, col_contribuicoes] = contribuicoes
-        df_resultado.at[index, col_media_contribuicoes] = _dividir(contribuicoes, total_dim_mod_sucesso)
+        df_resultado.at[index, DFCOL_APOIO_MEDIO] = _dividir(valor_dim_mod_sucesso, contribuicoes)
+        df_resultado.at[index, DFCOL_CONTRIBUICOES] = contribuicoes
+        df_resultado.at[index, DFCOL_MEDIA_CONTRIBUICOES] = _dividir(contribuicoes, total_dim_mod_sucesso)
 
 
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)
 
     # garantir colunas int64:
-    df_resultado[col_total] = df_resultado[col_total].round().astype('int64')
-    df_resultado[col_total_sucesso] = df_resultado[col_total_sucesso].round().astype('int64')
-    df_resultado[col_contribuicoes] = df_resultado[col_contribuicoes].round().astype('int64')
+    df_resultado[DFCOL_TOTAL] = df_resultado[DFCOL_TOTAL].round().astype('int64')
+    df_resultado[DFCOL_TOTAL_SUCESSO] = df_resultado[DFCOL_TOTAL_SUCESSO].round().astype('int64')
+    df_resultado[DFCOL_CONTRIBUICOES] = df_resultado[DFCOL_CONTRIBUICOES].round().astype('int64')
 
     return df_resultado
 
@@ -242,16 +245,6 @@ def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
         dim = row[col_dim]
         total_dim = row['total']
 
-        col_total = f'total'
-        col_total_sucesso = f'total_sucesso'
-
-        col_taxa_sucesso = f'taxa_sucesso'
-        col_valor_mod_sucesso = f'arrecadado_sucesso'
-        col_media_sucesso = f'media_sucesso'
-
-        col_apoio_medio = f'apoio_medio'
-        col_contribuicoes = f'contribuicoes'
-        col_media_contribuicoes = f'media_contribuicoes'
 
         campanhas_mod = df[
             (df[col_modalidade] == modalidade)
@@ -284,25 +277,25 @@ def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
             contribuicoes = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
 
 
-        df_resultado.at[index, col_total] = int(total_dim_mod)
-        df_resultado.at[index, col_total_sucesso] = int(total_dim_mod_sucesso)
+        df_resultado.at[index, DFCOL_TOTAL] = int(total_dim_mod)
+        df_resultado.at[index, DFCOL_TOTAL_SUCESSO] = int(total_dim_mod_sucesso)
 
-        df_resultado.at[index, col_taxa_sucesso] = _dividir(total_dim_mod_sucesso, total_dim_mod)
+        df_resultado.at[index, DFCOL_TAXA_SUCESSO] = _dividir(total_dim_mod_sucesso, total_dim_mod)
 
-        df_resultado.at[index, col_valor_mod_sucesso] = valor_dim_mod_sucesso
-        df_resultado.at[index, col_media_sucesso] = _dividir(valor_dim_mod_sucesso, total_dim_mod_sucesso)
+        df_resultado.at[index, DFCOL_ARRECADADO_SUCESSO] = valor_dim_mod_sucesso
+        df_resultado.at[index, DFCOL_MEDIA_SUCESSO] = _dividir(valor_dim_mod_sucesso, total_dim_mod_sucesso)
 
-        df_resultado.at[index, col_apoio_medio] = _dividir(valor_dim_mod_sucesso, contribuicoes)
-        df_resultado.at[index, col_contribuicoes] = contribuicoes
-        df_resultado.at[index, col_media_contribuicoes] = _dividir(contribuicoes, total_dim_mod_sucesso)
+        df_resultado.at[index, DFCOL_APOIO_MEDIO] = _dividir(valor_dim_mod_sucesso, contribuicoes)
+        df_resultado.at[index, DFCOL_CONTRIBUICOES] = contribuicoes
+        df_resultado.at[index, DFCOL_MEDIA_CONTRIBUICOES] = _dividir(contribuicoes, total_dim_mod_sucesso)
 
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)
 
     # garantir colunas int64:
-    df_resultado[col_total] = df_resultado[col_total].round().astype('int64')
-    df_resultado[col_total_sucesso] = df_resultado[col_total_sucesso].round().astype('int64')
-    df_resultado[col_contribuicoes] = df_resultado[col_contribuicoes].round().astype('int64')
+    df_resultado[DFCOL_TOTAL] = df_resultado[DFCOL_TOTAL].round().astype('int64')
+    df_resultado[DFCOL_TOTAL_SUCESSO] = df_resultado[DFCOL_TOTAL_SUCESSO].round().astype('int64')
+    df_resultado[DFCOL_CONTRIBUICOES] = df_resultado[DFCOL_CONTRIBUICOES].round().astype('int64')
 
     return df_resultado
 
