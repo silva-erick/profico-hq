@@ -1,3 +1,4 @@
+import colunas as colunaslib
 import argparse
 import logging
 from datetime import datetime, timedelta
@@ -69,71 +70,7 @@ class ExportarCsv:
 
         quantidade_campanhas = 0
 
-        colunas = [
-            'origem',
-            'ano',
-
-            'geral_project_id',
-            'geral_titulo',
-            'geral_data_ini',
-            'geral_data_fim',
-            'geral_dias_campanha',
-            'geral_percentual_arrecadado',
-            'geral_meta',
-            'geral_meta_corrigida',
-            'geral_arrecadado',
-            'geral_arrecadado_corrigido',
-            'geral_modalidade',
-            'geral_status',
-            'geral_uf_br',
-            'geral_uf',
-            'geral_municipio',
-            'geral_city_id',
-            'geral_capa_imagem',
-            'geral_capa_video',
-            'geral_content_rating',
-            'geral_conteudo_adulto',
-            'geral_contributed_by_friends',
-            'geral_posts',
-            'geral_total_apoiadores',
-            'geral_total_contribuicoes',
-
-            'autoria_classificacao',
-            'autoria_nome',
-            'autoria_nome_publico',
-
-            'recompensas_menor_nominal',
-            'recompensas_menor_ajustado',
-            'recompensas_quantidade',
-
-            'social_newsletter',
-            'social_projetos_contribuidos',
-            'social_projetos_publicados',
-            'social_seguidores',
-
-            'mencoes_angelo_agostini',
-            'mencoes_ccxp',
-            'mencoes_disputa',
-            'mencoes_erotismo',
-            'mencoes_fantasia',
-            'mencoes_ficcao_cientifica',
-            'mencoes_fiq',
-            'mencoes_folclore',
-            'mencoes_herois',
-            'mencoes_hqmix',
-            'mencoes_humor',
-            'mencoes_jogos',
-            'mencoes_lgbtqiamais',
-            'mencoes_midia_independente',
-            'mencoes_politica',
-            'mencoes_questoes_genero',
-            'mencoes_religiosidade',
-            'mencoes_saloes_humor',
-            'mencoes_terror',
-            'mencoes_webformatos',
-            'mencoes_zine',
-            
-        ]
+        colunas = colunaslib.COLUNAS_EXPORTACAOCSV
 
         campanhas = []
         # Percorre a lista de arquivos
@@ -159,10 +96,10 @@ class ExportarCsv:
 
             # verificar a data de lançamento da campanha
             try:
-                data_obj = parse_data(data['geral_data_ini'])
+                data_obj = parse_data(data[colunaslib.COL_GERAL_DATA_INI])
             except ValueError:
-                print(f"data original: {data['geral_data_ini']}")
-                raise ValueError(f"Formato de data inválido. {data['geral_data_ini']}")
+                print(f"data original: {data[colunaslib.COL_GERAL_DATA_INI]}")
+                raise ValueError(f"Formato de data inválido. {data[colunaslib.COL_GERAL_DATA_INI]}")
 
             if data_obj.year > self._ano:
                 continue

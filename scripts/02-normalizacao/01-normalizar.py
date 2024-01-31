@@ -1,3 +1,4 @@
+import colunas as colunaslib
 import argparse
 import logging
 from datetime import datetime, timedelta
@@ -440,7 +441,7 @@ class Normalizacao:
                 f.close()
 
                 data = self._adaptar_apoiase(data)
-                data['origem'] = 'apoia.se'
+                data[colunaslib.COL_ORIGEM] = 'apoia.se'
 
                 # verificar a data de lançamento da campanha
                 try:
@@ -484,7 +485,7 @@ class Normalizacao:
                 
                 # ler arquivo como json
                 data = json.loads(f.read())
-                data['origem'] = 'catarse'
+                data[colunaslib.COL_ORIGEM] = 'catarse'
 
                 # fechar arquivo
                 f.close()
@@ -608,9 +609,9 @@ class Normalizacao:
             if valor < menor:
                 menor = valor
 
-        data['recompensas_menor_nominal'] = menor
-        data['recompensas_menor_ajustado'] = menor_ajustado
-        data['recompensas_quantidade'] = len(data['rewards'])
+        data[colunaslib.COL_RECOMPENSAS_MENOR_NOMINAL] = menor
+        data[colunaslib.COL_RECOMPENSAS_MENOR_AJUSTADO] = menor_ajustado
+        data[colunaslib.COL_RECOMPENSAS_QUANTIDADE] = len(data['rewards'])
 
         return True
 
@@ -660,19 +661,19 @@ class Normalizacao:
         if categoria=="indefinido":
             categoria = "outros"
 
-        data['autoria_id'] =  data['user']['id']
-        data['autoria_nome'] =  name
-        data['autoria_nome_publico'] = public_name
-        data['autoria_classificacao'] = categoria
+        data[colunaslib.COL_AUTORIA_ID] =  data['user']['id']
+        data[colunaslib.COL_AUTORIA_NOME] =  name
+        data[colunaslib.COL_AUTORIA_NOME_PUBLICO] = public_name
+        data[colunaslib.COL_AUTORIA_CLASSIFICACAO] = categoria
 
-        data['social_seguidores'] = data['user']['followers_count']
-        data['social_newsletter'] = data['user']['newsletter']
-        data['social_seguidores'] = data['user']['subscribed_to_friends_contributions']
-        data['social_seguidores'] = data['user']['subscribed_to_new_followers']
-        data['social_seguidores'] = data['user']['subscribed_to_project_posts']
-        data['social_projetos_contribuidos'] = data['user']['total_contributed_projects']
-        data['social_projetos_publicados'] = data['user']['total_published_projects']
-        data['social_seguidores'] = data['user']['followers_count']
+        data[colunaslib.COL_SOCIAL_SEGUIDORES] = data['user']['followers_count']
+        data[colunaslib.COL_SOCIAL_NEWSLETTER] = data['user']['newsletter']
+        data[colunaslib.COL_SOCIAL_SUB_CONTRIBUICOES_AMIGOS] = data['user']['subscribed_to_friends_contributions']
+        data[colunaslib.COL_SOCIAL_SUB_NOVOS_SEGUIDORES] = data['user']['subscribed_to_new_followers']
+        data[colunaslib.COL_SOCIAL_SUB_POSTS_PROJETO] = data['user']['subscribed_to_project_posts']
+        data[colunaslib.COL_SOCIAL_PROJETOS_CONTRIBUIDOS] = data['user']['total_contributed_projects']
+        data[colunaslib.COL_SOCIAL_PROJETOS_PUBLICADOS] = data['user']['total_published_projects']
+        data[colunaslib.COL_SOCIAL_SEGUIDORES] = data['user']['followers_count']
 
         return True
 
@@ -684,30 +685,30 @@ class Normalizacao:
     
     def _classificar_resumo(self, data):
 
-        data['geral_municipio']=data['detail']['address']['city']
-        data['geral_uf']=data['detail']['address']['state_acronym']
-        data['geral_uf_br'] = self._somente_uf_brasileira(data['geral_uf'])
-        data['geral_city_id'] = data['detail']['city_id']
-        data['geral_content_rating'] = data['detail']['content_rating']
-        data['geral_contributed_by_friends'] = data['detail']['contributed_by_friends']
-        data['geral_capa_imagem'] = not(data['detail']['cover_image'] is None)
-        data['geral_capa_video'] = (data['detail'].get('video_cover_image', None) is not None) or (data['detail'].get('video_embed_url', None) is not None)
-        data['geral_dias_campanha'] = data['detail']['online_days']
-        data['geral_data_fim'] = data['detail']['expires_at']
-        data['geral_data_ini'] = data['detail']['online_date']
-        data['geral_meta'] = data['detail']['goal']
-        data['geral_meta_corrigida'] = data['detail']['goal_ajustado']
-        data['geral_arrecadado'] = data['detail']['pledged']
-        data['geral_arrecadado_corrigido'] = data['detail']['pledged_ajustado']
-        data['geral_percentual_arrecadado'] = data['detail']['progress']
-        data['geral_conteudo_adulto'] = data['detail']['is_adult_content']
-        data['geral_posts'] = data['detail']['posts_count']
-        data['geral_project_id'] = data['detail']['project_id']
-        data['geral_modalidade'] = data['detail']['mode']
-        data['geral_titulo'] = data['detail']['name']
-        data['geral_status'] = data['detail']['state']
-        data['geral_total_contribuicoes'] = data['detail']['total_contributions']
-        data['geral_total_apoiadores'] = data['detail']['total_contributors']
+        data[colunaslib.COL_GERAL_MUNICIPIO]=data['detail']['address']['city']
+        data[colunaslib.COL_GERAL_UF]=data['detail']['address']['state_acronym']
+        data[colunaslib.COL_GERAL_UF_BR] = self._somente_uf_brasileira(data[colunaslib.COL_GERAL_UF])
+        data[colunaslib.COL_GERAL_CITY_ID] = data['detail']['city_id']
+        data[colunaslib.COL_GERAL_CONTENT_RATING] = data['detail']['content_rating']
+        data[colunaslib.COL_GERAL_CONTRIBUTED_BY_FRIENDS] = data['detail']['contributed_by_friends']
+        data[colunaslib.COL_GERAL_CAPA_IMAGEM] = not(data['detail']['cover_image'] is None)
+        data[colunaslib.COL_GERAL_CAPA_VIDEO] = (data['detail'].get('video_cover_image', None) is not None) or (data['detail'].get('video_embed_url', None) is not None)
+        data[colunaslib.COL_GERAL_DIAS_CAMPANHA] = data['detail']['online_days']
+        data[colunaslib.COL_GERAL_DATA_FIM] = data['detail']['expires_at']
+        data[colunaslib.COL_GERAL_DATA_INI] = data['detail']['online_date']
+        data[colunaslib.COL_GERAL_META] = data['detail']['goal']
+        data[colunaslib.COL_GERAL_META_CORRIGIDA] = data['detail']['goal_ajustado']
+        data[colunaslib.COL_GERAL_ARRECADADO] = data['detail']['pledged']
+        data[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO] = data['detail']['pledged_ajustado']
+        data[colunaslib.COL_GERAL_PERCENTUAL_ARRECADADO] = data['detail']['progress']
+        data[colunaslib.COL_GERAL_CONTEUDO_ADULTO] = data['detail']['is_adult_content']
+        data[colunaslib.COL_GERAL_POSTS] = data['detail']['posts_count']
+        data[colunaslib.COL_GERAL_PROJECT_ID] = data['detail']['project_id']
+        data[colunaslib.COL_GERAL_MODALIDADE] = data['detail']['mode']
+        data[colunaslib.COL_GERAL_TITULO] = data['detail']['name']
+        data[colunaslib.COL_GERAL_STATUS] = data['detail']['state']
+        data[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] = data['detail']['total_contributions']
+        data[colunaslib.COL_GERAL_TOTAL_APOIADORES] = data['detail']['total_contributors']
 
         #if not (data['detail']['user']['id'] in self._autores):
         #    self._autores[data['detail']['user']['id']]={
@@ -719,7 +720,7 @@ class Normalizacao:
 
     def _gravar_json_campanhas(self, data):
         arquivo_dados = f"{CAMINHO_NORMALIZADOS}/{self._ano}/{data['detail']['project_id']}.json"
-        data['geral_sobre'] = data['detail']['about_txt']
+        data[colunaslib.COL_GERAL_SOBRE] = data['detail']['about_txt']
         
         del data['detail']
         del data['rewards']
@@ -766,70 +767,7 @@ class Normalizacao:
         )
 
 
-        colunas = [
-            'origem',
-
-            'geral_project_id',
-            'geral_titulo',
-            'geral_data_ini',
-            'geral_data_fim',
-            'geral_dias_campanha',
-            'geral_percentual_arrecadado',
-            'geral_meta',
-            'geral_meta_corrigida',
-            'geral_arrecadado',
-            'geral_arrecadado_corrigido',
-            'geral_modalidade',
-            'geral_status',
-            'geral_uf_br',
-            'geral_uf',
-            'geral_municipio',
-            'geral_city_id',
-            'geral_capa_imagem',
-            'geral_capa_video',
-            'geral_content_rating',
-            'geral_conteudo_adulto',
-            'geral_contributed_by_friends',
-            'geral_posts',
-            'geral_total_apoiadores',
-            'geral_total_contribuicoes',
-
-            'autoria_classificacao',
-            'autoria_nome',
-            'autoria_nome_publico',
-
-            'recompensas_menor_nominal',
-            'recompensas_menor_ajustado',
-            'recompensas_quantidade',
-
-            'social_newsletter',
-            'social_projetos_contribuidos',
-            'social_projetos_publicados',
-            'social_seguidores',
-
-            'mencoes_angelo_agostini',
-            'mencoes_ccxp',
-            'mencoes_disputa',
-            'mencoes_erotismo',
-            'mencoes_fantasia',
-            'mencoes_ficcao_cientifica',
-            'mencoes_fiq',
-            'mencoes_folclore',
-            'mencoes_herois',
-            'mencoes_hqmix',
-            'mencoes_humor',
-            'mencoes_jogos',
-            'mencoes_lgbtqiamais',
-            'mencoes_midia_independente',
-            'mencoes_politica',
-            'mencoes_questoes_genero',
-            'mencoes_religiosidade',
-            'mencoes_saloes_humor',
-            'mencoes_terror',
-            'mencoes_webformatos',
-            'mencoes_zine',
-            
-        ]
+        colunas = colunaslib.COLUNAS_NORMALIZACAO
 
         df = pd.DataFrame(self._campanhas, columns=colunas)
 

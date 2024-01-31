@@ -1,3 +1,4 @@
+import colunas as colunaslib
 import pandas as pd
 import analises.analises_comum as comum
 
@@ -47,9 +48,9 @@ def _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, ti
 
             mermaid = mermaid + _gerar_mermaid(
                 df[
-                    (df['origem']==orig)
+                    (df[colunaslib.COL_ORIGEM]==orig)
                 ], df_resultado[
-                    (df_resultado['origem']==orig)
+                    (df_resultado[colunaslib.COL_ORIGEM]==orig)
                 ], origens)
 
 
@@ -64,8 +65,8 @@ def _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, ti
         else:
             alinhamento_md.append('left')
 
-    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(comum.TITULOS_MODALIDADES_LOWER)
-    df_formatado.rename(columns={'geral_modalidade': 'modalidade'}, inplace=True)
+    df_formatado[colunaslib.COL_GERAL_MODALIDADE] = df_formatado[colunaslib.COL_GERAL_MODALIDADE].map(comum.TITULOS_MODALIDADES_LOWER)
+    df_formatado.rename(columns={colunaslib.COL_GERAL_MODALIDADE: 'modalidade'}, inplace=True)
 
     mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
 
@@ -133,7 +134,7 @@ def _gerar_mermaid(df, df_resumo, origens):
     media_sucesso_sub = 0.0
 
     for index, row in df_resumo.iterrows():
-        modalidade = row['geral_modalidade']
+        modalidade = row[colunaslib.COL_GERAL_MODALIDADE]
         if modalidade == comum.CAMPANHA_AON:
             total_campanhas_aon = row['total']
             total_campanhas_pontuais = total_campanhas_pontuais + total_campanhas_aon
@@ -161,7 +162,7 @@ def _gerar_mermaid(df, df_resumo, origens):
     mermaid = mermaid + f'\n'
     mermaid = mermaid + f'O infográfico a seguir indica um total de {total_campanhas} campanhas em {_gerar_string_origens(origens)},\n'
     mermaid = mermaid + f'entre {menor_ano} e {maior_ano}. As campanhas pontuais totalizam {total_campanhas_pontuais} campanhas, agrupadas\n'
-    mermaid = mermaid + f'em {total_campanhas_aon} tudo ou nada e {total_campanhas_flex} flex. As campanhas recorrentes estão em {total_campanhas_sub}.\n'
+    mermaid = mermaid + f'em {total_campanhas_aon} {comum.TITULOS_MODALIDADES_LOWER[comum.CAMPANHA_AON]} e {total_campanhas_flex} {comum.TITULOS_MODALIDADES_LOWER[comum.CAMPANHA_FLEX]}. As campanhas recorrentes estão em {total_campanhas_sub}.\n'
     mermaid = mermaid + f'A taxa de sucesso, o total arrecadado e a média de arrecadação por campanha\n'
     mermaid = mermaid + f'são apresentados para cada modalidade e compreendem uma visão alternativa\n'
     mermaid = mermaid + f'à tabela apresentada inicialmente.\n'
@@ -171,11 +172,11 @@ def _gerar_mermaid(df, df_resumo, origens):
     mermaid = mermaid + f'mindmap\n'
     mermaid = mermaid + f'  root(("{total_campanhas} campanhas em Catarse e Apoia.se ({menor_ano}-{maior_ano})"))\n'
     mermaid = mermaid + f'    camp_pontual("{total_campanhas_pontuais} campanhas pontuais")\n'
-    mermaid = mermaid + f'        camp_pontual_tudo_ou_nada("{total_campanhas_aon} tudo ou nada")\n'
+    mermaid = mermaid + f'        camp_pontual_tudo_ou_nada("{total_campanhas_aon} {comum.TITULOS_MODALIDADES_LOWER[comum.CAMPANHA_AON]}")\n'
     mermaid = mermaid + f'            camp_pontual_tudo_ou_nada_taxa_sucesso["{comum.formatar_percent(taxa_sucesso_aon).replace(".", ",")}% taxa de sucesso"]\n'
     mermaid = mermaid + f'            camp_pontual_tudo_ou_nada_arr["R$ {comum.formatar_com_milhares(arrecadado_sucesso_aon)} total arrecadado"]\n'
     mermaid = mermaid + f'            camp_pontual_tudo_ou_nada_arr_med["R$ {comum.formatar_com_milhares(media_sucesso_aon)}/campanha arrecadação média"]\n'
-    mermaid = mermaid + f'        camp_pontual_flex("{total_campanhas_flex} flex")\n'
+    mermaid = mermaid + f'        camp_pontual_flex("{total_campanhas_flex} {comum.TITULOS_MODALIDADES_LOWER[comum.CAMPANHA_FLEX]}")\n'
     mermaid = mermaid + f'            camp_pontual_flex_taxa_sucesso["{comum.formatar_percent(taxa_sucesso_flex).replace(".", ",")}% taxa de sucesso"]\n'
     mermaid = mermaid + f'            camp_pontual_flex_arr_mensal["R$ {comum.formatar_com_milhares(arrecadado_sucesso_flex)} total arrecadado"]\n'
     mermaid = mermaid + f'            camp_pontual_flex_arr_med_mensal["R$ {comum.formatar_com_milhares(media_sucesso_flex)}/campanha arrecadação média"]\n'
@@ -190,12 +191,12 @@ def _gerar_mermaid(df, df_resumo, origens):
 
 # calcular a taxa de sucesso de campanhas por modalidades
 def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    colunas = ['geral_modalidade']
+    colunas = [colunaslib.COL_GERAL_MODALIDADE]
     df_resultado = df.groupby(colunas).size().reset_index(name='total')
 
     # estender o df com mais colunas
     for index, row in df_resultado.iterrows():
-        modalidade = row['geral_modalidade']
+        modalidade = row[colunaslib.COL_GERAL_MODALIDADE]
         total_mod = row['total']
 
         col_taxa_sucesso = f'taxa_sucesso'
@@ -209,32 +210,32 @@ def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,
         col_max_sucesso = f'max_sucesso'
 
         campanhas_mod = df[
-            (df['geral_modalidade'] == modalidade)
+            (df[colunaslib.COL_GERAL_MODALIDADE] == modalidade)
             ]
-        valor_mod = campanhas_mod['geral_arrecadado_corrigido'].sum()
+        valor_mod = campanhas_mod[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
 
         if modalidade == comum.CAMPANHA_SUB:
             # 'total_mod_mencao' na modalidade com referência à 'menção' com status diferente de falha
             campanhas_mod_sucesso = df[
-                (df['geral_modalidade'] == modalidade)
-                & (df['geral_total_contribuicoes'] > 0)
+                (df[colunaslib.COL_GERAL_MODALIDADE] == modalidade)
+                & (df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] > 0)
                 ]
             total_mod_sucesso = len(campanhas_mod_sucesso)
-            valor_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].sum()
-            std_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].std()
-            min_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].min()
-            max_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].max()
+            valor_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            std_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            min_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            max_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
         else:
             # 'total_mod_mencao' na modalidade com referência à 'menção' com status diferente de falha
             campanhas_mod_sucesso = df[
-                (df['geral_modalidade'] == modalidade)
-                & (df['geral_status'] != 'failed')
+                (df[colunaslib.COL_GERAL_MODALIDADE] == modalidade)
+                & (df[colunaslib.COL_GERAL_STATUS] != 'failed')
                 ]
             total_mod_sucesso = len(campanhas_mod_sucesso)
-            valor_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].sum()
-            std_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].std()
-            min_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].min()
-            max_mod_sucesso = campanhas_mod_sucesso['geral_arrecadado_corrigido'].max()
+            valor_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            std_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            min_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            max_mod_sucesso = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
         
         df_resultado.at[index, col_valor_arrecadado] = valor_mod
         df_resultado.at[index, col_total_sucesso] = int(total_mod_sucesso)
@@ -286,8 +287,8 @@ def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,
         else:
             alinhamento_md.append('left')
 
-    df_formatado['geral_modalidade'] = df_formatado['geral_modalidade'].map(comum.TITULOS_MODALIDADES_LOWER)
-    df_formatado.rename(columns={'geral_modalidade': 'modalidade'}, inplace=True)
+    df_formatado[colunaslib.COL_GERAL_MODALIDADE] = df_formatado[colunaslib.COL_GERAL_MODALIDADE].map(comum.TITULOS_MODALIDADES_LOWER)
+    df_formatado.rename(columns={colunaslib.COL_GERAL_MODALIDADE: 'modalidade'}, inplace=True)
 
     mk_table = comum.formatar_tabelamarkdown_com_milhares(df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md))
 
@@ -314,121 +315,121 @@ def gerar_resumo_por_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,
 
 # gerar o resumo de campanhas por origem e modalidades
 def gerar_resumo_por_origem_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, 'origem', analise_md)
+    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, colunaslib.COL_ORIGEM, analise_md)
 
 # gerar o resumo de campanhas por uf_br
 def gerar_resumo_por_ufbr(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, 'geral_uf_br', analise_md)
+    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, colunaslib.COL_GERAL_UF_BR, analise_md)
 
 # gerar o resumo de campanhas por gênero
 def gerar_resumo_por_genero(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, 'autoria_classificacao', analise_md)
+    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, colunaslib.COL_AUTORIA_CLASSIFICACAO, analise_md)
 
 # gerar o resumo de campanhas por autoria e seus respectivos status
 def gerar_resumo_por_autoria(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, 'autoria_nome_publico', analise_md)
+    return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, colunaslib.COL_AUTORIA_NOME_PUBLICO, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_angelo_agostini(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_angelo_agostini'
+    col =  colunaslib.COL_MENCOES_ANGELO_AGOSTINI
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_ccxp(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_ccxp'
+    col =  colunaslib.COL_MENCOES_CCXP
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_disputa(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_disputa'
+    col =  colunaslib.COL_MENCOES_DISPUTA
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_erotismo(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_erotismo'
+    col =  colunaslib.COL_MENCOES_EROTISMO
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_fantasia(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_fantasia'
+    col =  colunaslib.COL_MENCOES_FANTASIA
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_ficcao_cientifica(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_ficcao_cientifica'
+    col =  colunaslib.COL_MENCOES_FICCAO_CIENTIFICA
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_fiq(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_fiq'
+    col =  colunaslib.COL_MENCOES_FIQ
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_folclore(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_folclore'
+    col =  colunaslib.COL_MENCOES_FOLCLORE
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_herois(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_herois'
+    col =  colunaslib.COL_MENCOES_HEROIS
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_hqmix(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_hqmix'
+    col =  colunaslib.COL_MENCOES_HQMIX
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_humor(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_humor'
+    col =  colunaslib.COL_MENCOES_HUMOR
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_jogos(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_jogos'
+    col =  colunaslib.COL_MENCOES_JOGOS
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_lgbtqiamais(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_lgbtqiamais'
+    col =  colunaslib.COL_MENCOES_LGBTQIAMAIS
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_midia_independente(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_midia_independente'
+    col =  colunaslib.COL_MENCOES_MIDIA_INDEPENDENTE
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_politica(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_politica'
+    col =  colunaslib.COL_MENCOES_POLITICA
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_questoes_genero(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_questoes_genero'
+    col =  colunaslib.COL_MENCOES_QUESTOES_GENERO
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_religiosidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_religiosidade'
+    col =  colunaslib.COL_MENCOES_RELIGIOSIDADE
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_saloes_humor(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_saloes_humor'
+    col =  colunaslib.COL_MENCOES_SALOES_HUMOR
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_terror(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_terror'
+    col =  colunaslib.COL_MENCOES_TERROR
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_webformatos(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_webformatos'
+    col =  colunaslib.COL_MENCOES_WEBFORMATOS
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)
 
 # gerar o resumo de menção de acordo com a modalidade das campanhas
 def gerar_resumo_por_mencoes_zine(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, analise_md):
-    col =  'mencoes_zine'
+    col =  colunaslib.COL_MENCOES_ZINE
     return _gerar_resumo_por_dim_modalidade(df, ano, pasta_md, pasta_dados, arquivo, titulo,  template, col, analise_md)

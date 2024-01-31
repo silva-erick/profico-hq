@@ -1,3 +1,4 @@
+import colunas as colunaslib
 import pandas as pd
 import re
 
@@ -16,7 +17,7 @@ TITULOS_MODALIDADES = {
 TITULOS_MODALIDADES_LOWER = {
     CAMPANHA_AON    : 'tudo ou nada',
     CAMPANHA_FLEX   : 'flex',
-    CAMPANHA_SUB    : 'fecorrente',
+    CAMPANHA_SUB    : 'recorrente',
 }
 
 
@@ -131,7 +132,7 @@ def _gravar_excel_formatado(df_resultado, caminho_arquivo_excel, colunas_formato
 # calcular o resumo de campanhas por dim e modalidades
 def _calcular_resumo_por_dim_modalidade(df, col_dim):
 
-    col_modalidade = 'geral_modalidade'
+    col_modalidade = colunaslib.COL_GERAL_MODALIDADE
 
     colunas = [col_modalidade, col_dim]
     df_resultado = df.groupby(colunas).size().reset_index(name='total')
@@ -175,27 +176,27 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
             campanhas_dim_mod_sucesso = df[
                 (df[col_dim] == dim)
                 & (df[col_modalidade] == modalidade)
-                & (df['geral_total_contribuicoes'] > 0)
+                & (df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] > 0)
                 ]
             total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
-            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
-            std_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].std()
-            min_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].min()
-            max_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].max()
+            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            std_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            min_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            max_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
 
-            contribuicoes = campanhas_dim_mod_sucesso['geral_total_contribuicoes'].sum()
+            contribuicoes = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
         else:
             campanhas_dim_mod_sucesso = df[
                 (df[col_dim] == dim)
                 & (df[col_modalidade] == modalidade)
-                & (df['geral_status'] != 'failed')
+                & (df[colunaslib.COL_GERAL_STATUS] != 'failed')
                 ]
             total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
-            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
-            std_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].std()
-            min_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].min()
-            max_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].max()
-            contribuicoes = campanhas_dim_mod_sucesso['geral_total_contribuicoes'].sum()
+            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            std_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            min_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            max_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
+            contribuicoes = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
 
 
         df_resultado.at[index, col_total] = int(total_dim_mod)
@@ -230,7 +231,7 @@ def _calcular_resumo_por_dim_modalidade(df, col_dim):
 # calcular série anual de campanhas por dim e modalidades
 def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
 
-    col_modalidade = 'geral_modalidade'
+    col_modalidade = colunaslib.COL_GERAL_MODALIDADE
     colunas = ['ano', col_dim]
     df_resultado = df[
         df[col_modalidade] == modalidade
@@ -267,20 +268,20 @@ def _calcular_serie_por_dim_modalidade(df, modalidade, col_dim):
             campanhas_dim_mod_sucesso = df[
                 (df[col_dim] == dim)
                 & (df[col_modalidade] == modalidade)
-                & (df['geral_total_contribuicoes'] > 0)
+                & (df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] > 0)
                 ]
             total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
-            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
-            contribuicoes = campanhas_dim_mod_sucesso['geral_total_contribuicoes'].sum()
+            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            contribuicoes = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
         else:
             campanhas_dim_mod_sucesso = df[
                 (df[col_dim] == dim)
                 & (df[col_modalidade] == modalidade)
-                & (df['geral_status'] != 'failed')
+                & (df[colunaslib.COL_GERAL_STATUS] != 'failed')
                 ]
             total_dim_mod_sucesso = len(campanhas_dim_mod_sucesso)
-            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso['geral_arrecadado_corrigido'].sum()
-            contribuicoes = campanhas_dim_mod_sucesso['geral_total_contribuicoes'].sum()
+            valor_dim_mod_sucesso = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            contribuicoes = campanhas_dim_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
 
 
         df_resultado.at[index, col_total] = int(total_dim_mod)
