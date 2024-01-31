@@ -153,6 +153,10 @@ def _gerar_serie_por_modalidade(df, ano, modalidade, nome_modalidade, pasta_md, 
         df_resultado.at[index, comum.DFCOL_CONTRIBUICOES] = contribuicoes
         df_resultado.at[index, comum.DFCOL_MEDIA_CONTRIBUICOES] = comum._dividir(contribuicoes, total_mod_sucesso)
 
+    df_resultado[comum.DFCOL_TOTAL] = df_resultado[comum.DFCOL_TOTAL].round().astype('int64')
+    df_resultado[comum.DFCOL_TOTAL_SUCESSO] = df_resultado[comum.DFCOL_TOTAL_SUCESSO].round().astype('int64')
+    df_resultado[comum.DFCOL_CONTRIBUICOES] = df_resultado[comum.DFCOL_CONTRIBUICOES].round().astype('int64')
+
     # Preencher NaN com 0 para evitar problemas na divisão
     df_resultado = df_resultado.fillna(0)
 
