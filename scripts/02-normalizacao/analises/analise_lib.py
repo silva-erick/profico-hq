@@ -211,16 +211,9 @@ Gerar gráfico de barras
 """
 def _gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, funcao_formatacao):
 
-    if (len(df)>20):
-        altura_grafico = 15
-    elif (len(df)>15):
-        altura_grafico = 12
-    elif (len(df)>10):
-        altura_grafico = 9
-    elif (len(df)>5):
-        altura_grafico = 6
-    else:
-        altura_grafico = 3
+    altura_grafico = round(len(df)*0.6)
+    if altura_grafico < 2:
+        altura_grafico = 2
 
     plt.figure(figsize=(10, altura_grafico))
 
@@ -270,16 +263,9 @@ Gerar gráfico de barras 2Y
 """
 def _gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, legenda_y2, funcao_formatacao):
 
-    if (len(df)>20):
-        altura_grafico = 20
-    elif (len(df)>15):
-        altura_grafico = 16
-    elif (len(df)>10):
-        altura_grafico = 12
-    elif (len(df)>5):
-        altura_grafico = 8
-    else:
-        altura_grafico = 4
+    altura_grafico = round(len(df)*1)
+    if altura_grafico < 2:
+        altura_grafico = 2
 
     plt.figure(figsize=(10, altura_grafico))
 
