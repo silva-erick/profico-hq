@@ -16,9 +16,15 @@ import analises.temporal as tempr
 
 import analises.analises_comum as comum
 
+import analises.analise_descritiva as andesc
+
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CSV = "../../dados/csv"
+CAMINHO_TEMPLATE = f"templates"
+CAMINHO_TEMPLATE_DESCRITIVO = f"{CAMINHO_TEMPLATE}/descritivo"
+CAMINHO_TEMPLATE_NOTAVEIS   = f"{CAMINHO_TEMPLATE}/notaveis"
+CAMINHO_TEMPLATE_TEMPORAL = f"{CAMINHO_TEMPLATE}/temporal"
 
 REGEX_PRIMEIRO_NOME = re.compile('^[\w]+$')
 
@@ -107,15 +113,15 @@ class AnaliseCsv:
         if not os.path.exists(pasta_dados):
             os.mkdir(pasta_dados)
                 
-        with open(f'analise-descritiva-modalidade.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_modalidade:
+        with open(f'{CAMINHO_TEMPLATE_DESCRITIVO}/analise-descritiva-modalidade.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_modalidade:
             template_analise_descritiva_modalidade = arq_template_analise_descritiva_modalidade.read()
             arq_template_analise_descritiva_modalidade.close()
                 
-        with open(f'analise-descritiva-outros.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_outros:
+        with open(f'{CAMINHO_TEMPLATE_DESCRITIVO}/analise-descritiva-outros.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_outros:
             template_analise_descritiva_outros = arq_template_analise_descritiva_outros.read()
             arq_template_analise_descritiva_outros.close()
                 
-        with open(f'analise-descritiva.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva:
+        with open(f'{CAMINHO_TEMPLATE_DESCRITIVO}/analise-descritiva.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva:
             template_analise_descritiva = arq_template_analise_descritiva.read()
 
         with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/README.md', 'w', encoding='utf8') as f:
@@ -345,32 +351,34 @@ class AnaliseCsv:
 
         print(f'campanhas: {len(df)}')
 
-        resultado = (
-            self._realizar_analise_descritiva(df)
-            and self._realizar_analise_pontos_notaveis(df)
-            and self._realizar_analise_temporal(df)
-        )
+        #resultado = (
+        #    self._realizar_analise_descritiva(df)
+        #    #and self._realizar_analise_pontos_notaveis(df)
+        #    #and self._realizar_analise_temporal(df)
+        #)
 
+        descritivo = andesc.CoordenadorAnaliseDescritiva()
+        resultado = descritivo.executar(df, self._ano)
 
         return resultado
 
     def _garantir_pastas(self):
         self._show_message('Verificando pastas')
-        log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}")
-        if not os.path.exists(f"{CAMINHO_NORMALIZADOS}"):
-            return False
-        log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}/{self._ano}")
-        if not os.path.exists(f"{CAMINHO_NORMALIZADOS}/{self._ano}"):
-            return False
+        # log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}")
+        # if not os.path.exists(f"{CAMINHO_NORMALIZADOS}"):
+        #     return False
+        # log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}/{self._ano}")
+        # if not os.path.exists(f"{CAMINHO_NORMALIZADOS}/{self._ano}"):
+        #     return False
 
-        log_verbose(self._verbose, f"> pasta: {CAMINHO_CSV}")
-        if not os.path.exists(f"{CAMINHO_CSV}"):
-            log_verbose(self._verbose, f"\tcriando pasta: {CAMINHO_CSV}")
-            os.mkdir(f"{CAMINHO_CSV}")
-        log_verbose(self._verbose, f"> pasta: {CAMINHO_CSV}/{self._ano}")
-        if not os.path.exists(f"{CAMINHO_CSV}/{self._ano}"):
-            log_verbose(self._verbose, f"\tcriando pasta: {CAMINHO_CSV}/{self._ano}")
-            os.mkdir(f"{CAMINHO_CSV}/{self._ano}")
+        # log_verbose(self._verbose, f"> pasta: {CAMINHO_CSV}")
+        # if not os.path.exists(f"{CAMINHO_CSV}"):
+        #     log_verbose(self._verbose, f"\tcriando pasta: {CAMINHO_CSV}")
+        #     os.mkdir(f"{CAMINHO_CSV}")
+        # log_verbose(self._verbose, f"> pasta: {CAMINHO_CSV}/{self._ano}")
+        # if not os.path.exists(f"{CAMINHO_CSV}/{self._ano}"):
+        #     log_verbose(self._verbose, f"\tcriando pasta: {CAMINHO_CSV}/{self._ano}")
+        #     os.mkdir(f"{CAMINHO_CSV}/{self._ano}")
 
         return True
     

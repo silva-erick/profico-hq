@@ -1,0 +1,486 @@
+@startwbs
+<style>
+wbsDiagram {
+.pendente {
+    BackgroundColor #eee
+}
+.duvida {
+    BackgroundColor #ffcc00
+}
+.feito {
+    BackgroundColor #ccff00
+}
+.andamento {
+    BackgroundColor #00ccff
+}
+}
+</style>
+
++:**profico-hq**
+Análises;
+
+++ Descritiva <<pendente>>
++++ Visão Geral <<andamento>>
+++++ Consolidar indicadores <<andamento>>
+++++ Tabela com 3 modalidades <<pendente>>
+++++ Infográfico: Mapa mental <<pendente>>
++++ Tudo ou Nada <<pendente>>
+++++ Visão Geral <<pendente>>
++++++ Consolidar indicadores <<andamento>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
+++++ Plataforma <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ UF <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ Gênero <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ Menções <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
++++ Flex <<pendente>>
+++++ Visão Geral <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
+++++ Plataforma <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ UF <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ Gênero <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ Menções <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+
+
++++ Recorrente <<pendente>>
+++++ Visão Geral <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
+++++ Plataforma <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ UF <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ Gênero <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++++ Menções <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas
++++++ Gráfico comparativo: Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+
+
+
+
+
+
+++ Temporal <<pendente>>
++++ Tudo ou Nada <<pendente>>
+++++ Visão Geral <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Plataforma <<duvida>>
+++++ UF <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Gênero <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Menções <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
++++ Flex <<pendente>>
+++++ Visão Geral <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Plataforma <<duvida>>
+++++ UF <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Gênero <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Menções <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
++++ Recorrente <<pendente>>
+++++ Visão Geral <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Plataforma <<duvida>>
+++++ UF <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Gênero <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Menções <<pendente>>
++++++ Consolidar indicadores <<pendente>>
++++++ Tabela descritiva <<pendente>>
++++++ Infográfico: Mapa mental <<pendente>>
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Total de Contribuições
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+++ Rankings <<pendente>>
++++ Tudo ou Nada <<pendente>>
+++++ UF <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Gênero <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Menções <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
++++ Flex <<pendente>>
+++++ UF <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Gênero <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Menções <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
++++ Recorrente <<pendente>>
+++++ UF <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Gênero <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+++++ Menções <<pendente>>
++++++ Tabela comparativa: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Gráfico comparativo: Total Campanhas x Total Campanhas Bem-sucedidas
++++++ Tabela comparativa: Taxa de Sucesso
++++++ Gráfico comparativo: Taxa de Sucesso
++++++ Tabela comparativa: Valor Total Arrecadado
++++++ Gráfico comparativo: Valor Total Arrecadado
++++++ Tabela comparativa: Valor Médio Arrecadado
++++++ Gráfico comparativo: Valor Médio Arrecadado
++++++ Tabela comparativa: Valor Médio Apoiado/Campanha
++++++ Gráfico comparativo: Valor Médio Apoiado/Campanha
++++++ Tabela comparativa: Total de Contribuições
++++++ Gráfico comparativo: Total de Contribuições
++++++ Tabela comparativa: Média de Contribuições/Campanha
++++++ Gráfico comparativo: Média de Contribuições/Campanha
+
+@endwbs

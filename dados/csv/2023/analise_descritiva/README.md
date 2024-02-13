@@ -9,53 +9,43 @@ de agrupamento, tal como plataforma, unidade federativa, gênero ou menção a a
 de interesse à iniciativa [profico-hq](https://github.com/silva-erick/profico-hq).
 
 
-[Modalidade](./sint_resumo_por_modalidade.md)
+## Infográficos
 
-[Plataforma](./sint_resumo_por_origem_modalidade.md)
+Os infográficos a seguir oferecem um resumo visual das análises no conjunto de dados
+das campanhas de HQ.
 
-[Unidade Federativa](./sint_resumo_por_ufbr.md)
+[Infográfico: Visão Geral](./infografico-geral.md)
 
-[Gênero](./sint_resumo_por_genero.md)
+[Infográfico: Catarse](./infografico-catarse.md)
 
-[Menções: Ângelo Agostini](./sint_resumo_por_mencoes_angelo_agostini.md)
+[Infográfico: Apoia.se](./infografico-apoiase.md)
 
-[Menções: CCXP](./sint_resumo_por_mencoes_ccxp.md)
 
-[Menções: Disputa](./sint_resumo_por_mencoes_disputa.md)
+## Visões Complementares
 
-[Menções: Erotismo](./sint_resumo_por_mencoes_erotismo.md)
+[Comparações](./panorama.md) sobre as modalidades Tudo ou Nada, Flex e Recorrente.
 
-[Menções: Fantasia](./sint_resumo_por_mencoes_fantasia.md)
+### Modalidade: Tudo ou Nada
 
-[Menções: Ficcao Científica](./sint_resumo_por_mencoes_ficcao_cientifica.md)
+Recortes para modalidade Tudo ou Nada:
+- [Plataforma](./aon-plataforma.md)
+- [Gênero](./aon-genero.md)
+- [Unidade Federativa](./aon-uf.md)
+- [Menções](./aon-mencoes.md)
 
-[Menções: FIQ](./sint_resumo_por_mencoes_fiq.md)
+### Modalidade: Flex
 
-[Menções: Folclore](./sint_resumo_por_mencoes_folclore.md)
+Recortes para a modalidade Flex:
+- [Plataforma](./flex-plataforma.md)
+- [Gênero](./flex-genero.md)
+- [Unidade Federativa](./flex-uf.md)
+- [Menções](./flex-mencoes.md)
 
-[Menções: Herois](./sint_resumo_por_mencoes_herois.md)
+### Modalidade: Recorrente
 
-[Menções: HQMIX](./sint_resumo_por_mencoes_hqmix.md)
-
-[Menções: Humor](./sint_resumo_por_mencoes_humor.md)
-
-[Menções: Jogos](./sint_resumo_por_mencoes_jogos.md)
-
-[Menções: LGBTQIA+](./sint_resumo_por_mencoes_lgbtqiamais.md)
-
-[Menções: Mídia Independente](./sint_resumo_por_mencoes_midia_independente.md)
-
-[Menções: Política](./sint_resumo_por_mencoes_politica.md)
-
-[Menções: Questões de Gênero](./sint_resumo_por_mencoes_questoes_genero.md)
-
-[Menções: Religiosidade](./sint_resumo_por_mencoes_religiosidade.md)
-
-[Menções: Salões de Humor](./sint_resumo_por_mencoes_saloes_humor.md)
-
-[Menções: Terror](./sint_resumo_por_mencoes_terror.md)
-
-[Menções: Webformatos](./sint_resumo_por_mencoes_webformatos.md)
-
-[Menções: Zine](./sint_resumo_por_mencoes_zine.md)
+Recortes para a modalidade Recorrente:
+- [Plataforma](./sub-plataforma.md)
+- [Gênero](./sub-genero.md)
+- [Unidade Federativa](./sub-uf.md)
+- [Menções](./sub-mencoes.md)
 
