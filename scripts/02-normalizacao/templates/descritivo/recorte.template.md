@@ -1,4 +1,6 @@
-# Recorte - $(titulo-recorte)
+# Análise Descritiva - Recorte - $(titulo-recorte)
+
+A tabela abaixo foi usada nos gráficos a seguir.
 
 $(tabela-markdown)
 

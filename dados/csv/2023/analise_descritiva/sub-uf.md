@@ -1,4 +1,6 @@
-# Recorte - UF
+# Análise Descritiva - Recorte - UF
+
+A tabela abaixo foi usada nos gráficos a seguir.
 
 | modalidade   | geral_uf_br   |   total |   total_sucesso |   particip (%) |   taxa_sucesso (%) |   arrecadado_sucesso (R$) |   media_sucesso (R$) |   std_sucesso (R$) |   min_sucesso (R$) |   max_sucesso (R$) |   apoio_medio (R$) |   contribuicoes |   media_contribuicoes |
 |:-------------|:--------------|--------:|----------------:|---------------:|-------------------:|--------------------------:|---------------------:|-------------------:|-------------------:|-------------------:|-------------------:|----------------:|----------------------:|

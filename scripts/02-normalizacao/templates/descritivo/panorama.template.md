@@ -1,6 +1,6 @@
 # Panorama
 
-A tabela abaixo será usada nos gráficos a seguir.
+A tabela abaixo foi usada nos gráficos a seguir.
 
 $(tabela-markdown)
 
