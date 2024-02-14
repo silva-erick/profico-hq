@@ -3,6 +3,8 @@
 A análise descritiva considera o [conjunto de dados](../../../dados/brutos/csv/2023/campanhas_2023.xlsx)
 agrupado por modalidade de financiamento coletivo.
 
+[Teste](../../../)
+
 Também são apresentados recortes por outras dimensões
 de agrupamento, tal como plataforma, unidade federativa, gênero ou menção a algum tema
 de interesse.
