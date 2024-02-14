@@ -20,7 +20,7 @@ _categorização de conteúdo_ e _gênero_.
 ## Análises
 
 As análises a seguir foram realizadas a partir do
-[conjunto de dados normalizados](../../dados/brutos/csv/2023/campanhas_2023.xlsx).
+[conjunto de dados normalizados](../../../../blob/main/analises/2023/campanhas_2023.xlsx).
 
 ### Análise Descritiva
 
