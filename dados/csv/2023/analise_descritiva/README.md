@@ -1,6 +1,6 @@
 # Análise Descritiva
 
-A análise descritiva considera o [conjunto de dados](../../../dados/brutos/csv/2023/campanhas_2023.xlsx)
+A análise descritiva considera o [conjunto de dados normalizados](../../../../../blob/main/analises/2023/campanhas_2023.xlsx)
 agrupado por modalidade de financiamento coletivo.
 
 Também são apresentados recortes por outras dimensões
