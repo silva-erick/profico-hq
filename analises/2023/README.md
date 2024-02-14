@@ -17,7 +17,10 @@ de dados são apresentados na seção [Conceitos](./conceitos.md). Alguns dos co
 abordados são _modalidade de financiamento coletivo_, _correção monetária_,
 _categorização de conteúdo_ e _gênero_.
 
-## Análises 
+## Análises
+
+As análises a seguir foram realizadas a partir do
+[conjunto de dados normalizados](../../dados/brutos/csv/2023/campanhas_2023.xlsx).
 
 ### Análise Descritiva
 

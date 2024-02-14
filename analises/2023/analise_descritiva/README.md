@@ -1,12 +1,11 @@
 # Análise Descritiva
 
-A análise descritiva considera o conjunto de dados agrupado por modalidade de financiamento
-coletivo.
-
+A análise descritiva considera o [conjunto de dados](../../../dados/brutos/csv/2023/campanhas_2023.xlsx)
+agrupado por modalidade de financiamento coletivo.
 
 Também são apresentados recortes por outras dimensões
 de agrupamento, tal como plataforma, unidade federativa, gênero ou menção a algum tema
-de interesse à iniciativa [profico-hq](https://github.com/silva-erick/profico-hq).
+de interesse.
 
 
 ## Infográficos
