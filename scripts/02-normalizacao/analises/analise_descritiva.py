@@ -241,8 +241,8 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             f'Totais (Modalidade: {analisebase.TITULOS_MODALIDADES[mod]} e {titulo})',
             titulo,
             'Campanhas',
-            'Total de Campanhas',
-            'Total de Campanhas Bem Sucedidas',
+            'Campanhas',
+            'Campanhas Bem Sucedidas',
             analisebase.numero_inteiro_f
             )
 
@@ -256,7 +256,8 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             titulo,
             'Participação',
             'Participação',
-            analisebase.numero_percent1_f
+            analisebase.numero_percent1_f,
+            analisebase.formatar_percent_eixo_y
             )
 
         analisebase._gerar_grafico_barras_horizontais(
@@ -269,7 +270,8 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             titulo,
             'Taxa de Sucesso',
             'Taxa de Sucesso',
-            analisebase.numero_percent1_f
+            analisebase.numero_percent1_f,
+            analisebase.formatar_percent_eixo_y
             )
 
         analisebase._gerar_grafico_barras_horizontais(
@@ -417,8 +419,8 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Totais (Modalidade)',
             'Modalidade',
             'Campanhas',
-            'Total de Campanhas',
-            'Total de Campanhas Bem Sucedidas',
+            'Campanhas',
+            'Campanhas Bem Sucedidas',
             analisebase.numero_inteiro_f
             )
 
@@ -432,7 +434,8 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Modalidade',
             'Participação',
             'Participação',
-            analisebase.numero_percent1_f
+            analisebase.numero_percent1_f,
+            analisebase.formatar_percent_eixo_y
             )
 
         analisebase._gerar_grafico_barras_horizontais(
@@ -445,7 +448,8 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Modalidade',
             'Taxa de Sucesso',
             'Taxa de Sucesso',
-            analisebase.numero_percent1_f
+            analisebase.numero_percent1_f,
+            analisebase.formatar_percent_eixo_y
             )
 
         analisebase._gerar_grafico_barras_horizontais(

@@ -178,6 +178,28 @@ def formatar_tabelamarkdown_com_milhares(string_com_numeros):
 
     return string_com_numeros
 
+def formatar_percent_eixo_y(num_unknown, pos=0):
+    return formatar_num_eixo_y(round(100*num_unknown, 0), pos).replace(',0', '')+'%'
+
+def formatar_num_eixo_y(num_unknown, pos=0):
+    if isinstance(num_unknown, str):
+        num = float(num_unknown)
+    elif isinstance(num_unknown, int):
+        num = float(num_unknown)
+    else:
+        num = num_unknown
+
+    if num > 1000000:
+        num = int(num / 1000000)
+        resultado = f'{num}M'
+    elif num > 1000:
+        num = int(num / 1000)
+        resultado = f'{num}K'
+    else:
+        num = int(num)
+        resultado = f'{num}'
+
+    return resultado.replace('.', ',')
 
 """
 Gear gráfico de barras
@@ -209,7 +231,7 @@ def _gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, legenda, titulo_
 """
 Gerar gráfico de barras
 """
-def _gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, funcao_formatacao):
+def _gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
 
     altura_grafico = round(len(df)*0.6)
     if altura_grafico < 2:
@@ -220,7 +242,7 @@ def _gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, tit
     # Criar uma figura com mais espaço para o eixo y
     fig, ax = plt.subplots(figsize=(8, altura_grafico))
 
-    bar_width = 0.70
+    bar_width = 0.60
     index = range(len(df))
 
     # Criar um gráfico de barras horizontais
@@ -245,23 +267,27 @@ def _gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, tit
     plt.ylabel(titulo_eixo_x)
 
     # Usar números sem notação científica no eixo x
-    formatter = FuncFormatter(funcao_formatacao)
+    #formatter = FuncFormatter(funcao_formatacao)
+    formatter = FuncFormatter(funcao_formatacao_eixo)
     plt.gca().xaxis.set_major_formatter(formatter)
 
     # Ajustar automaticamente o layout para evitar sobreposições
     plt.tight_layout()
+    
+    # Posicionar a legenda fora da área de desenho do gráfico
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='lower left')
 
     plt.grid(True)
 
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
-    plt.savefig(f'{pasta_img}/{arquivo}.png')
+    plt.savefig(f'{pasta_img}/{arquivo}.png', bbox_inches='tight')
 
     plt.close('all')
 
 """
 Gerar gráfico de barras 2Y
 """
-def _gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, legenda_y2, funcao_formatacao):
+def _gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, legenda_y2, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
 
     altura_grafico = round(len(df)*1)
     if altura_grafico < 2:
@@ -305,16 +331,20 @@ def _gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, c
     plt.ylabel(titulo_eixo_x)
 
     # Usar números sem notação científica no eixo x
-    formatter = FuncFormatter(funcao_formatacao)
+    #formatter = FuncFormatter(funcao_formatacao)
+    formatter = FuncFormatter(funcao_formatacao_eixo)
     plt.gca().xaxis.set_major_formatter(formatter)
 
     # Ajustar automaticamente o layout para evitar sobreposições
     plt.tight_layout()
+    
+    # Posicionar a legenda fora da área de desenho do gráfico
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='lower left')
 
     plt.grid(True)
 
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
-    plt.savefig(f'{pasta_img}/{arquivo}.png')
+    plt.savefig(f'{pasta_img}/{arquivo}.png', bbox_inches='tight')
 
     plt.close('all')
 
