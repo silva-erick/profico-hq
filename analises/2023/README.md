@@ -1,7 +1,7 @@
 # profico-hq - Relatório Anual 2023
 
 > [!WARNING] 
-> **Atenção:** relatório em construção. Sentindo falta de algo? Só avisar.
+> **Atenção:** relatório em construção. Sentindo falta de algo? Qualquer coisa, só avisar.
 
 
 ## Introdução
