@@ -2,10 +2,10 @@
 
 A tabela abaixo foi usada nos gráficos a seguir.
 
-| modalidade   | origem   |   total |   total_sucesso |   particip (%) |   taxa_sucesso (%) |   arrecadado_sucesso (R$) |   media_sucesso (R$) |   std_sucesso (R$) |   min_sucesso (R$) |   max_sucesso (R$) |   apoio_medio (R$) |   contribuicoes |   media_contribuicoes |
-|:-------------|:---------|--------:|----------------:|---------------:|-------------------:|--------------------------:|---------------------:|-------------------:|-------------------:|-------------------:|-------------------:|----------------:|----------------------:|
-| flex         | apoia.se |       5 |               0 |           0,3% |               0,0% |                      0,00 |                 0,00 |               0,00 |               0,00 |               0,00 |               0,00 |               0 |                   0,0 |
-| flex         | catarse  |   1.463 |           1.383 |          99,7% |              94,5% |             18.362.131,94 |            13.277,03 |          33.934,83 |              10,77 |         708.972,78 |              90,17 |         203.646 |                 147,2 |
+| modalidade   | origem   |   total |   total_sucesso |   particip (%) |   taxa_sucesso (%) |   arrecadado_sucesso (R$) |   arrecadado_avg (R$) |   arrecadado_std (R$) |   arrecadado_min (R$) |   arrecadado_max (R$) |   apoio_medio (R$) |   apoio_std (R$) |   apoio_min (R$) |   apoio_max (R$) |   contribuicoes |   contribuicoes_med |   contribuicoes_std |   contribuicoes_min |   contribuicoes_max |
+|:-------------|:---------|--------:|----------------:|---------------:|-------------------:|--------------------------:|----------------------:|----------------------:|----------------------:|----------------------:|-------------------:|-----------------:|-----------------:|-----------------:|----------------:|--------------------:|--------------------:|--------------------:|--------------------:|
+| flex         | apoia.se |       5 |               0 |           0,3% |               0,0% |                      0,00 |                  0,00 |                  0,00 |                  0,00 |                  0,00 |               0,00 |             0,00 |             0,00 |             0,00 |               0 |                 0,0 |                 0,0 |                 0,0 |                 0,0 |
+| flex         | catarse  |   1.463 |           1.383 |          99,7% |              94,5% |             18.362.131,94 |             13.277,03 |             33.934,83 |                 10,77 |            708.972,78 |              77,41 |            39,51 |            10,77 |           461,52 |         203.646 |               147,2 |               327,7 |                 1,0 |             7.954,0 |
 
 Dados em [planilha eletrônica](./dados/flex-plataforma.xlsx).
 

@@ -45,15 +45,24 @@ DFCOL_TOTAL_SUCESSO         = 'total_sucesso'
 DFCOL_TOTAL_FALHA           = 'total_falha'
 DFCOL_PARTICIP              = 'particip'
 DFCOL_TAXA_SUCESSO          = 'taxa_sucesso'
+
 DFCOL_ARRECADADO            = 'arrecadado'
 DFCOL_ARRECADADO_SUCESSO    = 'arrecadado_sucesso'
-DFCOL_MEDIA_SUCESSO         = 'media_sucesso'
-DFCOL_STD_SUCESSO           = 'std_sucesso'
-DFCOL_MIN_SUCESSO           = 'min_sucesso'
-DFCOL_MAX_SUCESSO           = 'max_sucesso'
-DFCOL_APOIO_MEDIO           = 'apoio_medio'
+DFCOL_ARRECADADO_MED        = 'arrecadado_avg'
+DFCOL_ARRECADADO_STD        = 'arrecadado_std'
+DFCOL_ARRECADADO_MIN        = 'arrecadado_min'
+DFCOL_ARRECADADO_MAX        = 'arrecadado_max'
+
+DFCOL_APOIO_MED             = 'apoio_medio'
+DFCOL_APOIO_STD             = 'apoio_std'
+DFCOL_APOIO_MIN             = 'apoio_min'
+DFCOL_APOIO_MAX             = 'apoio_max'
+
 DFCOL_CONTRIBUICOES         = 'contribuicoes'
-DFCOL_MEDIA_CONTRIBUICOES   = 'media_contribuicoes'
+DFCOL_CONTRIBUICOES_MED     = 'contribuicoes_med'
+DFCOL_CONTRIBUICOES_STD     = 'contribuicoes_std'
+DFCOL_CONTRIBUICOES_MIN     = 'contribuicoes_min'
+DFCOL_CONTRIBUICOES_MAX     = 'contribuicoes_max'
 
 DFCOL_ORIGEM                = 'origem'
 DFCOL_GENERO                = 'autoria_classificacao'
@@ -393,10 +402,10 @@ class GeracaoExcel:
     formatados[comum.DFCOL_PARTICIP] = {'num_format': '0.00%'}
     formatados[comum.DFCOL_TAXA_SUCESSO] = {'num_format': '0.00%'}
     formatados[comum.DFCOL_ARRECADADO_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-    formatados[comum.DFCOL_MEDIA_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-    formatados[comum.DFCOL_STD_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-    formatados[comum.DFCOL_MIN_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-    formatados[f'max_sucesso'] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_ARRECADADO_MED] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_ARRECADADO_STD] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_ARRECADADO_MIN] = {'num_format': 'R$ #,##0.00'}
+    formatados[comum.DFCOL_ARRECADADO_MAX] = {'num_format': 'R$ #,##0.00'}
     """
     def executar(df, nome_arquivo, colunas_formato=None) -> bool:
         #comum._gravar_excel_formatado(df_resultado, caminho_arquivo_excel, formatados)

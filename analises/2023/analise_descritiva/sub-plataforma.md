@@ -2,10 +2,10 @@
 
 A tabela abaixo foi usada nos gráficos a seguir.
 
-| modalidade   | origem   |   total |   total_sucesso |   particip (%) |   taxa_sucesso (%) |   arrecadado_sucesso (R$) |   media_sucesso (R$) |   std_sucesso (R$) |   min_sucesso (R$) |   max_sucesso (R$) |   apoio_medio (R$) |   contribuicoes |   media_contribuicoes |
-|:-------------|:---------|--------:|----------------:|---------------:|-------------------:|--------------------------:|---------------------:|-------------------:|-------------------:|-------------------:|-------------------:|----------------:|----------------------:|
-| sub          | apoia.se |     627 |             137 |          91,7% |              21,9% |                 39.550,44 |               288,69 |             682,40 |               1,09 |           5.087,08 |              19,17 |           2.063 |                  15,1 |
-| sub          | catarse  |      57 |              15 |           8,3% |              26,3% |                  3.636,52 |               242,43 |             198,40 |              10,98 |             538,44 |              25,08 |             145 |                   9,7 |
+| modalidade   | origem   |   total |   total_sucesso |   particip (%) |   taxa_sucesso (%) |   arrecadado_sucesso (R$) |   arrecadado_avg (R$) |   arrecadado_std (R$) |   arrecadado_min (R$) |   arrecadado_max (R$) |   apoio_medio (R$) |   apoio_std (R$) |   apoio_min (R$) |   apoio_max (R$) |   contribuicoes |   contribuicoes_med |   contribuicoes_std |   contribuicoes_min |   contribuicoes_max |
+|:-------------|:---------|--------:|----------------:|---------------:|-------------------:|--------------------------:|----------------------:|----------------------:|----------------------:|----------------------:|-------------------:|-----------------:|-----------------:|-----------------:|----------------:|--------------------:|--------------------:|--------------------:|--------------------:|
+| sub          | apoia.se |     627 |             137 |          91,7% |              21,9% |                 39.550,44 |                288,69 |                682,40 |                  1,09 |              5.087,08 |              20,89 |            15,28 |             1,01 |            84,08 |           2.063 |                15,1 |                33,4 |                 1,0 |               208,0 |
+| sub          | catarse  |      57 |              15 |           8,3% |              26,3% |                  3.636,52 |                242,43 |                198,40 |                 10,98 |                538,44 |              24,89 |            12,20 |            10,98 |            48,38 |             145 |                 9,7 |                 8,3 |                 1,0 |                30,0 |
 
 Dados em [planilha eletrônica](./dados/sub-plataforma.xlsx).
 

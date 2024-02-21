@@ -130,26 +130,26 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         valores_substituicao['$(campanhas-aon-total)']              = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_TOTAL].sum())
         valores_substituicao['$(campanhas-aon-sucesso)']            = analisebase.numero_com_separadores(100*df_aon[analisebase.DFCOL_TAXA_SUCESSO].sum(),1)
         valores_substituicao['$(campanhas-aon-total-arrecadado)']   = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_ARRECADADO_SUCESSO].sum(), 2)
-        valores_substituicao['$(campanhas-aon-arrecadacao-media)']  = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_MEDIA_SUCESSO].sum(), 2)
-        valores_substituicao['$(campanhas-aon-apoio-med)']          = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_APOIO_MEDIO].sum(), 2)
+        valores_substituicao['$(campanhas-aon-arrecadacao-media)']  = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_ARRECADADO_MED].sum(), 2)
+        valores_substituicao['$(campanhas-aon-apoio-med)']          = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_APOIO_MED].sum(), 2)
         valores_substituicao['$(campanhas-aon-contr-totais)']       = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_CONTRIBUICOES].sum())
-        valores_substituicao['$(campanhas-aon-contr-media)']        = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_MEDIA_CONTRIBUICOES].sum())
+        valores_substituicao['$(campanhas-aon-contr-media)']        = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_CONTRIBUICOES_MED].sum())
 
         valores_substituicao['$(campanhas-flex-total)']             = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_TOTAL].sum())
         valores_substituicao['$(campanhas-flex-sucesso)']           = analisebase.numero_com_separadores(100*df_flex[analisebase.DFCOL_TAXA_SUCESSO].sum(),1)
         valores_substituicao['$(campanhas-flex-total-arrecadado)']  = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_ARRECADADO_SUCESSO].sum(), 2)
-        valores_substituicao['$(campanhas-flex-arrecadacao-media)'] = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_MEDIA_SUCESSO].sum(), 2)
-        valores_substituicao['$(campanhas-flex-apoio-med)']         = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_APOIO_MEDIO].sum(), 2)
+        valores_substituicao['$(campanhas-flex-arrecadacao-media)'] = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_ARRECADADO_MED].sum(), 2)
+        valores_substituicao['$(campanhas-flex-apoio-med)']         = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_APOIO_MED].sum(), 2)
         valores_substituicao['$(campanhas-flex-contr-totais)']      = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_CONTRIBUICOES].sum())
-        valores_substituicao['$(campanhas-flex-contr-media)']       = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_MEDIA_CONTRIBUICOES].sum())
+        valores_substituicao['$(campanhas-flex-contr-media)']       = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_CONTRIBUICOES_MED].sum())
 
         valores_substituicao['$(campanhas-sub-total)']              = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_TOTAL].sum())
         valores_substituicao['$(campanhas-sub-sucesso)']            = analisebase.numero_com_separadores(100*df_sub[analisebase.DFCOL_TAXA_SUCESSO].sum(),1)
         valores_substituicao['$(campanhas-sub-total-arrecadado)']   = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_ARRECADADO_SUCESSO].sum(), 2)
-        valores_substituicao['$(campanhas-sub-arrecadacao-media)']  = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_MEDIA_SUCESSO].sum(), 2)
-        valores_substituicao['$(campanhas-sub-apoio-med)']          = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_APOIO_MEDIO].sum(), 2)
+        valores_substituicao['$(campanhas-sub-arrecadacao-media)']  = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_ARRECADADO_MED].sum(), 2)
+        valores_substituicao['$(campanhas-sub-apoio-med)']          = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_APOIO_MED].sum(), 2)
         valores_substituicao['$(campanhas-sub-contr-totais)']       = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_CONTRIBUICOES].sum())
-        valores_substituicao['$(campanhas-sub-contr-media)']        = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_MEDIA_CONTRIBUICOES].sum())
+        valores_substituicao['$(campanhas-sub-contr-media)']        = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_CONTRIBUICOES_MED].sum())
 
         resultado = dot_template
         for k, v in valores_substituicao.items():
@@ -295,7 +295,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             f'{mod}-{recorte}-media-arrecadada',
             df_recorte,
             coluna,
-            analisebase.DFCOL_MEDIA_SUCESSO,
+            analisebase.DFCOL_ARRECADADO_MED,
             f'Média Arrecadada por Campanha (Modalidade: {analisebase.TITULOS_MODALIDADES[mod]} e {titulo})',
             titulo,
             'Média Arrecadada por Campanha (R$)',
@@ -308,7 +308,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             f'{mod}-{recorte}-apoio-medio',
             df_recorte,
             coluna,
-            analisebase.DFCOL_APOIO_MEDIO,
+            analisebase.DFCOL_APOIO_MED,
             f'Apoio Médio por Campanha (Modalidade: {analisebase.TITULOS_MODALIDADES[mod]} e {titulo})',
             titulo,
             'Apoio Médio por Campanha (R$)',
@@ -334,7 +334,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             f'{mod}-{recorte}-media-contribuicoes',
             df_recorte,
             coluna,
-            analisebase.DFCOL_MEDIA_CONTRIBUICOES,
+            analisebase.DFCOL_CONTRIBUICOES_MED,
             f'Média de Contribuições por Campanha (Modalidade: {analisebase.TITULOS_MODALIDADES[mod]} e {titulo})',
             titulo,
             'Média de Contribuições por Campanha',
@@ -359,13 +359,19 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         df_formatado[analisebase.DFCOL_PARTICIP]                = df_formatado[analisebase.DFCOL_PARTICIP].map(analisebase.numero_percent1_f)
         df_formatado[analisebase.DFCOL_TAXA_SUCESSO]            = df_formatado[analisebase.DFCOL_TAXA_SUCESSO].map(analisebase.numero_percent1_f)
         df_formatado[analisebase.DFCOL_ARRECADADO_SUCESSO]      = df_formatado[analisebase.DFCOL_ARRECADADO_SUCESSO].map(analisebase.numero_real2_f)
-        df_formatado[analisebase.DFCOL_MEDIA_SUCESSO]           = df_formatado[analisebase.DFCOL_MEDIA_SUCESSO].map(analisebase.numero_real2_f)
-        df_formatado[analisebase.DFCOL_STD_SUCESSO]             = df_formatado[analisebase.DFCOL_STD_SUCESSO].map(analisebase.numero_real2_f)
-        df_formatado[analisebase.DFCOL_MIN_SUCESSO]             = df_formatado[analisebase.DFCOL_MIN_SUCESSO].map(analisebase.numero_real2_f)
-        df_formatado[analisebase.DFCOL_MAX_SUCESSO]             = df_formatado[analisebase.DFCOL_MAX_SUCESSO].map(analisebase.numero_real2_f)
-        df_formatado[analisebase.DFCOL_APOIO_MEDIO]             = df_formatado[analisebase.DFCOL_APOIO_MEDIO].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_ARRECADADO_MED]          = df_formatado[analisebase.DFCOL_ARRECADADO_MED].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_ARRECADADO_STD]          = df_formatado[analisebase.DFCOL_ARRECADADO_STD].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_ARRECADADO_MIN]          = df_formatado[analisebase.DFCOL_ARRECADADO_MIN].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_ARRECADADO_MAX]          = df_formatado[analisebase.DFCOL_ARRECADADO_MAX].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_APOIO_MED]               = df_formatado[analisebase.DFCOL_APOIO_MED].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_APOIO_STD]               = df_formatado[analisebase.DFCOL_APOIO_STD].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_APOIO_MIN]               = df_formatado[analisebase.DFCOL_APOIO_MIN].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_APOIO_MAX]               = df_formatado[analisebase.DFCOL_APOIO_MAX].map(analisebase.numero_real2_f)
         df_formatado[analisebase.DFCOL_CONTRIBUICOES]           = df_formatado[analisebase.DFCOL_CONTRIBUICOES].map(analisebase.numero_inteiro_f)
-        df_formatado[analisebase.DFCOL_MEDIA_CONTRIBUICOES]     = df_formatado[analisebase.DFCOL_MEDIA_CONTRIBUICOES].map(analisebase.numero_real1_f)
+        df_formatado[analisebase.DFCOL_CONTRIBUICOES_MED]       = df_formatado[analisebase.DFCOL_CONTRIBUICOES_MED].map(analisebase.numero_real1_f)
+        df_formatado[analisebase.DFCOL_CONTRIBUICOES_STD]       = df_formatado[analisebase.DFCOL_CONTRIBUICOES_STD].map(analisebase.numero_real1_f)
+        df_formatado[analisebase.DFCOL_CONTRIBUICOES_MIN]       = df_formatado[analisebase.DFCOL_CONTRIBUICOES_MIN].map(analisebase.numero_real1_f)
+        df_formatado[analisebase.DFCOL_CONTRIBUICOES_MAX]       = df_formatado[analisebase.DFCOL_CONTRIBUICOES_MAX].map(analisebase.numero_real1_f)
 
         alinhamento_md = []
         for c in df_resumo.columns:
@@ -385,13 +391,19 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         df_formatado.rename(columns={analisebase.DFCOL_PARTICIP: f'{analisebase.DFCOL_PARTICIP} (%)' }, inplace=True)
         df_formatado.rename(columns={analisebase.DFCOL_TAXA_SUCESSO: f'{analisebase.DFCOL_TAXA_SUCESSO} (%)' }, inplace=True)
         df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_SUCESSO: f'{analisebase.DFCOL_ARRECADADO_SUCESSO} (R$)' }, inplace=True)
-        df_formatado.rename(columns={analisebase.DFCOL_MEDIA_SUCESSO: f'{analisebase.DFCOL_MEDIA_SUCESSO} (R$)' }, inplace=True)
-        df_formatado.rename(columns={analisebase.DFCOL_STD_SUCESSO: f'{analisebase.DFCOL_STD_SUCESSO} (R$)' }, inplace=True)
-        df_formatado.rename(columns={analisebase.DFCOL_MIN_SUCESSO: f'{analisebase.DFCOL_MIN_SUCESSO} (R$)' }, inplace=True)
-        df_formatado.rename(columns={analisebase.DFCOL_MAX_SUCESSO: f'{analisebase.DFCOL_MAX_SUCESSO} (R$)' }, inplace=True)
-        df_formatado.rename(columns={analisebase.DFCOL_APOIO_MEDIO: f'{analisebase.DFCOL_APOIO_MEDIO} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_MED: f'{analisebase.DFCOL_ARRECADADO_MED} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_STD: f'{analisebase.DFCOL_ARRECADADO_STD} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_MIN: f'{analisebase.DFCOL_ARRECADADO_MIN} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_MAX: f'{analisebase.DFCOL_ARRECADADO_MAX} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_APOIO_MED: f'{analisebase.DFCOL_APOIO_MED} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_APOIO_STD: f'{analisebase.DFCOL_APOIO_STD} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_APOIO_MIN: f'{analisebase.DFCOL_APOIO_MIN} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_APOIO_MAX: f'{analisebase.DFCOL_APOIO_MAX} (R$)' }, inplace=True)
         df_formatado.rename(columns={analisebase.DFCOL_CONTRIBUICOES: f'{analisebase.DFCOL_CONTRIBUICOES}' }, inplace=True)
-        df_formatado.rename(columns={analisebase.DFCOL_MEDIA_CONTRIBUICOES: f'{analisebase.DFCOL_MEDIA_CONTRIBUICOES}' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_CONTRIBUICOES_MED: f'{analisebase.DFCOL_CONTRIBUICOES_MED}' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_CONTRIBUICOES_STD: f'{analisebase.DFCOL_CONTRIBUICOES_STD}' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_CONTRIBUICOES_MIN: f'{analisebase.DFCOL_CONTRIBUICOES_MIN}' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_CONTRIBUICOES_MAX: f'{analisebase.DFCOL_CONTRIBUICOES_MAX}' }, inplace=True)
 
         resultado = df_formatado.to_markdown(index=False, disable_numparse=True, colalign=alinhamento_md)
 
@@ -473,7 +485,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'panorama-media-arrecadada',
             df_resumo,
             analisebase.DFCOL_MODALIDADE,
-            analisebase.DFCOL_MEDIA_SUCESSO,
+            analisebase.DFCOL_ARRECADADO_MED,
             'Média Arrecadada por Campanha (Modalidade)',
             'Modalidade',
             'Média Arrecadada por Campanha (R$)',
@@ -486,7 +498,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'panorama-apoio-medio',
             df_resumo,
             analisebase.DFCOL_MODALIDADE,
-            analisebase.DFCOL_APOIO_MEDIO,
+            analisebase.DFCOL_APOIO_MED,
             'Apoio Médio por Campanha (Modalidade)',
             'Modalidade',
             'Apoio Médio por Campanha (R$)',
@@ -512,7 +524,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'panorama-media-contribuicoes',
             df_resumo,
             analisebase.DFCOL_MODALIDADE,
-            analisebase.DFCOL_MEDIA_CONTRIBUICOES,
+            analisebase.DFCOL_CONTRIBUICOES_MED,
             'Média de Contribuições por Campanha (Modalidade)',
             'Modalidade',
             'Média de Contribuições por Campanha',
@@ -536,13 +548,19 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         formatados[analisebase.DFCOL_PARTICIP] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_TAXA_SUCESSO] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_ARRECADADO_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_MEDIA_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_STD_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_MIN_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_MAX_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_APOIO_MEDIO] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_MED] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_STD] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_MIN] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_MAX] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_MED] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_STD] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_MIN] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_MAX] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_CONTRIBUICOES] = {'num_format': '#,##0'}
-        formatados[analisebase.DFCOL_MEDIA_CONTRIBUICOES] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_MED] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_STD] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_MIN] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_MAX] = {'num_format': '#,##0'}
         
         analisebase.GeracaoExcel.executar(df_resumo, f'{pasta_dados}/panorama.xlsx', formatados)
         
@@ -562,13 +580,19 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         formatados[analisebase.DFCOL_PARTICIP] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_TAXA_SUCESSO] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_ARRECADADO_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_MEDIA_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_STD_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_MIN_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_MAX_SUCESSO] = {'num_format': 'R$ #,##0.00'}
-        formatados[analisebase.DFCOL_APOIO_MEDIO] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_MED] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_STD] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_MIN] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_ARRECADADO_MAX] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_MED] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_STD] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_MIN] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_APOIO_MAX] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_CONTRIBUICOES] = {'num_format': '#,##0'}
-        formatados[analisebase.DFCOL_MEDIA_CONTRIBUICOES] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_MED] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_STD] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_MIN] = {'num_format': '#,##0'}
+        formatados[analisebase.DFCOL_CONTRIBUICOES_MAX] = {'num_format': '#,##0'}
         
         analisebase.GeracaoExcel.executar(df_resumo_mod_plataforma, f'{pasta_dados}/{mod}-plataforma.xlsx', formatados)
         analisebase.GeracaoExcel.executar(df_resumo_mod_genero, f'{pasta_dados}/{mod}-genero.xlsx', formatados)
@@ -646,11 +670,21 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
 
             total_mod_sucesso   = len(campanhas_mod_sucesso)
             valor_mod_sucesso   = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
-            std_mod_sucesso     = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
-            min_mod_sucesso     = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
-            max_mod_sucesso     = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
-            valor_mod_sucesso   = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
-            contribuicoes       = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
+            valor_med_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].mean()
+            valor_std_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            valor_min_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            valor_max_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
+
+            apoio_med_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].mean()
+            apoio_std_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].std()
+            apoio_min_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].min()
+            apoio_max_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].max()
+
+            contribuicoes               = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
+            contribuicoes_med           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].mean()
+            contribuicoes_std           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].std()
+            contribuicoes_min           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].min()
+            contribuicoes_max           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].max()
 
             menor_ano           = campanhas_mod_sucesso[colunaslib.COL_ANO].min()
             maior_ano           = campanhas_mod_sucesso[colunaslib.COL_ANO].max()
@@ -660,13 +694,19 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
             df_resumo.at[index, analisebase.DFCOL_PARTICIP]             = analisebase._dividir(total_mod, total)
             df_resumo.at[index, analisebase.DFCOL_TAXA_SUCESSO]         = analisebase._dividir(total_mod_sucesso, total_mod)
             df_resumo.at[index, analisebase.DFCOL_ARRECADADO_SUCESSO]   = valor_mod_sucesso
-            df_resumo.at[index, analisebase.DFCOL_MEDIA_SUCESSO]        = analisebase._dividir(valor_mod_sucesso, total_mod_sucesso)
-            df_resumo.at[index, analisebase.DFCOL_STD_SUCESSO]          = std_mod_sucesso
-            df_resumo.at[index, analisebase.DFCOL_MIN_SUCESSO]          = min_mod_sucesso
-            df_resumo.at[index, analisebase.DFCOL_MAX_SUCESSO]          = max_mod_sucesso
-            df_resumo.at[index, analisebase.DFCOL_APOIO_MEDIO]          = analisebase._dividir(valor_mod_sucesso, contribuicoes)
+            df_resumo.at[index, analisebase.DFCOL_ARRECADADO_MED]       = valor_med_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_ARRECADADO_STD]       = valor_std_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_ARRECADADO_MIN]       = valor_min_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_ARRECADADO_MAX]       = valor_max_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_APOIO_MED]            = apoio_med_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_APOIO_STD]            = apoio_std_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_APOIO_MIN]            = apoio_min_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_APOIO_MAX]            = apoio_max_mod_sucesso
             df_resumo.at[index, analisebase.DFCOL_CONTRIBUICOES]        = contribuicoes
-            df_resumo.at[index, analisebase.DFCOL_MEDIA_CONTRIBUICOES]  = analisebase._dividir(contribuicoes, total_mod_sucesso)
+            df_resumo.at[index, analisebase.DFCOL_CONTRIBUICOES_MED]    = contribuicoes_med
+            df_resumo.at[index, analisebase.DFCOL_CONTRIBUICOES_STD]    = contribuicoes_std
+            df_resumo.at[index, analisebase.DFCOL_CONTRIBUICOES_MIN]    = contribuicoes_min
+            df_resumo.at[index, analisebase.DFCOL_CONTRIBUICOES_MAX]    = contribuicoes_max
             df_resumo.at[index, analisebase.DFCOL_MENOR_ANO]            = menor_ano
             df_resumo.at[index, analisebase.DFCOL_MAIOR_ANO]            = maior_ano
 
@@ -711,28 +751,42 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
             #campanhas_recorte_mod_sucesso = self._obter_campanhas_bem_sucedidas(modalidade, df_completo)
             campanhas_recorte_mod_sucesso = self._obter_campanhas_bem_sucedidas(modalidade, campanhas_recorte_mod)
 
-            total_recorte_mod_sucesso   = len(campanhas_recorte_mod_sucesso)
-            valor_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
-            std_recorte_mod_sucesso     = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
-            min_recorte_mod_sucesso     = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
-            max_recorte_mod_sucesso     = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
-            contribuicoes               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
-
-            menor_ano                   = campanhas_recorte_mod_sucesso[colunaslib.COL_ANO].min()
-            maior_ano                   = campanhas_recorte_mod_sucesso[colunaslib.COL_ANO].max()
+            total_recorte_mod_sucesso       = len(campanhas_recorte_mod_sucesso)
+            valor_recorte_mod_sucesso       = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            valor_med_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].mean()
+            valor_std_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            valor_min_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            valor_max_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
+            apoio_med_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].mean()
+            apoio_std_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].std()
+            apoio_min_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].min()
+            apoio_max_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].max()
+            contribuicoes                   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
+            contribuicoes_std               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].std()
+            contribuicoes_med               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].mean()
+            contribuicoes_min               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].min()
+            contribuicoes_max               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].max()
+            menor_ano                       = campanhas_recorte_mod_sucesso[colunaslib.COL_ANO].min()
+            maior_ano                       = campanhas_recorte_mod_sucesso[colunaslib.COL_ANO].max()
 
             df_resultado.at[index, analisebase.DFCOL_TOTAL]                 = int(total_recorte_mod)
             df_resultado.at[index, analisebase.DFCOL_TOTAL_SUCESSO]         = int(total_recorte_mod_sucesso)
             df_resultado.at[index, analisebase.DFCOL_PARTICIP]              = analisebase._dividir(total_recorte_mod, total_mod)
             df_resultado.at[index, analisebase.DFCOL_TAXA_SUCESSO]          = analisebase._dividir(total_recorte_mod_sucesso, total_recorte_mod)
             df_resultado.at[index, analisebase.DFCOL_ARRECADADO_SUCESSO]    = valor_recorte_mod_sucesso
-            df_resultado.at[index, analisebase.DFCOL_MEDIA_SUCESSO]         = analisebase._dividir(valor_recorte_mod_sucesso, total_recorte_mod_sucesso)
-            df_resultado.at[index, analisebase.DFCOL_STD_SUCESSO]           = std_recorte_mod_sucesso
-            df_resultado.at[index, analisebase.DFCOL_MIN_SUCESSO]           = min_recorte_mod_sucesso
-            df_resultado.at[index, analisebase.DFCOL_MAX_SUCESSO]           = max_recorte_mod_sucesso
-            df_resultado.at[index, analisebase.DFCOL_APOIO_MEDIO]           = analisebase._dividir(valor_recorte_mod_sucesso, contribuicoes)
+            df_resultado.at[index, analisebase.DFCOL_ARRECADADO_MED]        = valor_med_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_ARRECADADO_STD]        = valor_std_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_ARRECADADO_MIN]        = valor_min_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_ARRECADADO_MAX]        = valor_max_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_APOIO_MED]             = apoio_med_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_APOIO_STD]             = apoio_std_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_APOIO_MIN]             = apoio_min_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_APOIO_MAX]             = apoio_max_recorte_mod_sucesso
             df_resultado.at[index, analisebase.DFCOL_CONTRIBUICOES]         = contribuicoes
-            df_resultado.at[index, analisebase.DFCOL_MEDIA_CONTRIBUICOES]   = analisebase._dividir(contribuicoes, total_recorte_mod_sucesso)
+            df_resultado.at[index, analisebase.DFCOL_CONTRIBUICOES_MED]     = contribuicoes_med
+            df_resultado.at[index, analisebase.DFCOL_CONTRIBUICOES_STD]     = contribuicoes_std
+            df_resultado.at[index, analisebase.DFCOL_CONTRIBUICOES_MIN]     = contribuicoes_min
+            df_resultado.at[index, analisebase.DFCOL_CONTRIBUICOES_MAX]     = contribuicoes_max
             df_resultado.at[index, analisebase.DFCOL_MENOR_ANO]             = menor_ano
             df_resultado.at[index, analisebase.DFCOL_MAIOR_ANO]             = maior_ano
 

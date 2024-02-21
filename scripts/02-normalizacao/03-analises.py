@@ -1,3 +1,4 @@
+import numpy as np
 import colunas as colunaslib
 import argparse
 import logging
@@ -228,6 +229,8 @@ class AnaliseCsv:
             return False
         
         df = pd.read_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', sep=';', decimal=',')
+
+        df[colunaslib.COL_GERAL_APOIO_MEDIO] = np.where(df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] != 0, df[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO] / df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES], 0)
 
         print(f'campanhas: {len(df)}')
 
