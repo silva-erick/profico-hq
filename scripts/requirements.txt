@@ -5,6 +5,7 @@ networkx
 nltk
 openpyxl
 pandas
+pyarrow
 pydot
 regex
 requests

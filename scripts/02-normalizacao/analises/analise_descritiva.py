@@ -215,6 +215,9 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             
         return resultado
     
+    """
+    Gerar markdown do recorte a partir de um template
+    """
     def _gerar_md_recorte(self, mod, pasta_md, pasta_img, df_recorte, mapa_agrupamento):
 
         recorte = mapa_agrupamento['chave']
@@ -608,6 +611,9 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
 
         return True
 
+    """
+    Obter campanhas bem sucedidas
+    """
     def _obter_campanhas_bem_sucedidas(self, modalidade, df):
         if modalidade == analisebase.CAMPANHA_SUB:
             campanhas_mod_sucesso = df[

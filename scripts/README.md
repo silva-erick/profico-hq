@@ -18,20 +18,33 @@ git clone https://github.com/silva-erick/profico-hq.git
 
 Acesse um terminal e navegue até a pasta do zip descompactado ou do projeto clonado.
 
-Crie um virtual environment com o comando:
+
+No Windows, crie um virtual environment com o comando:
 
 ```
 python.exe -m venv venv
 ```
 
-No windows, ative o virtual environment para isolar as dependências específicas
+E ative o virtual environment para isolar as dependências específicas
 desse projeto, evitando conflitos com outros projetos ou com o ambiente global do sistema:
 
 ```
 .\venv\Scripts\activate.ps1
 ```
 
-Mude a pasta de trabalho para scripts e baixe as bibliotecas necessárias:
+No linux os comandos são parecidos. Acesse um terminal:
+
+```
+python3 -m venv venv
+```
+
+E ative o virtual environement:
+
+```
+source venv/bin/activate
+```
+
+Mude a pasta de trabalho para scripts e baixe as bibliotecas necessárias (igual para Windows ou Linux):
 
 ```
 pip install -r requirements.txt

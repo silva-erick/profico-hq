@@ -10,7 +10,6 @@ import re
 
 import pandas as pd
 
-import analises.descritivo as descr
 import analises.pontos_notaveis as notaveis
 import analises.temporal as tempr
 
@@ -70,98 +69,6 @@ class AnaliseCsv:
     def __init__(self, ano, verbose):
         self._ano = ano
         self._verbose = verbose
-
-    def _realizar_analise_descritiva(self, df):
-        print(f'. Análise descritiva')
-        
-        processos = [
-            {'Modalidade': {'arq': 'sint_resumo_por_modalidade', 'func': descr.gerar_resumo_por_modalidade}},
-            {'Plataforma': {'arq':'sint_resumo_por_origem_modalidade', 'func': descr.gerar_resumo_por_origem_modalidade}},
-            {'Unidade Federativa': {'arq': 'sint_resumo_por_ufbr', 'func': descr.gerar_resumo_por_ufbr}},
-            {'Gênero': {'arq': 'sint_resumo_por_genero', 'func': descr.gerar_resumo_por_genero}},
-            #{'Autoria': {'arq': 'sint_resumo_por_autoria', 'func': descr.gerar_resumo_por_autoria}},
-            {'Menções: Ângelo Agostini': {'arq': 'sint_resumo_por_mencoes_angelo_agostini', 'func': descr.gerar_resumo_por_mencoes_angelo_agostini}},
-            {'Menções: CCXP': {'arq': 'sint_resumo_por_mencoes_ccxp', 'func': descr.gerar_resumo_por_mencoes_ccxp}},
-            {'Menções: Disputa': {'arq': 'sint_resumo_por_mencoes_disputa', 'func': descr.gerar_resumo_por_mencoes_disputa}},
-            {'Menções: Erotismo': {'arq': 'sint_resumo_por_mencoes_erotismo', 'func': descr.gerar_resumo_por_mencoes_erotismo}},
-            {'Menções: Fantasia': {'arq': 'sint_resumo_por_mencoes_fantasia', 'func': descr.gerar_resumo_por_mencoes_fantasia}},
-            {'Menções: Ficcao Científica': {'arq': 'sint_resumo_por_mencoes_ficcao_cientifica', 'func': descr.gerar_resumo_por_mencoes_ficcao_cientifica}},
-            {'Menções: FIQ': {'arq': 'sint_resumo_por_mencoes_fiq', 'func': descr.gerar_resumo_por_mencoes_fiq}},
-            {'Menções: Folclore': {'arq': 'sint_resumo_por_mencoes_folclore', 'func': descr.gerar_resumo_por_mencoes_folclore}},
-            {'Menções: Herois': {'arq': 'sint_resumo_por_mencoes_herois', 'func': descr.gerar_resumo_por_mencoes_herois}},
-            {'Menções: HQMIX': {'arq': 'sint_resumo_por_mencoes_hqmix', 'func': descr.gerar_resumo_por_mencoes_hqmix}},
-            {'Menções: Humor': {'arq': 'sint_resumo_por_mencoes_humor', 'func': descr.gerar_resumo_por_mencoes_humor}},
-            {'Menções: Jogos': {'arq': 'sint_resumo_por_mencoes_jogos', 'func': descr.gerar_resumo_por_mencoes_jogos}},
-            {'Menções: LGBTQIA+': {'arq': 'sint_resumo_por_mencoes_lgbtqiamais', 'func': descr.gerar_resumo_por_mencoes_lgbtqiamais}},
-            {'Menções: Mídia Independente': {'arq': 'sint_resumo_por_mencoes_midia_independente', 'func': descr.gerar_resumo_por_mencoes_midia_independente}},
-            {'Menções: Política': {'arq': 'sint_resumo_por_mencoes_politica', 'func': descr.gerar_resumo_por_mencoes_politica}},
-            {'Menções: Questões de Gênero': {'arq': 'sint_resumo_por_mencoes_questoes_genero', 'func': descr.gerar_resumo_por_mencoes_questoes_genero}},
-            {'Menções: Religiosidade': {'arq': 'sint_resumo_por_mencoes_religiosidade', 'func': descr.gerar_resumo_por_mencoes_religiosidade}},
-            {'Menções: Salões de Humor': {'arq': 'sint_resumo_por_mencoes_saloes_humor', 'func': descr.gerar_resumo_por_mencoes_saloes_humor}},
-            {'Menções: Terror': {'arq': 'sint_resumo_por_mencoes_terror', 'func': descr.gerar_resumo_por_mencoes_terror}},
-            {'Menções: Webformatos': {'arq': 'sint_resumo_por_mencoes_webformatos', 'func': descr.gerar_resumo_por_mencoes_webformatos}},
-            {'Menções: Zine': {'arq': 'sint_resumo_por_mencoes_zine', 'func': descr.gerar_resumo_por_mencoes_zine}},
-        ]
-
-        mapa_titulo = {}
-        analise_md = []
-        i = 1
-        pasta_md = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva'
-        if not os.path.exists(pasta_md):
-            os.mkdir(pasta_md)
-        pasta_dados = f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/dados'
-        if not os.path.exists(pasta_dados):
-            os.mkdir(pasta_dados)
-                
-        with open(f'{CAMINHO_TEMPLATE_DESCRITIVO}/analise-descritiva-modalidade.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_modalidade:
-            template_analise_descritiva_modalidade = arq_template_analise_descritiva_modalidade.read()
-            arq_template_analise_descritiva_modalidade.close()
-                
-        with open(f'{CAMINHO_TEMPLATE_DESCRITIVO}/analise-descritiva-outros.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva_outros:
-            template_analise_descritiva_outros = arq_template_analise_descritiva_outros.read()
-            arq_template_analise_descritiva_outros.close()
-                
-        with open(f'{CAMINHO_TEMPLATE_DESCRITIVO}/analise-descritiva.template.md', 'r', encoding='utf8') as arq_template_analise_descritiva:
-            template_analise_descritiva = arq_template_analise_descritiva.read()
-
-        with open(f'{CAMINHO_CSV}/{self._ano}/analise_descritiva/README.md', 'w', encoding='utf8') as f:
-            f.write(f'{template_analise_descritiva}\n')
-
-            for it in processos:
-                for titulo, maeamento_funcao in it.items():
-                    funcao_mapeada = maeamento_funcao['func']
-                    nome_arquivo = maeamento_funcao['arq']
-                    mapa_titulo[nome_arquivo] = titulo
-                    
-                    caminho = f'./{nome_arquivo}.md'
-                    f.write(f'[{titulo}]({caminho})\n\n')
-
-                    if nome_arquivo == 'sint_resumo_por_modalidade':
-                        template = (f'{template_analise_descritiva_modalidade.replace("$(nome_dimensao)", titulo)}')
-                    else:
-                        template = (f'{template_analise_descritiva_outros.replace("$(nome_dimensao)", titulo)}')
-
-                    tempo_ini = time.time()
-                    res = funcao_mapeada(df,
-                                        self._ano,
-                                        pasta_md,
-                                        pasta_dados,
-                                        nome_arquivo,
-                                        titulo,
-                                        template,
-                                        analise_md
-                                        )
-                    
-                    tempo_fim = time.time()
-                    deltaT = tempo_fim - tempo_ini
-                    print(f'\t.{i}: {titulo}: {res} - deltaT: {deltaT:.3f}s')
-                    i = i + 1
-                    if not res:
-                        return False
-
-        f.close()
-
-        return True
 
     def _realizar_analise_pontos_notaveis(self, df):
         print(f'. Pontos notáveis')
@@ -245,33 +152,6 @@ class AnaliseCsv:
             {'Modalidade: Tudo ou Nada': {'mod': 'aon', 'arq': 'serie_por_modalidade_aon', 'func': tempr.gerar_serie_por_modalidade_aon}},
             {'Modalidade: Flex': {'mod': 'flex', 'arq': 'serie_por_modalidade_flex', 'func': tempr.gerar_serie_por_modalidade_flex}},
             {'Modalidade: Recorrente': {'mod': 'sub', 'arq': 'serie_por_modalidade_sub', 'func': tempr.gerar_serie_por_modalidade_sub}},
-            
-            
-            #{'Plataforma': {'arq':'serie_por_origem_modalidade', 'func': tempr.gerar_serie_por_origem_modalidade}},
-            #{'Unidade Federativa': {'arq': 'serie_por_ufbr', 'func': tempr.gerar_serie_por_ufbr}},
-            #{'Gênero': {'arq': 'serie_por_genero', 'func': tempr.gerar_serie_por_genero}},
-            ##{'Autoria': {'arq': 'serie_por_autoria', 'func': tempr.gerar_serie_por_autoria}},
-            #{'Menções: Ângelo Agostini': {'arq': 'serie_por_mencoes_angelo_agostini', 'func': tempr.gerar_serie_por_mencoes_angelo_agostini}},
-            #{'Menções: CCXP': {'arq': 'serie_por_mencoes_ccxp', 'func': tempr.gerar_serie_por_mencoes_ccxp}},
-            #{'Menções: Disputa': {'arq': 'serie_por_mencoes_disputa', 'func': tempr.gerar_serie_por_mencoes_disputa}},
-            #{'Menções: Erotismo': {'arq': 'serie_por_mencoes_erotismo', 'func': tempr.gerar_serie_por_mencoes_erotismo}},
-            #{'Menções: Fantasia': {'arq': 'serie_por_mencoes_fantasia', 'func': tempr.gerar_serie_por_mencoes_fantasia}},
-            #{'Menções: Ficcao Científica': {'arq': 'serie_por_mencoes_ficcao_cientifica', 'func': tempr.gerar_serie_por_mencoes_ficcao_cientifica}},
-            #{'Menções: FIQ': {'arq': 'serie_por_mencoes_fiq', 'func': tempr.gerar_serie_por_mencoes_fiq}},
-            #{'Menções: Folclore': {'arq': 'serie_por_mencoes_folclore', 'func': tempr.gerar_serie_por_mencoes_folclore}},
-            #{'Menções: Herois': {'arq': 'serie_por_mencoes_herois', 'func': tempr.gerar_serie_por_mencoes_herois}},
-            #{'Menções: HQMIX': {'arq': 'serie_por_mencoes_hqmix', 'func': tempr.gerar_serie_por_mencoes_hqmix}},
-            #{'Menções: Humor': {'arq': 'serie_por_mencoes_humor', 'func': tempr.gerar_serie_por_mencoes_humor}},
-            #{'Menções: Jogos': {'arq': 'serie_por_mencoes_jogos', 'func': tempr.gerar_serie_por_mencoes_jogos}},
-            #{'Menções: LGBTQIA+': {'arq': 'serie_por_mencoes_lgbtqiamais', 'func': tempr.gerar_serie_por_mencoes_lgbtqiamais}},
-            #{'Menções: Mídia Independente': {'arq': 'serie_por_mencoes_midia_independente', 'func': tempr.gerar_serie_por_mencoes_midia_independente}},
-            #{'Menções: Política': {'arq': 'serie_por_mencoes_politica', 'func': tempr.gerar_serie_por_mencoes_politica}},
-            #{'Menções: Questões de Gênero': {'arq': 'serie_por_mencoes_questoes_genero', 'func': tempr.gerar_serie_por_mencoes_questoes_genero}},
-            #{'Menções: Religiosidade': {'arq': 'serie_por_mencoes_religiosidade', 'func': tempr.gerar_serie_por_mencoes_religiosidade}},
-            #{'Menções: Salões de Humor': {'arq': 'serie_por_mencoes_saloes_humor', 'func': tempr.gerar_serie_por_mencoes_saloes_humor}},
-            #{'Menções: Terror': {'arq': 'serie_por_mencoes_terror', 'func': tempr.gerar_serie_por_mencoes_terror}},
-            #{'Menções: Webformatos': {'arq': 'serie_por_mencoes_webformatos', 'func': tempr.gerar_serie_por_mencoes_webformatos}},
-            #{'Menções: Zine': {'arq': 'serie_por_mencoes_zine', 'func': tempr.gerar_serie_por_mencoes_zine}},
         ]
 
         mapa_titulo = {}
