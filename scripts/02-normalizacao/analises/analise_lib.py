@@ -46,6 +46,12 @@ DFCOL_TOTAL_FALHA           = 'total_falha'
 DFCOL_PARTICIP              = 'particip'
 DFCOL_TAXA_SUCESSO          = 'taxa_sucesso'
 
+DFCOL_META                  = 'meta'
+DFCOL_META_MED              = 'meta_avg'
+DFCOL_META_STD              = 'meta_std'
+DFCOL_META_MIN              = 'meta_min'
+DFCOL_META_MAX              = 'meta_max'
+
 DFCOL_ARRECADADO            = 'arrecadado'
 DFCOL_ARRECADADO_SUCESSO    = 'arrecadado_sucesso'
 DFCOL_ARRECADADO_MED        = 'arrecadado_avg'

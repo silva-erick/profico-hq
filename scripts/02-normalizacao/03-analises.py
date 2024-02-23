@@ -53,6 +53,7 @@ def log_verbose(verbose, msg):
         print(msg)
     logging.debug(msg)
 
+"""
 def parse_data(data_str):
     try:
         # Tenta converter com fração de segundo
@@ -65,7 +66,7 @@ def parse_data(data_str):
             return data_obj
         except ValueError:
             raise ValueError("Formato de data inválido.")
-    
+"""    
 class AnaliseCsv:
     def __init__(self, ano, verbose):
         self._ano = ano
@@ -230,6 +231,7 @@ class AnaliseCsv:
         
         df = pd.read_csv(f'{CAMINHO_CSV}/{self._ano}/campanhas_{self._ano}.csv', sep=';', decimal=',')
 
+        # Calcular apoio médio
         df[colunaslib.COL_GERAL_APOIO_MEDIO] = np.where(df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] != 0, df[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO] / df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES], 0)
 
         print(f'campanhas: {len(df)}')
@@ -280,10 +282,11 @@ class AnaliseCsv:
             and self._analisar_campanhas()
         )
 
-        print(f'Encerramento: {datetime.now()}')
-
 
 if __name__ == "__main__":
+
+    print(f'Início: {datetime.now()}')
+    start_time = time.time()
 
     parser = argparse.ArgumentParser(
         prog = "análises",
@@ -324,3 +327,6 @@ if __name__ == "__main__":
 
     arquivo_csv = AnaliseCsv(args.ano, args.verbose)
     arquivo_csv.executar()
+
+    print(f'Encerramento: {datetime.now()}')
+    print("--- %s segundos ---" % (time.time() - start_time))

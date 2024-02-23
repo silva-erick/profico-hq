@@ -104,7 +104,8 @@ class ExportarCsv:
             if data_obj.year > self._ano:
                 continue
 
-            data['ano'] = data_obj.year
+            data[colunaslib.COL_ANO] = data_obj.year
+            data[colunaslib.COL_ANOMES] = f'{data_obj.year}-{data_obj.month:02}'
             campanhas.append(data)
 
             quantidade_campanhas = quantidade_campanhas + 1

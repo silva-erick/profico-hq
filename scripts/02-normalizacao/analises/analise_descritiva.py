@@ -279,6 +279,32 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
 
         analisebase._gerar_grafico_barras_horizontais(
             pasta_img,
+            f'{mod}-{recorte}-meta',
+            df_recorte,
+            coluna,
+            analisebase.DFCOL_META,
+            f'Meta Total (Modalidade: {analisebase.TITULOS_MODALIDADES[mod]} e {titulo})',
+            titulo,
+            'Meta Total (R$)',
+            'Meta Total (R$)',
+            analisebase.numero_real2_f
+            )
+
+        analisebase._gerar_grafico_barras_horizontais(
+            pasta_img,
+            f'{mod}-{recorte}-meta-med',
+            df_recorte,
+            coluna,
+            analisebase.DFCOL_META_MED,
+            f'Meta Média (Modalidade: {analisebase.TITULOS_MODALIDADES[mod]} e {titulo})',
+            titulo,
+            'Meta Média (R$)',
+            'Meta Média (R$)',
+            analisebase.numero_real2_f
+            )
+
+        analisebase._gerar_grafico_barras_horizontais(
+            pasta_img,
             f'{mod}-{recorte}-total-arrecadado',
             df_recorte,
             coluna,
@@ -358,6 +384,13 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         df_formatado[analisebase.DFCOL_TOTAL_SUCESSO]           = df_formatado[analisebase.DFCOL_TOTAL_SUCESSO].map(analisebase.numero_inteiro_f)
         df_formatado[analisebase.DFCOL_PARTICIP]                = df_formatado[analisebase.DFCOL_PARTICIP].map(analisebase.numero_percent1_f)
         df_formatado[analisebase.DFCOL_TAXA_SUCESSO]            = df_formatado[analisebase.DFCOL_TAXA_SUCESSO].map(analisebase.numero_percent1_f)
+
+        df_formatado[analisebase.DFCOL_META]                    = df_formatado[analisebase.DFCOL_META].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_META_MED]                = df_formatado[analisebase.DFCOL_META_MED].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_META_STD]                = df_formatado[analisebase.DFCOL_META_STD].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_META_MIN]                = df_formatado[analisebase.DFCOL_META_MIN].map(analisebase.numero_real2_f)
+        df_formatado[analisebase.DFCOL_META_MAX]                = df_formatado[analisebase.DFCOL_META_MAX].map(analisebase.numero_real2_f)
+
         df_formatado[analisebase.DFCOL_ARRECADADO_SUCESSO]      = df_formatado[analisebase.DFCOL_ARRECADADO_SUCESSO].map(analisebase.numero_real2_f)
         df_formatado[analisebase.DFCOL_ARRECADADO_MED]          = df_formatado[analisebase.DFCOL_ARRECADADO_MED].map(analisebase.numero_real2_f)
         df_formatado[analisebase.DFCOL_ARRECADADO_STD]          = df_formatado[analisebase.DFCOL_ARRECADADO_STD].map(analisebase.numero_real2_f)
@@ -390,6 +423,11 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
 
         df_formatado.rename(columns={analisebase.DFCOL_PARTICIP: f'{analisebase.DFCOL_PARTICIP} (%)' }, inplace=True)
         df_formatado.rename(columns={analisebase.DFCOL_TAXA_SUCESSO: f'{analisebase.DFCOL_TAXA_SUCESSO} (%)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_META: f'{analisebase.DFCOL_META} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_META_MED: f'{analisebase.DFCOL_META_MED} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_META_STD: f'{analisebase.DFCOL_META_STD} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_META_MIN: f'{analisebase.DFCOL_META_MIN} (R$)' }, inplace=True)
+        df_formatado.rename(columns={analisebase.DFCOL_META_MAX: f'{analisebase.DFCOL_META_MAX} (R$)' }, inplace=True)
         df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_SUCESSO: f'{analisebase.DFCOL_ARRECADADO_SUCESSO} (R$)' }, inplace=True)
         df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_MED: f'{analisebase.DFCOL_ARRECADADO_MED} (R$)' }, inplace=True)
         df_formatado.rename(columns={analisebase.DFCOL_ARRECADADO_STD: f'{analisebase.DFCOL_ARRECADADO_STD} (R$)' }, inplace=True)
@@ -465,6 +503,32 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Taxa de Sucesso',
             analisebase.numero_percent1_f,
             analisebase.formatar_percent_eixo_y
+            )
+
+        analisebase._gerar_grafico_barras_horizontais(
+            pasta_img,
+            'panorama-meta',
+            df_resumo,
+            analisebase.DFCOL_MODALIDADE,
+            analisebase.DFCOL_META,
+            'Meta Total (Modalidade)',
+            'Modalidade',
+            'Meta Total (R$)',
+            'Meta Total (R$)',
+            analisebase.numero_real2_f
+            )
+
+        analisebase._gerar_grafico_barras_horizontais(
+            pasta_img,
+            'panorama-meta-med',
+            df_resumo,
+            analisebase.DFCOL_MODALIDADE,
+            analisebase.DFCOL_META_MED,
+            'Meta Média (Modalidade)',
+            'Modalidade',
+            'Meta Média (R$)',
+            'Meta Média (R$)',
+            analisebase.numero_real2_f
             )
 
         analisebase._gerar_grafico_barras_horizontais(
@@ -547,6 +611,11 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         formatados[analisebase.DFCOL_PARTICIP] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_PARTICIP] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_TAXA_SUCESSO] = {'num_format': '0.00%'}
+        formatados[analisebase.DFCOL_META] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_MED] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_STD] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_MIN] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_MAX] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_ARRECADADO_SUCESSO] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_ARRECADADO_MED] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_ARRECADADO_STD] = {'num_format': 'R$ #,##0.00'}
@@ -579,6 +648,11 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         formatados[analisebase.DFCOL_PARTICIP] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_PARTICIP] = {'num_format': '0.00%'}
         formatados[analisebase.DFCOL_TAXA_SUCESSO] = {'num_format': '0.00%'}
+        formatados[analisebase.DFCOL_META] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_MED] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_STD] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_MIN] = {'num_format': 'R$ #,##0.00'}
+        formatados[analisebase.DFCOL_META_MAX] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_ARRECADADO_SUCESSO] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_ARRECADADO_MED] = {'num_format': 'R$ #,##0.00'}
         formatados[analisebase.DFCOL_ARRECADADO_STD] = {'num_format': 'R$ #,##0.00'}
@@ -668,8 +742,14 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
 
             campanhas_mod_sucesso = self._obter_campanhas_bem_sucedidas(modalidade, df_completo)
 
-            total_mod_sucesso   = len(campanhas_mod_sucesso)
-            valor_mod_sucesso   = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            total_mod_sucesso           = len(campanhas_mod_sucesso)
+            meta_mod_sucesso            = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].sum()
+            meta_mod_sucesso_med        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].mean()
+            meta_mod_sucesso_std        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].std()
+            meta_mod_sucesso_min        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].min()
+            meta_mod_sucesso_max        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].max()
+
+            valor_mod_sucesso           = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
             valor_med_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].mean()
             valor_std_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
             valor_min_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
@@ -693,6 +773,11 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
             df_resumo.at[index, analisebase.DFCOL_TOTAL_SUCESSO]        = int(total_mod_sucesso)
             df_resumo.at[index, analisebase.DFCOL_PARTICIP]             = analisebase._dividir(total_mod, total)
             df_resumo.at[index, analisebase.DFCOL_TAXA_SUCESSO]         = analisebase._dividir(total_mod_sucesso, total_mod)
+            df_resumo.at[index, analisebase.DFCOL_META]                 = meta_mod_sucesso
+            df_resumo.at[index, analisebase.DFCOL_META_MED]             = meta_mod_sucesso_med
+            df_resumo.at[index, analisebase.DFCOL_META_STD]             = meta_mod_sucesso_std
+            df_resumo.at[index, analisebase.DFCOL_META_MIN]             = meta_mod_sucesso_min
+            df_resumo.at[index, analisebase.DFCOL_META_MAX]             = meta_mod_sucesso_max
             df_resumo.at[index, analisebase.DFCOL_ARRECADADO_SUCESSO]   = valor_mod_sucesso
             df_resumo.at[index, analisebase.DFCOL_ARRECADADO_MED]       = valor_med_mod_sucesso
             df_resumo.at[index, analisebase.DFCOL_ARRECADADO_STD]       = valor_std_mod_sucesso
@@ -748,10 +833,16 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
                 ]
             total_recorte_mod = len(campanhas_recorte_mod)
 
-            #campanhas_recorte_mod_sucesso = self._obter_campanhas_bem_sucedidas(modalidade, df_completo)
             campanhas_recorte_mod_sucesso = self._obter_campanhas_bem_sucedidas(modalidade, campanhas_recorte_mod)
 
             total_recorte_mod_sucesso       = len(campanhas_recorte_mod_sucesso)
+
+            meta_recorte_mod_sucesso        = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].sum()
+            meta_recorte_mod_sucesso_med    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].mean()
+            meta_recorte_mod_sucesso_std    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].std()
+            meta_recorte_mod_sucesso_min    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].min()
+            meta_recorte_mod_sucesso_max    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].max()
+
             valor_recorte_mod_sucesso       = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
             valor_med_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].mean()
             valor_std_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
@@ -773,6 +864,13 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
             df_resultado.at[index, analisebase.DFCOL_TOTAL_SUCESSO]         = int(total_recorte_mod_sucesso)
             df_resultado.at[index, analisebase.DFCOL_PARTICIP]              = analisebase._dividir(total_recorte_mod, total_mod)
             df_resultado.at[index, analisebase.DFCOL_TAXA_SUCESSO]          = analisebase._dividir(total_recorte_mod_sucesso, total_recorte_mod)
+            
+            df_resultado.at[index, analisebase.DFCOL_META]                  = meta_recorte_mod_sucesso
+            df_resultado.at[index, analisebase.DFCOL_META_MED]              = meta_recorte_mod_sucesso_med
+            df_resultado.at[index, analisebase.DFCOL_META_STD]              = meta_recorte_mod_sucesso_std
+            df_resultado.at[index, analisebase.DFCOL_META_MIN]              = meta_recorte_mod_sucesso_min
+            df_resultado.at[index, analisebase.DFCOL_META_MAX]              = meta_recorte_mod_sucesso_max
+
             df_resultado.at[index, analisebase.DFCOL_ARRECADADO_SUCESSO]    = valor_recorte_mod_sucesso
             df_resultado.at[index, analisebase.DFCOL_ARRECADADO_MED]        = valor_med_recorte_mod_sucesso
             df_resultado.at[index, analisebase.DFCOL_ARRECADADO_STD]        = valor_std_recorte_mod_sucesso

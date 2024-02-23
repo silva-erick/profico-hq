@@ -1,5 +1,6 @@
 COL_ORIGEM                          = 'origem'
 COL_ANO                             = 'ano'
+COL_ANOMES                          = 'anomes'
 COL_GERAL_PROJECT_ID                = 'geral_project_id'
 COL_GERAL_TITULO                    = 'geral_titulo'
 COL_GERAL_DATA_INI                  = 'geral_data_ini'
@@ -125,6 +126,7 @@ COLUNAS_NORMALIZACAO = [
 COLUNAS_EXPORTACAOCSV = [
     COL_ORIGEM,
     COL_ANO,
+    COL_ANOMES,
     COL_GERAL_PROJECT_ID,
     COL_GERAL_TITULO,
     COL_GERAL_DATA_INI,

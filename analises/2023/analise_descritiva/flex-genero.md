@@ -2,13 +2,13 @@
 
 A tabela abaixo foi usada nos gráficos a seguir.
 
-| modalidade   | autoria_classificacao   |   total |   total_sucesso |   particip (%) |   taxa_sucesso (%) |   arrecadado_sucesso (R$) |   arrecadado_avg (R$) |   arrecadado_std (R$) |   arrecadado_min (R$) |   arrecadado_max (R$) |   apoio_medio (R$) |   apoio_std (R$) |   apoio_min (R$) |   apoio_max (R$) |   contribuicoes |   contribuicoes_med |   contribuicoes_std |   contribuicoes_min |   contribuicoes_max |
-|:-------------|:------------------------|--------:|----------------:|---------------:|-------------------:|--------------------------:|----------------------:|----------------------:|----------------------:|----------------------:|-------------------:|-----------------:|-----------------:|-----------------:|----------------:|--------------------:|--------------------:|--------------------:|--------------------:|
-| flex         | coletivo                |      72 |              69 |           4,9% |              95,8% |              1.479.515,33 |             21.442,25 |             34.235,40 |                 29,81 |            169.836,91 |              88,06 |            47,97 |            14,91 |           254,24 |          15.501 |               224,7 |               325,0 |                 1,0 |             2.015,0 |
-| flex         | empresa                 |     440 |             440 |          30,0% |             100,0% |              9.259.515,00 |             21.044,35 |             46.143,04 |                 34,74 |            708.972,78 |              89,82 |            37,90 |            16,18 |           233,40 |          95.943 |               218,1 |               486,2 |                 1,0 |             7.954,0 |
-| flex         | feminino                |     182 |             176 |          12,4% |              96,7% |              1.145.985,99 |              6.511,28 |              6.521,40 |                 35,53 |             29.736,69 |              67,58 |            23,29 |            18,48 |           154,85 |          17.194 |                97,7 |                95,8 |                 1,0 |               453,0 |
-| flex         | masculino               |     763 |             691 |          52,0% |              90,6% |              6.465.887,70 |              9.357,29 |             27.421,05 |                 10,77 |            442.290,11 |              71,28 |            40,79 |            10,77 |           461,52 |          74.806 |               108,3 |               214,1 |                 1,0 |             3.474,0 |
-| flex         | outros                  |      11 |               7 |           0,7% |              63,6% |                 11.227,92 |              1.603,99 |              2.112,50 |                 42,36 |              5.515,84 |              45,24 |            14,93 |            21,18 |            63,40 |             202 |                28,9 |                34,7 |                 2,0 |                87,0 |
+| modalidade   | autoria_classificacao   |   total |   total_sucesso |   particip (%) |   taxa_sucesso (%) |    meta (R$) |   meta_avg (R$) |   meta_std (R$) |   meta_min (R$) |   meta_max (R$) |   arrecadado_sucesso (R$) |   arrecadado_avg (R$) |   arrecadado_std (R$) |   arrecadado_min (R$) |   arrecadado_max (R$) |   apoio_medio (R$) |   apoio_std (R$) |   apoio_min (R$) |   apoio_max (R$) |   contribuicoes |   contribuicoes_med |   contribuicoes_std |   contribuicoes_min |   contribuicoes_max |
+|:-------------|:------------------------|--------:|----------------:|---------------:|-------------------:|-------------:|----------------:|----------------:|----------------:|----------------:|--------------------------:|----------------------:|----------------------:|----------------------:|----------------------:|-------------------:|-----------------:|-----------------:|-----------------:|----------------:|--------------------:|--------------------:|--------------------:|--------------------:|
+| flex         | coletivo                |      72 |              69 |           4,9% |              95,8% |   721.610,31 |       10.458,12 |       11.144,23 |           44,33 |       50.590,20 |              1.479.515,33 |             21.442,25 |             34.235,40 |                 29,81 |            169.836,91 |              88,06 |            47,97 |            14,91 |           254,24 |          15.501 |               224,7 |               325,0 |                 1,0 |             2.015,0 |
+| flex         | empresa                 |     440 |             440 |          30,0% |             100,0% | 5.883.940,64 |       13.372,59 |       19.267,96 |           23,99 |      147.790,83 |              9.259.515,00 |             21.044,35 |             46.143,04 |                 34,74 |            708.972,78 |              89,82 |            37,90 |            16,18 |           233,40 |          95.943 |               218,1 |               486,2 |                 1,0 |             7.954,0 |
+| flex         | feminino                |     182 |             176 |          12,4% |              96,7% | 1.712.986,47 |        9.732,88 |       10.102,89 |           46,56 |       83.151,82 |              1.145.985,99 |              6.511,28 |              6.521,40 |                 35,53 |             29.736,69 |              67,58 |            23,29 |            18,48 |           154,85 |          17.194 |                97,7 |                95,8 |                 1,0 |               453,0 |
+| flex         | masculino               |     763 |             691 |          52,0% |              90,6% | 7.150.010,83 |       10.347,34 |       16.064,05 |           12,04 |      198.811,94 |              6.465.887,70 |              9.357,29 |             27.421,05 |                 10,77 |            442.290,11 |              71,28 |            40,79 |            10,77 |           461,52 |          74.806 |               108,3 |               214,1 |                 1,0 |             3.474,0 |
+| flex         | outros                  |      11 |               7 |           0,7% |              63,6% |   131.168,46 |       18.738,35 |       19.781,31 |        2.420,45 |       54.319,48 |                 11.227,92 |              1.603,99 |              2.112,50 |                 42,36 |              5.515,84 |              45,24 |            14,93 |            21,18 |            63,40 |             202 |                28,9 |                34,7 |                 2,0 |                87,0 |
 
 Dados em [planilha eletrônica](./dados/flex-genero.xlsx).
 
@@ -34,37 +34,51 @@ O gráfico a seguir relaciona a modalidade com a taxa de sucesso das campanhas.
 ![Taxa de Sucesso das Modalidades](./img/flex-genero-taxa-sucesso.png)
 
 
+## Meta Total
+
+O gráfico a seguir relaciona a modalidade com a meta de arrecadação das campanhas bem sucedidas.
+
+![Meta Total por Modalidades](./img/flex-genero-meta.png)
+
+
+## Meta Média
+
+O gráfico a seguir relaciona a modalidade com a meta média de arrecadação das campanhas bem sucedidas.
+
+![Meta Média por Modalidades](./img/flex-genero-meta-med.png)
+
+
 ## Total Arrecadado
 
-O gráfico a seguir relaciona a modalidade com o total arrecadado pelas campanhas.
+O gráfico a seguir relaciona a modalidade com o total arrecadado pelas campanhas bem sucedidas.
 
 ![Total Arrecadado por Modalidades](./img/flex-genero-total-arrecadado.png)
 
 
 ## Média Arrecadada por Campanha
 
-O gráfico a seguir relaciona a modalidade com a média arrecadada por campanha.
+O gráfico a seguir relaciona a modalidade com a média arrecadada por campanha bem sucedida.
 
 ![Média Arrecadada por Campanha por Modalidades](./img/flex-genero-media-arrecadada.png)
 
 
 ## Apoio Médio por Campanha
 
-O gráfico a seguir relaciona a modalidade com o apoio médio por campanha.
+O gráfico a seguir relaciona a modalidade com o apoio médio por campanha bem sucedida.
 
 ![Apoio Médio por Campanha por Modalidades](./img/flex-genero-apoio-medio.png)
 
 
 ## Total de Contribuições
 
-O gráfico a seguir relaciona a modalidade com o total de contribuições das campanhas.
+O gráfico a seguir relaciona a modalidade com o total de contribuições das campanhas bem sucedidas.
 
 ![Total de Contribuições por Modalidades](./img/flex-genero-total-contribuicoes.png)
 
 
 ## Média de Contribuições
 
-O gráfico a seguir relaciona a modalidade com a média de contribuições de campanhas.
+O gráfico a seguir relaciona a modalidade com a média de contribuições de campanhas bem sucedidas.
 
 ![Média de Contribuições por Campanha por Modalidades](./img/flex-genero-media-contribuicoes.png)
 
