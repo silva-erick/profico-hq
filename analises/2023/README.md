@@ -15,11 +15,6 @@ Este relatório, ano base 2023, analisa as campanhas desde 2011 até dezembro de
 Verifique a seção [Conceitos](./conceitos.md) para entender as ideias e conceitos
 utilizados neste relatório para o tratamento, análise e interpretação de dados.
 
-Muitos conceitos utilizados neste relatório para o tratamento, análise e interpretação
-de dados são apresentados na seção [Conceitos](./conceitos.md). Alguns dos conceitos
-abordados são _modalidade de financiamento coletivo_, _correção monetária_,
-_categorização de conteúdo_ e _gênero_.
-
 ## Análises
 
 As análises a seguir foram realizadas a partir do
@@ -31,8 +26,7 @@ A seção [Análise Descritiva](./analise_descritiva/README.md) oferece uma
 visão mais descritiva e, por meio de tabelas e gráficos, indica como
 o conjunto se comporta em relação à modalidades de financiamento ou
 a dimensões selecionadas: plataforma de financiamento, unidade federativa,
-gênero ou menção a algum tema de interesse para a
-iniciativa [profico-hq](https://github.com/silva-erick/profico-hq).
+gênero ou menção a algum tema de interesse.
 
 ### Análise temporal
 
