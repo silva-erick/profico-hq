@@ -22,7 +22,8 @@ das campanhas de HQ.
 
 ## Visões Complementares
 
-[Comparações](./panorama.md) sobre as modalidades Tudo ou Nada, Flex e Recorrente.
+A seção [Panorama](./panorama.md) oferece algumas visões comparativas entre
+as modalidades Tudo ou Nada, Flex e Recorrente.
 
 ### Modalidade: Tudo ou Nada
 
