@@ -116,11 +116,11 @@ Um mesmo script python de classificação é utilizado como base para a identifi
 de pessoas autoras ou para a categorização do conteúdo do texto da campanha. A ideia básica
 é manter, para cada categoria, uma lista de palavras chave e possíveis variações escritas
 na forma de [expressões regulares](https://pt.wikipedia.org/wiki/Express%C3%A3o_regular),
-categorizadas como:
+que buscam padrões de texto de acordo com uma destas regras:
 
-- pesquisa exata
-- pesquisa aproximada: começa com
-- pesquisa aproximada: contém
+- pesquisa exata: o texto deve conter a palavra na lista
+- pesquisa "começa com": o texto contém palavra que começa com o padrão na lista de palavras
+- pesquisa "contém": o texto contém palavra que contém o padrão na lista de palavras
 
 Para maiores informações, consulte o script de normalização,
 [scripts/01-normalizar.py](../../scripts/02-normalizacao/01-normalizar.py), ou os arquivos

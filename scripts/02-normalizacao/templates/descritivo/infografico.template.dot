@@ -1,4 +1,8 @@
 digraph "round-table" {
+    graph [fontname = "verdana"];
+    node [fontname = "verdana"];
+    edge [fontname = "verdana"];
+
     rankdir="LR"
     label = "Visão geral das campanhas de financiamento coletivo em $(plataformas) entre $(menor-ano)-$(maior-ano)"
     node [style="filled"]
