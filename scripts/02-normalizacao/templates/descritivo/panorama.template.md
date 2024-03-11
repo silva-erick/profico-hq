@@ -1,4 +1,4 @@
-# Panorama
+# Comparações entre modalidades
 
 A tabela abaixo foi usada nos gráficos a seguir.
 
