@@ -1,5 +1,6 @@
 argparse
 beautifulsoup4
+graphviz
 matplotlib
 networkx
 nltk

@@ -1,3 +1,11 @@
+CAMPANHA_AON    = 'aon'
+CAMPANHA_FLEX   = 'flex'
+CAMPANHA_SUB    = 'sub'
+
+STATUS_SUCESSO      = 'successful'
+STATUS_FALHA        = 'failed'
+STATUS_PUBLISHED    = 'published'
+
 COL_ORIGEM                          = 'origem'
 COL_ANO                             = 'ano'
 COL_ANOMES                          = 'anomes'

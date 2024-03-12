@@ -171,6 +171,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         print(f'\t\t. excel')
         resultado = self._gerar_excel_resumo(pasta_dados, calc.df_resumo_mod)
         print(f'\t\t. md')
+        resultado = self._gerar_histogramas(pasta_md, pasta_img, calc.df_completo)
         resultado = self._gerar_panorama_resumo(pasta_md, pasta_img, calc.df_resumo_mod)
 
         mapa_agrupamentos = {}
@@ -450,6 +451,157 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
     """
     Gerar panorama.md a partir de template
     """
+    def _gerar_histogramas(self, pasta_md, pasta_img, df_completo):
+
+        resultado = True
+
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-totais-aon',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_AON)
+                & (df_completo[colunaslib.COL_GERAL_STATUS] == colunaslib.STATUS_SUCESSO)
+                ],
+            250,
+            colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO,
+            'Histograma: Valor Arrecadado Corrigido (Tudo ou Nada)',
+            'Campanhas bem sucedidas',
+            'Faixa de Valor Arrecadado',
+            analisebase.numero_inteiro_f,
+            analisebase.numero_prefixo_f
+        )
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-totais-flex',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_FLEX)
+                & (df_completo[colunaslib.COL_GERAL_STATUS] == colunaslib.STATUS_SUCESSO)
+                ],
+            250,
+            colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO,
+            'Histograma: Valor Arrecadado Corrigido (Flex)',
+            'Campanhas bem sucedidas',
+            'Faixa de Valor Arrecadado',
+            analisebase.numero_inteiro_f,
+            analisebase.numero_prefixo_f
+        )
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-totais-sub',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_SUB)
+                & (df_completo[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] != 0)
+                ],
+            250,
+            colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO,
+            'Histograma: Valor Arrecadado Corrigido (Recorrente)',
+            'Campanhas bem sucedidas',
+            'Faixa de Valor Arrecadado',
+            analisebase.numero_inteiro_f,
+            analisebase.numero_prefixo_f
+        )
+        
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-meta-aon',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_AON)
+                & (df_completo[colunaslib.COL_GERAL_STATUS] == colunaslib.STATUS_SUCESSO)
+                ],
+            250,
+            colunaslib.COL_GERAL_META_CORRIGIDA,
+            'Histograma: Meta Corrigida (Tudo ou Nada)',
+            'Campanhas bem sucedidas',
+            'Faixa de Meta',
+            analisebase.numero_real1_f,
+            analisebase.numero_prefixo_f
+        )
+        
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-meta-flex',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_FLEX)
+                & (df_completo[colunaslib.COL_GERAL_STATUS] == colunaslib.STATUS_SUCESSO)
+                ],
+            250,
+            colunaslib.COL_GERAL_META_CORRIGIDA,
+            'Histograma: Meta Corrigida (Flex)',
+            'Campanhas bem sucedidas',
+            'Faixa de Meta',
+            analisebase.numero_real1_f,
+            analisebase.numero_prefixo_f
+        )
+        
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-meta-sub',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_SUB)
+                & (df_completo[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] != 0)
+                ],
+            250,
+            colunaslib.COL_GERAL_META_CORRIGIDA,
+            'Histograma: Meta Corrigida (Recorrente)',
+            'Campanhas bem sucedidas',
+            'Faixa de Meta',
+            analisebase.numero_real1_f,
+            analisebase.numero_prefixo_f
+        )
+        
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-contribuicoes-aon',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_AON)
+                & (df_completo[colunaslib.COL_GERAL_STATUS] == colunaslib.STATUS_SUCESSO)
+                ],
+            250,
+            colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES,
+            'Histograma: Número de Contribuições (Tudo ou Nada)',
+            'Campanhas bem sucedidas',
+            'Faixa de Contribuições',
+            analisebase.numero_real1_f,
+            analisebase.numero_prefixo_f
+        )
+        
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-contribuicoes-flex',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_FLEX)
+                & (df_completo[colunaslib.COL_GERAL_STATUS] == colunaslib.STATUS_SUCESSO)
+                ],
+            250,
+            colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES,
+            'Histograma: Número de Contribuições (Flex)',
+            'Campanhas bem sucedidas',
+            'Faixa de Contribuições',
+            analisebase.numero_real1_f,
+            analisebase.numero_prefixo_f
+        )
+        
+        analisebase._gerar_histograma(
+            pasta_img,
+            f'panorama-hist-contribuicoes-sub',
+            df_completo[
+                (df_completo[colunaslib.COL_GERAL_MODALIDADE] == colunaslib.CAMPANHA_SUB)
+                & (df_completo[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] != 0)
+                ],
+            250,
+            colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES,
+            'Histograma: Número de Contribuições (Recorrente)',
+            'Campanhas bem sucedidas',
+            'Faixa de Contribuições',
+            analisebase.numero_real1_f,
+            analisebase.numero_prefixo_f
+        )
+
+        return resultado
+
+    """
+    Gerar panorama.md a partir de template
+    """
     def _gerar_panorama_resumo(self, pasta_md, pasta_img, df_resumo):
 
         resultado = True
@@ -701,6 +853,7 @@ class CalculoIndicativos(analisebase.AnaliseInterface):
     """
     def executar(self, df_completo) -> bool:
 
+        self.df_completo                = df_completo
         self.df_resumo_mod              = self._calcular_resumo_por_modalidade(df_completo)
         self.df_resumo_mod_plataforma   = self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_ORIGEM)
         self.df_resumo_mod_uf           = self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_GERAL_UF_BR)

@@ -1,3 +1,5 @@
+import pydot
+
 import numpy as np
 import colunas as colunaslib
 import argparse
@@ -234,6 +236,9 @@ class AnaliseCsv:
         # Calcular apoio médio
         df[colunaslib.COL_GERAL_APOIO_MEDIO] = np.where(df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] != 0, df[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO] / df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES], 0)
 
+        df.fillna(0, inplace=True)
+        #df[colunaslib.COL_GERAL_META] = np.where(df[colunaslib.COL_GERAL_META] == '', df[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO] / df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES], 0)
+
         print(f'campanhas: {len(df)}')
 
         #resultado = (
@@ -249,21 +254,6 @@ class AnaliseCsv:
 
     def _garantir_pastas(self):
         self._show_message('Verificando pastas')
-        # log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}")
-        # if not os.path.exists(f"{CAMINHO_NORMALIZADOS}"):
-        #     return False
-        # log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}/{self._ano}")
-        # if not os.path.exists(f"{CAMINHO_NORMALIZADOS}/{self._ano}"):
-        #     return False
-
-        # log_verbose(self._verbose, f"> pasta: {CAMINHO_CSV}")
-        # if not os.path.exists(f"{CAMINHO_CSV}"):
-        #     log_verbose(self._verbose, f"\tcriando pasta: {CAMINHO_CSV}")
-        #     os.mkdir(f"{CAMINHO_CSV}")
-        # log_verbose(self._verbose, f"> pasta: {CAMINHO_CSV}/{self._ano}")
-        # if not os.path.exists(f"{CAMINHO_CSV}/{self._ano}"):
-        #     log_verbose(self._verbose, f"\tcriando pasta: {CAMINHO_CSV}/{self._ano}")
-        #     os.mkdir(f"{CAMINHO_CSV}/{self._ano}")
 
         return True
     

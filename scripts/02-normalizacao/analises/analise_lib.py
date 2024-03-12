@@ -143,6 +143,34 @@ def numero_com_separadores(string_com_numeros, casas = None):
     return string_com_numeros
 
 """
+Formatar número com prefixos
+"""
+def numero_prefixo_f(string_com_numeros, pos = 0):
+    str_original = string_com_numeros
+    sinal = 1
+    num_temp = float(string_com_numeros)
+    if num_temp > 0:
+        sinal = 1
+    else:
+        sinal = -1
+        num_temp = abs(num_temp)
+
+    num_convertido = ''
+    if ( num_temp >= 1000000 ):
+        num_temp = num_temp / 1000000
+        num_convertido = numero_com_separadores(str(num_temp), 0) + 'M'
+    elif ( num_temp >= 1000 ):
+        num_temp = num_temp / 1000
+        num_convertido = numero_com_separadores(str(num_temp), 0) + 'K'
+    else:
+        num_convertido = numero_com_separadores(str(num_temp), 0)
+
+    if sinal > 0:
+        return num_convertido
+    else:
+        return '-' + num_convertido
+
+"""
 Formatar número inteiro com separadores
 """
 def numero_inteiro_f(string_com_numeros, pos = 0):
@@ -363,6 +391,34 @@ def _gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, c
 
     plt.close('all')
 
+"""
+Gerar gráfico: histograma
+"""
+def _gerar_histograma(pasta_img, arquivo, df, bins, col_interesse, titulo, titulo_eixo_x, titulo_eixo_y, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
+    
+    ax = df.hist(column=col_interesse, bins=bins)
+
+    plt.title(titulo)
+    plt.xlabel(titulo_eixo_y)
+    plt.ylabel(titulo_eixo_x)
+
+    # Usar números sem notação científica no eixo x
+    #formatter = FuncFormatter(funcao_formatacao)
+    formatter = FuncFormatter(funcao_formatacao_eixo)
+    plt.gca().xaxis.set_major_formatter(formatter)
+
+    # Ajustar automaticamente o layout para evitar sobreposições
+    plt.tight_layout()
+    
+    # Posicionar a legenda fora da área de desenho do gráfico
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='lower left')
+
+    plt.grid(True)
+
+    # Salvar o gráfico como uma imagem (por exemplo, PNG)
+    plt.savefig(f'{pasta_img}/{arquivo}.png', bbox_inches='tight')
+
+    plt.close('all')
 
 
 """

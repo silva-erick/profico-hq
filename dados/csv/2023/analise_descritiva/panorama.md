@@ -6,7 +6,7 @@ A tabela abaixo foi usada nos gráficos a seguir.
 |:-------------|--------:|----------------:|---------------:|-------------------:|--------------:|----------------:|----------------:|----------------:|----------------:|--------------------------:|----------------------:|----------------------:|----------------------:|----------------------:|-------------------:|-----------------:|-----------------:|-----------------:|----------------:|--------------------:|--------------------:|--------------------:|--------------------:|
 | aon          |   1.335 |             830 |          38,3% |              62,2% | 13.973.042,60 |       16.834,99 |       17.015,70 |           31,90 |      189.313,70 |             24.063.279,83 |             28.991,90 |             44.961,94 |                 41,82 |            679.297,66 |              91,86 |            49,09 |            13,94 |           792,04 |         263.553 |               317,5 |               423,0 |                 1,0 |             6.494,0 |
 | flex         |   1.468 |           1.383 |          42,1% |              94,2% | 15.599.716,70 |       11.279,62 |       16.430,31 |           12,04 |      198.811,94 |             18.362.131,94 |             13.277,03 |             33.934,83 |                 10,77 |            708.972,78 |              77,41 |            39,51 |            10,77 |           461,52 |         203.646 |               147,2 |               327,7 |                 1,0 |             7.954,0 |
-| sub          |     684 |             152 |          19,6% |              22,2% |    165.199,06 |        1.205,83 |        2.163,29 |            0,00 |       21.176,92 |                 43.186,96 |                284,12 |                650,58 |                  1,09 |              5.087,08 |              21,28 |            15,02 |             1,01 |            84,08 |           2.208 |                14,5 |                31,9 |                 1,0 |               208,0 |
+| sub          |     684 |             152 |          19,6% |              22,2% |    165.199,06 |        1.086,84 |        2.084,50 |            0,00 |       21.176,92 |                 43.186,96 |                284,12 |                650,58 |                  1,09 |              5.087,08 |              21,28 |            15,02 |             1,01 |            84,08 |           2.208 |                14,5 |                31,9 |                 1,0 |               208,0 |
 
 Dados em [planilha eletrônica](./dados/panorama.xlsx).
 
@@ -16,6 +16,15 @@ Dados em [planilha eletrônica](./dados/panorama.xlsx).
 O gráfico a seguir relaciona a modalidade com o total de campanhas e o total de campanhas bem sucedidas.
 
 ![Totais por Modalidade](./img/panorama-totais.png)
+
+A seguir, os histogramas do 'Valor Arrecadado Corrigido' para as campanhas bem sucedidas em cada modalidade:
+Tudo ou Nada, Flex e Recorente.
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Tudo ou Nada](./img/panorama-hist-totais-aon.png)
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Flex](./img/panorama-hist-totais-flex.png)
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Recorrente](./img/panorama-hist-totais-sub.png)
 
 
 ## Participação
@@ -37,6 +46,15 @@ O gráfico a seguir relaciona a modalidade com a taxa de sucesso das campanhas.
 O gráfico a seguir relaciona a modalidade com a meta de arrecadação das campanhas.
 
 ![Total Arrecadado por Modalidades](./img/panorama-meta.png)
+
+A seguir, os histogramas da 'Meta Corrigida' para as campanhas bem sucedidas em cada modalidade:
+Tudo ou Nada, Flex e Recorente.
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Tudo ou Nada](./img/panorama-hist-meta-aon.png)
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Flex](./img/panorama-hist-meta-flex.png)
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Recorrente](./img/panorama-hist-meta-sub.png)
 
 
 ## Meta Média
@@ -72,6 +90,15 @@ O gráfico a seguir relaciona a modalidade com o apoio médio por campanha bem s
 O gráfico a seguir relaciona a modalidade com o total de contribuições das campanhas bem sucedidas.
 
 ![Total de Contribuições por Modalidades](./img/panorama-total-contribuicoes.png)
+
+A seguir, os histogramas do 'Número de Contribuições' para as campanhas bem sucedidas em cada modalidade:
+Tudo ou Nada, Flex e Recorente.
+
+![Histograma do Número de Contribuições na modalidade Tudo ou Nada](./img/panorama-hist-contribuicoes-aon.png)
+
+![Histograma do Número de Contribuições na modalidade Flex](./img/panorama-hist-contribuicoes-flex.png)
+
+![Histograma do Número de Contribuições na modalidade Recorrente](./img/panorama-hist-contribuicoes-sub.png)
 
 
 ## Média de Contribuições

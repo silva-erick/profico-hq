@@ -4,11 +4,9 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
@@ -16,7 +14,7 @@
         },
         {
             "name": "Python: 02-raspar_guiaquadrinhos.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "02-raspar_guiaquadrinhos.py",
             "cwd": "${workspaceFolder}/scripts/01-raspagem",
@@ -26,7 +24,7 @@
         },
         {
             "name": "Python: 01-raspar_aasp.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "01-raspar_aasp.py",
             "cwd": "${workspaceFolder}/scripts/01-raspagem",
@@ -36,7 +34,7 @@
         },
         {
             "name": "Python: 03-raspar_catarse.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "03-raspar_catarse.py",
             "cwd": "${workspaceFolder}/scripts/01-raspagem",
@@ -46,7 +44,7 @@
         },
         {
             "name": "Python: 99-raspar_catarse_outros.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "99-raspar_catarse_outros.py",
             "cwd": "${workspaceFolder}/scripts/01-raspagem",
@@ -56,7 +54,7 @@
         },
         {
             "name": "Python: 04-raspar_apoiase.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "04-raspar_apoiase.py",
             "cwd": "${workspaceFolder}/scripts/01-raspagem",
@@ -66,7 +64,7 @@
         },
         {
             "name": "Python: 01-normalizar.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "01-normalizar.py",
             "cwd": "${workspaceFolder}/scripts/02-normalizacao",
@@ -76,7 +74,7 @@
         },        
         {
             "name": "Python: 02-exportar-csv.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "02-exportar-csv.py",
             "cwd": "${workspaceFolder}/scripts/02-normalizacao",
@@ -86,17 +84,20 @@
         },        
         {
             "name": "Python: 03-analises.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "03-analises.py",
             "cwd": "${workspaceFolder}/scripts/02-normalizacao",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args":["-v", "-a", "2023"]
+            "args":["-v", "-a", "2023"],
+            "env":{
+                "PATH": "${env:PATH}"
+            }
         },        
         {
             "name": "Python: csv_outros.py",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "csv_outros.py",
             "cwd": "${workspaceFolder}/scripts/99-variacoes",
