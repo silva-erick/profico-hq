@@ -13,15 +13,6 @@ O gráfico a seguir relaciona a modalidade com o total de campanhas e o total de
 
 ![Totais por Modalidade](./img/panorama-totais.png)
 
-A seguir, os histogramas do 'Valor Arrecadado Corrigido' para as campanhas bem sucedidas em cada modalidade:
-Tudo ou Nada, Flex e Recorente.
-
-![Histograma do Valor Arrecadado Corrigido na modalidade Tudo ou Nada](./img/panorama-hist-totais-aon.png)
-
-![Histograma do Valor Arrecadado Corrigido na modalidade Flex](./img/panorama-hist-totais-flex.png)
-
-![Histograma do Valor Arrecadado Corrigido na modalidade Recorrente](./img/panorama-hist-totais-sub.png)
-
 
 ## Participação
 
@@ -41,7 +32,7 @@ O gráfico a seguir relaciona a modalidade com a taxa de sucesso das campanhas.
 
 O gráfico a seguir relaciona a modalidade com a meta de arrecadação das campanhas.
 
-![Total Arrecadado por Modalidades](./img/panorama-meta.png)
+![Meta por Modalidades](./img/panorama-meta.png)
 
 A seguir, os histogramas da 'Meta Corrigida' para as campanhas bem sucedidas em cada modalidade:
 Tudo ou Nada, Flex e Recorente.
@@ -65,6 +56,15 @@ O gráfico a seguir relaciona a modalidade com a meta média de arrecadação da
 O gráfico a seguir relaciona a modalidade com o total arrecadado pelas campanhas bem sucedidas.
 
 ![Total Arrecadado por Modalidades](./img/panorama-total-arrecadado.png)
+
+A seguir, os histogramas do 'Valor Arrecadado Corrigido' para as campanhas bem sucedidas em cada modalidade:
+Tudo ou Nada, Flex e Recorente.
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Tudo ou Nada](./img/panorama-hist-totais-aon.png)
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Flex](./img/panorama-hist-totais-flex.png)
+
+![Histograma do Valor Arrecadado Corrigido na modalidade Recorrente](./img/panorama-hist-totais-sub.png)
 
 
 ## Média Arrecadada por Campanha

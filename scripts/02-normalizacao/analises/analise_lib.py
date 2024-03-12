@@ -158,10 +158,10 @@ def numero_prefixo_f(string_com_numeros, pos = 0):
     num_convertido = ''
     if ( num_temp >= 1000000 ):
         num_temp = num_temp / 1000000
-        num_convertido = numero_com_separadores(str(num_temp), 0) + 'M'
+        num_convertido = numero_com_separadores(str(num_temp), 1) + 'M'
     elif ( num_temp >= 1000 ):
         num_temp = num_temp / 1000
-        num_convertido = numero_com_separadores(str(num_temp), 0) + 'K'
+        num_convertido = numero_com_separadores(str(num_temp), 1) + 'K'
     else:
         num_convertido = numero_com_separadores(str(num_temp), 0)
 
@@ -233,11 +233,11 @@ def formatar_num_eixo_y(num_unknown, pos=0):
         num = num_unknown
 
     if num > 1000000:
-        num = int(num / 1000000)
-        resultado = f'{num}M'
+        num = float(num / 1000000)
+        resultado = f'{num:.1f}M'
     elif num > 1000:
-        num = int(num / 1000)
-        resultado = f'{num}K'
+        num = float(num / 1000)
+        resultado = f'{num:.1f}K'
     else:
         num = int(num)
         resultado = f'{num}'
@@ -394,7 +394,7 @@ def _gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, c
 """
 Gerar gráfico: histograma
 """
-def _gerar_histograma(pasta_img, arquivo, df, bins, col_interesse, titulo, titulo_eixo_x, titulo_eixo_y, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
+def gerar_histograma(pasta_img, arquivo, df, bins, col_interesse, titulo, titulo_eixo_x, titulo_eixo_y, funcao_formatacao_eixo=formatar_num_eixo_y):
     
     ax = df.hist(column=col_interesse, bins=bins)
 
@@ -403,7 +403,6 @@ def _gerar_histograma(pasta_img, arquivo, df, bins, col_interesse, titulo, titul
     plt.ylabel(titulo_eixo_x)
 
     # Usar números sem notação científica no eixo x
-    #formatter = FuncFormatter(funcao_formatacao)
     formatter = FuncFormatter(funcao_formatacao_eixo)
     plt.gca().xaxis.set_major_formatter(formatter)
 

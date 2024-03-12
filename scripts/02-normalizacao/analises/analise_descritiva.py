@@ -455,7 +455,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
 
         resultado = True
 
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-totais-aon',
             df_completo[
@@ -467,10 +467,9 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Valor Arrecadado Corrigido (Tudo ou Nada)',
             'Campanhas bem sucedidas',
             'Faixa de Valor Arrecadado',
-            analisebase.numero_inteiro_f,
             analisebase.numero_prefixo_f
         )
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-totais-flex',
             df_completo[
@@ -482,10 +481,9 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Valor Arrecadado Corrigido (Flex)',
             'Campanhas bem sucedidas',
             'Faixa de Valor Arrecadado',
-            analisebase.numero_inteiro_f,
             analisebase.numero_prefixo_f
         )
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-totais-sub',
             df_completo[
@@ -497,11 +495,10 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Valor Arrecadado Corrigido (Recorrente)',
             'Campanhas bem sucedidas',
             'Faixa de Valor Arrecadado',
-            analisebase.numero_inteiro_f,
             analisebase.numero_prefixo_f
         )
         
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-meta-aon',
             df_completo[
@@ -513,11 +510,10 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Meta Corrigida (Tudo ou Nada)',
             'Campanhas bem sucedidas',
             'Faixa de Meta',
-            analisebase.numero_real1_f,
             analisebase.numero_prefixo_f
         )
         
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-meta-flex',
             df_completo[
@@ -529,11 +525,10 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Meta Corrigida (Flex)',
             'Campanhas bem sucedidas',
             'Faixa de Meta',
-            analisebase.numero_real1_f,
             analisebase.numero_prefixo_f
         )
         
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-meta-sub',
             df_completo[
@@ -545,11 +540,10 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Meta Corrigida (Recorrente)',
             'Campanhas bem sucedidas',
             'Faixa de Meta',
-            analisebase.numero_real1_f,
             analisebase.numero_prefixo_f
         )
         
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-contribuicoes-aon',
             df_completo[
@@ -561,11 +555,10 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Número de Contribuições (Tudo ou Nada)',
             'Campanhas bem sucedidas',
             'Faixa de Contribuições',
-            analisebase.numero_real1_f,
             analisebase.numero_prefixo_f
         )
         
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-contribuicoes-flex',
             df_completo[
@@ -577,11 +570,10 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Número de Contribuições (Flex)',
             'Campanhas bem sucedidas',
             'Faixa de Contribuições',
-            analisebase.numero_real1_f,
             analisebase.numero_prefixo_f
         )
         
-        analisebase._gerar_histograma(
+        analisebase.gerar_histograma(
             pasta_img,
             f'panorama-hist-contribuicoes-sub',
             df_completo[
@@ -593,7 +585,6 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Histograma: Número de Contribuições (Recorrente)',
             'Campanhas bem sucedidas',
             'Faixa de Contribuições',
-            analisebase.numero_real1_f,
             analisebase.numero_prefixo_f
         )
 
@@ -626,7 +617,8 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
             'Campanhas',
             'Campanhas',
             'Campanhas Bem Sucedidas',
-            analisebase.numero_inteiro_f
+            analisebase.numero_inteiro_f,
+            analisebase.numero_prefixo_f
             )
 
         analisebase._gerar_grafico_barras_horizontais(
