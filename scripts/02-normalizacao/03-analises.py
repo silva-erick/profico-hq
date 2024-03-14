@@ -13,12 +13,14 @@ import re
 
 import pandas as pd
 
-import analises.pontos_notaveis as notaveis
-import analises.temporal as tempr
+#import analises.pontos_notaveis as notaveis
+#import analises.temporal as tempr
 
 import analises.analises_comum as comum
 
 import analises.analise_descritiva as andesc
+import analises.analise_temporal as antemp
+import analises.analise_notaveis as annot
 
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
@@ -55,20 +57,6 @@ def log_verbose(verbose, msg):
         print(msg)
     logging.debug(msg)
 
-"""
-def parse_data(data_str):
-    try:
-        # Tenta converter com fração de segundo
-        data_obj = datetime.strptime(data_str, '%Y-%m-%dT%H:%M:%S.%f')
-        return data_obj
-    except ValueError:
-        try:
-            # Tenta converter sem fração de segundo
-            data_obj = datetime.strptime(data_str, '%Y-%m-%dT%H:%M:%S')
-            return data_obj
-        except ValueError:
-            raise ValueError("Formato de data inválido.")
-"""    
 class AnaliseCsv:
     def __init__(self, ano, verbose):
         self._ano = ano
@@ -248,7 +236,14 @@ class AnaliseCsv:
         #)
 
         descritivo = andesc.CoordenadorAnaliseDescritiva()
-        resultado = descritivo.executar(df, self._ano)
+        temporal = antemp.CoordenadorAnaliseTemporal()
+        notaveis = annot.CoordenadorAnaliseNotaveis()
+
+        resultado = (
+            descritivo.executar(df, self._ano)
+            and temporal.executar(df, self._ano)
+            and notaveis.executar(df, self._ano)
+        )
 
         return resultado
 

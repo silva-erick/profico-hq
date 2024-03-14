@@ -17,7 +17,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
     """
     def executar(self, df, ano_referencia) -> bool:
 
-        calc = CalculoIndicativos()
+        calc = CalculosDescritivos()
         print(f'> análise descritiva')
         print(f'\t. calcular indicadores: ', end='')
         resultado = calc.executar(df)
@@ -838,7 +838,7 @@ class CoordenadorAnaliseDescritiva(analisebase.AnaliseInterface):
         return resultado
 
 
-class CalculoIndicativos(analisebase.AnaliseInterface):
+class CalculosDescritivos(analisebase.AnaliseInterface):
 
     """
     Executar a análise descritiva agrupando 
