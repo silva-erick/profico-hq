@@ -225,24 +225,18 @@ class AnaliseCsv:
         df[colunaslib.COL_GERAL_APOIO_MEDIO] = np.where(df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] != 0, df[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO] / df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES], 0)
 
         df.fillna(0, inplace=True)
-        #df[colunaslib.COL_GERAL_META] = np.where(df[colunaslib.COL_GERAL_META] == '', df[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO] / df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES], 0)
 
         print(f'campanhas: {len(df)}')
-
-        #resultado = (
-        #    self._realizar_analise_descritiva(df)
-        #    #and self._realizar_analise_pontos_notaveis(df)
-        #    #and self._realizar_analise_temporal(df)
-        #)
 
         descritivo = andesc.CoordenadorAnaliseDescritiva()
         temporal = antemp.CoordenadorAnaliseTemporal()
         notaveis = annot.CoordenadorAnaliseNotaveis()
 
         resultado = (
-            descritivo.executar(df, self._ano)
-            and temporal.executar(df, self._ano)
-            and notaveis.executar(df, self._ano)
+            True
+            and descritivo.executar(df, self._ano, start_time)
+            and temporal.executar(df, self._ano, start_time)
+            and notaveis.executar(df, self._ano, start_time)
         )
 
         return resultado
@@ -314,4 +308,4 @@ if __name__ == "__main__":
     arquivo_csv.executar()
 
     print(f'Encerramento: {datetime.now()}')
-    print("--- %s segundos ---" % (time.time() - start_time))
+    print(f"DURAÇÃO: {(time.time() - start_time):.1f} segundos")

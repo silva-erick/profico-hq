@@ -3,6 +3,8 @@ import re
 import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
+import time
+import colunas as colunaslib
 
 
 CAMPANHA_AON    = 'aon'
@@ -75,6 +77,13 @@ DFCOL_GENERO                = 'autoria_classificacao'
 DFCOL_UF                    = 'geral_uf_br'
 DFCOL_MENCAO                = 'mencao'
 
+
+def marcar_andamento(deslocamento, start_time):
+    print(f"{deslocamento}###> andamento: {(time.time() - start_time):.1f} segundos", flush=True)
+
+
+def marcar_andamento_mesma_linha(start_time):
+    print(f"{(time.time() - start_time):.1f} segundos", flush=True)
 
 """
 divide dois números, mas se o divisor for zero, apenas retorna zero
@@ -489,3 +498,281 @@ class GeracaoExcel:
                     planilha.set_column(col_idx, col_idx, cell_format=writer.book.add_format(formato_excel))
 
         return True
+
+
+
+class CalculosDescritivos(AnaliseInterface):
+
+    """
+    Executar a análise descritiva agrupando 
+    """
+    def executar(self, df_completo) -> bool:
+
+        self.df_completo                = df_completo
+        self.df_resumo_mod              = self._calcular_resumo_por_modalidade(df_completo)
+        self.df_resumo_mod_plataforma   = self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_ORIGEM)
+        self.df_resumo_mod_uf           = self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_GERAL_UF_BR)
+        self.df_resumo_mod_genero       = self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_AUTORIA_CLASSIFICACAO)
+        self.df_resumo_mod_mencoes      = self._calcular_resumo_por_modalidade_mencoes(df_completo)
+
+        return True
+
+    """
+    Obter campanhas bem sucedidas
+    """
+    def _obter_campanhas_bem_sucedidas(self, modalidade, df):
+        if modalidade == CAMPANHA_SUB:
+            campanhas_mod_sucesso = df[
+                (df[colunaslib.COL_GERAL_MODALIDADE] == modalidade)
+                & (df[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES] > 0)
+                ]
+        else:
+            campanhas_mod_sucesso = df[
+                (df[colunaslib.COL_GERAL_MODALIDADE] == modalidade)
+                & (df[colunaslib.COL_GERAL_STATUS] != 'failed')
+                ]
+        
+        return campanhas_mod_sucesso
+
+    """
+    calcular o resumo de indicadores das campanhas por modalidades
+    """    
+    def _calcular_resumo_por_modalidade(self, df_completo):
+        colunas = [colunaslib.COL_GERAL_MODALIDADE]
+        df_resumo = df_completo.groupby(colunas).size().reset_index(name=DFCOL_TOTAL)
+
+        total = df_resumo[DFCOL_TOTAL].sum()
+
+        # estender o df com mais colunas
+        for index, row in df_resumo.iterrows():
+            modalidade = row[colunaslib.COL_GERAL_MODALIDADE]
+            total_mod = row[DFCOL_TOTAL]
+
+            campanhas_mod_sucesso = self._obter_campanhas_bem_sucedidas(modalidade, df_completo)
+
+            total_mod_sucesso           = len(campanhas_mod_sucesso)
+            meta_mod_sucesso            = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].sum()
+            meta_mod_sucesso_med        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].mean()
+            meta_mod_sucesso_std        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].std()
+            meta_mod_sucesso_min        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].min()
+            meta_mod_sucesso_max        = campanhas_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].max()
+
+            valor_mod_sucesso           = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            valor_med_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].mean()
+            valor_std_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            valor_min_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            valor_max_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
+
+            apoio_med_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].mean()
+            apoio_std_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].std()
+            apoio_min_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].min()
+            apoio_max_mod_sucesso       = campanhas_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].max()
+
+            contribuicoes               = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
+            contribuicoes_med           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].mean()
+            contribuicoes_std           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].std()
+            contribuicoes_min           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].min()
+            contribuicoes_max           = campanhas_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].max()
+
+            menor_ano           = campanhas_mod_sucesso[colunaslib.COL_ANO].min()
+            maior_ano           = campanhas_mod_sucesso[colunaslib.COL_ANO].max()
+            
+            df_resumo.at[index, DFCOL_TOTAL]                = int(total_mod)
+            df_resumo.at[index, DFCOL_TOTAL_SUCESSO]        = int(total_mod_sucesso)
+            df_resumo.at[index, DFCOL_PARTICIP]             = _dividir(total_mod, total)
+            df_resumo.at[index, DFCOL_TAXA_SUCESSO]         = _dividir(total_mod_sucesso, total_mod)
+            df_resumo.at[index, DFCOL_META]                 = meta_mod_sucesso
+            df_resumo.at[index, DFCOL_META_MED]             = meta_mod_sucesso_med
+            df_resumo.at[index, DFCOL_META_STD]             = meta_mod_sucesso_std
+            df_resumo.at[index, DFCOL_META_MIN]             = meta_mod_sucesso_min
+            df_resumo.at[index, DFCOL_META_MAX]             = meta_mod_sucesso_max
+            df_resumo.at[index, DFCOL_ARRECADADO_SUCESSO]   = valor_mod_sucesso
+            df_resumo.at[index, DFCOL_ARRECADADO_MED]       = valor_med_mod_sucesso
+            df_resumo.at[index, DFCOL_ARRECADADO_STD]       = valor_std_mod_sucesso
+            df_resumo.at[index, DFCOL_ARRECADADO_MIN]       = valor_min_mod_sucesso
+            df_resumo.at[index, DFCOL_ARRECADADO_MAX]       = valor_max_mod_sucesso
+            df_resumo.at[index, DFCOL_APOIO_MED]            = apoio_med_mod_sucesso
+            df_resumo.at[index, DFCOL_APOIO_STD]            = apoio_std_mod_sucesso
+            df_resumo.at[index, DFCOL_APOIO_MIN]            = apoio_min_mod_sucesso
+            df_resumo.at[index, DFCOL_APOIO_MAX]            = apoio_max_mod_sucesso
+            df_resumo.at[index, DFCOL_CONTRIBUICOES]        = contribuicoes
+            df_resumo.at[index, DFCOL_CONTRIBUICOES_MED]    = contribuicoes_med
+            df_resumo.at[index, DFCOL_CONTRIBUICOES_STD]    = contribuicoes_std
+            df_resumo.at[index, DFCOL_CONTRIBUICOES_MIN]    = contribuicoes_min
+            df_resumo.at[index, DFCOL_CONTRIBUICOES_MAX]    = contribuicoes_max
+            df_resumo.at[index, DFCOL_MENOR_ANO]            = menor_ano
+            df_resumo.at[index, DFCOL_MAIOR_ANO]            = maior_ano
+
+
+        # Preencher NaN com 0 para evitar problemas na divisão
+        df_resumo = df_resumo.fillna(0)
+        df_resumo.rename(columns={colunaslib.COL_GERAL_MODALIDADE: DFCOL_MODALIDADE}, inplace=True)
+
+        df_resumo[DFCOL_MENOR_ANO]       = df_resumo[DFCOL_MENOR_ANO].round().astype('int64')
+        df_resumo[DFCOL_MAIOR_ANO]       = df_resumo[DFCOL_MAIOR_ANO].round().astype('int64')
+
+
+        return df_resumo
+
+    """
+    calcular o resumo de campanhas por modalidade e recorte
+    """
+    def _calcular_resumo_por_modalidade_recorte(self, df_completo, col_recorte):
+
+        col_modalidade = colunaslib.COL_GERAL_MODALIDADE
+
+        colunas = [col_modalidade, col_recorte]
+        df_resultado = df_completo.groupby(colunas).size().reset_index(name='total')
+
+        # estender o df_completo com mais colunas
+        for index, row in df_resultado.iterrows():
+            recorte = row[col_recorte]
+            total_recorte = row['total']
+            modalidade = row[col_modalidade]
+
+            campanhas_mod = df_completo[
+                (df_completo[col_modalidade] == modalidade)
+                ]
+            total_mod = len(campanhas_mod)
+
+            campanhas_recorte_mod = df_completo[
+                (df_completo[col_recorte] == recorte)
+                & (df_completo[col_modalidade] == modalidade)
+                ]
+            total_recorte_mod = len(campanhas_recorte_mod)
+
+            campanhas_recorte_mod_sucesso = self._obter_campanhas_bem_sucedidas(modalidade, campanhas_recorte_mod)
+
+            total_recorte_mod_sucesso       = len(campanhas_recorte_mod_sucesso)
+
+            meta_recorte_mod_sucesso        = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].sum()
+            meta_recorte_mod_sucesso_med    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].mean()
+            meta_recorte_mod_sucesso_std    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].std()
+            meta_recorte_mod_sucesso_min    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].min()
+            meta_recorte_mod_sucesso_max    = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_META_CORRIGIDA].max()
+
+            valor_recorte_mod_sucesso       = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].sum()
+            valor_med_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].mean()
+            valor_std_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].std()
+            valor_min_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].min()
+            valor_max_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_ARRECADADO_CORRIGIDO].max()
+            apoio_med_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].mean()
+            apoio_std_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].std()
+            apoio_min_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].min()
+            apoio_max_recorte_mod_sucesso   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_APOIO_MEDIO].max()
+            contribuicoes                   = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].sum()
+            contribuicoes_std               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].std()
+            contribuicoes_med               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].mean()
+            contribuicoes_min               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].min()
+            contribuicoes_max               = campanhas_recorte_mod_sucesso[colunaslib.COL_GERAL_TOTAL_CONTRIBUICOES].max()
+            menor_ano                       = campanhas_recorte_mod_sucesso[colunaslib.COL_ANO].min()
+            maior_ano                       = campanhas_recorte_mod_sucesso[colunaslib.COL_ANO].max()
+
+            df_resultado.at[index, DFCOL_TOTAL]                 = int(total_recorte_mod)
+            df_resultado.at[index, DFCOL_TOTAL_SUCESSO]         = int(total_recorte_mod_sucesso)
+            df_resultado.at[index, DFCOL_PARTICIP]              = _dividir(total_recorte_mod, total_mod)
+            df_resultado.at[index, DFCOL_TAXA_SUCESSO]          = _dividir(total_recorte_mod_sucesso, total_recorte_mod)
+            
+            df_resultado.at[index, DFCOL_META]                  = meta_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_META_MED]              = meta_recorte_mod_sucesso_med
+            df_resultado.at[index, DFCOL_META_STD]              = meta_recorte_mod_sucesso_std
+            df_resultado.at[index, DFCOL_META_MIN]              = meta_recorte_mod_sucesso_min
+            df_resultado.at[index, DFCOL_META_MAX]              = meta_recorte_mod_sucesso_max
+
+            df_resultado.at[index, DFCOL_ARRECADADO_SUCESSO]    = valor_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_ARRECADADO_MED]        = valor_med_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_ARRECADADO_STD]        = valor_std_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_ARRECADADO_MIN]        = valor_min_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_ARRECADADO_MAX]        = valor_max_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_APOIO_MED]             = apoio_med_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_APOIO_STD]             = apoio_std_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_APOIO_MIN]             = apoio_min_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_APOIO_MAX]             = apoio_max_recorte_mod_sucesso
+            df_resultado.at[index, DFCOL_CONTRIBUICOES]         = contribuicoes
+            df_resultado.at[index, DFCOL_CONTRIBUICOES_MED]     = contribuicoes_med
+            df_resultado.at[index, DFCOL_CONTRIBUICOES_STD]     = contribuicoes_std
+            df_resultado.at[index, DFCOL_CONTRIBUICOES_MIN]     = contribuicoes_min
+            df_resultado.at[index, DFCOL_CONTRIBUICOES_MAX]     = contribuicoes_max
+            df_resultado.at[index, DFCOL_MENOR_ANO]             = menor_ano
+            df_resultado.at[index, DFCOL_MAIOR_ANO]             = maior_ano
+
+        # Preencher NaN com 0 para evitar problemas na divisão
+        df_resultado = df_resultado.fillna(0)
+
+        # garantir colunas int64:
+        df_resultado[DFCOL_TOTAL]           = df_resultado[DFCOL_TOTAL].round().astype('int64')
+        df_resultado[DFCOL_TOTAL_SUCESSO]   = df_resultado[DFCOL_TOTAL_SUCESSO].round().astype('int64')
+        df_resultado[DFCOL_CONTRIBUICOES]   = df_resultado[DFCOL_CONTRIBUICOES].round().astype('int64')
+
+        df_resultado[DFCOL_MENOR_ANO]       = df_resultado[DFCOL_MENOR_ANO].round().astype('int64')
+        df_resultado[DFCOL_MAIOR_ANO]       = df_resultado[DFCOL_MAIOR_ANO].round().astype('int64')
+
+        df_resultado.rename(columns={colunaslib.COL_GERAL_MODALIDADE: DFCOL_MODALIDADE}, inplace=True)
+
+        return df_resultado
+
+    """
+    reestruturar um dataframe de menções, ignorando as linhas de True para a
+    coluna analisada
+    """
+    def _reestruturar_df_mencoes(self, df_parcial, col):
+        df_resultado = df_parcial[
+            df_parcial[col]==True
+        ].copy()
+        df_resultado.rename(columns={col: 'mencao'}, inplace=True)
+        df_resultado['mencao'] = col.replace('mencoes_', '')
+
+        return df_resultado
+
+    """
+    calcular o resumo de campanhas por modalidade e menções
+    """
+    def _calcular_resumo_por_modalidade_mencoes(self, df_completo):
+        
+        df_angelo   =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_ANGELO_AGOSTINI), colunaslib.COL_MENCOES_ANGELO_AGOSTINI)
+        df_ccxp     =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_CCXP), colunaslib.COL_MENCOES_CCXP)
+        df_disputa  =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_DISPUTA), colunaslib.COL_MENCOES_DISPUTA)
+        df_erotismo =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_EROTISMO), colunaslib.COL_MENCOES_EROTISMO)
+        df_fantasia =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_FANTASIA), colunaslib.COL_MENCOES_FANTASIA)
+        df_fc       =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_FICCAO_CIENTIFICA), colunaslib.COL_MENCOES_FICCAO_CIENTIFICA)
+        df_fiq      =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_FIQ), colunaslib.COL_MENCOES_FIQ)
+        df_folclore =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_FOLCLORE), colunaslib.COL_MENCOES_FOLCLORE)
+        df_herois   =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_HEROIS), colunaslib.COL_MENCOES_HEROIS)
+        df_hqmix    =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_HQMIX), colunaslib.COL_MENCOES_HQMIX)
+        df_humor    =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_HQMIX), colunaslib.COL_MENCOES_HQMIX)
+        df_jogos    =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_JOGOS), colunaslib.COL_MENCOES_JOGOS)
+        df_lgbt     =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_LGBTQIAMAIS), colunaslib.COL_MENCOES_LGBTQIAMAIS)
+        df_midia    =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_MIDIA_INDEPENDENTE), colunaslib.COL_MENCOES_MIDIA_INDEPENDENTE)
+        df_politica =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_POLITICA), colunaslib.COL_MENCOES_POLITICA)
+        df_questoes =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_QUESTOES_GENERO), colunaslib.COL_MENCOES_QUESTOES_GENERO)
+        df_religiao =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_RELIGIOSIDADE), colunaslib.COL_MENCOES_RELIGIOSIDADE)
+        df_saloes   =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_SALOES_HUMOR), colunaslib.COL_MENCOES_SALOES_HUMOR)
+        df_terror   =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_TERROR), colunaslib.COL_MENCOES_TERROR)
+        df_web      =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_WEBFORMATOS), colunaslib.COL_MENCOES_WEBFORMATOS)
+        df_zine     =  self._reestruturar_df_mencoes(self._calcular_resumo_por_modalidade_recorte(df_completo, colunaslib.COL_MENCOES_ZINE), colunaslib.COL_MENCOES_ZINE)
+
+        df_resultado = pd.concat([
+            df_angelo
+            ,df_ccxp
+            ,df_disputa
+            ,df_erotismo
+            ,df_fantasia
+            ,df_fc
+            ,df_fiq
+            ,df_folclore
+            ,df_herois
+            ,df_hqmix
+            ,df_humor
+            ,df_jogos
+            ,df_lgbt
+            ,df_midia
+            ,df_politica
+            ,df_questoes
+            ,df_religiao
+            ,df_saloes
+            ,df_terror
+            ,df_web
+            ,df_zine
+        ], ignore_index=True)
+
+        return df_resultado

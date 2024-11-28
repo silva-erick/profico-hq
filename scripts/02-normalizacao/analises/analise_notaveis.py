@@ -2,6 +2,7 @@ import analises.analise_lib as analisebase
 import colunas as colunaslib
 import pandas as pd
 import os
+import time
 
 
 CAMINHO_CSV = "../../dados/csv"
@@ -13,7 +14,7 @@ class CoordenadorAnaliseNotaveis(analisebase.AnaliseInterface):
     """
     Coordenar a execução da análise notáveis
     """
-    def executar(self, df, ano_referencia) -> bool:
+    def executar(self, df, ano_referencia, start_time) -> bool:
 
         calc = CalculosPontosNotaveis()
         print(f'> análise notáveis')
@@ -32,6 +33,8 @@ class CoordenadorAnaliseNotaveis(analisebase.AnaliseInterface):
             #     and self._calcular_modalidades(calc, pasta_md, pasta_img, pasta_dados)
             #     and self._gerar_readme(calc, pasta_md)
             # )
+
+        print(f"...andamento: {(time.time() - start_time):.1f} segundos")
 
         return resultado
 
