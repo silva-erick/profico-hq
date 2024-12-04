@@ -7,7 +7,7 @@ Scripts para normalização dos dados brutos.
 Para normalizar todas as campanhas de 2011 até um determinando ano de interesse:
 
 ```
-python normalizar.py --verbose -a 2023
+python 01-normalizar.py --verbose -a 2023
 ```
 
 ## Tipos de normalização
