@@ -90,7 +90,7 @@ class TabelaConversaoAasp:
                 soup = BeautifulSoup(response.text, 'html.parser')
 
                 # Encontrar a tabela com a classe 'has-fixed-layout'
-                tabela = soup.find('table', class_='has-fixed-layout')
+                tabela = soup.find('table')
 
                 # Verificar se a tabela foi encontrada
                 if tabela:

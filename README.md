@@ -49,9 +49,8 @@ a meta estabelecida na data de encerramento.
 
 ## Origens dos dados
 
-A plataforma com mais campanhas de histórias em quadrinhos é [Catarse.me](https://www.catarse.me),
-então vou começar por ela. Outra plataforma que pretendo explorar é [Apoia.se](https://www.apoia.se),
-mas será necessário algum tipo de padronização dos dados entre ambas.
+A principal fonte de dados para este trabalho é [Catarse.me](https://www.catarse.me),
+seguido de [Apoia.se](https://www.apoia.se).
 
 Os valores monetários nas campanhas, tal como meta, total levantado ou valor de recompensas
 é nominal e se refere à época de execução da campanha. Para ter uma base de comparação mais adequada,
