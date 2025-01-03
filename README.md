@@ -80,8 +80,8 @@ de CSV são construídos a partir desses arquivos.
 - sql: os arquivos de banco de dados em SQLite em tabelas analíticas e sintéticas.
 - csv: parecido com o sql, mas em formato CSV.
 
-### Scripts
+### bin
 
 Se você gosta de programação, vai encontrar os vários scripts usados na produção de dados
-ou nas análises e relatórios na pasta _scripts_. Tudo em python e, na medida do possível,
+ou nas análises e relatórios na pasta _bin_. Tudo em python e, na medida do possível,
 em português brasileiro, para facilitar o acesso.

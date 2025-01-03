@@ -14,6 +14,14 @@ import uuid
 import pandas as pd
 from unidecode import unidecode
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.cluster import KMeans
+from nltk.corpus import stopwords
+import nltk
+
+
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CONVERSAO_MONETARIA = "../../dados/brutos/aasp/conversao-monetaria.json"
 CAMINHO_ALBUNS = "../../dados/brutos/guiadosquadrinhos/totais.json"
@@ -21,7 +29,7 @@ CAMINHO_MUNICIPIOS = "../../dados/brutos/catarse/cities.json"
 CAMINHO_CAMPANHAS_CATARSE = "../../dados/brutos/catarse/campanhas"
 CAMINHO_CAMPANHAS_APOIASE = "../../dados/brutos/apoiase/campanhas"
 
-REGEX_PRIMEIRO_NOME = re.compile('^[\w]+$')
+REGEX_PRIMEIRO_NOME = re.compile(r'^[\w]+$')
 
 from datetime import datetime, timedelta
 
@@ -524,6 +532,137 @@ class Normalizacao:
 
         return True
 
+    # Função de filtro para remover números e palavras no formato \d+x\d+
+    def filter_words(self, words):
+        return [word for word in words if not re.match(r"^\d+$", word) and not re.match(r"^\d+x\d+$", word)][-5:]
+
+    def _classificar_multirrotulo(self, msg):
+
+        print(msg)
+
+        try:        
+            # Baixar as stopwords do NLTK
+            nltk.download('stopwords')
+            portuguese_stopwords = stopwords.words('portuguese')
+
+            # novas palavras para ignorar na análise
+            portuguese_stopwords.append('_blank')
+            portuguese_stopwords.append('apoiador')
+            portuguese_stopwords.append('apoiadores')
+            portuguese_stopwords.append('apoio')
+            portuguese_stopwords.append('aqui')
+            portuguese_stopwords.append('br')
+            portuguese_stopwords.append('campanha')
+            portuguese_stopwords.append('capa')
+            portuguese_stopwords.append('catarse')
+            portuguese_stopwords.append('cm')
+            portuguese_stopwords.append('edição')
+            portuguese_stopwords.append('editora')
+            portuguese_stopwords.append('email')
+            portuguese_stopwords.append('entrega')
+            portuguese_stopwords.append('entregue')
+            portuguese_stopwords.append('exemplar')
+            portuguese_stopwords.append('exemplares')
+            portuguese_stopwords.append('facebook')
+            portuguese_stopwords.append('formato')
+            portuguese_stopwords.append('formatos')
+            portuguese_stopwords.append('história')
+            portuguese_stopwords.append('histórias')
+            portuguese_stopwords.append('hq')
+            portuguese_stopwords.append('hqs')
+            portuguese_stopwords.append('http')
+            portuguese_stopwords.append('https')
+            portuguese_stopwords.append('href')
+            portuguese_stopwords.append('ilustração')
+            portuguese_stopwords.append('ilustrações')
+            portuguese_stopwords.append('ilustrador')
+            portuguese_stopwords.append('ilustradora')
+            portuguese_stopwords.append('instagram')
+            portuguese_stopwords.append('livro')
+            portuguese_stopwords.append('livros')
+            portuguese_stopwords.append('meta')
+            portuguese_stopwords.append('narrativa')
+            portuguese_stopwords.append('narrativas')
+            portuguese_stopwords.append('página')
+            portuguese_stopwords.append('páginas')
+            portuguese_stopwords.append('papel')
+            portuguese_stopwords.append('pdf')
+            portuguese_stopwords.append('projeto')
+            portuguese_stopwords.append('projetos')
+            portuguese_stopwords.append('quadrinho')
+            portuguese_stopwords.append('quadrinhos')
+            portuguese_stopwords.append('quadrinista')
+            portuguese_stopwords.append('quadrinistas')
+            portuguese_stopwords.append('recompensa')
+            portuguese_stopwords.append('recompensas')
+            portuguese_stopwords.append('revista')
+            portuguese_stopwords.append('revistas')
+            portuguese_stopwords.append('roteirista')
+            portuguese_stopwords.append('site')
+            portuguese_stopwords.append('sobre')
+            portuguese_stopwords.append('target')
+            portuguese_stopwords.append('toda')
+            portuguese_stopwords.append('todas')
+            portuguese_stopwords.append('todo')
+            portuguese_stopwords.append('todos')
+            portuguese_stopwords.append('twitter')
+            portuguese_stopwords.append('valor')
+            portuguese_stopwords.append('volume')
+            portuguese_stopwords.append('x')
+            portuguese_stopwords.append('www')            
+
+            texts = [t['detail']['about_txt'] for t in self._campanhas]
+
+            # Vetorização
+            #vectorizer = TfidfVectorizer()
+            vectorizer = CountVectorizer(stop_words=portuguese_stopwords)
+            X = vectorizer.fit_transform(texts)
+
+            # Modelagem de tópicos com LDA
+            lda = LatentDirichletAllocation(n_components=50, random_state=42)
+            lda.fit(X)
+
+            # Palavras-chave de cada tópico
+            feature_names = vectorizer.get_feature_names_out()
+
+            selected_topics = {}
+
+            for i, topic in enumerate(lda.components_):
+                words = [feature_names[j] for j in topic.argsort()[-29:] ] 
+                filtered_words = self.filter_words(words)  # Aplicar o filtro
+                selected_topics[i] = filtered_words
+                print('.', end='', flush=True)
+            print('')
+
+            arquivo_dados = f"topicos_classificacao.json"
+            
+            with open(arquivo_dados, 'w') as arquivo_json:
+                json.dump(selected_topics, arquivo_json)
+
+            for data in self._campanhas:
+                txt = data['detail']['about_txt']
+                print('.', end='', flush=True)
+
+                no_topico = True
+                # verifica se o texto participa de cada tópico
+                for k, tokens in selected_topics.items():
+                    cont = 0.0
+                    for token in tokens:
+                        if self._testar_regex(txt, re.compile(fr'\b{re.escape(token)}\b')):
+                            cont = cont + 1.0
+    
+
+                    data[f'topico_{k}'] = (cont / len(tokens))
+
+            print('')
+            
+        except Exception as e:
+            # Lidar com a exceção, se necessário
+            log_verbose(self._verbose, f"Erro ao classificar multirrotulo: {e}")
+            return False
+
+        return True
+
     def _percorrer_campanhas(self, msg, funcao):
         log_verbose(self._verbose, msg)
         quantidade_campanhas = 0
@@ -719,14 +858,25 @@ class Normalizacao:
         return True
 
     def _gravar_json_campanhas(self, data):
-        arquivo_dados = f"{CAMINHO_NORMALIZADOS}/{self._ano}/{data['detail']['project_id']}.json"
-        data[colunaslib.COL_GERAL_SOBRE] = data['detail']['about_txt']
-        
-        del data['detail']
-        del data['rewards']
-        del data['user']
-        with open(arquivo_dados, 'w') as arquivo_json:
-            json.dump(data, arquivo_json)
+
+        try:        
+            arquivo_dados = f"{CAMINHO_NORMALIZADOS}/{self._ano}/{data['detail']['project_id']}.json"
+            data[colunaslib.COL_GERAL_SOBRE] = data['detail']['about_txt']
+            
+            del data['detail']
+            del data['rewards']
+            del data['user']
+            
+            with open(arquivo_dados, 'w') as arquivo_json:
+                json.dump(data, arquivo_json)
+        except Exception as e:
+            # Lidar com a exceção, se necessário
+            log_verbose(self._verbose, f"Erro ao gravar arquivo normalizado {arquivo_dados}: {e}")
+            return False
+        # finally:
+        #     # Certifique-se de fechar o arquivo, mesmo em caso de exceção
+        #     if f:
+        #         f.close()
 
         return True
     
@@ -763,6 +913,9 @@ class Normalizacao:
             and self._percorrer_campanhas(f'> categorizar recompensas', self._classificar_recompensas)
             and self._percorrer_campanhas(f'> classificar autoria', self._classificar_autoria)
             and self._percorrer_campanhas(f'> categorizar resumo', self._classificar_resumo)
+
+            and self._classificar_multirrotulo(f'> categorizar multirrotulo')
+
             and self._percorrer_campanhas(f'> gravar arquivos normalizados das campanhas', self._gravar_json_campanhas)
         )
 

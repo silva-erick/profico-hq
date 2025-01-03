@@ -13,6 +13,16 @@
             "justMyCode": true
         },
         {
+            "name": "Python: profico-hq.py raspar",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "profico-hq.py",
+            "cwd": "${workspaceFolder}/bin",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["raspar", "-v"]
+        },
+        {
             "name": "Python: 02-raspar_guiaquadrinhos.py",
             "type": "debugpy",
             "request": "launch",
@@ -67,6 +77,16 @@
             "type": "debugpy",
             "request": "launch",
             "program": "01-normalizar.py",
+            "cwd": "${workspaceFolder}/scripts/02-normalizacao",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["-v", "-a", "2013"]
+        },
+        {
+            "name": "Python: 99-clustering.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "99-clustering.py",
             "cwd": "${workspaceFolder}/scripts/02-normalizacao",
             "console": "integratedTerminal",
             "justMyCode": true,

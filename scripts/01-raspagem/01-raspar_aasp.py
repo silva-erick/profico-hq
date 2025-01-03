@@ -31,7 +31,10 @@ import apoio
 #
 # parâmetros
 #
-URL = "https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/"
+#URL = "https://www.aasp.org.br/suporte-profissional/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/"
+URL = "https://www.aasp.org.br/produtos-servicos/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/"
+
+# alternativa, mas precisa interpretar pdf: https://www.tjsp.jus.br/Download/Tabelas/Tabela_IPCA-E.pdf
 
 
 ###############################################################################

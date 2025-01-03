@@ -72,6 +72,9 @@ class ExportarCsv:
 
         colunas = colunaslib.COLUNAS_EXPORTACAOCSV
 
+        for i in range(0, 50):
+            colunas.append(f'topico_{i}')
+
         campanhas = []
         # Percorre a lista de arquivos
         for caminho_campanha in caminho_campanhas:

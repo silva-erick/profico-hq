@@ -1,5 +1,6 @@
 argparse
 beautifulsoup4
+duckdb
 graphviz
 matplotlib
 networkx
@@ -11,8 +12,10 @@ pyarrow
 pydot
 regex
 requests
+scikit-learn
 spacy
 tabulate
+threading
 unidecode
 urllib3
 xlsxwriter
