@@ -298,8 +298,8 @@ class BaseCatarseUniqueApi:
         result = apoio.ResultadoApi(False)
 
         try:
-            if verbose:
-                print("c", end='', flush=True)
+            # if verbose:
+            #     print("c", end='', flush=True)
 
             p1 = datetime.now()
             req = requests.Request("GET", url, headers=headers, params=params)

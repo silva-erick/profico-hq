@@ -183,7 +183,7 @@ class ApoiaseProjects(BaseApoiaseCollectionApi):
 
 async def apoiase_slug(batch_campaigns, cache_slug, clear_cache):
     for camp in batch_campaigns:
-        print('d', flush=True, end='')
+        # print('d', flush=True, end='')
 
         obter = clear_cache or not os.path.exists(f"../dados/brutos/apoiase/campanhas/{camp['_id']}.json")
         if not obter:

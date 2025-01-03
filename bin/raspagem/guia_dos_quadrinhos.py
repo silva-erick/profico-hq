@@ -69,7 +69,7 @@ async def raspar_guiaquadrinhos(args, ano):
             while run:
                 content = await apoio.fetch(URL_GUIA.replace('{mes}', str(mes)).replace('{ano}', str(ano)))
                 if verbose:
-                    print(f'B{ano} ', end='', flush=True)
+                    print(f'B', end='', flush=True)
                 if content != '':
                     soup = BeautifulSoup(content, 'html.parser')
 
