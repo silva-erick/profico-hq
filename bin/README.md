@@ -24,9 +24,7 @@ os fontes do profico-hq.
 
 ### Virtual Environment no Windows
 
-No terminal, navegue até a pasta do projeto profico-hq, em seguida, acesse a pasta bin. Digite:
-
-Crie um virtual environment com o comando:
+No terminal, navegue até a pasta do projeto profico-hq. Crie um virtual environment com o comando:
 
 ```
 python.exe -m venv venv
@@ -47,7 +45,7 @@ pip install -r requirements.txt
 
 ### Virtual Environment no Linux
 
-No terminal, navegue até a pasta do projeto profico-hq, me seguida, acesse a pasta bin. Digite:
+No terminal, navegue até a pasta do projeto profico-hq. Crie um virtual environment com o comando:
 
 ```
 python3 -m venv venv
@@ -74,6 +72,22 @@ Scripts para produção de dados a partir das fontes de dados:
 - Apoia.se
 - AASP
 - Guia de Quadrinhos
+
+Digite em linha de comando:
+```
+python profico-hq.py raspar
+```
+
+Ou com a chave --verbose, para acompanhar a atividade:
+```
+python profico-hq.py raspar --verbose
+```
+Ou ativando a chave --clear-cache, caso em que todos os arquivos de campanhas serão baixados novamente:
+```
+python profico-hq.py raspar --verbose --clear-cache
+```
+
+
 
 ### Normalizacao
 
