@@ -91,9 +91,6 @@ class BaseApoiaseCollectionApi:
         try:
             logging.debug(f"Items will be fetched in batches of {batch_size}")
             while True:
-                if verbose:
-                    print("D", end='', flush=True)
-
                 p1 = datetime.now()
                 params = self._get_params(num_of_calls+1, (num_of_calls+1)*BATCH_SIZE)
                 payload=json.loads(params)
@@ -129,16 +126,12 @@ class BaseApoiaseCollectionApi:
                     break
                 else:
                     result.add_request_error(response.status_code, response.text)
-                    if verbose:
-                        print("")
-                        print(f"Request error: {response.status_code} - {response.text}")
+                    apoio.verboseerror(f"Request error: {response.status_code} - {response.text}")
                     break
 
         except requests.exceptions.RequestException as e:
             result.add_request_error(-1, e)
-            if verbose:
-                print("")
-                print(f"Request exception: {e}")
+            apoio.verboseerror(f"Request exception: {e}", e)
 
         if num_of_calls == 0:
             avg_call = 0
@@ -174,16 +167,11 @@ class ApoiaseProjects(BaseApoiaseCollectionApi):
     
     def execute(self, threads, clear_cache):
         res = super().execute(threads, clear_cache, self._verbose, self._log_level)
-        if not res.sucesso:
-            print("?", end='')
-        else:
-            pass
 
         return res
 
 async def apoiase_slug(batch_campaigns, cache_slug, clear_cache):
     for camp in batch_campaigns:
-        # print('d', flush=True, end='')
 
         obter = clear_cache or not os.path.exists(f"../dados/brutos/apoiase/campanhas/{camp['_id']}.json")
         if not obter:

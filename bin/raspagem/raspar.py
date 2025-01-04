@@ -1,50 +1,50 @@
+import os
 import asyncio
 import logging
+from datetime import datetime, timedelta
 
+import raspagem.apoio as apoio
 import raspagem.aasp as aasp
 import raspagem.guia_dos_quadrinhos as guia
 import raspagem.catarse as catarse
 import raspagem.apoiase as apoiase
 
-from datetime import datetime
-#import raspagem.catarse
 
 async def executar_raspagem(args):
 
-    if args.verbose:
-        print('preparando threads de raspagem', flush=True)
+    apoio.definir_log(args, 'raspar')
+
+    apoio.verbose(args.verbose, f'Início: {datetime.today().strftime('%Y-%m-%d %H:%M:%S')}')
+
     threads = list()
 
-    if args.verbose:
-        print('thread: raspar aasp (A)', flush=True)
+    apoio.verbose(args.verbose, 'thread: raspar aasp (A)')
+
     threads.append(asyncio.create_task(aasp.raspar_aasp(args)))
 
     hoje = datetime.today()
     ano = 2011
     mes = 1
     while ano <= hoje.year:
-        if args.verbose:
-            print(f'thread: raspar guia dos quadrinhos: {ano} (B{ano})', flush=True)
+        apoio.verbose(args.verbose, f'thread: raspar guia dos quadrinhos: {ano} (B{ano})')
         threads.append(asyncio.create_task(guia.raspar_guiaquadrinhos(args, ano)))
         ano = ano + 1
 
-    if args.verbose:
-        print('thread: raspar catarse (C)', flush=True)
+    apoio.verbose(args.verbose,'thread: raspar catarse (C)')
     threads.append(asyncio.create_task(catarse.raspar_catarse(args)))
 
-    if args.verbose:
-        print('thread: raspar catarse categories', flush=True)
+    apoio.verbose(args.verbose,'thread: raspar catarse categories')
     threads.append(asyncio.create_task(catarse.raspar_catarse_categories(args)))
 
-    if args.verbose:
-        print('thread: raspar catarse cities', flush=True)
+    apoio.verbose(args.verbose,'thread: raspar catarse cities')
     threads.append(asyncio.create_task(catarse.raspar_catarse_cities(args)))
 
-    if args.verbose:
-        print('thread: raspar apoiase (D)', flush=True)
+    apoio.verbose(args.verbose,'thread: raspar apoiase (D)')
+
     threads.append(asyncio.create_task(apoiase.raspar_apoiase(args)))
 
-    if args.verbose:
-        print('raspando dados da web', flush=True)
+    apoio.verbose(args.verbose,'raspando dados da web')
     await asyncio.gather(*threads)
-    print('\ndados raspados', flush=True)
+
+    apoio.verbose(args.verbose, f'Fim: {datetime.today().strftime('%Y-%m-%d %H:%M:%S')}')
+

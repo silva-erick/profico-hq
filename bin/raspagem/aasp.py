@@ -54,7 +54,6 @@ async def raspar_aasp(args):
                         "nov": celulas[11].text,
                         "dez": celulas[12].text,
                     }
-                    print('A ', end='', flush=True)
                 # Extrair os valores individuais
                 ano = apoio.como_inteiro(celulas[0].text, 'pt-br')
                 # janeiro
@@ -91,8 +90,5 @@ async def raspar_aasp(args):
         data_file = f"../dados/brutos/aasp/conversao-monetaria.json"
         with open(data_file, 'w') as json_file:
             json.dump(todos_itens, json_file)
-        print(f'A', end = '')
     except Exception as e:
-        if verbose:
-            print(f'\nErro: um erro aconteceu ao gravar arquivo: {e}')
-        logging.error('Error at %s', 'gravar arquivo', exc_info=e)
+        apoio.verboseerror(f'\nErro: um erro aconteceu ao gravar arquivo: {e}', e)

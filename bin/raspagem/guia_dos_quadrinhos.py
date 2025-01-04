@@ -68,8 +68,7 @@ async def raspar_guiaquadrinhos(args, ano):
             todos_itens = {}
             while run:
                 content = await apoio.fetch(URL_GUIA.replace('{mes}', str(mes)).replace('{ano}', str(ano)))
-                if verbose:
-                    print(f'B', end='', flush=True)
+
                 if content != '':
                     soup = BeautifulSoup(content, 'html.parser')
 
@@ -92,9 +91,7 @@ async def raspar_guiaquadrinhos(args, ano):
                     run = False
 
     except Exception as e:
-        if verbose:
-            print(f'\nErro: um erro aconteceu ao processar uma requisição: {e}')
-        logging.error('Error at %s', 'obter página', exc_info=e)
+        apoio.verboseerror(f'Erro: um erro aconteceu ao processar uma requisição: {e}')
 
     try:
         if make_download:
@@ -102,6 +99,4 @@ async def raspar_guiaquadrinhos(args, ano):
             with open(data_file, 'w') as json_file:
                 json.dump(todos_itens, json_file)
     except Exception as e:
-        if verbose:
-            print(f'\nErro: um erro aconteceu ao gravar arquivo: {e}')
-        logging.error('Error at %s', 'gravar arquivo', exc_info=e)
+        apoio.verboseerror(f'Erro: um erro aconteceu ao gravar arquivo: {e}', e)
