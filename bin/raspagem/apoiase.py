@@ -10,6 +10,7 @@ import os
 
 import argparse
 
+import logs
 import raspagem.apoio as apoio
 
 BATCH_SIZE = 5
@@ -126,12 +127,12 @@ class BaseApoiaseCollectionApi:
                     break
                 else:
                     result.add_request_error(response.status_code, response.text)
-                    apoio.verboseerror(f"Request error: {response.status_code} - {response.text}")
+                    logs.verboseerror(f"Request error: {response.status_code} - {response.text}")
                     break
 
         except requests.exceptions.RequestException as e:
             result.add_request_error(-1, e)
-            apoio.verboseerror(f"Request exception: {e}", e)
+            logs.verboseerror(f"Request exception: {e}", e)
 
         if num_of_calls == 0:
             avg_call = 0

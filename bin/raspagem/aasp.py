@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import os
 import json
 
+import logs
 
 URL = "https://www.aasp.org.br/produtos-servicos/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/"
 
@@ -91,4 +92,4 @@ async def raspar_aasp(args):
         with open(data_file, 'w') as json_file:
             json.dump(todos_itens, json_file)
     except Exception as e:
-        apoio.verboseerror(f'\nErro: um erro aconteceu ao gravar arquivo: {e}', e)
+        logs.verboseerror(f'\nErro: um erro aconteceu ao gravar arquivo: {e}', e)

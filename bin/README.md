@@ -65,13 +65,15 @@ pip install -r requirements.txt
 
 ## Scripts
 
+Acesse a pasta bin e utilize o script profico-hq.py.
+
 ### Produção (ou raspagem) de dados
 
 Scripts para produção de dados a partir das fontes de dados:
 - Catarse.me
 - Apoia.se
 - AASP
-- Guia de Quadrinhos
+- Guia dos Quadrinhos
 
 Digite em linha de comando:
 ```
@@ -88,7 +90,6 @@ python profico-hq.py raspar --verbose --clear-cache
 ```
 
 
-
 ### Normalizacao
 
 Scripts para normalização dos dados produzidos no processo de raspagem:
@@ -96,6 +97,11 @@ Scripts para normalização dos dados produzidos no processo de raspagem:
 - classificação de autoria
 - categorias de conteúdo
 - análises de recompensas
+
+```
+python profico-hq.py normalizar
+```
+
 
 ### Banco de Dados
 

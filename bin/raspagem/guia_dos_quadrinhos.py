@@ -21,6 +21,7 @@ from datetime import datetime
 
 from bs4 import BeautifulSoup
 
+import logs
 import raspagem.apoio as apoio
 
 
@@ -91,7 +92,7 @@ async def raspar_guiaquadrinhos(args, ano):
                     run = False
 
     except Exception as e:
-        apoio.verboseerror(f'Erro: um erro aconteceu ao processar uma requisição: {e}')
+        logs.verboseerror(f'Erro: um erro aconteceu ao processar uma requisição: {e}')
 
     try:
         if make_download:
@@ -99,4 +100,4 @@ async def raspar_guiaquadrinhos(args, ano):
             with open(data_file, 'w') as json_file:
                 json.dump(todos_itens, json_file)
     except Exception as e:
-        apoio.verboseerror(f'Erro: um erro aconteceu ao gravar arquivo: {e}', e)
+        logs.verboseerror(f'Erro: um erro aconteceu ao gravar arquivo: {e}', e)
