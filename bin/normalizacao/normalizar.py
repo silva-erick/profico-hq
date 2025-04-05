@@ -6,13 +6,10 @@ from datetime import datetime, timedelta
 import pandas as pd
 from unidecode import unidecode
 
-import logs
-import raspagem.apoio as apoio
-import raspagem.aasp as aasp
-import raspagem.guia_dos_quadrinhos as guia
-import raspagem.catarse as catarse
-import raspagem.apoiase as apoiase
+import re
+import json
 
+import logs
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CONVERSAO_MONETARIA = "../../dados/brutos/aasp/conversao-monetaria.json"
@@ -53,12 +50,14 @@ uf_brasileiras = [
             'TO'   # Tocantins
         ]
 
+nomes_com_genero = {}
 
-async def carregar_arquivos_frequencia_nomes(verbose):
-    self._show_message("> carregando dicionário de nomes")
+async def carregar_arquivos_frequencia_nomes(args):
+    logs.verbose(args.verbose, 'thread: carregando dicionário de nomes')
+
     # referência: https://brasil.io/dataset/genero-nomes/nomes/
     # baixado em 2024-01-13
-    df = pd.read_csv('./nomes.csv')
+    df = pd.read_csv('./normalizacao/nomes.csv')
 
     # Filtrar as linhas com "ratio" igual a 1.0
     linhas_com_ratio_1 = df[df['ratio'] > 0.75]
@@ -78,17 +77,107 @@ async def carregar_arquivos_frequencia_nomes(verbose):
             nomes.extend(alternative_names)
         
         for n in nomes:
-            if n not in self._nomes_com_genero:
-                self._nomes_com_genero[n] = genero
+            if n not in nomes_com_genero:
+                nomes_com_genero[n] = genero
         
         quant = quant + 1
         if ( quant > 1000):
             quant = 0
-            print('.', flush=True, end='')
-
-    print('')
                 
     return True
+
+
+def carregar_arquivo_padroes(args, caminho_arquivo, cats, precisos, comeca_com, contem):
+    # abrir arquivo
+    try:
+        f = None
+        f = open (caminho_arquivo, "r", encoding="utf8")
+        
+        # ler arquivo como json
+        data = json.loads(f.read())
+        estruts = ['full','comeca_com', 'contem']
+
+        for c in cats:
+            for t in estruts:
+                data[c][t] = data[c].get(t, [])
+
+                if t == 'full':
+                    precisos[c] = [re.compile(f"^{pat}$") for pat in data[c][t] if pat.strip()]
+                elif t == 'comeca_com':
+                    comeca_com[c] = [re.compile(rf"^{pat}(\b|\s+)") for pat in data[c][t] if pat.strip()]
+                else:
+                    contem[c] = [re.compile(f"{pat}") for pat in data[c][t] if pat.strip()]
+
+        return True
+    except Exception as e:
+        # Lidar com a exceção, se necessário
+        logs.verboseerror(f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
+        return False
+    finally:
+        # Certifique-se de fechar o arquivo, mesmo em caso de exceção
+        if f is not None:
+            f.close()
+
+autorias_precisos = {}
+autorias_comeca_com={}
+autorias_contem={}
+
+async def carregar_autorias_padroes(args):
+
+    logs.verbose(args.verbose, f"thread: carregando arquivo de padrões - autoria")
+
+    return carregar_arquivo_padroes(
+        args,
+        './normalizacao/autorias.json',
+        [
+            'masculino',
+            'feminino',
+            'empresa',
+            'coletivo',
+            'outros'
+            ],
+        autorias_precisos,
+        autorias_comeca_com,
+        autorias_contem
+        )
+
+mencoes_padroes_precisos = {}
+mencoes_padroes_comeca_com = {}
+mencoes_padroes_contem = {}
+async def carregar_mencoes_padroes(args):
+
+    logs.verbose(args.verbose, f"thread: carregando arquivo de padrões - menções")
+
+    return carregar_arquivo_padroes(
+        args,
+        './normalizacao/mencoes.json',
+        [
+            'saloes_humor',
+            'hqmix',
+            'ccxp',
+            'fiq',
+            'angelo_agostini',
+            'politica',
+            'questoes_genero',
+            'lgbtqiamais',
+            'terror',
+            'humor',
+            'herois',
+            'disputa',
+            'ficcao_cientifica',
+            'fantasia',
+            'folclore',
+            'zine',
+            'webformatos',
+            'erotismo',
+            'religiosidade',
+            'jogos',
+            'midia_independente'
+            ],
+        mencoes_padroes_precisos,
+        mencoes_padroes_comeca_com,
+        mencoes_padroes_contem
+        )
 
 
 
@@ -106,9 +195,9 @@ async def executar_normalizacao(args):
 
     threads = list()
 
-    # logs.verbose(args.verbose, 'thread: raspar aasp')
-
-    # threads.append(asyncio.create_task(aasp.raspar_aasp(args)))
+    threads.append(asyncio.create_task(carregar_arquivos_frequencia_nomes(args)))
+    threads.append(asyncio.create_task(carregar_autorias_padroes(args)))
+    threads.append(asyncio.create_task(carregar_mencoes_padroes(args)))
 
     # hoje = datetime.today()
     # ano = 2011
@@ -131,13 +220,13 @@ async def executar_normalizacao(args):
 
     # threads.append(asyncio.create_task(apoiase.raspar_apoiase(args)))
 
-    # logs.verbose(args.verbose,'raspando dados da web')
-    # await asyncio.gather(*threads)
+    logs.verbose(args.verbose,'carregando dados...')
+    await asyncio.gather(*threads)
 
-    # p2 = datetime.now()
-    # delta = p2-p1
-    # tempo = delta.seconds + delta.microseconds/1000000
+    p2 = datetime.now()
+    delta = p2-p1
+    tempo = delta.seconds + delta.microseconds/1000000
 
-    # logs.verbose(args.verbose, f'Tempo: {tempo}s')
+    logs.verbose(args.verbose, f'Tempo: {tempo}s')
 
 

@@ -1,6 +1,7 @@
 import asyncio
 import argparse
 import raspagem.raspar
+import normalizacao.normalizar
 
 '''
 async def raspar(args)
@@ -17,6 +18,8 @@ async def normalizar(args)
 '''
 async def normalizar(args):
     print(f"Executando o comando 'normalizar' com o ano {args.ano}")
+
+    await normalizacao.normalizar.executar_normalizacao(args)
 
 '''
 async def reportar(args)

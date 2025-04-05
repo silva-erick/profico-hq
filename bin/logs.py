@@ -35,7 +35,7 @@ def verbose(verbose, msg):
     
     
 def verboseerror(msg, e = None):
-    if e is Nothing:
+    if e is None:
         logging.error(msg)
     else:
         logging.error(msg, exc_info=e)

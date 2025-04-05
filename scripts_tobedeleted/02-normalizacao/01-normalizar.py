@@ -105,6 +105,7 @@ class Normalizacao:
         self._verbose = verbose
         self._nomes_com_genero = {}
 
+    # tratado
     def _carregar_uf_brasileiras(self):
         self._uf_brasileiras = [
             'AC',  # Acre
@@ -144,6 +145,7 @@ class Normalizacao:
 
         return self._nomes_com_genero[nome]
     
+    # tratado
     def _carregar_arquivos_frequencia_nomes(self):
         self._show_message("> carregando dicionário de nomes")
         # referência: https://brasil.io/dataset/genero-nomes/nomes/
