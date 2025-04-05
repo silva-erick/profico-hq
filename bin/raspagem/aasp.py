@@ -4,6 +4,7 @@ import os
 import json
 
 import logs
+import formatos
 
 URL = "https://www.aasp.org.br/produtos-servicos/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/"
 
@@ -56,31 +57,31 @@ async def raspar_aasp(args):
                         "dez": celulas[12].text,
                     }
                 # Extrair os valores individuais
-                ano = apoio.como_inteiro(celulas[0].text, 'pt-br')
+                ano = formatos.como_inteiro(celulas[0].text, 'pt-br')
                 # janeiro
-                todos_itens[ano*100 + 1] = apoio.como_numerico(celulas[1].text, 'pt-br')
+                todos_itens[ano*100 + 1] = formatos.como_numerico(celulas[1].text, 'pt-br')
                 # fevereiro
-                todos_itens[ano*100 + 2] = apoio.como_numerico(celulas[2].text, 'pt-br')
+                todos_itens[ano*100 + 2] = formatos.como_numerico(celulas[2].text, 'pt-br')
                 # março
-                todos_itens[ano*100 + 3] = apoio.como_numerico(celulas[3].text, 'pt-br')
+                todos_itens[ano*100 + 3] = formatos.como_numerico(celulas[3].text, 'pt-br')
                 # abril
-                todos_itens[ano*100 + 4] = apoio.como_numerico(celulas[4].text, 'pt-br')
+                todos_itens[ano*100 + 4] = formatos.como_numerico(celulas[4].text, 'pt-br')
                 # maio
-                todos_itens[ano*100 + 5] = apoio.como_numerico(celulas[5].text, 'pt-br')
+                todos_itens[ano*100 + 5] = formatos.como_numerico(celulas[5].text, 'pt-br')
                 # junho
-                todos_itens[ano*100 + 6] = apoio.como_numerico(celulas[6].text, 'pt-br')
+                todos_itens[ano*100 + 6] = formatos.como_numerico(celulas[6].text, 'pt-br')
                 # julho
-                todos_itens[ano*100 + 7] = apoio.como_numerico(celulas[7].text, 'pt-br')
+                todos_itens[ano*100 + 7] = formatos.como_numerico(celulas[7].text, 'pt-br')
                 # agosto
-                todos_itens[ano*100 + 8] = apoio.como_numerico(celulas[8].text, 'pt-br')
+                todos_itens[ano*100 + 8] = formatos.como_numerico(celulas[8].text, 'pt-br')
                 # setembro
-                todos_itens[ano*100 + 9] = apoio.como_numerico(celulas[9].text, 'pt-br')
+                todos_itens[ano*100 + 9] = formatos.como_numerico(celulas[9].text, 'pt-br')
                 # outubro
-                todos_itens[ano*100 + 10] = apoio.como_numerico(celulas[10].text, 'pt-br')
+                todos_itens[ano*100 + 10] = formatos.como_numerico(celulas[10].text, 'pt-br')
                 # novembro
-                todos_itens[ano*100 + 11] = apoio.como_numerico(celulas[11].text, 'pt-br')
+                todos_itens[ano*100 + 11] = formatos.como_numerico(celulas[11].text, 'pt-br')
                 # dezembro
-                todos_itens[ano*100 + 12] = apoio.como_numerico(celulas[12].text, 'pt-br')
+                todos_itens[ano*100 + 12] = formatos.como_numerico(celulas[12].text, 'pt-br')
 
     # Se a tabela não for encontrada
     else:
