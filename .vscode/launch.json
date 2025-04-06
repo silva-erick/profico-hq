@@ -23,6 +23,16 @@
             "args":["raspar", "-v"]
         },
         {
+            "name": "Python: profico-hq.py normalizar 2024",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "profico-hq.py",
+            "cwd": "${workspaceFolder}/bin",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["normalizar", "-v", "-a", "2024"]
+        },
+        {
             "name": "Python: 02-raspar_guiaquadrinhos.py",
             "type": "debugpy",
             "request": "launch",

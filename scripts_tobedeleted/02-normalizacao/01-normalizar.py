@@ -33,6 +33,7 @@ REGEX_PRIMEIRO_NOME = re.compile(r'^[\w]+$')
 
 from datetime import datetime, timedelta
 
+# tratado
 def calcular_diferenca_dias(data_inicial_str, data_final_str):
     # Converter as strings em objetos datetime
     data_inicial = datetime.fromisoformat(data_inicial_str.replace('Z', ''))
@@ -57,6 +58,7 @@ def log_verbose(verbose, msg):
         print(msg)
     logging.debug(msg)
 
+# tratado
 def parse_data(data_str):
     try:
         # Tenta converter com fração de segundo
@@ -182,6 +184,7 @@ class Normalizacao:
                     
         return True
 
+    # tratado
     def _carregar_arquivo_padroes(self, caminho_arquivo, cats, precisos, comeca_com, contem):
         # abrir arquivo
         try:
@@ -212,6 +215,7 @@ class Normalizacao:
             if f:
                 f.close()
 
+    # tratado
     def _carregar_autorias_padroes(self):
 
         self._show_message("> carregando arquivo de padrões - autoria")
@@ -234,6 +238,7 @@ class Normalizacao:
             self._autorias_contem
             )
 
+    # tratado
     def _carregar_mencoes_padroes(self):
 
         self._show_message("> carregando arquivo de padrões - menções")
@@ -272,6 +277,7 @@ class Normalizacao:
             self._mencoes_padroes_contem
             )
 
+    # tratado
     def _carregar_json(self, caminho):
         result = {}
         result['sucesso'] = False
@@ -293,6 +299,7 @@ class Normalizacao:
 
             return result
 
+    # tratado
     def _carregar_conversao_monetaria(self):
 
         self._show_message("> carregar arquivos de conversão monetária")
@@ -307,6 +314,7 @@ class Normalizacao:
                 result['sucesso'] = False
         return result['sucesso']
 
+    # tratado
     def _carregar_albuns(self):
 
         self._show_message("> carregar arquivos de álbuns")
@@ -316,6 +324,7 @@ class Normalizacao:
             self._albuns = result['json']
         return result['sucesso']
 
+    # tratado
     def _carregar_municipios(self):
 
         self._show_message("> carregar municípios")
@@ -325,6 +334,7 @@ class Normalizacao:
             self._municipios = result['json']
         return result['sucesso']
 
+    # tratado
     def _ajustar_valor(self, ano_ini, mes_ini, valor_ini, ano_fim, mes_fim):
         anomes_ini = str(ano_ini * 100 + mes_ini)
         anomes_fim = str(ano_fim * 100 + mes_fim)
@@ -334,6 +344,7 @@ class Normalizacao:
 
         return (valor_ini/self._conversao_monetaria[anomes_ini]) * self._conversao_monetaria[anomes_fim]
 
+    # tratado
     def _adaptar_apoiase(self, campanha_apoiase):
         data = {}
         data['detail'] = {}
@@ -425,6 +436,7 @@ class Normalizacao:
 
         return data
     
+    # tratado
     def _carregar_campanhas_apoiase(self):
         self._show_message('> campanhas apoia.se')
         if not os.path.exists(CAMINHO_CAMPANHAS_APOIASE):
@@ -474,6 +486,7 @@ class Normalizacao:
         log_verbose(self._verbose, f'\tcampanhas encontradas: {quantidade_campanhas}')
         return True
 
+    # tratado
     def _carregar_campanhas_catarse(self):
         self._show_message('> campanhas catarse')
         if not os.path.exists(CAMINHO_CAMPANHAS_CATARSE):
@@ -521,6 +534,7 @@ class Normalizacao:
         log_verbose(self._verbose, f'\tcampanhas encontradas: {quantidade_campanhas}')
         return True
     
+    # tratado
     def _garantir_pastas_normalizacao(self):
         self._show_message('Verificando pastas')
         log_verbose(self._verbose, f"> pasta: {CAMINHO_NORMALIZADOS}")
@@ -683,6 +697,7 @@ class Normalizacao:
         print('.')
         return res
 
+    # tratado
     def _ajustar_valores_campanha(self, data):
         # verificar a data de lançamento da campanha
         try:
@@ -701,6 +716,7 @@ class Normalizacao:
             #reward['maximum_contributions_ajustado'] = self._ajustar_valor(data_obj.year, data_obj.month, reward['maximum_contributions'], self._ano, 12)
         return True
 
+    # tratado
     def _ajustar_valor_about(self, data):
         # converter texto de about the HTML (com tags) para TEXT (texto puro, sem marcação)
         about_html = data['detail']['about_html']
@@ -711,12 +727,14 @@ class Normalizacao:
         return True
     
 
+    # tratado
     def _testar_regex(self, text, pattern):
         if not (pattern.search(text) is None):
             return True
         else:
             return False
 
+    # tratado
     def _classificar_mencoes(self, data):
         about_txt = data['detail']['about_txt']
         if about_txt is None:
@@ -739,6 +757,7 @@ class Normalizacao:
 
         return True
 
+    # tratado
     def _classificar_recompensas(self, data):
         menor_ajustado = 10000000000
         menor = menor_ajustado
@@ -756,6 +775,7 @@ class Normalizacao:
 
         return True
 
+    # tratado
     def _classificar_autoria(self, data):
         user_data = data['user']
         public_name = user_data['public_name']
@@ -818,12 +838,14 @@ class Normalizacao:
 
         return True
 
+    # tratado
     def _somente_uf_brasileira(self, uf):
         if uf in self._uf_brasileiras:
             return uf
         
         return 'XX'
     
+    # tratado
     def _classificar_resumo(self, data):
 
         data[colunaslib.COL_GERAL_MUNICIPIO]=data['detail']['address']['city']
@@ -859,6 +881,7 @@ class Normalizacao:
 
         return True
 
+    # tratado
     def _gravar_json_campanhas(self, data):
 
         try:        

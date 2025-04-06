@@ -36,7 +36,7 @@ def calcular_diferenca_dias(data_inicial_str, data_final_str):
     # Converter as strings em objetos datetime
     data_inicial = datetime.fromisoformat(data_inicial_str.replace('Z', ''))
     
-    if data_final_str is None:
+    if data_final_str is None or data_final_str == '':
         # Se a data final for None, use a data atual
         data_final = datetime.utcnow()
     else:

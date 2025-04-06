@@ -65,7 +65,13 @@ pip install -r requirements.txt
 
 ## Scripts
 
-Acesse a pasta bin e utilize o script profico-hq.py.
+Acesse a pasta bin:
+
+```
+cd bin
+```
+
+e utilize o script profico-hq.py.
 
 ### Produção (ou raspagem) de dados
 
