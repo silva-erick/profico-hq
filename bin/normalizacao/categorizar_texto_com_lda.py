@@ -3,6 +3,8 @@ import asyncio
 import logging
 from datetime import datetime, timedelta
 
+import concurrent.futures
+
 import pandas as pd
 from unidecode import unidecode
 
@@ -46,7 +48,7 @@ def classificar_texto_por_analise_multirrotulo(args, msg)
 
 classificar texto das campanhas por abordagem multi-rótulo (count vectorizer + lda)
 '''
-async def classificar_texto_por_analise_multirrotulo(args, msg, campanhas):
+def classificar_texto_por_analise_multirrotulo(args, msg, campanhas):
 
     logs.verbose(args.verbose, msg)
 
@@ -197,6 +199,9 @@ async def classificar_texto_por_analise_multirrotulo(args, msg, campanhas):
     return True
 
 
+# Helper function to unpack arguments and call the target function
+def unpack_and_classificar(chunk):
+    return classificar_texto_por_analise_multirrotulo(*chunk)
 
 async def executar_categorizacao_texto(args):
     p1 = datetime.now()
@@ -205,6 +210,16 @@ async def executar_categorizacao_texto(args):
 
     logs.verbose(args.verbose, 'carregar campanhas')
     campanhas = normalizados_comum.carregar_campanhas_normalizadas(args)
+    arr_campanhas = np.array(campanhas)
+
+    # Get the number of CPU cores
+    workers = os.cpu_count()
+
+    chunks = [(args, f'categorizar...', list(sublist)) for sublist in np.array_split(arr_campanhas, workers)]
+
+    # Process the chunks in parallel
+    with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as executor:
+        result = list(executor.map(unpack_and_classificar, chunks))
 
     p2 = datetime.now()
     delta = p2-p1
@@ -212,14 +227,6 @@ async def executar_categorizacao_texto(args):
 
     logs.verbose(args.verbose, f'Tempo: {tempo}s')
 
-    threads = list()
-    # threads de carregamento de arquivos de dependência
-    threads.append(
-        asyncio.create_task(
-            classificar_texto_por_analise_multirrotulo(args, f'categorizar...', campanhas)
-            )
-        )
-    await asyncio.gather(*threads)
 
     p2 = datetime.now()
     delta = p2-p1
