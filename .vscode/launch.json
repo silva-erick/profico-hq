@@ -33,6 +33,16 @@
             "args":["normalizar", "-v", "-a", "2024"]
         },
         {
+            "name": "Python: profico-hq.py categorizar_lda 2024",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "profico-hq.py",
+            "cwd": "${workspaceFolder}/bin",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args":["categorizar_lda", "-v", "-a", "2024"]
+        },
+        {
             "name": "Python: 02-raspar_guiaquadrinhos.py",
             "type": "debugpy",
             "request": "launch",

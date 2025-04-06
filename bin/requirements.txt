@@ -1,3 +1,4 @@
+aiofiles
 aiohttp
 argparse
 asyncio
@@ -16,6 +17,7 @@ regex
 requests
 scikit-learn
 spacy
+spacy-lookups-data
 tabulate
 unidecode
 urllib3

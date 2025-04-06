@@ -1,0 +1,51 @@
+@startuml 01-modelo
+
+class OrigemDados {
+	origemdados_id				    int
+	nome						    string
+    is_plataforma_crowdfunding      bit
+	url						        string
+	descricao				        string  
+}
+
+class UnidadeFederativa {
+    uf_id       int
+    nome        string
+    acronimo    string
+}
+
+class Municipio {
+    municipio_id        int
+    nome                string
+}
+
+class ClassificacaoAutor {
+    classificacaoautor_id   int
+    nome                    string
+}
+
+class Autor {
+    autor_id                int
+    origemdados_id          int
+    original_id             int
+    nome                    string
+    nome_publico            string
+    classificacaoautor_id   int
+}
+
+class Campanha {
+    campanha_id         int
+}
+
+class AutorCampanha
+
+UnidadeFederativa -o Municipio
+Municipio -- Campanha
+
+ClassificacaoAutor -o Autor
+Autor o- AutorCampanha
+AutorCampanha - Campanha
+Campanha - OrigemDados
+
+
+@enduml

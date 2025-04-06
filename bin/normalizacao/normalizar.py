@@ -19,18 +19,15 @@ from sklearn.cluster import KMeans
 from nltk.corpus import stopwords
 import nltk
 
+import spacy
+
 import logs
 
 import formatos
 import normalizacao.colunas as colunaslib
+import normalizacao.caminhos as caminhos
+import normalizacao.normalizados_comum as normalizados_comum
 
-
-CAMINHO_NORMALIZADOS = "../dados/normalizados"
-CAMINHO_CONVERSAO_MONETARIA = "../dados/brutos/aasp/conversao-monetaria.json"
-CAMINHO_ALBUNS = "../dados/brutos/guiadosquadrinhos/totais.json"
-CAMINHO_MUNICIPIOS = "../dados/brutos/catarse/cities.json"
-CAMINHO_CAMPANHAS_CATARSE = "../dados/brutos/catarse/campanhas"
-CAMINHO_CAMPANHAS_APOIASE = "../dados/brutos/apoiase/campanhas"
 
 REGEX_PRIMEIRO_NOME = re.compile(r'^[\w]+$')
 
@@ -263,7 +260,7 @@ async def carregar_conversao_monetaria(args):
 
     logs.verbose(args.verbose, "thread: carregar arquivos de conversão monetária")
 
-    result = carregar_json(args, CAMINHO_CONVERSAO_MONETARIA, conversao_monetaria)
+    result = carregar_json(args, caminhos.CAMINHO_BRUTO_CONVERSAO_MONETARIA, conversao_monetaria)
     if result['sucesso']:
         # existe data de dezembro do ano selecionado?
         ano = str(ano * 100 + 12)
@@ -282,7 +279,7 @@ async def carregar_albuns(args):
 
     logs.verbose(args.verbose, "thread: carregar arquivos de álbuns")
 
-    result = carregar_json(args, CAMINHO_ALBUNS, albuns)
+    result = carregar_json(args, caminhos.CAMINHO_BRUTO_ALBUNS, albuns)
 
     return result['sucesso']
 
@@ -297,7 +294,7 @@ async def carregar_municipios(args):
 
     logs.verbose(args.verbose, "thread: carregar municípios")
 
-    result = carregar_json(args, CAMINHO_MUNICIPIOS, municipios)
+    result = carregar_json(args, caminhos.CAMINHO_BRUTO_MUNICIPIOS, municipios)
 
     return result['sucesso']
 
@@ -345,8 +342,17 @@ def adaptar_apoiase(campanha_apoiase):
     data['detail']['address']['city'] = data['detail']['address'].get('city', '')
     data['detail']['address']['state_acronym'] = data['detail']['address'].get('state_acronym', '')
 
-        
-    data['detail']['city_id'] = -1#
+    city = data['detail']['address']['city']
+    uf = data['detail']['address']['state_acronym']
+    city_id = -1
+    for mun in municipios:
+        if mun['acronym'] == uf:
+            if mun['name'] == city:
+                city_id = mun["id"]
+                break
+
+    data['detail']['city_id'] = city_id#
+
     data['detail']['content_rating'] = None#
     data['detail']['contributed_by_friends'] = None#
     data['detail']['cover_image'] = None#
@@ -420,17 +426,17 @@ carregar campanhas do apoiase
 '''
 async def carregar_campanhas_apoiase(args):
     logs.verbose(args.verbose, 'thread: campanhas apoia.se')
-    if not os.path.exists(CAMINHO_CAMPANHAS_APOIASE):
+    if not os.path.exists(caminhos.CAMINHO_BRUTO_CAMPANHAS_APOIASE):
         return False
     
-    caminho_campanhas = os.listdir(CAMINHO_CAMPANHAS_APOIASE)
+    caminho_campanhas = os.listdir(caminhos.CAMINHO_BRUTO_CAMPANHAS_APOIASE)
 
     quantidade_campanhas = 0
 
     # Percorre a lista de arquivos
     for caminho_campanha in caminho_campanhas:
         # Cria o caminho completo para o file
-        full_path = os.path.join(CAMINHO_CAMPANHAS_APOIASE, caminho_campanha)
+        full_path = os.path.join(caminhos.CAMINHO_BRUTO_CAMPANHAS_APOIASE, caminho_campanha)
         
         # Verifica se o caminho é um arquivo
         if os.path.isfile(full_path) and full_path.endswith(".json"):
@@ -476,17 +482,17 @@ carregar campanhas do catarse
 '''
 async def carregar_campanhas_catarse(args):
     logs.verbose(args.verbose, 'thread: campanhas catarse')
-    if not os.path.exists(CAMINHO_CAMPANHAS_CATARSE):
+    if not os.path.exists(caminhos.CAMINHO_BRUTO_CAMPANHAS_CATARSE):
         return False
     
-    caminho_campanhas = os.listdir(CAMINHO_CAMPANHAS_CATARSE)
+    caminho_campanhas = os.listdir(caminhos.CAMINHO_BRUTO_CAMPANHAS_CATARSE)
 
     quantidade_campanhas = 0
 
     # Percorre a lista de arquivos
     for caminho_campanha in caminho_campanhas:
         # Cria o caminho completo para o file
-        full_path = os.path.join(CAMINHO_CAMPANHAS_CATARSE, caminho_campanha)
+        full_path = os.path.join(caminhos.CAMINHO_BRUTO_CAMPANHAS_CATARSE, caminho_campanha)
         
         # Verifica se o caminho é um arquivo
         if os.path.isfile(full_path) and full_path.endswith(".json"):
@@ -530,14 +536,14 @@ garantir pastas normalizadas
 '''
 def garantir_pastas_normalizacao(args):
     logs.verbose(args.verbose, 'Verificando pastas')
-    logs.verbose(args.verbose, f"> pasta: {CAMINHO_NORMALIZADOS}")
-    if not os.path.exists(f"{CAMINHO_NORMALIZADOS}"):
-        logs.verbose(args.verbose, f"\tcriando pasta: {CAMINHO_NORMALIZADOS}")
-        os.mkdir(f"{CAMINHO_NORMALIZADOS}")
-    logs.verbose(args.verbose, f"> pasta: {CAMINHO_NORMALIZADOS}/{args.ano}")
-    if not os.path.exists(f"{CAMINHO_NORMALIZADOS}/{args.ano}"):
-        logs.verbose(args.verbose, f"\tcriando pasta: {CAMINHO_NORMALIZADOS}/{args.ano}")
-        os.mkdir(f"{CAMINHO_NORMALIZADOS}/{args.ano}")
+    logs.verbose(args.verbose, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}")
+    if not os.path.exists(f"{caminhos.CAMINHO_NORMALIZADOS}"):
+        logs.verbose(args.verbose, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}")
+        os.mkdir(f"{caminhos.CAMINHO_NORMALIZADOS}")
+    logs.verbose(args.verbose, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
+    if not os.path.exists(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}"):
+        logs.verbose(args.verbose, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
+        os.mkdir(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
 
     return True
 
@@ -567,7 +573,11 @@ def percorrer_campanhas(args, msg, funcao):
     return res
 
 
+'''
+def ajustar_valores_campanha(args, data)
 
+ajustar valor de campanha
+'''
 def ajustar_valores_campanha(args, data):
     # verificar a data de lançamento da campanha
     try:
@@ -586,28 +596,51 @@ def ajustar_valores_campanha(args, data):
         #reward['maximum_contributions_ajustado'] = ajustar_valor(data_obj.year, data_obj.month, reward['maximum_contributions'], args.ano, 12)
     return True
 
+'''
+def ajustar_valor_about(args, data)
+
+converter texto de about the HTML (com tags) para TEXT (texto puro, sem marcação)
+'''
 def ajustar_valor_about(args, data):
-    # converter texto de about the HTML (com tags) para TEXT (texto puro, sem marcação)
+    # obtém a representação em HTML
     about_html = data['detail']['about_html']
+
+    # parser HTML
     soup = BeautifulSoup(about_html, 'html.parser')
-    about_txt = soup.get_text(separator=' ', strip=True)
+
+    # percorre os parágrafos
+    paras = list()
+    for para in soup.find_all('p'):
+        texto_para = ' '.join(para.get_text(separator=' ', strip=True).strip().split('\n'))
+        
+        if texto_para=='':
+            continue
+
+        paras.append(texto_para)
+
+    #about_txt = soup.get_text(separator=' ', strip=True)
+    about_txt = '\n'.join(paras)
+
     data['detail']['about_txt'] = about_txt
 
     return True
 
+'''
+def verificar_genero(nome)
+
+verificar gênero das pessoas autoras nas campanhas
+'''
 def verificar_genero(nome):
     if nome not in nomes_com_genero:
         return None
 
     return nomes_com_genero[nome]
 
+'''
+def classificar_mencoes(args, data)
 
-def testar_regex(args, text, pattern):
-    if not (pattern.search(text) is None):
-        return True
-    else:
-        return False
-
+classificar menções a palavras-chaves de categorias de interesse para análise das campanhas
+'''
 def classificar_mencoes(args, data):
     about_txt = data['detail']['about_txt']
     if about_txt is None:
@@ -620,16 +653,24 @@ def classificar_mencoes(args, data):
         mencoes_padroes_comeca_com,
         mencoes_padroes_contem
         ]
+
+    mencoes = {}
     for c in cats:
         for k, v in c.items():
             for p in v:
-                chave = f'mencoes_{k}'
-                data[chave] = testar_regex(args, about_txt, p)
-                if data[chave]:
+                chave = k
+                mencoes[chave] = normalizados_comum.testar_regex(about_txt, p)
+                if mencoes[chave]:
                     break
+            data["categoria_teste_mencoes"] = mencoes
 
     return True
 
+'''
+def classificar_recompensas(args, data)
+
+classificar recompensas, corrigindo valores
+'''
 def classificar_recompensas(args, data):
     menor_ajustado = 10000000000
     menor = menor_ajustado
@@ -647,6 +688,11 @@ def classificar_recompensas(args, data):
 
     return True
 
+'''
+def classificar_autoria(args, data)
+
+classificar autoria
+'''
 def classificar_autoria(args, data):
     user_data = data['user']
     public_name = user_data['public_name']
@@ -669,7 +715,7 @@ def classificar_autoria(args, data):
     for c in cats:
         for k, v in c.items():
             for p in v:
-                if testar_regex(args, public_name, p):
+                if normalizados_comum.testar_regex(public_name, p):
                     categoria = k
                     break
             if categoria != 'indefinido':
@@ -680,7 +726,7 @@ def classificar_autoria(args, data):
 
     if public_name!='' and categoria=='indefinido':
         primeiro_nome = public_name.split(' ')[0]
-        if testar_regex(args, primeiro_nome, REGEX_PRIMEIRO_NOME):
+        if normalizados_comum.testar_regex(primeiro_nome, REGEX_PRIMEIRO_NOME):
             primeiro_nome = unidecode(primeiro_nome)
             categoria = verificar_genero(primeiro_nome)
             if categoria is None:
@@ -697,6 +743,17 @@ def classificar_autoria(args, data):
     data[colunaslib.COL_AUTORIA_NOME] =  name
     data[colunaslib.COL_AUTORIA_NOME_PUBLICO] = public_name
     data[colunaslib.COL_AUTORIA_CLASSIFICACAO] = categoria
+    if categoria == 'empresa':
+        data[colunaslib.COL_AUTORIA_CLASSIFICACAO_ID]=1
+    elif categoria == 'coletivo':
+        data[colunaslib.COL_AUTORIA_CLASSIFICACAO_ID]=2
+    elif categoria == 'masculino':
+        data[colunaslib.COL_AUTORIA_CLASSIFICACAO_ID]=3
+    elif categoria == 'feminino':
+        data[colunaslib.COL_AUTORIA_CLASSIFICACAO_ID]=4
+    else:
+        data[colunaslib.COL_AUTORIA_CLASSIFICACAO_ID]=5
+    
 
     data[colunaslib.COL_SOCIAL_SEGUIDORES] = data['user']['followers_count']
     data[colunaslib.COL_SOCIAL_NEWSLETTER] = data['user']['newsletter']
@@ -709,12 +766,22 @@ def classificar_autoria(args, data):
 
     return True
 
+'''
+def somente_uf_brasileira(uf)
+
+ficar apenas com UF brasileiras
+'''
 def somente_uf_brasileira(uf):
     if uf in uf_brasileiras:
         return uf
     
     return 'XX'
 
+'''
+classificar_resumo(args, data)
+
+classificar resumo
+'''
 def classificar_resumo(args, data):
 
     data[colunaslib.COL_GERAL_MUNICIPIO]=data['detail']['address']['city']
@@ -744,10 +811,15 @@ def classificar_resumo(args, data):
 
     return True
 
+'''
+def gravar_json_campanhas(args, data)
+
+gravar json das campanhas
+'''
 def gravar_json_campanhas(args, data):
 
     try:        
-        arquivo_dados = f"{CAMINHO_NORMALIZADOS}/{args.ano}/{data['detail']['project_id']}.json"
+        arquivo_dados = f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}/{data['detail']['project_id']}.json"
         data[colunaslib.COL_GERAL_SOBRE] = data['detail']['about_txt']
         
         del data['detail']
@@ -768,140 +840,6 @@ def gravar_json_campanhas(args, data):
     return True
 
 
-# Função de filtro para remover números e palavras no formato \d+x\d+
-def filter_words(words):
-    return [word for word in words if not re.match(r"^\d+$", word) and not re.match(r"^\d+x\d+$", word)][-5:]
-
-def classificar_multirrotulo(args, msg):
-
-    print(msg, flush=True)
-
-    try:        
-        # Baixar as stopwords do NLTK
-        nltk.download('stopwords')
-        portuguese_stopwords = stopwords.words('portuguese')
-
-        # novas palavras para ignorar na análise
-        portuguese_stopwords.append('_blank')
-        portuguese_stopwords.append('apoiador')
-        portuguese_stopwords.append('apoiadores')
-        portuguese_stopwords.append('apoio')
-        portuguese_stopwords.append('aqui')
-        portuguese_stopwords.append('br')
-        portuguese_stopwords.append('campanha')
-        portuguese_stopwords.append('capa')
-        portuguese_stopwords.append('catarse')
-        portuguese_stopwords.append('cm')
-        portuguese_stopwords.append('edição')
-        portuguese_stopwords.append('editora')
-        portuguese_stopwords.append('email')
-        portuguese_stopwords.append('entrega')
-        portuguese_stopwords.append('entregue')
-        portuguese_stopwords.append('exemplar')
-        portuguese_stopwords.append('exemplares')
-        portuguese_stopwords.append('facebook')
-        portuguese_stopwords.append('formato')
-        portuguese_stopwords.append('formatos')
-        portuguese_stopwords.append('história')
-        portuguese_stopwords.append('histórias')
-        portuguese_stopwords.append('hq')
-        portuguese_stopwords.append('hqs')
-        portuguese_stopwords.append('http')
-        portuguese_stopwords.append('https')
-        portuguese_stopwords.append('href')
-        portuguese_stopwords.append('ilustração')
-        portuguese_stopwords.append('ilustrações')
-        portuguese_stopwords.append('ilustrador')
-        portuguese_stopwords.append('ilustradora')
-        portuguese_stopwords.append('instagram')
-        portuguese_stopwords.append('livro')
-        portuguese_stopwords.append('livros')
-        portuguese_stopwords.append('meta')
-        portuguese_stopwords.append('narrativa')
-        portuguese_stopwords.append('narrativas')
-        portuguese_stopwords.append('página')
-        portuguese_stopwords.append('páginas')
-        portuguese_stopwords.append('papel')
-        portuguese_stopwords.append('pdf')
-        portuguese_stopwords.append('projeto')
-        portuguese_stopwords.append('projetos')
-        portuguese_stopwords.append('quadrinho')
-        portuguese_stopwords.append('quadrinhos')
-        portuguese_stopwords.append('quadrinista')
-        portuguese_stopwords.append('quadrinistas')
-        portuguese_stopwords.append('recompensa')
-        portuguese_stopwords.append('recompensas')
-        portuguese_stopwords.append('revista')
-        portuguese_stopwords.append('revistas')
-        portuguese_stopwords.append('roteirista')
-        portuguese_stopwords.append('site')
-        portuguese_stopwords.append('sobre')
-        portuguese_stopwords.append('target')
-        portuguese_stopwords.append('toda')
-        portuguese_stopwords.append('todas')
-        portuguese_stopwords.append('todo')
-        portuguese_stopwords.append('todos')
-        portuguese_stopwords.append('twitter')
-        portuguese_stopwords.append('valor')
-        portuguese_stopwords.append('volume')
-        portuguese_stopwords.append('x')
-        portuguese_stopwords.append('www')            
-
-        texts = [t['detail']['about_txt'] for t in campanhas]
-
-        # Vetorização
-        #vectorizer = TfidfVectorizer()
-        vectorizer = CountVectorizer(stop_words=portuguese_stopwords)
-        X = vectorizer.fit_transform(texts)
-
-        # Modelagem de tópicos com LDA
-        lda = LatentDirichletAllocation(n_components=50, random_state=42)
-        lda.fit(X)
-
-        # Palavras-chave de cada tópico
-        feature_names = vectorizer.get_feature_names_out()
-
-        selected_topics = {}
-
-        for i, topic in enumerate(lda.components_):
-            words = [feature_names[j] for j in topic.argsort()[-29:] ] 
-            filtered_words = filter_words(words)  # Aplicar o filtro
-            selected_topics[i] = filtered_words
-            print('.', end='', flush=True)
-        print('', flush=True)
-
-        arquivo_dados = f"topicos_classificacao.json"
-        
-        with open(arquivo_dados, 'w') as arquivo_json:
-            json.dump(selected_topics, arquivo_json)
-
-        i = 0
-        for data in campanhas:
-            i = i+1
-            if i >= 50:
-                i=0
-                print('.', end='', flush=True)
-
-            txt = data['detail']['about_txt']
-            no_topico = True
-            # verifica se o texto participa de cada tópico
-            for k, tokens in selected_topics.items():
-                cont = 0.0
-                for token in tokens:
-                    if testar_regex(args, txt, re.compile(fr'\b{re.escape(token)}\b')):
-                        cont = cont + 1.0
-
-
-                data[f'topico_{k}'] = (cont / len(tokens))
-
-        print('.')
-        
-    except Exception as e:
-        # Lidar com a exceção, se necessário
-        logs.verbose(args.verbose, f"Erro ao classificar multirrotulo: {e}")
-        return False
-
-    return True
 
 
 
@@ -958,7 +896,10 @@ async def executar_normalizacao(args):
     result = result and percorrer_campanhas(args, f'> categorizar recompensas', classificar_recompensas)
     result = result and percorrer_campanhas(args, f'> classificar autoria', classificar_autoria)
     result = result and percorrer_campanhas(args, f'> categorizar resumo', classificar_resumo)
-    result = result and classificar_multirrotulo(args, f'> categorizar multirrotulo')
+    #result = result and classificar_texto_por_analise_multirrotulo(args, f'> categorizar multirrotulo')
+
+    #result = result and classificar_texto_por_extracao_entidades(args, f'> categorizar por extração de entidades')
+    
     result = result and percorrer_campanhas(args, f'> gravar arquivos normalizados das campanhas', gravar_json_campanhas)
 
     p2 = datetime.now()

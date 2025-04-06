@@ -41,6 +41,7 @@ Instale as dependências:
 
 ```
 pip install -r requirements.txt
+python -m spacy download pt_core_news_md
 ```
 
 ### Virtual Environment no Linux
@@ -61,6 +62,7 @@ Instale as dependências:
 
 ```
 pip install -r requirements.txt
+python -m spacy download pt_core_news_md
 ```
 
 ## Scripts
