@@ -7,6 +7,9 @@ CAMINHO_SQL = "./bancodados/sql"
 CAMINHO_SQL_CRIACAO = "./bancodados/sql/01-criacao"
 CAMINHO_SQL_CARGA = "./bancodados/sql/02-carga"
 CAMINHO_BRUTO_CAMPANHAS_CATARSE = "../dados/brutos/catarse/campanhas"
+CAMINHO_NORMALIZADOS = "../dados/normalizados"
+
+
 '''
 def executar_scripts_pasta(args, caminho)
 '''
@@ -19,7 +22,7 @@ def executar_scripts_pasta(args, caminho):
     
     caminho_scripts = os.listdir(caminho)
 
-    con = duckdb.connect("file.db")
+    con = duckdb.connect(f"{CAMINHO_NORMALIZADOS}/analises_{args.ano}.db")
 
     # Percorre a lista de arquivos
     for caminho_script_sql in caminho_scripts:
@@ -53,5 +56,9 @@ async def executar_montarbd(args)
 async def executar_montarbd(args):
     print('montar banco de dados')
 
+    caminho_arq = f"{CAMINHO_NORMALIZADOS}/analises_{args.ano}.db"
+    if os.path.exists(caminho_arq):
+        os.remove(caminho_arq) 
+        
     executar_scripts_pasta(args, CAMINHO_SQL_CRIACAO)
     executar_scripts_pasta(args, CAMINHO_SQL_CARGA)

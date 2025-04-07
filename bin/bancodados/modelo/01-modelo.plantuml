@@ -37,11 +37,6 @@ class Campanha {
     campanha_id         int
 }
 
-class AutorCampanha {
-    autor_id        int
-    campanha_id     int
-}
-
 class CategoriaMencao {
     categoriamencao_id  int
     nome                string
@@ -77,8 +72,7 @@ UnidadeFederativa -o Municipio
 Municipio --o Campanha
 
 ClassificacaoAutor -o Autor
-Autor -o AutorCampanha
-AutorCampanha o- Campanha
+Autor -o Campanha
 Campanha o- OrigemDados
 
 Campanha --o CategoriaMencaoCampanha
