@@ -41,6 +41,6 @@ CREATE TABLE IF NOT EXISTS Campanha (
 	,geral_total_contribuicoes			INT
 	,geral_total_apoiadores				INT
 
-	,geral_sobre						VARCHAR(MAX)
+	,geral_sobre						TEXT
 
 );
