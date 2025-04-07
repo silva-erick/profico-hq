@@ -37,15 +37,18 @@ class Campanha {
     campanha_id         int
 }
 
-class AutorCampanha
+class AutorCampanha {
+    autor_id        int
+    campanha_id     int
+}
 
 UnidadeFederativa -o Municipio
-Municipio -- Campanha
+Municipio --o Campanha
 
 ClassificacaoAutor -o Autor
-Autor o- AutorCampanha
-AutorCampanha - Campanha
-Campanha - OrigemDados
+Autor -o AutorCampanha
+AutorCampanha o- Campanha
+Campanha o- OrigemDados
 
 
 @enduml

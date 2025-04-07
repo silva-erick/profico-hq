@@ -144,6 +144,24 @@ async def main():
     parser_reportar.set_defaults(func=extrair_entidades)
 
 
+    # Subcomando 'montar_banco'
+    parser_reportar = subparsers.add_parser("montar_banco"
+                    , help="Montar banco de dados")
+    parser_reportar.add_argument('-v', '--verbose'
+                    , action='store_true'
+                    , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
+    parser_reportar.add_argument('-l', '--loglevel'
+                    , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
+                    , nargs='?'
+                    , default='ERROR'
+                    , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
+    parser_reportar.add_argument("-a", "--ano"
+                    , type=int
+                    , required=True
+                    , help="obrigatório. informe o ano limite para a construção do banco de dados.")
+    parser_reportar.set_defaults(func=montar_bd)
+
+
     # Subcomando 'reportar'
     parser_reportar = subparsers.add_parser("reportar"
                     , help="Gerar um relatório.")
