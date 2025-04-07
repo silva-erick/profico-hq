@@ -192,12 +192,6 @@ def classificar_texto_por_extracao_entidades(args, msg, campanhas):
     try:
         nlp = spacy.load('pt_core_news_md')
 
-        # arquivo_dados = f"topicos_classificacao.json"
-        
-        # # gravar arquivo de palavras-chave por tópico
-        # with open(arquivo_dados, 'w') as arquivo_json:
-        #     json.dump(selected_topics, arquivo_json)
-
         # percorrer campanhas para gravar extração de conceitos
         logs.verbose(args.verbose, 'percorrer campanhas para gravar extração de conceitos')
         i = 0
@@ -213,9 +207,12 @@ def classificar_texto_por_extracao_entidades(args, msg, campanhas):
             entidades = obter_entidades_unicas(list(doc.ents))
             conceitos = extrair_conceitos(nlp, txt)
 
-            data["categoria_conceitos"] = conceitos
+            data["categoria_entidades"] = conceitos
 
-        print('.')
+        if args.verbose:
+            print('.')
+
+        normalizados_comum.gravar_campanhas(args, campanhas)
         
     except Exception as e:
         # Lidar com a exceção, se necessário

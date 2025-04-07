@@ -42,6 +42,37 @@ class AutorCampanha {
     campanha_id     int
 }
 
+class CategoriaMencao {
+    categoriamencao_id  int
+    nome                string
+}
+
+class CategoriaLda {
+    categorialda_id  int
+    nome             string
+}
+
+class CategoriaEntidade {
+    categoriaentidade_id    int
+    nome                    string
+    termos                  int
+}
+
+class CategoriaMencaoCampanha {
+    categoriamencao_id  int
+    campanha_id         int
+}
+
+class CategoriaLdaCampanha {
+    categorialda_id int
+    campanha_id     int
+}
+
+class CategoriaEntidadeCampanha {
+    categoriaentidade_id    int
+    campanha_id             int
+}
+
 UnidadeFederativa -o Municipio
 Municipio --o Campanha
 
@@ -49,6 +80,14 @@ ClassificacaoAutor -o Autor
 Autor -o AutorCampanha
 AutorCampanha o- Campanha
 Campanha o- OrigemDados
+
+Campanha --o CategoriaMencaoCampanha
+Campanha --o CategoriaLdaCampanha
+Campanha --o CategoriaEntidadeCampanha
+
+CategoriaMencaoCampanha --o CategoriaMencao
+CategoriaLdaCampanha --o CategoriaLda
+CategoriaEntidadeCampanha --o CategoriaEntidade
 
 
 @enduml
