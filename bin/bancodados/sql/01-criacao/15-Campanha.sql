@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Campanha (
 	,geral_conteudo_adulto				BIT
 	,geral_posts						INT
 
-	,modalidade_int						INT
+	,modalidadecampanha_id				INT
 
 	,geral_titulo						VARCHAR(200)
 	,statuscampanha_id					INT
@@ -44,3 +44,5 @@ CREATE TABLE IF NOT EXISTS Campanha (
 	,geral_sobre						TEXT
 
 );
+
+CREATE SEQUENCE seq_campanha_id START 1;

@@ -6,3 +6,5 @@ CREATE TABLE IF NOT EXISTS Autor (
 	,nome_publico			VARCHAR(200)
 	,classificacaoautor_id	INT
 );
+
+CREATE SEQUENCE seq_autor_id START 1;

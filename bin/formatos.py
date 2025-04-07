@@ -63,3 +63,11 @@ def parse_data(data_str):
             return data_obj
         except ValueError:
             raise ValueError("Formato de data inválido.")
+
+def parse_ymd(data_str):
+    try:
+        # Tenta converter com fração de segundo
+        data_obj = datetime.strptime(data_str, '%Y-%m-%d')
+        return data_obj
+    except ValueError:
+        raise ValueError("Formato de data inválido.")
