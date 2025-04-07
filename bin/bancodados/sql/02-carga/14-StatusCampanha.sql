@@ -8,6 +8,8 @@ FROM    (
     SELECT  2 , 'Falha'
     UNION ALL
     SELECT  3 , 'Publicado'
+    UNION ALL
+    SELECT  4 , 'Aguardando Fundos'
 )
 EXCEPT
 SELECT  *

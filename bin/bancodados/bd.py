@@ -100,6 +100,22 @@ WHERE   NOT EXISTS (
     return sql
 
 
+def tratar_valor_data_null(val):
+    if val is None or val == '':
+        val = 'NULL'
+    else:
+        val = f"'{datetime.fromisoformat(val).date()}'"
+    
+    return val
+
+def tratar_valor_num_null(val):
+    if val is None or val == '':
+        val = 'NULL'
+    else:
+        val = str(val)
+    
+    return val
+
 
 def construir_comando_campanha(campanha):
     origem = campanha['origem']
@@ -134,12 +150,11 @@ def construir_comando_campanha(campanha):
     geral_capa_imagem = campanha['geral_capa_imagem']
     geral_capa_video = campanha['geral_capa_video']
     geral_dias_campanha = campanha['geral_dias_campanha']
-    geral_data_fim = campanha['geral_data_fim']
-    geral_data_fim = datetime.fromisoformat(geral_data_fim).date()
-    geral_data_ini = campanha['geral_data_ini']
-    geral_data_ini = datetime.fromisoformat(geral_data_ini).date()
-    geral_meta = campanha['geral_meta']
-    geral_meta_corrigida = campanha['geral_meta_corrigida']
+    geral_data_fim = tratar_valor_data_null(campanha['geral_data_fim'])    
+    geral_data_ini = tratar_valor_data_null(campanha['geral_data_ini'])
+    
+    geral_meta = tratar_valor_num_null(campanha['geral_meta'])
+    geral_meta_corrigida = tratar_valor_num_null(campanha['geral_meta_corrigida'])
     geral_arrecadado = campanha['geral_arrecadado']
     geral_arrecadado_corrigido = campanha['geral_arrecadado_corrigido']
     geral_percentual_arrecadado = campanha['geral_percentual_arrecadado']
@@ -158,12 +173,14 @@ def construir_comando_campanha(campanha):
     geral_titulo = geral_titulo.replace("'", "''")
     geral_status = campanha['geral_status']
     statuscampanha_id=-1
-    if geral_status=='successfull':
+    if geral_status=='successful':
         statuscampanha_id=1
     elif geral_status=='failed':
         statuscampanha_id=2
     elif geral_status=='published':
         statuscampanha_id=3
+    elif geral_status=='waiting_funds':
+        statuscampanha_id=4
 
     geral_total_contribuicoes = campanha['geral_total_contribuicoes']
     geral_total_apoiadores = campanha['geral_total_apoiadores']
@@ -229,8 +246,8 @@ SELECT  nextval('seq_campanha_id')
 	,{geral_capa_imagem}
 	,{geral_capa_video}
 	,{geral_dias_campanha}
-	,'{geral_data_fim}'
-	,'{geral_data_ini}'
+	,{geral_data_fim}
+	,{geral_data_ini}
 	,{geral_meta}
 	,{geral_meta_corrigida}
 	,{geral_arrecadado}
@@ -326,7 +343,10 @@ def executar_carga_campanhas(args):
         sql = construir_comando_autor(campanha)
         con.sql(sql)
         sql = construir_comando_campanha(campanha)
-        con.sql(sql)
+        try:
+            con.sql(sql)
+        except ValueError:
+            print(sql)
 
         # fechar arquivo
         f.close()
