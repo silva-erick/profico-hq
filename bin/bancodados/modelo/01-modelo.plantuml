@@ -68,6 +68,11 @@ class CategoriaEntidadeCampanha {
     campanha_id             int
 }
 
+class StatusCampanha {
+    statuscampanha_id   int
+    nome                string
+}
+
 UnidadeFederativa -o Municipio
 Municipio --o Campanha
 
@@ -82,6 +87,8 @@ Campanha --o CategoriaEntidadeCampanha
 CategoriaMencaoCampanha --o CategoriaMencao
 CategoriaLdaCampanha --o CategoriaLda
 CategoriaEntidadeCampanha --o CategoriaEntidade
+
+StatusCampanha --o Campanha
 
 
 @enduml
