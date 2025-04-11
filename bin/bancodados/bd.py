@@ -117,7 +117,11 @@ def tratar_valor_num_null(val):
     return val
 
 
-def construir_comando_campanha(campanha):
+def comando_campanha_obterid():
+    sql = "select nextval('seq_campanha_id')"
+    return sql
+
+def construir_comando_campanha(campanha, campanha_id):
     origem = campanha['origem']
     origemdados_id = -1
     if origem=='catarse':
@@ -226,7 +230,7 @@ INSERT INTO Campanha (
 	,geral_total_apoiadores
 	,geral_sobre
 )
-SELECT  nextval('seq_campanha_id')
+SELECT  {campanha_id}
 	,{origemdados_id}
 	,'{original_id}'
 	,{recompensas_menor_nominal}
@@ -271,7 +275,8 @@ WHERE   NOT EXISTS (
     """
 
     sql = template.format(
-        origemdados_id=origemdados_id
+        campanha_id = campanha_id
+        ,origemdados_id=origemdados_id
         ,original_id=geral_project_id
         ,recompensas_menor_nominal=recompensas_menor_nominal
         ,recompensas_menor_ajustado=recompensas_menor_ajustado
@@ -309,6 +314,26 @@ WHERE   NOT EXISTS (
         )
     return sql
 
+
+
+def construir_comando_mencao(mencao, campanha_id):
+    template = """
+INSERT INTO CategoriaMencaoCampanha (
+     categoriamencao_id
+	,campanha_id
+)
+SELECT  categoriamencao_id
+	,{campanha_id}
+FROM    CategoriaMencao
+WHERE   nome='{mencao}'
+    """
+
+    sql = template.format(
+        campanha_id=campanha_id
+        ,mencao=mencao
+        )
+    return sql
+
 '''
 def executar_carga_campanhas(args)
 '''
@@ -342,11 +367,27 @@ def executar_carga_campanhas(args):
         campanha = json.loads(f.read()) 
         sql = construir_comando_autor(campanha)
         con.sql(sql)
-        sql = construir_comando_campanha(campanha)
+        sql = comando_campanha_obterid()
+        campanha_id = con.sql(sql).fetchall()[0][0]
+        sql = construir_comando_campanha(campanha, campanha_id)
         try:
             con.sql(sql)
         except ValueError:
             print(sql)
+
+        achou_categoria = False
+        for mencao, existe in campanha['categoria_teste_mencoes'].items():
+            if not existe:
+                continue
+            
+            achou_categoria = True
+            sql = construir_comando_mencao(mencao, campanha_id)
+            con.sql(sql)
+
+        if not achou_categoria:
+            sql = construir_comando_mencao('nenhuma', campanha_id)
+            con.sql(sql)
+
 
         # fechar arquivo
         f.close()

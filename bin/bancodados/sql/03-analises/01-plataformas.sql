@@ -1,7 +1,3 @@
-/*
- * Este estudo foi elaborado a partir de dados produzidos nas principais
- * plataformas de financiamento coletivo - Catarse e Apoia.se - para
- */
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
 			,sc.nome		campanha_status
