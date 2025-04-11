@@ -108,40 +108,40 @@ async def main():
     parser_normalizar.set_defaults(func=normalizar)
 
 
-    # Subcomando 'categorizar_lda'
-    parser_reportar = subparsers.add_parser("categorizar_lda"
-                    , help="Categorizar texto das campanhas normalizadas com LDA.")
-    parser_reportar.add_argument('-v', '--verbose'
-                    , action='store_true'
-                    , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
-    parser_reportar.add_argument('-l', '--loglevel'
-                    , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
-                    , nargs='?'
-                    , default='ERROR'
-                    , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
-    parser_reportar.add_argument("-a", "--ano"
-                    , type=int
-                    , required=True
-                    , help="obrigatório. informe o ano limite para a construção do banco de dados.")
-    parser_reportar.set_defaults(func=categorizar_campanhas_com_lda)
+    # # Subcomando 'categorizar_lda'
+    # parser_reportar = subparsers.add_parser("categorizar_lda"
+    #                 , help="Categorizar texto das campanhas normalizadas com LDA.")
+    # parser_reportar.add_argument('-v', '--verbose'
+    #                 , action='store_true'
+    #                 , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
+    # parser_reportar.add_argument('-l', '--loglevel'
+    #                 , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
+    #                 , nargs='?'
+    #                 , default='ERROR'
+    #                 , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
+    # parser_reportar.add_argument("-a", "--ano"
+    #                 , type=int
+    #                 , required=True
+    #                 , help="obrigatório. informe o ano limite para a construção do banco de dados.")
+    # parser_reportar.set_defaults(func=categorizar_campanhas_com_lda)
 
 
-    # Subcomando 'extrair_entidades'
-    parser_reportar = subparsers.add_parser("extrair_entidades"
-                    , help="Extrair entidades das campanhas normalizadas.")
-    parser_reportar.add_argument('-v', '--verbose'
-                    , action='store_true'
-                    , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
-    parser_reportar.add_argument('-l', '--loglevel'
-                    , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
-                    , nargs='?'
-                    , default='ERROR'
-                    , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
-    parser_reportar.add_argument("-a", "--ano"
-                    , type=int
-                    , required=True
-                    , help="obrigatório. informe o ano limite para a construção do banco de dados.")
-    parser_reportar.set_defaults(func=extrair_entidades)
+    # # Subcomando 'extrair_entidades'
+    # parser_reportar = subparsers.add_parser("extrair_entidades"
+    #                 , help="Extrair entidades das campanhas normalizadas.")
+    # parser_reportar.add_argument('-v', '--verbose'
+    #                 , action='store_true'
+    #                 , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
+    # parser_reportar.add_argument('-l', '--loglevel'
+    #                 , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
+    #                 , nargs='?'
+    #                 , default='ERROR'
+    #                 , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
+    # parser_reportar.add_argument("-a", "--ano"
+    #                 , type=int
+    #                 , required=True
+    #                 , help="obrigatório. informe o ano limite para a construção do banco de dados.")
+    # parser_reportar.set_defaults(func=extrair_entidades)
 
 
     # Subcomando 'montar_banco'
