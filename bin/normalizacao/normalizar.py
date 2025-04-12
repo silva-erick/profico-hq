@@ -559,7 +559,6 @@ def percorrer_campanhas(args, msg, funcao):
     quantidade_campanhas = 0
     res = True
     for data in campanhas:
-
         res = funcao(args, data)
         if not res:
             break
@@ -745,14 +744,6 @@ def classificar_autoria(args, data):
 
     if categoria=="indefinido":
         categoria = "outros"
-        print('-------------------------')
-        print(f'name: {name} /\/\/\/\/\ {public_name}')
-        print(f'sobre: {data["detail"]["about_txt"]}')
-        print("")
-        print("")
-        resp = input("1. empresa, 2. coletivo, 3. masculino, 4. feminino, 5.outros?")
-        if resp in nao_classif:
-            nao_classif[resp].append(f"{name} ||| {public_name}")
 
     data[colunaslib.COL_AUTORIA_ID] =  data['user']['id']
     data[colunaslib.COL_AUTORIA_NOME] =  name
