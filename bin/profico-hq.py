@@ -5,6 +5,7 @@ import normalizacao.normalizar
 import normalizacao.categorizar_texto_com_lda
 import normalizacao.extrair_entidades
 import bancodados.bd
+import bancodados.reportar
 
 '''
 async def raspar(args)
@@ -58,6 +59,8 @@ async def reportar(args)
 '''
 async def reportar(args):
     print(f"Executando o comando 'reportar' com o ano {args.ano}")
+
+    await bancodados.reportar.executar_report(args)
 
 
 '''

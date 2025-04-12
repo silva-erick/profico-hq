@@ -1,0 +1,730 @@
+WITH cte_campanhas as (
+	SELECT	d.nome 			campanha_origem
+			,sc.nome		campanha_status
+			,mc.nome		campanha_modalidade
+			,uf.acronimo	uf
+			,m.nome			municipio
+			,extract(year from geral_data_ini)	ano
+			,ca.nome		autor_classificacao
+			,a.nome			autor_nome
+			,a.nome_publico	autor_nome_publico
+			,c.campanha_id
+			,c.origemdados_id
+			,c.original_id
+			,c.recompensas_menor_nominal
+			,c.recompensas_menor_ajustado
+			,c.recompensas_quantidade
+			,c.social_seguidores
+			,c.social_newsletter
+			,c.social_sub_contribuicoes_amigos
+			,c.social_sub_novos_seguidores
+			,c.social_sub_posts_projeto
+			,c.social_projetos_contribuidos
+			,c.social_projetos_publicados
+			,c.municipio_id
+			,c.geral_content_rating
+			,c.geral_contributed_by_friends
+			,c.geral_capa_imagem
+			,c.geral_capa_video
+			,c.geral_dias_campanha
+			,c.geral_data_fim
+			,c.geral_data_ini
+			,c.geral_meta
+			,c.geral_meta_corrigida
+			,c.geral_arrecadado
+			,c.geral_arrecadado_corrigido
+			,c.geral_percentual_arrecadado
+			,c.geral_conteudo_adulto
+			,c.geral_posts
+			,c.modalidadecampanha_id
+			,c.geral_titulo
+			,c.statuscampanha_id
+			,c.geral_total_contribuicoes
+			,c.geral_total_apoiadores
+	FROM	Campanha c
+	JOIN	OrigemDados d
+	ON		d.origemdados_id=c.origemdados_id
+	JOIN	ModalidadeCampanha mc
+	ON		mc.modalidadecampanha_id=c.modalidadecampanha_id
+	JOIN	StatusCampanha sc
+	ON 		sc.statuscampanha_id=c.statuscampanha_id
+	JOIN	Autor a
+	ON		a.autor_id=c.autor_id
+	JOIN	ClassificacaoAutor ca
+	ON		ca.classificacaoautor_id=a.classificacaoautor_id
+	LEFT	JOIN	Municipio m
+	ON		m.municipio_id=c.municipio_id
+	LEFT	JOIN	UnidadeFederativa uf
+	ON 		uf.uf_id=m.uf_id
+)
+SELECT	'ano de início' as 'variável'
+		,min(ano) filter (uf='AC') as 'AC'
+		,min(ano) filter (uf='AL') as 'AL'
+		,min(ano) filter (uf='AM') as 'AM'
+		,min(ano) filter (uf='AP') as 'AP'
+		,min(ano) filter (uf='BA') as 'BA'
+		,min(ano) filter (uf='CE') as 'CE'
+		,min(ano) filter (uf='DF') as 'DF'
+		,min(ano) filter (uf='ES') as 'ES'
+		,min(ano) filter (uf='GO') as 'GO'
+		,min(ano) filter (uf='MA') as 'MA'
+		,min(ano) filter (uf='MG') as 'MG'
+		,min(ano) filter (uf='MS') as 'MS'
+		,min(ano) filter (uf='MT') as 'MT'
+		,min(ano) filter (uf='PA') as 'PA'
+		,min(ano) filter (uf='PB') as 'PB'
+		,min(ano) filter (uf='PE') as 'PE'
+		,min(ano) filter (uf='PI') as 'PI'
+		,min(ano) filter (uf='PR') as 'PR'
+		,min(ano) filter (uf='RJ') as 'RJ'
+		,min(ano) filter (uf='RN') as 'RN'
+		,min(ano) filter (uf='RO') as 'RO'
+		,min(ano) filter (uf='RR') as 'RR'
+		,min(ano) filter (uf='RS') as 'RS'
+		,min(ano) filter (uf='SC') as 'SC'
+		,min(ano) filter (uf='SE') as 'SE'
+		,min(ano) filter (uf='SP') as 'SP'
+		,min(ano) filter (uf='TO') as 'TO'
+		,min(ano) as Todos
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas' as 'variável'
+		,count(1) filter (uf='AC')
+		,count(1) filter (uf='AL')
+		,count(1) filter (uf='AM')
+		,count(1) filter (uf='AP')
+		,count(1) filter (uf='BA')
+		,count(1) filter (uf='CE')
+		,count(1) filter (uf='DF')
+		,count(1) filter (uf='ES')
+		,count(1) filter (uf='GO')
+		,count(1) filter (uf='MA')
+		,count(1) filter (uf='MG')
+		,count(1) filter (uf='MS')
+		,count(1) filter (uf='MT')
+		,count(1) filter (uf='PA')
+		,count(1) filter (uf='PB')
+		,count(1) filter (uf='PE')
+		,count(1) filter (uf='PI')
+		,count(1) filter (uf='PR')
+		,count(1) filter (uf='RJ')
+		,count(1) filter (uf='RN')
+		,count(1) filter (uf='RO')
+		,count(1) filter (uf='RR')
+		,count(1) filter (uf='RS')
+		,count(1) filter (uf='SC')
+		,count(1) filter (uf='SE')
+		,count(1) filter (uf='SP')
+		,count(1) filter (uf='TO')
+		,count(1)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: gênero:empresa' as 'variável'
+		,count(1) filter (autor_classificacao='Empresa' and uf='AC')
+		,count(1) filter (autor_classificacao='Empresa' and uf='AL')
+		,count(1) filter (autor_classificacao='Empresa' and uf='AM')
+		,count(1) filter (autor_classificacao='Empresa' and uf='AP')
+		,count(1) filter (autor_classificacao='Empresa' and uf='BA')
+		,count(1) filter (autor_classificacao='Empresa' and uf='CE')
+		,count(1) filter (autor_classificacao='Empresa' and uf='DF')
+		,count(1) filter (autor_classificacao='Empresa' and uf='ES')
+		,count(1) filter (autor_classificacao='Empresa' and uf='GO')
+		,count(1) filter (autor_classificacao='Empresa' and uf='MA')
+		,count(1) filter (autor_classificacao='Empresa' and uf='MG')
+		,count(1) filter (autor_classificacao='Empresa' and uf='MS')
+		,count(1) filter (autor_classificacao='Empresa' and uf='MT')
+		,count(1) filter (autor_classificacao='Empresa' and uf='PA')
+		,count(1) filter (autor_classificacao='Empresa' and uf='PB')
+		,count(1) filter (autor_classificacao='Empresa' and uf='PE')
+		,count(1) filter (autor_classificacao='Empresa' and uf='PI')
+		,count(1) filter (autor_classificacao='Empresa' and uf='PR')
+		,count(1) filter (autor_classificacao='Empresa' and uf='RJ')
+		,count(1) filter (autor_classificacao='Empresa' and uf='RN')
+		,count(1) filter (autor_classificacao='Empresa' and uf='RO')
+		,count(1) filter (autor_classificacao='Empresa' and uf='RR')
+		,count(1) filter (autor_classificacao='Empresa' and uf='RS')
+		,count(1) filter (autor_classificacao='Empresa' and uf='SC')
+		,count(1) filter (autor_classificacao='Empresa' and uf='SE')
+		,count(1) filter (autor_classificacao='Empresa' and uf='SP')
+		,count(1) filter (autor_classificacao='Empresa' and uf='TO')
+		,count(1) filter (autor_classificacao='Empresa')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: gênero:coletivo' as 'variável'
+		,count(1) filter (autor_classificacao='Coletivo' and uf='AC')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='AL')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='AM')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='AP')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='BA')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='CE')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='DF')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='ES')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='GO')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='MA')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='MG')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='MS')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='MT')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='PA')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='PB')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='PE')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='PI')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='PR')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='RJ')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='RN')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='RO')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='RR')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='RS')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='SC')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='SE')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='SP')
+		,count(1) filter (autor_classificacao='Coletivo' and uf='TO')
+		,count(1) filter (autor_classificacao='Coletivo')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: gênero:feminino' as 'variável'
+		,count(1) filter (autor_classificacao='Feminino' and uf='AC')
+		,count(1) filter (autor_classificacao='Feminino' and uf='AL')
+		,count(1) filter (autor_classificacao='Feminino' and uf='AM')
+		,count(1) filter (autor_classificacao='Feminino' and uf='AP')
+		,count(1) filter (autor_classificacao='Feminino' and uf='BA')
+		,count(1) filter (autor_classificacao='Feminino' and uf='CE')
+		,count(1) filter (autor_classificacao='Feminino' and uf='DF')
+		,count(1) filter (autor_classificacao='Feminino' and uf='ES')
+		,count(1) filter (autor_classificacao='Feminino' and uf='GO')
+		,count(1) filter (autor_classificacao='Feminino' and uf='MA')
+		,count(1) filter (autor_classificacao='Feminino' and uf='MG')
+		,count(1) filter (autor_classificacao='Feminino' and uf='MS')
+		,count(1) filter (autor_classificacao='Feminino' and uf='MT')
+		,count(1) filter (autor_classificacao='Feminino' and uf='PA')
+		,count(1) filter (autor_classificacao='Feminino' and uf='PB')
+		,count(1) filter (autor_classificacao='Feminino' and uf='PE')
+		,count(1) filter (autor_classificacao='Feminino' and uf='PI')
+		,count(1) filter (autor_classificacao='Feminino' and uf='PR')
+		,count(1) filter (autor_classificacao='Feminino' and uf='RJ')
+		,count(1) filter (autor_classificacao='Feminino' and uf='RN')
+		,count(1) filter (autor_classificacao='Feminino' and uf='RO')
+		,count(1) filter (autor_classificacao='Feminino' and uf='RR')
+		,count(1) filter (autor_classificacao='Feminino' and uf='RS')
+		,count(1) filter (autor_classificacao='Feminino' and uf='SC')
+		,count(1) filter (autor_classificacao='Feminino' and uf='SE')
+		,count(1) filter (autor_classificacao='Feminino' and uf='SP')
+		,count(1) filter (autor_classificacao='Feminino' and uf='TO')
+		,count(1) filter (autor_classificacao='Feminino')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: gênero:masculino' as 'variável'
+		,count(1) filter (autor_classificacao='Masculino' and uf='AC')
+		,count(1) filter (autor_classificacao='Masculino' and uf='AL')
+		,count(1) filter (autor_classificacao='Masculino' and uf='AM')
+		,count(1) filter (autor_classificacao='Masculino' and uf='AP')
+		,count(1) filter (autor_classificacao='Masculino' and uf='BA')
+		,count(1) filter (autor_classificacao='Masculino' and uf='CE')
+		,count(1) filter (autor_classificacao='Masculino' and uf='DF')
+		,count(1) filter (autor_classificacao='Masculino' and uf='ES')
+		,count(1) filter (autor_classificacao='Masculino' and uf='GO')
+		,count(1) filter (autor_classificacao='Masculino' and uf='MA')
+		,count(1) filter (autor_classificacao='Masculino' and uf='MG')
+		,count(1) filter (autor_classificacao='Masculino' and uf='MS')
+		,count(1) filter (autor_classificacao='Masculino' and uf='MT')
+		,count(1) filter (autor_classificacao='Masculino' and uf='PA')
+		,count(1) filter (autor_classificacao='Masculino' and uf='PB')
+		,count(1) filter (autor_classificacao='Masculino' and uf='PE')
+		,count(1) filter (autor_classificacao='Masculino' and uf='PI')
+		,count(1) filter (autor_classificacao='Masculino' and uf='PR')
+		,count(1) filter (autor_classificacao='Masculino' and uf='RJ')
+		,count(1) filter (autor_classificacao='Masculino' and uf='RN')
+		,count(1) filter (autor_classificacao='Masculino' and uf='RO')
+		,count(1) filter (autor_classificacao='Masculino' and uf='RR')
+		,count(1) filter (autor_classificacao='Masculino' and uf='RS')
+		,count(1) filter (autor_classificacao='Masculino' and uf='SC')
+		,count(1) filter (autor_classificacao='Masculino' and uf='SE')
+		,count(1) filter (autor_classificacao='Masculino' and uf='SP')
+		,count(1) filter (autor_classificacao='Masculino' and uf='TO')
+		,count(1) filter (autor_classificacao='Masculino')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: gênero:outros' as 'variável'
+		,count(1) filter (autor_classificacao='Outros' and uf='AC')
+		,count(1) filter (autor_classificacao='Outros' and uf='AL')
+		,count(1) filter (autor_classificacao='Outros' and uf='AM')
+		,count(1) filter (autor_classificacao='Outros' and uf='AP')
+		,count(1) filter (autor_classificacao='Outros' and uf='BA')
+		,count(1) filter (autor_classificacao='Outros' and uf='CE')
+		,count(1) filter (autor_classificacao='Outros' and uf='DF')
+		,count(1) filter (autor_classificacao='Outros' and uf='ES')
+		,count(1) filter (autor_classificacao='Outros' and uf='GO')
+		,count(1) filter (autor_classificacao='Outros' and uf='MA')
+		,count(1) filter (autor_classificacao='Outros' and uf='MG')
+		,count(1) filter (autor_classificacao='Outros' and uf='MS')
+		,count(1) filter (autor_classificacao='Outros' and uf='MT')
+		,count(1) filter (autor_classificacao='Outros' and uf='PA')
+		,count(1) filter (autor_classificacao='Outros' and uf='PB')
+		,count(1) filter (autor_classificacao='Outros' and uf='PE')
+		,count(1) filter (autor_classificacao='Outros' and uf='PI')
+		,count(1) filter (autor_classificacao='Outros' and uf='PR')
+		,count(1) filter (autor_classificacao='Outros' and uf='RJ')
+		,count(1) filter (autor_classificacao='Outros' and uf='RN')
+		,count(1) filter (autor_classificacao='Outros' and uf='RO')
+		,count(1) filter (autor_classificacao='Outros' and uf='RR')
+		,count(1) filter (autor_classificacao='Outros' and uf='RS')
+		,count(1) filter (autor_classificacao='Outros' and uf='SC')
+		,count(1) filter (autor_classificacao='Outros' and uf='SE')
+		,count(1) filter (autor_classificacao='Outros' and uf='SP')
+		,count(1) filter (autor_classificacao='Outros' and uf='TO')
+		,count(1) filter (autor_classificacao='Outros')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: tudo ou nada' parâmetro
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='AC')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='AL')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='AM')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='AP')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='BA')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='CE')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='DF')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='ES')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='GO')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='MA')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='MG')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='MS')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='MT')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='PA')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='PB')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='PE')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='PI')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='PR')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='RJ')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='RN')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='RO')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='RR')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='RS')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='SC')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='SE')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='SP')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada' and uf='TO')
+		,count(1) filter (campanha_modalidade='Tudo ou Nada')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: flex' parâmetro
+		,count(1) filter (campanha_modalidade='Flex' and uf='AC')
+		,count(1) filter (campanha_modalidade='Flex' and uf='AL')
+		,count(1) filter (campanha_modalidade='Flex' and uf='AM')
+		,count(1) filter (campanha_modalidade='Flex' and uf='AP')
+		,count(1) filter (campanha_modalidade='Flex' and uf='BA')
+		,count(1) filter (campanha_modalidade='Flex' and uf='CE')
+		,count(1) filter (campanha_modalidade='Flex' and uf='DF')
+		,count(1) filter (campanha_modalidade='Flex' and uf='ES')
+		,count(1) filter (campanha_modalidade='Flex' and uf='GO')
+		,count(1) filter (campanha_modalidade='Flex' and uf='MA')
+		,count(1) filter (campanha_modalidade='Flex' and uf='MG')
+		,count(1) filter (campanha_modalidade='Flex' and uf='MS')
+		,count(1) filter (campanha_modalidade='Flex' and uf='MT')
+		,count(1) filter (campanha_modalidade='Flex' and uf='PA')
+		,count(1) filter (campanha_modalidade='Flex' and uf='PB')
+		,count(1) filter (campanha_modalidade='Flex' and uf='PE')
+		,count(1) filter (campanha_modalidade='Flex' and uf='PI')
+		,count(1) filter (campanha_modalidade='Flex' and uf='PR')
+		,count(1) filter (campanha_modalidade='Flex' and uf='RJ')
+		,count(1) filter (campanha_modalidade='Flex' and uf='RN')
+		,count(1) filter (campanha_modalidade='Flex' and uf='RO')
+		,count(1) filter (campanha_modalidade='Flex' and uf='RR')
+		,count(1) filter (campanha_modalidade='Flex' and uf='RS')
+		,count(1) filter (campanha_modalidade='Flex' and uf='SC')
+		,count(1) filter (campanha_modalidade='Flex' and uf='SE')
+		,count(1) filter (campanha_modalidade='Flex' and uf='SP')
+		,count(1) filter (campanha_modalidade='Flex' and uf='TO')
+		,count(1) filter (campanha_modalidade='Flex')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'campanhas: recorrente' parâmetro
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='AC')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='AL')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='AM')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='AP')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='BA')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='CE')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='DF')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='ES')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='GO')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='MA')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='MG')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='MS')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='MT')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='PA')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='PB')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='PE')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='PI')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='PR')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='RJ')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='RN')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='RO')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='RR')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='RS')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='SC')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='SE')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='SP')
+		,count(1) filter (campanha_modalidade='Recorrente' and uf='TO')
+		,count(1) filter (campanha_modalidade='Recorrente')
+FROM	cte_campanhas
+UNION ALL
+SELECT	'movimentação (por campanha)' parâmetro
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AL'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AM'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='BA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='CE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='DF'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='ES'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='GO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MG'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MT'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PB'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PI'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RJ'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RN'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='SC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='SE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='SP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='TO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') ), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'movimentação: tudo ou nada (por campanha)' parâmetro
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AL'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AM'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='BA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='CE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='DF'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='ES'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='GO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MG'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MT'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PB'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PI'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RJ'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RN'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='SC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='SE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='SP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='TO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada'), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'movimentação: flex (por campanha)' parâmetro
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AL'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AM'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='BA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='CE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='DF'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='ES'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='GO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MG'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MT'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PB'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PI'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RJ'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RN'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='SC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='SE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='SP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='TO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex'), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'movimentação: recorrente (por mês)' parâmetro
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AL'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AM'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='BA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='CE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='DF'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='ES'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='GO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MG'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MT'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PA'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PB'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PI'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RJ'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RN'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RR'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RS'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='SC'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='SE'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='SP'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='TO'), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente'), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'taxa de sucesso (%)' as 'variável'
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AC') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AC'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AL') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AL'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AM') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AM'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AP') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AP'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='BA') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='BA'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='CE') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='CE'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='DF') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='DF'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='ES') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='ES'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='GO') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='GO'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MA') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MA'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MG') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MG'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MS') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MS'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MT') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MT'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PA') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PA'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PB') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PB'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PE') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PE'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PI') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PI'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PR') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PR'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RJ') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RJ'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RN') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RN'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RO') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RO'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RR') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RR'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RS') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RS'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SC') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SC'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SE') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SE'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SP') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SP'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='TO') / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='TO'), 2)
+		,round(100*count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos') ) / count(1) filter (campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') ), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'taxa de sucesso: tudo ou nada (%)' as 'variável'
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AC') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AC'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AL') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AL'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AM') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AM'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AP') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AP'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='BA') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='BA'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='CE') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='CE'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='DF') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='DF'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='ES') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='ES'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='GO') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='GO'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MA') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MA'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MG') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MG'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MS') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MS'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MT') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MT'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PA') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PA'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PB') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PB'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PE') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PE'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PI') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PI'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PR') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PR'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RJ') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RJ'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RN') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RN'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RO') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RO'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RR') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RR'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RS') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RS'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SC') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SC'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SE') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SE'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SP') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SP'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='TO') / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='TO'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos') ) / count(1) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') ), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'taxa de sucesso: flex (%)' as 'variável'
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AC') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AC'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AL') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AL'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AM') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AM'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='AP') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='AP'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='BA') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='BA'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='CE') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='CE'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='DF') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='DF'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='ES') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='ES'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='GO') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='GO'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MA') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MA'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MG') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MG'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MS') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MS'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='MT') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='MT'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PA') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PA'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PB') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PB'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PE') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PE'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PI') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PI'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='PR') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='PR'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RJ') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RJ'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RN') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RN'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RO') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RO'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RR') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RR'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='RS') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='RS'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SC') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SC'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SE') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SE'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='SP') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='SP'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') and uf='TO') / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') and uf='TO'), 2)
+		,round(100*count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos') ) / count(1) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos','Falha') ), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'arrecadação (por campanha)'
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AC' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AL' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AM' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='AP' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='BA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='CE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='DF' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='ES' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='GO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MG' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MS' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='MT' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PB' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PI' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='PR' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RJ' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RN' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RR' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='RS' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='SC' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='SE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='SP' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex') and uf='TO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade in ('Tudo ou Nada', 'Flex')  and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'arrecadação: tudo ou nada (por campanha)'
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AC' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AL' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AM' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='AP' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='BA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='CE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='DF' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='ES' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='GO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MG' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MS' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='MT' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PB' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PI' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='PR' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RJ' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RN' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RR' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='RS' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='SC' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='SE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='SP' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and uf='TO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Tudo ou Nada' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'arrecadação: flex (por campanha)'
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AC' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AL' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AM' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='AP' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='BA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='CE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='DF' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='ES' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='GO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MG' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MS' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='MT' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PA' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PB' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PI' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='PR' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RJ' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RN' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RR' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='RS' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='SC' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='SE' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='SP' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and uf='TO' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Flex' and campanha_status in ('Sucesso', 'Aguardando Fundos')), 2)
+FROM	cte_campanhas
+UNION ALL
+SELECT	'arrecadação: recorrente (por mês)'
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AC' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AL' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AM' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='AP' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='BA' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='CE' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='DF' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='ES' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='GO' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MA' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MG' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MS' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='MT' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PA' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PB' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PE' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PI' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='PR' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RJ' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RN' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RO' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RR' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='RS' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='SC' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='SE' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='SP' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and uf='TO' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+		,round(sum(geral_arrecadado_corrigido) filter (campanha_modalidade='Recorrente' and campanha_status in ('Sucesso', 'Aguardando Fundos', 'Publicado')), 2)
+FROM	cte_campanhas
+
+
+/*
+variável	AC	AL	Todos
+ano de início	2,011	2,016	2,011
+campanhas	3,300	745	4,045
+campanhas: tudo ou nada	1,479	0	1,479
+campanhas: flex	1,750	12	1,762
+campanhas: recorrente	71	733	804
+movimentação (por campanha)	52,263,844.33	1,153.67	52,264,998
+movimentação: tudo ou nada (por campanha)	29,551,287.87	[NULL]	29,551,287.87
+movimentação: flex (por campanha)	22,712,556.46	1,153.67	22,713,710.13
+movimentação: recorrente (por mês)	3,862.13	42,839.39	46,701.51
+taxa de sucesso (%)	80.64	16.67	80.4
+taxa de sucesso: tudo ou nada (%)	62.47	[NULL]	62.47
+taxa de sucesso: flex (%)	95.2	16.67	94.67
+arrecadação (por campanha)	50,517,963.11	1,138.45	50,519,101.56
+arrecadação: tudo ou nada (por campanha)	27,805,556.58	[NULL]	27,805,556.58
+arrecadação: flex (por campanha)	22,712,406.53	1,138.45	22,713,544.98
+arrecadação: recorrente (por mês)	3,862.13	42,839.39	46,701.51
+**/

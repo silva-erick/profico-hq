@@ -5,10 +5,14 @@ import json
 from datetime import datetime, timedelta
 import formatos
 
+import pandas as pd
+
 
 CAMINHO_SQL = "./bancodados/sql"
 CAMINHO_SQL_CRIACAO = "./bancodados/sql/01-criacao"
 CAMINHO_SQL_CARGA = "./bancodados/sql/02-carga"
+CAMINHO_SQL_ANALISES = "./bancodados/sql/03-analises"
+CAMINHO_ANALISES = "../dados/analises"
 CAMINHO_BRUTO_CAMPANHAS_CATARSE = "../dados/brutos/catarse/campanhas"
 CAMINHO_NORMALIZADOS = "../dados/normalizados"
 
@@ -347,7 +351,7 @@ def executar_carga_campanhas(args):
     
     arquivos_campanhas = os.listdir(caminho_campanhas)
 
-    con = duckdb.connect(f"{CAMINHO_NORMALIZADOS}/analises_{args.ano}.db")
+    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.db")
 
     # Percorre a lista de arquivos
     for arq_campanha in arquivos_campanhas:
@@ -412,7 +416,6 @@ async def executar_montarbd(args):
     executar_scripts_pasta(args, CAMINHO_SQL_CARGA)
 
     executar_carga_campanhas(args)
-
 
     p2 = datetime.now()
     delta = p2-p1

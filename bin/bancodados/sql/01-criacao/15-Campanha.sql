@@ -9,19 +9,19 @@ CREATE TABLE IF NOT EXISTS Campanha (
 	,autor_id							INT
 
 	,social_seguidores					INT
-	,social_newsletter					BIT
-	,social_sub_contribuicoes_amigos	BIT
-	,social_sub_novos_seguidores		BIT
-	,social_sub_posts_projeto			BIT
+	,social_newsletter					INT
+	,social_sub_contribuicoes_amigos	INT
+	,social_sub_novos_seguidores		INT
+	,social_sub_posts_projeto			INT
 	,social_projetos_contribuidos		INT
 	,social_projetos_publicados			INT
 
 	,municipio_id						INT
 
 	,geral_content_rating				INT
-	,geral_contributed_by_friends		BIT
-	,geral_capa_imagem					BIT
-	,geral_capa_video					BIT
+	,geral_contributed_by_friends		INT
+	,geral_capa_imagem					INT
+	,geral_capa_video					INT
 	,geral_dias_campanha				INT
 	,geral_data_fim						DATE
 	,geral_data_ini						DATE
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Campanha (
 	,geral_arrecadado					DECIMAL(15,3)
 	,geral_arrecadado_corrigido			DECIMAL(15,3)
 	,geral_percentual_arrecadado		DECIMAL(15,3)
-	,geral_conteudo_adulto				BIT
+	,geral_conteudo_adulto				INT
 	,geral_posts						INT
 
 	,modalidadecampanha_id				INT
