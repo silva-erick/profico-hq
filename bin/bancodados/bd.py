@@ -29,7 +29,7 @@ def executar_scripts_pasta(args, caminho):
     
     caminho_scripts = os.listdir(caminho)
 
-    con = duckdb.connect(f"{CAMINHO_NORMALIZADOS}/analises_{args.ano}.db")
+    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.db")
 
     # Percorre a lista de arquivos
     for caminho_script_sql in caminho_scripts:
@@ -344,7 +344,7 @@ def executar_carga_campanhas(args)
 def executar_carga_campanhas(args):
     campanhas = []
     caminho_campanhas = f'{CAMINHO_NORMALIZADOS}/{args.ano}'
-    logs.verbose(args.verbose, f'executar scripts pasta: {caminho_campanhas}')
+    logs.verbose(args.verbose, f'executar carga campanhas, pasta: {caminho_campanhas}')
 
     if not os.path.exists(caminho_campanhas):
         return False
@@ -353,6 +353,7 @@ def executar_carga_campanhas(args):
 
     con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.db")
 
+    campanha_id = 0
     # Percorre a lista de arquivos
     for arq_campanha in arquivos_campanhas:
         # Cria o caminho completo para o file
@@ -371,8 +372,9 @@ def executar_carga_campanhas(args):
         campanha = json.loads(f.read()) 
         sql = construir_comando_autor(campanha)
         con.sql(sql)
-        sql = comando_campanha_obterid()
-        campanha_id = con.sql(sql).fetchall()[0][0]
+        #sql = comando_campanha_obterid()
+        #campanha_id = con.sql(sql).fetchall()[0][0]
+        campanha_id = campanha_id + 1
         sql = construir_comando_campanha(campanha, campanha_id)
         try:
             con.sql(sql)
@@ -405,7 +407,7 @@ async def executar_montarbd(args)
 async def executar_montarbd(args):
     p1 = datetime.now()
 
-    caminho_arq = f"{CAMINHO_NORMALIZADOS}/analises_{args.ano}.db"
+    caminho_arq = f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.db"
 
     print(f'montar banco de dados (duckdb): {caminho_arq}')
 

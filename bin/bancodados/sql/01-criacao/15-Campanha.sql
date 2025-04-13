@@ -45,4 +45,4 @@ CREATE TABLE IF NOT EXISTS Campanha (
 
 );
 
-CREATE SEQUENCE seq_campanha_id START 1;
+--CREATE SEQUENCE seq_campanha_id START 1;
