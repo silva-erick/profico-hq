@@ -155,6 +155,36 @@ def exportar_ranking_tdn_autor(args, con, caminho_analises_excel):
         dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
 
 '''
+def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel)
+'''
+def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-p-ranking-tdn-categoria-mencao-qtd.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-q-ranking-tdn-categoria-mencao-tot-arrecad.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-r-ranking-tdn-categoria-mencao-avg-arrecad.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-s-ranking-tdn-categoria-mencao-max-arrecad.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-t-ranking-tdn-categoria-mencao-tx-sucesso.sql')
+    res = con.sql(sql)
+    dfe = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-categoria-mencao-tdn.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='uf-qtd', index=False)
+        dfb.to_excel(writer, sheet_name='uf-tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='uf-avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='uf-max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
+'''
 def exportar_ranking_flex_uf(args, con, caminho_analises_excel)
 '''
 def exportar_ranking_flex_uf(args, con, caminho_analises_excel):
@@ -241,6 +271,8 @@ async def executar_report(args):
     exportar_ranking_tdn_uf(args, con, caminho_analises_excel)
     exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel)
     exportar_ranking_tdn_autor(args, con, caminho_analises_excel)
+    
+    exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel)
     exportar_ranking_flex_uf(args, con, caminho_analises_excel)
     exportar_ranking_rec_uf(args, con, caminho_analises_excel)
 
