@@ -344,6 +344,102 @@ def exportar_ranking_rec_uf(args, con, caminho_analises_excel):
 
 
 '''
+def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel)
+'''
+def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-f-ranking-rec-classificacao-autoria-qtd.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-g-ranking-rec-classificacao-autoria-tot-arrecad.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-h-ranking-rec-classificacao-autoria-avg-arrecad.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-i-ranking-rec-classificacao-autoria-max-arrecad.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-j-ranking-rec-classificacao-autoria-tx-sucesso.sql')
+    res = con.sql(sql)
+    dfe = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-classificacao-autoria-rec.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
+'''
+def exportar_ranking_rec_autor(args, con, caminho_analises_excel)
+'''
+def exportar_ranking_rec_autor(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-k-ranking-rec-autor-qtd.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-l-ranking-rec-autor-tot-arrecad.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-m-ranking-rec-autor-avg-arrecad.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-n-ranking-rec-autor-max-arrecad.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-o-ranking-rec-autor-tx-sucesso.sql')
+    res = con.sql(sql)
+    dfe = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-autor-rec.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
+'''
+def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel)
+'''
+def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-p-ranking-rec-categoria-mencao-qtd.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-q-ranking-rec-categoria-mencao-tot-arrecad.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-r-ranking-rec-categoria-mencao-avg-arrecad.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-s-ranking-rec-categoria-mencao-max-arrecad.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-t-ranking-rec-categoria-mencao-tx-sucesso.sql')
+    res = con.sql(sql)
+    dfe = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-categoria-mencao-rec.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
+
+
+
+'''
 async def executar_report(args)
 -- 
 '''
@@ -376,6 +472,9 @@ async def executar_report(args):
     exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel)
 
     exportar_ranking_rec_uf(args, con, caminho_analises_excel)
+    exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel)
+    exportar_ranking_rec_autor(args, con, caminho_analises_excel)    
+    exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel)
 
 
     p2 = datetime.now()
