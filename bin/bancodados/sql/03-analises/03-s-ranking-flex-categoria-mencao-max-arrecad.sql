@@ -57,20 +57,20 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_tdn as (
+cte_campanhas_flex as (
 	SELECT	*
 	FROM	cte_campanhas
-	WHERE	campanha_modalidade = 'Tudo ou Nada'
+	WHERE	campanha_modalidade = 'Flex'
 )
 , cte_campanhascat as (
 	SELECT	c.*
 			,cmc.categoriamencao_id
-	FROM	cte_campanhas_tdn c
+	FROM	cte_campanhas_flex c
 	JOIN	CategoriaMencaoCampanha cmc
 	ON		cmc.campanha_id=c.campanha_id
 )
 SELECT	mc.nome categoria_mencao
-		, COUNT(1) qtd
+		, MAX(geral_arrecadado_corrigido) filter(campanha_status != 'Falha' ) max_arrecadado
 FROM	CategoriaMencao mc
 JOIN	CategoriaMencaoCampanha cmc
 ON		cmc.categoriamencao_id=mc.categoriamencao_id

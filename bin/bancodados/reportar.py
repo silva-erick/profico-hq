@@ -86,11 +86,11 @@ def exportar_ranking_tdn_uf(args, con, caminho_analises_excel):
     dfe = res.to_df()
 
     with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-uf-tdn.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='uf-qtd', index=False)
-        dfb.to_excel(writer, sheet_name='uf-tot-arrecad', index=False)
-        dfc.to_excel(writer, sheet_name='uf-avg-arrecad', index=False)
-        dfd.to_excel(writer, sheet_name='uf-max-arrecad', index=False)
-        dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
 def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel)
@@ -117,11 +117,11 @@ def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel
     dfe = res.to_df()
 
     with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-classificacao-autoria-tdn.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='uf-qtd', index=False)
-        dfb.to_excel(writer, sheet_name='uf-tot-arrecad', index=False)
-        dfc.to_excel(writer, sheet_name='uf-avg-arrecad', index=False)
-        dfd.to_excel(writer, sheet_name='uf-max-arrecad', index=False)
-        dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
 def exportar_ranking_tdn_autor(args, con, caminho_analises_excel)
@@ -148,11 +148,11 @@ def exportar_ranking_tdn_autor(args, con, caminho_analises_excel):
     dfe = res.to_df()
 
     with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-autor-tdn.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='uf-qtd', index=False)
-        dfb.to_excel(writer, sheet_name='uf-tot-arrecad', index=False)
-        dfc.to_excel(writer, sheet_name='uf-avg-arrecad', index=False)
-        dfd.to_excel(writer, sheet_name='uf-max-arrecad', index=False)
-        dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
 def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel)
@@ -179,11 +179,12 @@ def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel):
     dfe = res.to_df()
 
     with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-categoria-mencao-tdn.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='uf-qtd', index=False)
-        dfb.to_excel(writer, sheet_name='uf-tot-arrecad', index=False)
-        dfc.to_excel(writer, sheet_name='uf-avg-arrecad', index=False)
-        dfd.to_excel(writer, sheet_name='uf-max-arrecad', index=False)
-        dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
 '''
 def exportar_ranking_flex_uf(args, con, caminho_analises_excel)
 '''
@@ -209,11 +210,106 @@ def exportar_ranking_flex_uf(args, con, caminho_analises_excel):
     dfe = res.to_df()
 
     with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-uf-flex.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='uf-qtd', index=False)
-        dfb.to_excel(writer, sheet_name='uf-tot-arrecad', index=False)
-        dfc.to_excel(writer, sheet_name='uf-avg-arrecad', index=False)
-        dfd.to_excel(writer, sheet_name='uf-max-arrecad', index=False)
-        dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
+'''
+def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_excel)
+'''
+def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-f-ranking-flex-classificacao-autoria-qtd.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-g-ranking-flex-classificacao-autoria-tot-arrecad.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-h-ranking-flex-classificacao-autoria-avg-arrecad.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-i-ranking-flex-classificacao-autoria-max-arrecad.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-j-ranking-flex-classificacao-autoria-tx-sucesso.sql')
+    res = con.sql(sql)
+    dfe = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-classificacao-autoria-flex.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
+'''
+def exportar_ranking_flex_autor(args, con, caminho_analises_excel)
+'''
+def exportar_ranking_flex_autor(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-k-ranking-flex-autor-qtd.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-l-ranking-flex-autor-tot-arrecad.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-m-ranking-flex-autor-avg-arrecad.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-n-ranking-flex-autor-max-arrecad.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-o-ranking-flex-autor-tx-sucesso.sql')
+    res = con.sql(sql)
+    dfe = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-autor-flex.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
+'''
+def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel)
+'''
+def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-p-ranking-flex-categoria-mencao-qtd.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-q-ranking-flex-categoria-mencao-tot-arrecad.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-r-ranking-flex-categoria-mencao-avg-arrecad.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-s-ranking-flex-categoria-mencao-max-arrecad.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-t-ranking-flex-categoria-mencao-tx-sucesso.sql')
+    res = con.sql(sql)
+    dfe = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-categoria-mencao-flex.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
+
+
 
 '''
 def exportar_ranking_rec_uf(args, con, caminho_analises_excel)
@@ -240,11 +336,11 @@ def exportar_ranking_rec_uf(args, con, caminho_analises_excel):
     dfe = res.to_df()
 
     with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-uf-rec.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='uf-qtd', index=False)
-        dfb.to_excel(writer, sheet_name='uf-tot-arrecad', index=False)
-        dfc.to_excel(writer, sheet_name='uf-avg-arrecad', index=False)
-        dfd.to_excel(writer, sheet_name='uf-max-arrecad', index=False)
-        dfe.to_excel(writer, sheet_name='uf-tx-sucesso', index=False)
+        dfa.to_excel(writer, sheet_name='qtd', index=False)
+        dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
+        dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
+        dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
+        dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 
 '''
@@ -268,12 +364,17 @@ async def executar_report(args):
     
     exportar_dados_brutos(args, con, caminho_analises_excel)
     exportar_visao_geral(args, con, caminho_analises_excel)
+
     exportar_ranking_tdn_uf(args, con, caminho_analises_excel)
     exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel)
-    exportar_ranking_tdn_autor(args, con, caminho_analises_excel)
-    
+    exportar_ranking_tdn_autor(args, con, caminho_analises_excel)    
     exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel)
+
     exportar_ranking_flex_uf(args, con, caminho_analises_excel)
+    exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_excel)
+    exportar_ranking_flex_autor(args, con, caminho_analises_excel)    
+    exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel)
+
     exportar_ranking_rec_uf(args, con, caminho_analises_excel)
 
 

@@ -63,7 +63,7 @@ cte_campanhas_rec as (
 	WHERE	campanha_modalidade = 'Recorrente'
 )
 SELECT	uf
-		, COUNT(1) qty
+		, COUNT(1) qtd
 FROM	cte_campanhas_rec
 GROUP	BY uf
 ORDER	BY 2 desc

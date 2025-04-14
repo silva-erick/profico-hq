@@ -63,7 +63,7 @@ cte_campanhas_tdn as (
 	WHERE	campanha_modalidade = 'Tudo ou Nada'
 )
 SELECT	uf
-		, COUNT(1) qty
+		, COUNT(1) qtd
 FROM	cte_campanhas_tdn
 GROUP	BY uf
 ORDER	BY 2 desc

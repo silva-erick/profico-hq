@@ -57,15 +57,15 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_tdn as (
+cte_campanhas_flex as (
 	SELECT	*
 	FROM	cte_campanhas
-	WHERE	campanha_modalidade = 'Tudo ou Nada'
+	WHERE	campanha_modalidade = 'Flex'
 )
 , cte_campanhascat as (
 	SELECT	c.*
 			,cmc.categoriamencao_id
-	FROM	cte_campanhas_tdn c
+	FROM	cte_campanhas_flex c
 	JOIN	CategoriaMencaoCampanha cmc
 	ON		cmc.campanha_id=c.campanha_id
 )

@@ -57,25 +57,16 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_tdn as (
+cte_campanhas_flex as (
 	SELECT	*
 	FROM	cte_campanhas
-	WHERE	campanha_modalidade = 'Tudo ou Nada'
+	WHERE	campanha_modalidade = 'Flex'
 )
-, cte_campanhascat as (
-	SELECT	c.*
-			,cmc.categoriamencao_id
-	FROM	cte_campanhas_tdn c
-	JOIN	CategoriaMencaoCampanha cmc
-	ON		cmc.campanha_id=c.campanha_id
-)
-SELECT	mc.nome categoria_mencao
-		, COUNT(1) qtd
-FROM	CategoriaMencao mc
-JOIN	CategoriaMencaoCampanha cmc
-ON		cmc.categoriamencao_id=mc.categoriamencao_id
-JOIN	cte_campanhascat c
-ON		c.categoriamencao_id=mc.categoriamencao_id
-AND		c.campanha_id =cmc.campanha_id
-GROUP	BY mc.nome
+SELECT	autor_classificacao
+		, 100.0*ROUND(COUNT(1) filter(campanha_status != 'Falha' )
+				/ COUNT(1)
+			, 3)
+			txsucesso
+FROM	cte_campanhas_flex
+GROUP	BY autor_classificacao
 ORDER	BY 2 desc

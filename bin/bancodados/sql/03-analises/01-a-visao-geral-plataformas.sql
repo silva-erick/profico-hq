@@ -58,8 +58,8 @@ WITH cte_campanhas as (
 	ON 		uf.uf_id=m.uf_id
 )
 SELECT 	'Total' campanha_origem
-		, COUNT(1) qty
-		, COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada') tn_qty
+		, COUNT(1) qtd
+		, COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada') tn_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
@@ -69,7 +69,7 @@ SELECT 	'Total' campanha_origem
 				/ COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada')
 			, 3)
 			tn_txsucesso
-		, COUNT(1) filter(campanha_modalidade = 'Flex') flex_qty
+		, COUNT(1) filter(campanha_modalidade = 'Flex') flex_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
@@ -79,7 +79,7 @@ SELECT 	'Total' campanha_origem
 				/ COUNT(1) filter(campanha_modalidade = 'Flex')
 			, 3)
 			flex_txsucesso
-		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qty
+		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente')
 			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and geral_arrecadado_corrigido!=0)
@@ -92,8 +92,8 @@ SELECT 	'Total' campanha_origem
 FROM	cte_campanhas
 UNION	ALL
 SELECT	campanha_origem
-		, COUNT(1) qty
-		, COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada') tn_qty
+		, COUNT(1) qtd
+		, COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada') tn_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
@@ -103,7 +103,7 @@ SELECT	campanha_origem
 				/ COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada')
 			, 3)
 			tn_txsucesso
-		, COUNT(1) filter(campanha_modalidade = 'Flex') flex_qty
+		, COUNT(1) filter(campanha_modalidade = 'Flex') flex_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
@@ -113,7 +113,7 @@ SELECT	campanha_origem
 				/ COUNT(1) filter(campanha_modalidade = 'Flex')
 			, 3)
 			flex_txsucesso
-		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qty
+		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente')
 			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and geral_arrecadado_corrigido!=0)

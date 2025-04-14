@@ -63,7 +63,7 @@ cte_campanhas_flex as (
 	WHERE	campanha_modalidade = 'Flex'
 )
 SELECT	uf
-		, COUNT(1) qty
+		, COUNT(1) qtd
 FROM	cte_campanhas_flex
 GROUP	BY uf
 ORDER	BY 2 desc

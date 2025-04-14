@@ -63,7 +63,7 @@ cte_campanhas_tdn as (
 	WHERE	campanha_modalidade = 'Tudo ou Nada'
 )
 SELECT	autor_nome, autor_nome_publico
-		, COUNT(1) qty
+		, COUNT(1) qtd
 FROM	cte_campanhas_tdn
 GROUP	BY autor_nome, autor_nome_publico
 ORDER	BY 3 desc
