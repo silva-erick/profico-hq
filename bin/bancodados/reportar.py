@@ -10,6 +10,7 @@ import pandas as pd
 
 CAMINHO_SQL = "./bancodados/sql"
 CAMINHO_SQL_ANALISES = "./bancodados/sql/03-analises"
+CAMINHO_SQL_ANALISES_SERIES = "./bancodados/sql/04-analises-serie"
 CAMINHO_ANALISES = "../dados/analises"
 CAMINHO_NORMALIZADOS = "../dados/normalizados"
 
@@ -38,28 +39,33 @@ def exportar_visao_geral(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfa = res.to_df()
 
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-b-visao-geral-uf.sql')
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-b-visao-geral-modalidade.sql')
     res = con.sql(sql)
     dfb = res.to_df()
 
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-c-visao-geral-classificacao-autoria.sql')
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-c-visao-geral-uf.sql')
     res = con.sql(sql)
     dfc = res.to_df()
 
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-d-visao-geral-autor.sql')
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-d-visao-geral-classificacao-autoria.sql')
     res = con.sql(sql)
     dfd = res.to_df()
 
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-e-visao-geral-categoria-mencao.sql')
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-e-visao-geral-autor.sql')
     res = con.sql(sql)
     dfe = res.to_df()
 
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-f-visao-geral-categoria-mencao.sql')
+    res = con.sql(sql)
+    dff = res.to_df()
+
     with pd.ExcelWriter(f'{caminho_analises_excel}/01-visao-geral.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='plataforma', index=False)
-        dfb.to_excel(writer, sheet_name='uf', index=False)
-        dfc.to_excel(writer, sheet_name='classificacao_autoria', index=False)
-        dfd.to_excel(writer, sheet_name='autoria', index=False)
-        dfe.to_excel(writer, sheet_name='categoria_mencao', index=False)
+        dfb.to_excel(writer, sheet_name='modalidade', index=False)
+        dfc.to_excel(writer, sheet_name='uf', index=False)
+        dfd.to_excel(writer, sheet_name='classificacao_autoria', index=False)
+        dfe.to_excel(writer, sheet_name='autoria', index=False)
+        dff.to_excel(writer, sheet_name='categoria_mencao', index=False)
 
 '''
 def exportar_ranking_tdn_uf(args, con, caminho_analises_excel)
@@ -439,6 +445,40 @@ def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel):
 
 
 
+
+'''
+def exportar_serie_visao_geral(args, con, caminho_analises_excel)
+'''
+def exportar_serie_visao_geral(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-a-visao-geral-plataformas.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-b-visao-geral-modalidade.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-c-visao-geral-uf.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-d-visao-geral-classificacao-autoria.sql')
+    res = con.sql(sql)
+    dfd = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-f-visao-geral-categoria-mencao.sql')
+    res = con.sql(sql)
+    dff = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/11-serie-visao-geral.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='plataforma', index=False)
+        dfb.to_excel(writer, sheet_name='modalidade', index=False)
+        dfc.to_excel(writer, sheet_name='uf', index=False)
+        dfd.to_excel(writer, sheet_name='classificacao_autoria', index=False)
+        dff.to_excel(writer, sheet_name='categoria_mencao', index=False)
+
+
+
 '''
 async def executar_report(args)
 -- 
@@ -476,6 +516,7 @@ async def executar_report(args):
     exportar_ranking_rec_autor(args, con, caminho_analises_excel)    
     exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel)
 
+    exportar_serie_visao_geral(args, con, caminho_analises_excel)
 
     p2 = datetime.now()
     delta = p2-p1

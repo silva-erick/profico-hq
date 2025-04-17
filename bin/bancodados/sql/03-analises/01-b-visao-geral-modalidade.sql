@@ -2,7 +2,7 @@ WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
 			,sc.nome		campanha_status
 			,mc.nome		campanha_modalidade
-			,COALESCE(uf.acronimo,'XX')	uf
+			,uf.acronimo	uf
 			,m.nome			municipio
 			,extract(year from geral_data_ini)	ano
 			,ca.nome		autor_classificacao
@@ -56,14 +56,24 @@ WITH cte_campanhas as (
 	ON		m.municipio_id=c.municipio_id
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
-),
-cte_campanhas_rec as (
-	SELECT	*
-	FROM	cte_campanhas
-	WHERE	campanha_modalidade = 'Recorrente'
 )
-SELECT	uf
-		, SUM(geral_arrecadado_corrigido) filter(geral_arrecadado_corrigido!=0 ) tot_arrecadado
-FROM	cte_campanhas_rec
-GROUP	BY uf
-ORDER	BY 2 desc
+SELECT	campanha_modalidade
+		, COUNT(1) qtd
+		, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) tn_tot_arrecadado
+		, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' )
+			/ COUNT(1) filter( campanha_status != 'Falha' )
+			tn_avg_arrecadado
+		, MAX(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) tn_max_arrecadado
+		, CASE
+			WHEN campanha_modalidade='Recorrente' THEN
+				100.0*ROUND(COUNT(1) filter( geral_arrecadado_corrigido=0 )
+						/ COUNT(1)
+					, 3)
+			ELSE
+				100.0*ROUND(COUNT(1) filter( campanha_status != 'Falha' )
+						/ COUNT(1)
+					, 3)
+		END tn_txsucesso
+FROM	cte_campanhas
+GROUP	BY campanha_modalidade
+ORDER	BY 1
