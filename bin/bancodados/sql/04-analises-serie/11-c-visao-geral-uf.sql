@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,COALESCE(uf.acronimo,'XX')	uf
 			,m.nome			municipio

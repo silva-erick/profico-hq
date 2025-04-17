@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,uf.acronimo	uf
 			,m.nome			municipio
@@ -57,13 +57,13 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_rec as (
+cte_campanhas_sel as (
 	SELECT	*
 	FROM	cte_campanhas
 	WHERE	campanha_modalidade = 'Recorrente'
 )
 SELECT	autor_nome, autor_nome_publico
-		, SUM(geral_arrecadado_corrigido) filter( geral_arrecadado_corrigido!=0  ) tot_arrecadado
-FROM	cte_campanhas_rec
+		, SUM(geral_arrecadado_corrigido) filter( campanha_status!='Falha'  ) tot_arrecadado
+FROM	cte_campanhas_sel
 GROUP	BY autor_nome, autor_nome_publico
 ORDER	BY 3 desc

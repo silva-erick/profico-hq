@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,uf.acronimo	uf
 			,m.nome			municipio
@@ -82,10 +82,10 @@ SELECT 	'Total' campanha_origem
 		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente')
-			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and geral_arrecadado_corrigido!=0)
+			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and campanha_status!='Falha')
 			rec_avg_arrecadado
 		, MAX(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
-		, 100.0*ROUND(COUNT(1) filter(campanha_modalidade = 'Recorrente' and geral_arrecadado_corrigido!=0)
+		, 100.0*ROUND(COUNT(1) filter(campanha_modalidade = 'Recorrente' and campanha_status!='Falha')
 				/ COUNT(1) filter(campanha_modalidade = 'Recorrente')
 			, 3)
 			rec_txsucesso
@@ -116,10 +116,10 @@ SELECT	campanha_origem
 		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qtd
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente')
-			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and geral_arrecadado_corrigido!=0)
+			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and campanha_status!='Falha')
 			rec_avg_arrecadado
 		, MAX(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
-		, 100.0*ROUND(COUNT(1) filter(campanha_modalidade = 'Recorrente' and geral_arrecadado_corrigido!=0)
+		, 100.0*ROUND(COUNT(1) filter(campanha_modalidade = 'Recorrente' and campanha_status!='Falha')
 				/ COUNT(1) filter(campanha_modalidade = 'Recorrente')
 			, 3)
 			rec_txsucesso

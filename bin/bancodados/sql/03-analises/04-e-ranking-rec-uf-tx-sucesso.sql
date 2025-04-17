@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,COALESCE(uf.acronimo,'XX')	uf
 			,m.nome			municipio
@@ -57,16 +57,16 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_rec as (
+cte_campanhas_sel as (
 	SELECT	*
 	FROM	cte_campanhas
 	WHERE	campanha_modalidade = 'Recorrente'
 )
 SELECT	uf
-		, 100.0*ROUND(COUNT(1) filter( geral_arrecadado_corrigido!=0 )
+		, 100.0*ROUND(COUNT(1) filter( campanha_status!='Falha' )
 				/ COUNT(1)
 			, 3)
 			txsucesso
-FROM	cte_campanhas_rec
+FROM	cte_campanhas_sel
 GROUP	BY uf
 ORDER	BY 2 desc

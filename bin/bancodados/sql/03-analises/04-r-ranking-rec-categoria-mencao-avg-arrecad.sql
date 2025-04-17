@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,uf.acronimo	uf
 			,m.nome			municipio
@@ -57,7 +57,7 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_rec as (
+cte_campanhas_sel as (
 	SELECT	*
 	FROM	cte_campanhas
 	WHERE	campanha_modalidade = 'Recorrente'
@@ -65,13 +65,13 @@ cte_campanhas_rec as (
 , cte_campanhascat as (
 	SELECT	c.*
 			,cmc.categoriamencao_id
-	FROM	cte_campanhas_rec c
+	FROM	cte_campanhas_sel c
 	JOIN	CategoriaMencaoCampanha cmc
 	ON		cmc.campanha_id=c.campanha_id
 )
 SELECT	mc.nome categoria_mencao
-		, SUM(geral_arrecadado_corrigido) filter( geral_arrecadado_corrigido!=0  )
-			/ COUNT(1) filter( geral_arrecadado_corrigido!=0  )
+		, SUM(geral_arrecadado_corrigido) filter( campanha_status!='Falha'  )
+			/ COUNT(1) filter( campanha_status!='Falha'  )
 			avg_arrecadado
 FROM	CategoriaMencao mc
 JOIN	CategoriaMencaoCampanha cmc

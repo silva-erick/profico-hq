@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,uf.acronimo	uf
 			,m.nome			municipio
@@ -57,7 +57,7 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_flex as (
+cte_campanhas_sel as (
 	SELECT	*
 	FROM	cte_campanhas
 	WHERE	campanha_modalidade = 'Flex'
@@ -65,7 +65,7 @@ cte_campanhas_flex as (
 , cte_campanhascat as (
 	SELECT	c.*
 			,cmc.categoriamencao_id
-	FROM	cte_campanhas_flex c
+	FROM	cte_campanhas_sel c
 	JOIN	CategoriaMencaoCampanha cmc
 	ON		cmc.campanha_id=c.campanha_id
 )

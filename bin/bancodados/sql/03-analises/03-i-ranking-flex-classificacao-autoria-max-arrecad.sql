@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,uf.acronimo	uf
 			,m.nome			municipio
@@ -57,13 +57,13 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_flex as (
+cte_campanhas_sel as (
 	SELECT	*
 	FROM	cte_campanhas
 	WHERE	campanha_modalidade = 'Flex'
 )
 SELECT	autor_classificacao
 		, MAX(geral_arrecadado_corrigido) filter(campanha_status != 'Falha' ) max_arrecadado
-FROM	cte_campanhas_flex
+FROM	cte_campanhas_sel
 GROUP	BY autor_classificacao
 ORDER	BY 2 desc

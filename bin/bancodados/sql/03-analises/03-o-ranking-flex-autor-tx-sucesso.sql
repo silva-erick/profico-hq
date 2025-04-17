@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,uf.acronimo	uf
 			,m.nome			municipio
@@ -57,7 +57,7 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 ),
-cte_campanhas_flex as (
+cte_campanhas_sel as (
 	SELECT	*
 	FROM	cte_campanhas
 	WHERE	campanha_modalidade = 'Flex'
@@ -67,6 +67,6 @@ SELECT	autor_nome, autor_nome_publico
 				/ COUNT(1)
 			, 3)
 			txsucesso
-FROM	cte_campanhas_flex
+FROM	cte_campanhas_sel
 GROUP	BY autor_nome, autor_nome_publico
 ORDER	BY 3 desc

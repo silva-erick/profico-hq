@@ -2,9 +2,9 @@ WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
 			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
-			,uf.acronimo	uf
-			,extract(year from geral_data_ini) ano
+			,COALESCE(uf.acronimo,'XX')	uf
 			,m.nome			municipio
+			,extract(year from geral_data_ini)	ano
 			,ca.nome		autor_classificacao
 			,a.nome			autor_nome
 			,a.nome_publico	autor_nome_publico
@@ -25,8 +25,20 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 )
-PIVOT	cte_campanhas
-ON		campanha_origem
-USING	COUNT(*)
-GROUP	BY ano
-ORDER	BY 1
+,cte_campanhas_analise as (
+	SELECT	*
+	FROM	cte_campanhas
+	WHERE	campanha_modalidade='Tudo ou Nada'
+)
+PIVOT	cte_campanhas_analise
+USING	count(1) qtd
+		, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) tot_arrecadado
+		, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' )
+			/ COUNT(1) filter( campanha_status != 'Falha' )
+			avg_arrecadado
+		, MAX(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) max_arrecadado
+		,100.0*ROUND(COUNT(1) filter( campanha_status != 'Falha' )
+				/ COUNT(1)
+			, 3)
+		txsucesso
+GROUP	BY ano;

@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,sc.nome		campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome)	campanha_status
 			,mc.nome		campanha_modalidade
 			,uf.acronimo	uf
 			,m.nome			municipio
@@ -59,21 +59,15 @@ WITH cte_campanhas as (
 )
 SELECT	campanha_modalidade
 		, COUNT(1) qtd
-		, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) tn_tot_arrecadado
+		, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' )
 			/ COUNT(1) filter( campanha_status != 'Falha' )
-			tn_avg_arrecadado
-		, MAX(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) tn_max_arrecadado
-		, CASE
-			WHEN campanha_modalidade='Recorrente' THEN
-				100.0*ROUND(COUNT(1) filter( geral_arrecadado_corrigido=0 )
-						/ COUNT(1)
-					, 3)
-			ELSE
-				100.0*ROUND(COUNT(1) filter( campanha_status != 'Falha' )
-						/ COUNT(1)
-					, 3)
-		END tn_txsucesso
+			avg_arrecadado
+		, MAX(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) max_arrecadado
+		, 100.0*ROUND(COUNT(1) filter( campanha_status != 'Falha' )
+				/ COUNT(1)
+			, 3)
+		txsucesso
 FROM	cte_campanhas
 GROUP	BY campanha_modalidade
 ORDER	BY 1
