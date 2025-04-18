@@ -478,6 +478,93 @@ def exportar_serie_visao_geral(args, con, caminho_analises_excel):
         dff.to_excel(writer, sheet_name='categoria_mencao', index=False)
 
 
+'''
+def exportar_serie_modalidade(args, con, caminho_analises_excel)
+'''
+def exportar_serie_modalidade(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/21-a-modalidade-tudo-ou-nada.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/21-b-modalidade-flex.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/21-c-modalidade-recorrente.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/21-serie-modalidade.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
+        dfb.to_excel(writer, sheet_name='flex', index=False)
+        dfc.to_excel(writer, sheet_name='recorrente', index=False)
+
+
+'''
+def exportar_serie_uf(args, con, caminho_analises_excel)
+'''
+def exportar_serie_uf(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/31-a-uf-tudo-ou-nada.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/31-b-uf-flex.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/31-c-uf-recorrente.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/31-serie-uf.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
+        dfb.to_excel(writer, sheet_name='flex', index=False)
+        dfc.to_excel(writer, sheet_name='recorrente', index=False)
+
+
+'''
+def exportar_serie_classificacao_autoria(args, con, caminho_analises_excel)
+'''
+def exportar_serie_classificacao_autoria(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/41-a-classificacao-autoria-tudo-ou-nada.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/41-b-classificacao-autoria-flex.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/41-c-classificacao-autoria-recorrente.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/41-serie-classificacao-autoria.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
+        dfb.to_excel(writer, sheet_name='flex', index=False)
+        dfc.to_excel(writer, sheet_name='recorrente', index=False)
+
+
+'''
+def exportar_serie_categoria_mencao(args, con, caminho_analises_excel)
+'''
+def exportar_serie_categoria_mencao(args, con, caminho_analises_excel):
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/51-a-categoria-mencao-tudo-ou-nada.sql')
+    res = con.sql(sql)
+    dfa = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/51-b-categoria-mencao-flex.sql')
+    res = con.sql(sql)
+    dfb = res.to_df()
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/51-c-categoria-mencao-recorrente.sql')
+    res = con.sql(sql)
+    dfc = res.to_df()
+
+    with pd.ExcelWriter(f'{caminho_analises_excel}/51-serie-categoria-mencao.xlsx') as writer:  
+        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
+        dfb.to_excel(writer, sheet_name='flex', index=False)
+        dfc.to_excel(writer, sheet_name='recorrente', index=False)
+
 
 '''
 async def executar_report(args)
@@ -517,6 +604,10 @@ async def executar_report(args):
     exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel)
 
     exportar_serie_visao_geral(args, con, caminho_analises_excel)
+    exportar_serie_modalidade(args, con, caminho_analises_excel)
+    exportar_serie_uf(args, con, caminho_analises_excel)
+    exportar_serie_classificacao_autoria(args, con, caminho_analises_excel)
+    exportar_serie_categoria_mencao(args, con, caminho_analises_excel)
 
     p2 = datetime.now()
     delta = p2-p1
