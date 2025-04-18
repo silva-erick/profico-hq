@@ -35,11 +35,12 @@ def exportar_dados_brutos(args, con, caminho_analises_excel):
 def exportar_visao_geral(args, con, caminho_analises_excel)
 '''
 def exportar_visao_geral(args, con, caminho_analises_excel):
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-a-visao-geral-plataformas.sql')
+
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-a-visao-geral-modalidade.sql')
     res = con.sql(sql)
     dfa = res.to_df()
 
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-b-visao-geral-modalidade.sql')
+    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-b-visao-geral-plataformas.sql')
     res = con.sql(sql)
     dfb = res.to_df()
 
@@ -60,8 +61,8 @@ def exportar_visao_geral(args, con, caminho_analises_excel):
     dff = res.to_df()
 
     with pd.ExcelWriter(f'{caminho_analises_excel}/01-visao-geral.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='plataforma', index=False)
-        dfb.to_excel(writer, sheet_name='modalidade', index=False)
+        dfa.to_excel(writer, sheet_name='modalidade', index=False)
+        #dfb.to_excel(writer, sheet_name='plataforma', index=False)
         dfc.to_excel(writer, sheet_name='uf', index=False)
         dfd.to_excel(writer, sheet_name='classificacao_autoria', index=False)
         dfe.to_excel(writer, sheet_name='autoria', index=False)

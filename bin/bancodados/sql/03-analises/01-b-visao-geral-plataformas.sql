@@ -2,7 +2,7 @@ WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
 			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
-			,uf.acronimo	uf
+			,COALESCE(uf.acronimo,'XX')	uf
 			,m.nome			municipio
 			,extract(year from geral_data_ini)	ano
 			,ca.nome		autor_classificacao
@@ -60,6 +60,10 @@ WITH cte_campanhas as (
 SELECT 	'Total' campanha_origem
 		, COUNT(1) qtd
 		, COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada') tn_qtd
+		, AVG(geral_posts) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_avg_posts
+		, AVG(geral_posts) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status == 'Falha' ) tn_avg_posts_falha
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_avg_contribuicoes
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status == 'Falha' ) tn_avg_contribuicoes_falha
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
@@ -70,6 +74,10 @@ SELECT 	'Total' campanha_origem
 			, 3)
 			tn_txsucesso
 		, COUNT(1) filter(campanha_modalidade = 'Flex') flex_qtd
+		, AVG(geral_posts) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_avg_posts
+		, AVG(geral_posts) filter(campanha_modalidade = 'Flex' and campanha_status == 'Falha' ) flex_avg_posts_falha
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_avg_contribuicoes
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Flex' and campanha_status == 'Falha' ) flex_avg_contribuicoes_falha
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
@@ -80,6 +88,10 @@ SELECT 	'Total' campanha_origem
 			, 3)
 			flex_txsucesso
 		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qtd
+		, AVG(geral_posts) filter(campanha_modalidade = 'Recorrente' and campanha_status != 'Falha' ) rec_avg_posts
+		, AVG(geral_posts) filter(campanha_modalidade = 'Recorrente' and campanha_status == 'Falha' ) rec_avg_posts_falha
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Recorrente' and campanha_status != 'Falha' ) rec_avg_contribuicoes
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Recorrente' and campanha_status == 'Falha' ) rec_avg_contribuicoes_falha
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente')
 			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and campanha_status!='Falha')
@@ -94,6 +106,10 @@ UNION	ALL
 SELECT	campanha_origem
 		, COUNT(1) qtd
 		, COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada') tn_qtd
+		, AVG(geral_posts) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_avg_posts
+		, AVG(geral_posts) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status == 'Falha' ) tn_avg_posts_falha
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_avg_contribuicoes
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status == 'Falha' ) tn_avg_contribuicoes_falha
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' ) tn_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Tudo ou Nada' and campanha_status != 'Falha' )
@@ -104,6 +120,10 @@ SELECT	campanha_origem
 			, 3)
 			tn_txsucesso
 		, COUNT(1) filter(campanha_modalidade = 'Flex') flex_qtd
+		, AVG(geral_posts) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_avg_posts
+		, AVG(geral_posts) filter(campanha_modalidade = 'Flex' and campanha_status == 'Falha' ) flex_avg_posts_falha
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_avg_contribuicoes
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Flex' and campanha_status == 'Falha' ) flex_avg_contribuicoes_falha
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' ) flex_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
 			/ COUNT(1) filter(campanha_modalidade = 'Flex' and campanha_status != 'Falha' )
@@ -114,6 +134,10 @@ SELECT	campanha_origem
 			, 3)
 			flex_txsucesso
 		, COUNT(1) filter(campanha_modalidade = 'Recorrente') rec_qtd
+		, AVG(geral_posts) filter(campanha_modalidade = 'Recorrente' and campanha_status != 'Falha' ) rec_avg_posts
+		, AVG(geral_posts) filter(campanha_modalidade = 'Recorrente' and campanha_status == 'Falha' ) rec_avg_posts_falha
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Recorrente' and campanha_status != 'Falha' ) rec_avg_contribuicoes
+		, AVG(geral_total_contribuicoes) filter(campanha_modalidade = 'Recorrente' and campanha_status == 'Falha' ) rec_avg_contribuicoes_falha
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente') rec_tot_arrecadado
 		, SUM(geral_arrecadado_corrigido) filter(campanha_modalidade = 'Recorrente')
 			/ COUNT(1) filter(campanha_modalidade = 'Recorrente' and campanha_status!='Falha')

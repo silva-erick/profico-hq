@@ -2,7 +2,7 @@ WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
 			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
-			,uf.acronimo	uf
+			,COALESCE(uf.acronimo,'XX')	uf
 			,m.nome			municipio
 			,extract(year from geral_data_ini)	ano
 			,ca.nome		autor_classificacao
