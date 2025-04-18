@@ -29,7 +29,7 @@ def executar_scripts_pasta(args, caminho):
     
     caminho_scripts = os.listdir(caminho)
 
-    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.db")
+    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb")
 
     # Percorre a lista de arquivos
     for caminho_script_sql in caminho_scripts:
@@ -351,7 +351,7 @@ def executar_carga_campanhas(args):
     
     arquivos_campanhas = os.listdir(caminho_campanhas)
 
-    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.db")
+    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb")
 
     campanha_id = 0
     # Percorre a lista de arquivos
@@ -407,7 +407,7 @@ async def executar_montarbd(args)
 async def executar_montarbd(args):
     p1 = datetime.now()
 
-    caminho_arq = f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.db"
+    caminho_arq = f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb"
 
     print(f'montar banco de dados (duckdb): {caminho_arq}')
 

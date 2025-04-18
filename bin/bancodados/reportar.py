@@ -576,7 +576,7 @@ async def executar_report(args):
     caminho_analises = f"{CAMINHO_ANALISES}/{args.ano}"
     caminho_analises_excel = f"{caminho_analises}/excel"
 
-    caminho_arq = f"{caminho_analises}/analises_{args.ano}.db"
+    caminho_arq = f"{caminho_analises}/analises_{args.ano}.duckdb"
 
     print(f'executar análises (duckdb): {caminho_arq}')
 

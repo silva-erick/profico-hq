@@ -2,6 +2,7 @@ import os
 import asyncio
 import logging
 from datetime import datetime, timedelta
+import shutil
 
 import pandas as pd
 from unidecode import unidecode
@@ -156,7 +157,7 @@ async def carregar_autorias_padroes(args):
 
     return carregar_arquivo_padroes(
         args,
-        './normalizacao/autorias.json',
+        f'../dados/estaticos/{args.ano}/autorias.json',
         [
             'masculino',
             'feminino',
@@ -183,7 +184,7 @@ async def carregar_mencoes_padroes(args):
 
     return carregar_arquivo_padroes(
         args,
-        './normalizacao/mencoes.json',
+        f'../dados/estaticos/{args.ano}/mencoes.json',
         [
             'saloes_humor',
             'hqmix',
@@ -846,7 +847,33 @@ def gravar_json_campanhas(args, data):
     return True
 
 
+def garantir_dados_estaticos(args):
+    caminho_dados_estaticos = f'../dados/estaticos/'
+    itens_dados_estaticos = os.listdir(caminho_dados_estaticos)
+    max_ano = args.ano
+    
+    # não existe campanha em 2010
+    sel_ano = 2010
+    for dir_candidato in itens_dados_estaticos:
+        full_path = os.path.join(caminho_dados_estaticos, dir_candidato)
+        if not os.path.isdir(full_path):
+            continue
+        if not dir_candidato.isnumeric():
+            continue
 
+        val_ano = int(dir_candidato)
+        if val_ano > sel_ano and val_ano < max_ano:
+            sel_ano = val_ano
+        elif val_ano == max_ano:
+            sel_ano = val_ano
+
+    if (sel_ano != max_ano):
+        shutil.copytree(
+            f'{caminho_dados_estaticos}{sel_ano}'
+            ,f'{caminho_dados_estaticos}{max_ano}'
+            ,dirs_exist_ok=True
+            )
+    
 
 
 '''
@@ -860,6 +887,8 @@ async def executar_normalizacao(args):
     logs.definir_log(args, 'normalizar')
 
     logs.verbose(args.verbose, 'Início')
+
+    garantir_dados_estaticos(args)
 
     threads = list()
 
