@@ -71,3 +71,13 @@ def parse_ymd(data_str):
         return data_obj
     except ValueError:
         raise ValueError("Formato de data inválido.")
+
+def formatar_num0_ptbr(number):
+    return f"{number:,.0f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+def formatar_num1_ptbr(number):
+    return f"{number:,.1f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+def formatar_num2_ptbr(number):
+    return f"{number:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    

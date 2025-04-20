@@ -7,71 +7,91 @@ import formatos
 
 import pandas as pd
 
+import pydot
 
-CAMINHO_SQL = "./bancodados/sql"
-CAMINHO_SQL_ANALISES = "./bancodados/sql/03-analises"
-CAMINHO_SQL_ANALISES_SERIES = "./bancodados/sql/04-analises-serie"
-CAMINHO_ANALISES = "../dados/analises"
-CAMINHO_NORMALIZADOS = "../dados/normalizados"
+import bancodados.comum as comum
+import bancodados.dados_campanhas as dados_campanhas
+import bancodados.visao_geral as visao_geral
 
 
-def ler_arquivo(caminho_arq):
-    # abrir arquivo
-    f = open (caminho_arq, "r")
-    # ler arquivo
-    return f.read()
+"""
+Obter o template de infográfico
+"""
+def obter_template_infografico(dot_template, df) -> str:
+
+    # lista_plataformas = []
+    # if analisebase.DFCOL_ORIGEM in df.columns:
+    #     for orig in df[analisebase.DFCOL_ORIGEM].unique():
+    #         lista_plataformas.append(analisebase.TITULOS_ORIGENS[orig])
+    # else:
+    #     for orig in analisebase.ORIGENS:
+    #         lista_plataformas.append(analisebase.TITULOS_ORIGENS[orig])
+
+    res = duckdb.sql('select min(min_ano) from df').fetchall()
+
+    tup = duckdb.sql('select min(min_ano) from df').fetchone()[0]
+
+
+    df_pontuais = df[
+        df[analisebase.DFCOL_MODALIDADE] != analisebase.CAMPANHA_SUB
+    ]
+    df_aon = df[
+        df[analisebase.DFCOL_MODALIDADE] == analisebase.CAMPANHA_AON
+    ]
+    df_flex = df[
+        df[analisebase.DFCOL_MODALIDADE] == analisebase.CAMPANHA_FLEX
+    ]
+    df_sub = df[
+        df[analisebase.DFCOL_MODALIDADE] == analisebase.CAMPANHA_SUB
+    ]
+
+    valores_substituicao = {}
+    #valores_substituicao['$(plataformas)']                      = analisebase.enumerar_strings(lista_plataformas)
+    valores_substituicao['$(menor-ano)']                        = df[df[analisebase.DFCOL_MENOR_ANO]!=0][analisebase.DFCOL_MENOR_ANO].min()
+    valores_substituicao['$(maior-ano)']                        = df[analisebase.DFCOL_MAIOR_ANO].max()
+    valores_substituicao['$(campanhas-total)']                  = analisebase.numero_com_separadores(df[analisebase.DFCOL_TOTAL].sum())
+    valores_substituicao['$(campanhas-pontuais-total)']         = analisebase.numero_com_separadores(df_pontuais[analisebase.DFCOL_TOTAL].sum())
+
+    valores_substituicao['$(campanhas-aon-total)']              = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_TOTAL].sum())
+    valores_substituicao['$(campanhas-aon-sucesso)']            = analisebase.numero_com_separadores(100*df_aon[analisebase.DFCOL_TAXA_SUCESSO].sum(),1)
+    valores_substituicao['$(campanhas-aon-total-arrecadado)']   = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_ARRECADADO_SUCESSO].sum(), 2)
+    valores_substituicao['$(campanhas-aon-arrecadacao-media)']  = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_ARRECADADO_MED].sum(), 2)
+    valores_substituicao['$(campanhas-aon-apoio-med)']          = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_APOIO_MED].sum(), 2)
+    valores_substituicao['$(campanhas-aon-contr-totais)']       = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_CONTRIBUICOES].sum())
+    valores_substituicao['$(campanhas-aon-contr-media)']        = analisebase.numero_com_separadores(df_aon[analisebase.DFCOL_CONTRIBUICOES_MED].sum())
+
+    valores_substituicao['$(campanhas-flex-total)']             = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_TOTAL].sum())
+    valores_substituicao['$(campanhas-flex-sucesso)']           = analisebase.numero_com_separadores(100*df_flex[analisebase.DFCOL_TAXA_SUCESSO].sum(),1)
+    valores_substituicao['$(campanhas-flex-total-arrecadado)']  = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_ARRECADADO_SUCESSO].sum(), 2)
+    valores_substituicao['$(campanhas-flex-arrecadacao-media)'] = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_ARRECADADO_MED].sum(), 2)
+    valores_substituicao['$(campanhas-flex-apoio-med)']         = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_APOIO_MED].sum(), 2)
+    valores_substituicao['$(campanhas-flex-contr-totais)']      = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_CONTRIBUICOES].sum())
+    valores_substituicao['$(campanhas-flex-contr-media)']       = analisebase.numero_com_separadores(df_flex[analisebase.DFCOL_CONTRIBUICOES_MED].sum())
+
+    valores_substituicao['$(campanhas-sub-total)']              = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_TOTAL].sum())
+    valores_substituicao['$(campanhas-sub-sucesso)']            = analisebase.numero_com_separadores(100*df_sub[analisebase.DFCOL_TAXA_SUCESSO].sum(),1)
+    valores_substituicao['$(campanhas-sub-total-arrecadado)']   = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_ARRECADADO_SUCESSO].sum(), 2)
+    valores_substituicao['$(campanhas-sub-arrecadacao-media)']  = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_ARRECADADO_MED].sum(), 2)
+    valores_substituicao['$(campanhas-sub-apoio-med)']          = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_APOIO_MED].sum(), 2)
+    valores_substituicao['$(campanhas-sub-contr-totais)']       = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_CONTRIBUICOES].sum())
+    valores_substituicao['$(campanhas-sub-contr-media)']        = analisebase.numero_com_separadores(df_sub[analisebase.DFCOL_CONTRIBUICOES_MED].sum())
+
+    resultado = dot_template
+    for k, v in valores_substituicao.items():
+        if isinstance(v, str):
+            valor = v
+        else:
+            valor = str(v)
+        resultado = resultado.replace(k, valor)
+
+    return resultado
+
 
 
 '''
-def exportar_dados_brutos(args, con)
+def exportar_ranking_tdn_uf(args, con, caminho_analises_result)
 '''
-def exportar_dados_brutos(args, con, caminho_analises_excel):
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/00-lista-campanhas.sql')
-    res = con.sql(sql)
-    df = res.to_df()
-    df.to_excel(f'{caminho_analises_excel}/00-lista-campanhas.xlsx', index=False)
-
-'''
-def exportar_visao_geral(args, con, caminho_analises_excel)
-'''
-def exportar_visao_geral(args, con, caminho_analises_excel):
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-a-visao-geral-modalidade.sql')
-    res = con.sql(sql)
-    dfa = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-b-visao-geral-plataformas.sql')
-    res = con.sql(sql)
-    dfb = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-c-visao-geral-uf.sql')
-    res = con.sql(sql)
-    dfc = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-d-visao-geral-classificacao-autoria.sql')
-    res = con.sql(sql)
-    dfd = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-e-visao-geral-autor.sql')
-    res = con.sql(sql)
-    dfe = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/01-f-visao-geral-categoria-mencao.sql')
-    res = con.sql(sql)
-    dff = res.to_df()
-
-    with pd.ExcelWriter(f'{caminho_analises_excel}/01-visao-geral.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='modalidade', index=False)
-        #dfb.to_excel(writer, sheet_name='plataforma', index=False)
-        dfc.to_excel(writer, sheet_name='uf', index=False)
-        dfd.to_excel(writer, sheet_name='classificacao_autoria', index=False)
-        dfe.to_excel(writer, sheet_name='autoria', index=False)
-        dff.to_excel(writer, sheet_name='categoria_mencao', index=False)
-
-'''
-def exportar_ranking_tdn_uf(args, con, caminho_analises_excel)
-'''
-def exportar_ranking_tdn_uf(args, con, caminho_analises_excel):
+def exportar_ranking_tdn_uf(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-a-ranking-tdn-uf-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -92,7 +112,7 @@ def exportar_ranking_tdn_uf(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-uf-tdn.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/02-ranking-uf-tdn.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -100,9 +120,9 @@ def exportar_ranking_tdn_uf(args, con, caminho_analises_excel):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel)
+def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result)
 '''
-def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel):
+def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-f-ranking-tdn-classificacao-autoria-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -123,7 +143,7 @@ def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-classificacao-autoria-tdn.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/02-ranking-classificacao-autoria-tdn.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -131,9 +151,9 @@ def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_tdn_autor(args, con, caminho_analises_excel)
+def exportar_ranking_tdn_autor(args, con, caminho_analises_result)
 '''
-def exportar_ranking_tdn_autor(args, con, caminho_analises_excel):
+def exportar_ranking_tdn_autor(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-k-ranking-tdn-autor-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -154,7 +174,7 @@ def exportar_ranking_tdn_autor(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-autor-tdn.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/02-ranking-autor-tdn.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -162,9 +182,9 @@ def exportar_ranking_tdn_autor(args, con, caminho_analises_excel):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel)
+def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result)
 '''
-def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel):
+def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-p-ranking-tdn-categoria-mencao-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -185,7 +205,7 @@ def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/02-ranking-categoria-mencao-tdn.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/02-ranking-categoria-mencao-tdn.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -193,9 +213,9 @@ def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_flex_uf(args, con, caminho_analises_excel)
+def exportar_ranking_flex_uf(args, con, caminho_analises_result)
 '''
-def exportar_ranking_flex_uf(args, con, caminho_analises_excel):
+def exportar_ranking_flex_uf(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-a-ranking-flex-uf-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -216,7 +236,7 @@ def exportar_ranking_flex_uf(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-uf-flex.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/03-ranking-uf-flex.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -224,9 +244,9 @@ def exportar_ranking_flex_uf(args, con, caminho_analises_excel):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_excel)
+def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result)
 '''
-def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_excel):
+def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-f-ranking-flex-classificacao-autoria-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -247,7 +267,7 @@ def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_exce
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-classificacao-autoria-flex.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/03-ranking-classificacao-autoria-flex.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -255,9 +275,9 @@ def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_exce
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_flex_autor(args, con, caminho_analises_excel)
+def exportar_ranking_flex_autor(args, con, caminho_analises_result)
 '''
-def exportar_ranking_flex_autor(args, con, caminho_analises_excel):
+def exportar_ranking_flex_autor(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-k-ranking-flex-autor-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -278,7 +298,7 @@ def exportar_ranking_flex_autor(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-autor-flex.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/03-ranking-autor-flex.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -286,9 +306,9 @@ def exportar_ranking_flex_autor(args, con, caminho_analises_excel):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel)
+def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result)
 '''
-def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel):
+def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-p-ranking-flex-categoria-mencao-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -309,7 +329,7 @@ def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/03-ranking-categoria-mencao-flex.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/03-ranking-categoria-mencao-flex.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -319,9 +339,9 @@ def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel):
 
 
 '''
-def exportar_ranking_rec_uf(args, con, caminho_analises_excel)
+def exportar_ranking_rec_uf(args, con, caminho_analises_result)
 '''
-def exportar_ranking_rec_uf(args, con, caminho_analises_excel):
+def exportar_ranking_rec_uf(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-a-ranking-rec-uf-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -342,7 +362,7 @@ def exportar_ranking_rec_uf(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-uf-rec.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/04-ranking-uf-rec.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -351,9 +371,9 @@ def exportar_ranking_rec_uf(args, con, caminho_analises_excel):
 
 
 '''
-def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel)
+def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result)
 '''
-def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel):
+def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-f-ranking-rec-classificacao-autoria-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -374,7 +394,7 @@ def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-classificacao-autoria-rec.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/04-ranking-classificacao-autoria-rec.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -382,9 +402,9 @@ def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_rec_autor(args, con, caminho_analises_excel)
+def exportar_ranking_rec_autor(args, con, caminho_analises_result)
 '''
-def exportar_ranking_rec_autor(args, con, caminho_analises_excel):
+def exportar_ranking_rec_autor(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-k-ranking-rec-autor-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -405,7 +425,7 @@ def exportar_ranking_rec_autor(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-autor-rec.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/04-ranking-autor-rec.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -413,9 +433,9 @@ def exportar_ranking_rec_autor(args, con, caminho_analises_excel):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 '''
-def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel)
+def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result)
 '''
-def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel):
+def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-p-ranking-rec-categoria-mencao-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -436,7 +456,7 @@ def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfe = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/04-ranking-categoria-mencao-rec.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/04-ranking-categoria-mencao-rec.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='qtd', index=False)
         dfb.to_excel(writer, sheet_name='tot-arrecad', index=False)
         dfc.to_excel(writer, sheet_name='avg-arrecad', index=False)
@@ -448,9 +468,9 @@ def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel):
 
 
 '''
-def exportar_serie_visao_geral(args, con, caminho_analises_excel)
+def exportar_serie_visao_geral(args, con, caminho_analises_result)
 '''
-def exportar_serie_visao_geral(args, con, caminho_analises_excel):
+def exportar_serie_visao_geral(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-a-visao-geral-plataformas.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -471,7 +491,7 @@ def exportar_serie_visao_geral(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dff = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/11-serie-visao-geral.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/11-serie-visao-geral.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='plataforma', index=False)
         dfb.to_excel(writer, sheet_name='modalidade', index=False)
         dfc.to_excel(writer, sheet_name='uf', index=False)
@@ -480,9 +500,9 @@ def exportar_serie_visao_geral(args, con, caminho_analises_excel):
 
 
 '''
-def exportar_serie_modalidade(args, con, caminho_analises_excel)
+def exportar_serie_modalidade(args, con, caminho_analises_result)
 '''
-def exportar_serie_modalidade(args, con, caminho_analises_excel):
+def exportar_serie_modalidade(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/21-a-modalidade-tudo-ou-nada.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -495,16 +515,16 @@ def exportar_serie_modalidade(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfc = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/21-serie-modalidade.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/21-serie-modalidade.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
         dfb.to_excel(writer, sheet_name='flex', index=False)
         dfc.to_excel(writer, sheet_name='recorrente', index=False)
 
 
 '''
-def exportar_serie_uf(args, con, caminho_analises_excel)
+def exportar_serie_uf(args, con, caminho_analises_result)
 '''
-def exportar_serie_uf(args, con, caminho_analises_excel):
+def exportar_serie_uf(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/31-a-uf-tudo-ou-nada.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -517,16 +537,16 @@ def exportar_serie_uf(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfc = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/31-serie-uf.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/31-serie-uf.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
         dfb.to_excel(writer, sheet_name='flex', index=False)
         dfc.to_excel(writer, sheet_name='recorrente', index=False)
 
 
 '''
-def exportar_serie_classificacao_autoria(args, con, caminho_analises_excel)
+def exportar_serie_classificacao_autoria(args, con, caminho_analises_result)
 '''
-def exportar_serie_classificacao_autoria(args, con, caminho_analises_excel):
+def exportar_serie_classificacao_autoria(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/41-a-classificacao-autoria-tudo-ou-nada.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -539,16 +559,16 @@ def exportar_serie_classificacao_autoria(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfc = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/41-serie-classificacao-autoria.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/41-serie-classificacao-autoria.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
         dfb.to_excel(writer, sheet_name='flex', index=False)
         dfc.to_excel(writer, sheet_name='recorrente', index=False)
 
 
 '''
-def exportar_serie_categoria_mencao(args, con, caminho_analises_excel)
+def exportar_serie_categoria_mencao(args, con, caminho_analises_result)
 '''
-def exportar_serie_categoria_mencao(args, con, caminho_analises_excel):
+def exportar_serie_categoria_mencao(args, con, caminho_analises_result):
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/51-a-categoria-mencao-tudo-ou-nada.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -561,7 +581,7 @@ def exportar_serie_categoria_mencao(args, con, caminho_analises_excel):
     res = con.sql(sql)
     dfc = res.to_df()
 
-    with pd.ExcelWriter(f'{caminho_analises_excel}/51-serie-categoria-mencao.xlsx') as writer:  
+    with pd.ExcelWriter(f'{caminho_analises_result}/51-serie-categoria-mencao.xlsx') as writer:  
         dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
         dfb.to_excel(writer, sheet_name='flex', index=False)
         dfc.to_excel(writer, sheet_name='recorrente', index=False)
@@ -574,41 +594,50 @@ async def executar_report(args)
 async def executar_report(args):
     p1 = datetime.now()
 
-    caminho_analises = f"{CAMINHO_ANALISES}/{args.ano}"
-    caminho_analises_excel = f"{caminho_analises}/excel"
+    caminho_analises = f"{comum.CAMINHO_ANALISES}/{args.ano}"
+
+    caminho_analises_result = f"{caminho_analises}/result"
+    caminho_analises_result_visao_geral = f"{caminho_analises_result}/01-visao-geral"
+    caminhos = [
+        caminho_analises_result
+        #,f"{caminho_analises_result}/00-campanhas"
+        , caminho_analises_result_visao_geral
+    ]
 
     caminho_arq = f"{caminho_analises}/analises_{args.ano}.duckdb"
 
+    for cam in caminhos:
+        if not os.path.exists(cam):
+            os.mkdir(cam)
+
     print(f'executar análises (duckdb): {caminho_arq}')
-
-    if not os.path.exists(caminho_analises_excel):
-        os.mkdir(caminho_analises_excel)
-
     con = duckdb.connect(caminho_arq)
     
-    exportar_dados_brutos(args, con, caminho_analises_excel)
-    exportar_visao_geral(args, con, caminho_analises_excel)
+    dados_campanhas.exportar_dados_campanhas(args, con, caminho_analises_result)
 
-    exportar_ranking_tdn_uf(args, con, caminho_analises_excel)
-    exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_excel)
-    exportar_ranking_tdn_autor(args, con, caminho_analises_excel)    
-    exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_excel)
 
-    exportar_ranking_flex_uf(args, con, caminho_analises_excel)
-    exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_excel)
-    exportar_ranking_flex_autor(args, con, caminho_analises_excel)    
-    exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_excel)
+    visao_geral.exportar_visao_geral(args, con, caminho_analises_result_visao_geral)
 
-    exportar_ranking_rec_uf(args, con, caminho_analises_excel)
-    exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_excel)
-    exportar_ranking_rec_autor(args, con, caminho_analises_excel)    
-    exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_excel)
+    #exportar_ranking_tdn_uf(args, con, caminho_analises_result)
+    #exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result)
+    #exportar_ranking_tdn_autor(args, con, caminho_analises_result)    
+    #exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result)
 
-    exportar_serie_visao_geral(args, con, caminho_analises_excel)
-    exportar_serie_modalidade(args, con, caminho_analises_excel)
-    exportar_serie_uf(args, con, caminho_analises_excel)
-    exportar_serie_classificacao_autoria(args, con, caminho_analises_excel)
-    exportar_serie_categoria_mencao(args, con, caminho_analises_excel)
+    #exportar_ranking_flex_uf(args, con, caminho_analises_result)
+    #exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result)
+    #exportar_ranking_flex_autor(args, con, caminho_analises_result)    
+    #exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result)
+
+    #exportar_ranking_rec_uf(args, con, caminho_analises_result)
+    #exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result)
+    #exportar_ranking_rec_autor(args, con, caminho_analises_result)    
+    #exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result)
+
+    #exportar_serie_visao_geral(args, con, caminho_analises_result)
+    #exportar_serie_modalidade(args, con, caminho_analises_result)
+    #exportar_serie_uf(args, con, caminho_analises_result)
+    #exportar_serie_classificacao_autoria(args, con, caminho_analises_result)
+    #exportar_serie_categoria_mencao(args, con, caminho_analises_result)
 
     p2 = datetime.now()
     delta = p2-p1

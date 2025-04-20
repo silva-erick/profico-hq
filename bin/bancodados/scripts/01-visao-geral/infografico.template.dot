@@ -1,0 +1,72 @@
+digraph "round-table" {
+    graph [fontname = "verdana"];
+    node [fontname = "verdana"];
+    edge [fontname = "verdana"];
+
+    rankdir="LR"
+    label = "Visão geral das campanhas de financiamento coletivo em $(plataformas) entre $(min_ano)-$(max_ano)"
+    node [style="filled"]
+
+    raiz [label="$(campanhas_total) campanhas\nem $(plataformas)\n($(min_ano)-$(max_ano))" fillcolor="#333333" fontcolor=white]
+    camp_pontual [label="$(campanhas_pontuais_total)\ncampanhas\npontuais" fillcolor="#00ff99"]
+    
+    subgraph graph_aon {
+        bgcolor=lightblue
+        
+        camp_pontual_aon [label="$(campanhas_aon_total)\ncampanhas\ntudo ou nada" fillcolor="#0099ff"]
+        camp_pontual_aon_taxa_sucesso[label="$(campanhas_aon_sucesso)%\ntaxa de sucesso" fillcolor="#cceeff"]
+        camp_pontual_aon_arr[label="R$ $(campanhas_aon_total_arrecadado)\ntotal arrecadado" fillcolor="#cceeff"]
+        camp_pontual_aon_arr_med[label="R$ $(campanhas_aon_arrecadacao_media)/campanha\narrecadação média" fillcolor="#cceeff"]
+        camp_pontual_aon_apoio_med[label="R$ $(campanhas_aon_apoio_med)/campanha\napoio médio" fillcolor="#cceeff"]
+        camp_pontual_aon_contr[label="$(campanhas_aon_contr_totais)\ncontribuições totais" fillcolor="#cceeff"]
+        camp_pontual_aon_contr_med[label="$(campanhas_aon_contr_media)/campanha\nmédia de contribuições" fillcolor="#cceeff"]
+    }
+    subgraph graph_flex {
+        bgcolor=red
+        
+        camp_pontual_flex [label="$(campanhas_flex_total)\ncampanhas\nflex" fillcolor="#ff9900"]
+        camp_pontual_flex_taxa_sucesso[label="$(campanhas_flex_sucesso)%\ntaxa de sucesso" fillcolor="#ffeecc"]
+        camp_pontual_flex_arr[label="R$ $(campanhas_flex_total_arrecadado)\ntotal arrecadado" fillcolor="#ffeecc"]
+        camp_pontual_flex_arr_med[label="R$ $(campanhas_flex_arrecadacao_media)/campanha\narrecadação média" fillcolor="#ffeecc"]
+        camp_pontual_flex_apoio_med[label="R$ $(campanhas_flex_apoio_med)/campanha\napoio médio" fillcolor="#ffeecc"]
+        camp_pontual_flex_contr[label="$(campanhas_flex_contr_totais)\ncontribuições totais" fillcolor="#ffeecc"]
+        camp_pontual_flex_contr_med[label="$(campanhas_flex_contr_media)/campanha\nmédia de contribuições" fillcolor="#ffeecc"]
+    }
+    subgraph graph_sub{
+        bgcolor=green
+        
+        camp_sub[label="$(campanhas_sub_total)\ncampanhas\nrecorrentes" fillcolor="#ff0099"]
+        camp_sub_taxa_sucesso[label="$(campanhas_sub_sucesso)%\ntaxa de sucesso" fillcolor="#ffccee"]
+        camp_sub_arr_mensal[label="R$ $(campanhas_sub_total_arrecadado)\ntotal arrecadado mensal" fillcolor="#ffccee"]
+        camp_sub_arr_med_mensal[label="R$ $(campanhas_sub_arrecadacao_media)/campanha\narrecadação média mensal" fillcolor="#ffccee"]
+        camp_sub_apoio_med[label="R$ $(campanhas_sub_apoio_med)/campanha\napoio médio" fillcolor="#ffccee"]
+        camp_sub_contr[label="$(campanhas_sub_contr_totais)\ncontribuições totais" fillcolor="#ffccee"]
+        camp_sub_contr_med[label="$(campanhas_sub_contr_media)/campanha\nmédia de contribuições" fillcolor="#ffccee"]
+    }
+    
+    raiz -> camp_pontual
+    camp_pontual -> camp_pontual_aon
+    camp_pontual_aon -> camp_pontual_aon_taxa_sucesso
+    camp_pontual_aon -> camp_pontual_aon_arr
+    camp_pontual_aon -> camp_pontual_aon_arr_med
+    camp_pontual_aon -> camp_pontual_aon_apoio_med
+    camp_pontual_aon -> camp_pontual_aon_contr
+    camp_pontual_aon -> camp_pontual_aon_contr_med
+
+    camp_pontual -> camp_pontual_flex
+    camp_pontual_flex -> camp_pontual_flex_taxa_sucesso
+    camp_pontual_flex -> camp_pontual_flex_arr
+    camp_pontual_flex -> camp_pontual_flex_arr_med
+    camp_pontual_flex -> camp_pontual_flex_apoio_med
+    camp_pontual_flex -> camp_pontual_flex_contr
+    camp_pontual_flex -> camp_pontual_flex_contr_med
+
+    raiz -> camp_sub
+    camp_sub -> camp_sub_taxa_sucesso
+    camp_sub -> camp_sub_arr_mensal
+    camp_sub -> camp_sub_arr_med_mensal
+    camp_sub -> camp_sub_apoio_med
+    camp_sub -> camp_sub_contr
+    camp_sub -> camp_sub_contr_med
+    
+}

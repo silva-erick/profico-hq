@@ -1,6 +1,6 @@
 WITH cte_campanhas as (
 	SELECT	d.nome 			campanha_origem
-			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome)	campanha_status
+			,IF(geral_arrecadado_corrigido=0, 'Falha', sc.nome) campanha_status
 			,mc.nome		campanha_modalidade
 			,COALESCE(uf.acronimo,'XX')	uf
 			,m.nome			municipio
@@ -57,21 +57,47 @@ WITH cte_campanhas as (
 	LEFT	JOIN	UnidadeFederativa uf
 	ON 		uf.uf_id=m.uf_id
 )
-SELECT	campanha_modalidade, uf
-		, COUNT(1) qtd
-		, AVG(geral_posts) filter(campanha_status != 'Falha' ) tn_avg_posts
-		, AVG(geral_posts) filter(campanha_status == 'Falha' ) tn_avg_posts_falha
-		, AVG(geral_total_contribuicoes) filter(campanha_status != 'Falha' ) tn_avg_contribuicoes
-		, AVG(geral_total_contribuicoes) filter(campanha_status == 'Falha' ) tn_avg_contribuicoes_falha
-		, SUM(geral_arrecadado_corrigido) filter(campanha_status != 'Falha' ) tn_tot_arrecadado
-		, SUM(geral_arrecadado_corrigido) filter(campanha_status != 'Falha' )
-			/ COUNT(1) filter(campanha_status != 'Falha' )
-			tn_avg_arrecadado
-		, MAX(geral_arrecadado_corrigido) filter(campanha_status != 'Falha' ) tn_max_arrecadado
-		, 100.0*ROUND(COUNT(1) filter( campanha_status != 'Falha' )
-				/ COUNT(1)
-			, 3)
-			tn_txsucesso
-FROM	cte_campanhas
-GROUP	BY campanha_modalidade, uf
-ORDER	BY 1, 2, 3 desc
+, cte_analise as (
+	SELECT	campanha_modalidade
+			, campanha_origem
+			, COUNT(1) qtd
+			, MIN(ano) min_ano
+			, MAX(ano) max_ano
+			, ROUND(
+				SUM(geral_posts) filter( campanha_status != 'Falha' )
+				/ COUNT(1) filter( campanha_status != 'Falha' )
+				, 2)
+				avg_posts
+			, ROUND(
+				SUM(geral_posts) filter( campanha_status == 'Falha' )
+				/ COUNT(1) filter( campanha_status == 'Falha' )
+				, 2)
+				avg_posts_falha
+			, ROUND(
+				SUM(geral_total_contribuicoes) filter( campanha_status != 'Falha' )
+				/ COUNT(1) filter( campanha_status != 'Falha' )
+				, 2)
+				avg_contribuicoes
+			, ROUND(
+				SUM(geral_total_contribuicoes) filter( campanha_status == 'Falha' )
+				/ COUNT(1) filter( campanha_status == 'Falha' )
+				, 2)
+				avg_contribuicoes_falha
+			, SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) tot_arrecadado
+			, ROUND(
+				SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' )
+				/ COUNT(1) filter( campanha_status != 'Falha' )
+				, 2)
+				avg_arrecadado
+			, MAX(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' ) max_arrecadado
+			, ROUND(100.0*COUNT(1) filter( campanha_status != 'Falha' )
+					/ COUNT(1)
+				, 1)
+				txsucesso
+	FROM	cte_campanhas
+	GROUP	BY campanha_modalidade
+			, campanha_origem
+)
+SELECT	*
+FROM	cte_analise
+ORDER	BY 1, 2
