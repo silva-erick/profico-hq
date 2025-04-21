@@ -157,9 +157,9 @@ def construir_comando_campanha(campanha, campanha_id):
         geral_contributed_by_friends=0
     geral_capa_imagem = campanha['geral_capa_imagem']
     geral_capa_video = campanha['geral_capa_video']
-    geral_dias_campanha = campanha['geral_dias_campanha']
     geral_data_fim = tratar_valor_data_null(campanha['geral_data_fim'])    
     geral_data_ini = tratar_valor_data_null(campanha['geral_data_ini'])
+    geral_dias_campanha = campanha['geral_dias_campanha']
     
     geral_meta = tratar_valor_num_null(campanha['geral_meta'])
     geral_meta_corrigida = tratar_valor_num_null(campanha['geral_meta_corrigida'])
@@ -298,7 +298,7 @@ WHERE   NOT EXISTS (
     	,geral_contributed_by_friends=geral_contributed_by_friends
     	,geral_capa_imagem=geral_capa_imagem
     	,geral_capa_video=geral_capa_video
-    	,geral_dias_campanha=geral_capa_video
+    	,geral_dias_campanha=geral_dias_campanha
     	,geral_data_fim=geral_data_fim
     	,geral_data_ini=geral_data_ini
     	,geral_meta=geral_meta
@@ -375,6 +375,17 @@ def executar_carga_campanhas(args):
         #sql = comando_campanha_obterid()
         #campanha_id = con.sql(sql).fetchall()[0][0]
         campanha_id = campanha_id + 1
+
+        geral_data_fim = campanha['geral_data_fim']
+        geral_data_ini = campanha['geral_data_ini']
+        geral_dias_campanha = campanha['geral_dias_campanha']
+    
+        if geral_dias_campanha is None:
+            geral_data_fim = f'{args.ano}-12-31'
+            campanha['geral_data_fim'] = geral_data_fim
+            geral_dias_campanha = formatos.calcular_diferenca_dias(geral_data_ini, geral_data_fim)
+            campanha['geral_dias_campanha'] = geral_dias_campanha
+
         sql = construir_comando_campanha(campanha, campanha_id)
         try:
             con.sql(sql)
