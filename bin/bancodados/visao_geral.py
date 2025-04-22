@@ -42,7 +42,7 @@ def exportar_visao_geral(args, con, caminho_analises_result):
         dfc.to_excel(writer, sheet_name='uf', index=False)
         dfd.to_excel(writer, sheet_name='classificacao_autoria', index=False)
         dfe.to_excel(writer, sheet_name='autoria', index=False)
-        dff.to_excel(writer, sheet_name='categoria_mencao', index=False)
+        dff.to_excel(writer, sheet_name='categoria', index=False)
 
     valores_mapeados = {}
     valores_mapeados['plataformas'] = 'Apoia.se e Catarse'

@@ -111,4 +111,4 @@ WITH cte_campanhas as (
 )
 SELECT	*
 FROM	cte_analise
-ORDER	BY 1, 2, 3
+ORDER	BY 1, 4 desc, 2, 3
