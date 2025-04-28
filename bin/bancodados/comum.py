@@ -100,7 +100,7 @@ def gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, titulo_grafico, t
     plt.grid(True)
 
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
-    plt.savefig(f'{pasta_img}/{arquivo}.png')
+    plt.savefig(f'{pasta_img}/{arquivo}')
 
     plt.close('all')
 
@@ -137,6 +137,7 @@ def gerar_grafico_barras_2series(pasta_img, arquivo, df, col_x, col_y1, col_y2, 
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel(titulo_eixo_y)
+    ax.set_xlabel(titulo_eixo_x)
     ax.set_title(titulo_grafico)
     ax.set_xticks(x)
     ax.set_xticklabels(df[col_x])
@@ -170,7 +171,7 @@ def gerar_grafico_barras_2series(pasta_img, arquivo, df, col_x, col_y1, col_y2, 
     # plt.grid(True)
 
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
-    plt.savefig(f'{pasta_img}/{arquivo}.png')
+    plt.savefig(f'{pasta_img}/{arquivo}')
 
     plt.close('all')
 
@@ -227,7 +228,7 @@ def gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titu
     plt.grid(True)
 
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
-    plt.savefig(f'{pasta_img}/{arquivo}.png', bbox_inches='tight')
+    plt.savefig(f'{pasta_img}/{arquivo}', bbox_inches='tight')
 
     plt.close('all')
 
@@ -292,7 +293,7 @@ def gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, co
     plt.grid(True)
 
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
-    plt.savefig(f'{pasta_img}/{arquivo}.png', bbox_inches='tight')
+    plt.savefig(f'{pasta_img}/{arquivo}', bbox_inches='tight')
 
     plt.close('all')
 

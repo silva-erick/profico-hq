@@ -74,46 +74,46 @@ def exportar_visao_geral(args, con, caminho_analises_result):
     # gráficos para plataformas, por modalidades
     gerar_graficos(dfb[
              (dfb['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '31-tudo_ou_nada', 'Modalidade Tudo ou Nada', 'plataformas', 'campanha_origem', (10, 6))
+         ], caminho_analises_result, '31-tudo_ou_nada-plataformas', 'Modalidade Tudo ou Nada', 'plataformas', 'campanha_origem', (10, 6))
     gerar_graficos(dfb[
              (dfb['campanha_modalidade']=='Flex')
-         ], caminho_analises_result, '32-flex', 'Modalidade Flex', 'plataformas', 'campanha_origem', (10, 6))
+         ], caminho_analises_result, '32-flex-plataformas', 'Modalidade Flex', 'plataformas', 'campanha_origem', (10, 6))
     gerar_graficos(dfb[
              (dfb['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '33-recorrente', 'Modalidade Recorrente', 'plataformas', 'campanha_origem', (10, 6))
+         ], caminho_analises_result, '33-recorrente-plataformas', 'Modalidade Recorrente', 'plataformas', 'campanha_origem', (10, 6))
 
     # gráficos para unidade federativa, por modalidades
     gerar_graficos(dfc[
              (dfc['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '41-tudo_ou_nada', 'Modalidade Tudo ou Nada', 'unidade federativa', 'uf', (10, 6))
+         ], caminho_analises_result, '41-tudo_ou_nada-uf', 'Modalidade Tudo ou Nada', 'unidade federativa', 'uf', (10, 6))
     gerar_graficos(dfc[
              (dfc['campanha_modalidade']=='Flex')
-         ], caminho_analises_result, '42-flex', 'Modalidade Flex', 'unidade federativa', 'uf', (10, 6))
+         ], caminho_analises_result, '42-flex-uf', 'Modalidade Flex', 'unidade federativa', 'uf', (10, 6))
     gerar_graficos(dfc[
              (dfc['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '43-recorrente', 'Modalidade Recorrente', 'unidade federativa', 'uf', (10, 6))
+         ], caminho_analises_result, '43-recorrente-uf', 'Modalidade Recorrente', 'unidade federativa', 'uf', (10, 6))
 
     # gráficos para classificação autoria, por modalidades
     gerar_graficos(dfd[
              (dfd['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '51-tudo_ou_nada', 'Modalidade Tudo ou Nada', 'classificação de autoria', 'autor_classificacao', (10, 6))
+         ], caminho_analises_result, '51-tudo_ou_nada-class_autoria', 'Modalidade Tudo ou Nada', 'classificação de autoria', 'autor_classificacao', (10, 6))
     gerar_graficos(dfd[
              (dfd['campanha_modalidade']=='Flex')
-         ], caminho_analises_result, '52-flex', 'Modalidade Flex', 'classificação de autoria', 'autor_classificacao', (10, 6))
+         ], caminho_analises_result, '52-flex-class_autoria', 'Modalidade Flex', 'classificação de autoria', 'autor_classificacao', (10, 6))
     gerar_graficos(dfd[
              (dfd['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '53-recorrente', 'Modalidade Recorrente', 'classificação de autoria', 'autor_classificacao', (10, 6))
+         ], caminho_analises_result, '53-recorrente-class_autoria', 'Modalidade Recorrente', 'classificação de autoria', 'autor_classificacao', (10, 6))
 
-    # gráficos para classificação autoria, por modalidades
+    # gráficos para categoria de conteúdo, por modalidades
     gerar_graficos(dff[
              (dff['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '61-tudo_ou_nada', 'Modalidade Tudo ou Nada', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
+         ], caminho_analises_result, '61-tudo_ou_nada-categ_conteudo', 'Modalidade Tudo ou Nada', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
     gerar_graficos(dff[
              (dff['campanha_modalidade']=='Flex')
-         ], caminho_analises_result, '62-flex', 'Modalidade Flex', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
+         ], caminho_analises_result, '62-flex-categ_conteudo', 'Modalidade Flex', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
     gerar_graficos(dff[
              (dff['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '63-recorrente', 'Modalidade Recorrente', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
+         ], caminho_analises_result, '63-recorrente-categ_conteudo', 'Modalidade Recorrente', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
 
 
 
