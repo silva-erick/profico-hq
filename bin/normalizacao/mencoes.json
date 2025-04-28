@@ -7,8 +7,7 @@
 		"contem":[
 			"sal[aã]o\\s*d[eo]\\s*humor",
 			"sal[aã]o\\s*universit[áa]rio\\s*d[eo]\\s*humor",
-			"sal[aã]o\\s*internacional\\s*d[eo]\\s*humor",
-			""
+			"sal[aã]o\\s*internacional\\s*d[eo]\\s*humor"
 		]
 	},
 	"hqmix":{
@@ -17,8 +16,7 @@
         "comeca_com":[
 		],
 		"contem":[
-			"hqmix",
-			""
+			"hqmix"
 		]
 	},
 	"ccxp":{
@@ -27,8 +25,7 @@
         "comeca_com":[
 		],
 		"contem":[
-			"ccxp",
-			""
+			"ccxp"
 		]
 	},
 	"fiq":{
@@ -38,8 +35,7 @@
 		],
 		"contem":[
 			"festiva(l|is)\\s*internaciona(l|is)(\\s*de){0,1}\\s*quadrinhos*",
-			"fiq",
-			""
+			"fiq"
 		]
 	},
 	"angelo_agostini":{
@@ -48,8 +44,7 @@
         "comeca_com":[
 		],
 		"contem":[
-			"[âa]ngelo[\\s\\w]+agostini",
-			""
+			"[âa]ngelo[\\s\\w]+agostini"
 		]
 	},
 	"politica":{
@@ -85,9 +80,7 @@
 			"rep[uú]blic",
 			"senador",
 			"socialis",
-			"vereador",
-
-			""
+			"vereador"
 		]
 	},
 	"questoes_genero":{
@@ -120,8 +113,7 @@
 			"patriarc",
 			"sexismo",
 			"viol[eê]ncia\\s*dom[eé]stica",
-			"woke",
-			""
+			"woke"
 		]
 	},
 	"lgbtqiamais":{
@@ -173,8 +165,7 @@
 			"transg[eê]ner",
 			"traveco",
 			"travesti",
-			"woke",
-			""
+			"woke"
 		]
 	},
 	"terror":{
@@ -183,12 +174,12 @@
         "comeca_com":[
 		],
 		"contem":[
+			"apavorante",
 			"as+ustador",
-			"assombrad",
+			"as+ombrad",
 			"cemit[eé]rio",
 			"claustrof[óo]b",
 			"dem[oôó]ni[ao]",
-			"desespero",
 			"esp[ií]rit",
 			"fantasma",
 			"godzila",
@@ -202,6 +193,7 @@
 			"maldit[ao]",
 			"medo",
 			"monstro",
+			"pavor",
 			"pos+es+[aã]o",
 			"sinistr",
 			"slasher",
@@ -209,8 +201,7 @@
 			"vampir",
 			"zombi",
 			"zombie",
-			"zumbi",
-			""
+			"zumbi"
 		]
 	},
 	"humor":{
@@ -229,8 +220,7 @@
 			"piada",
 			"risada",
 			"sarro",
-			"z[ou][eê]i*ra",
-			""
+			"z[ou][eê]i*ra"
 		]
 	},
 	"herois":{
@@ -242,8 +232,7 @@
 			"her[oó]i",
 			"hero[íi]na",
 			"super[\\s\\-]*poder",
-			"super[\\s\\-]*vil",
-			""
+			"super[\\s\\-]*vil"
 		]
 	},
 	"disputa":{
@@ -281,8 +270,7 @@
 			"quartel",
 			"ringue",
 			"soldad",
-			"taekwond[oô]",
-			""
+			"taekwond[oô]"
 		]
 	},
 	"ficcao_cientifica":{
@@ -311,8 +299,7 @@
 			"taikonauta",
 			"tecnologia",
 			"viage[nm]\\s*(espacial|\\s*no\\s*tempo)",
-			"zumb[oô]",
-			""
+			"zumb[oô]"
 		]
 	},
 	"fantasia":{
@@ -336,8 +323,7 @@
 			"flecha",
 			"m[aá]gico",
 			"magia",
-			"troll",
-			""
+			"troll"
 		]
 	},
 	"folclore":{
@@ -359,8 +345,7 @@
 			"mula[\\s*-]sem[\\s*-]cabe",
 			"saci",
 			"sereia",
-			"supersti",
-			""
+			"supersti"
 		]
 	},
 	"zine":{
@@ -369,8 +354,7 @@
         "comeca_com":[
 		],
 		"contem":[
-			"zine",
-			""
+			"zine"
 		]
 	},
 	"webformatos":{
@@ -379,8 +363,7 @@
         "comeca_com":[
 		],
 		"contem":[
-			"web[\\s\\-]*(comic|quadrinh|tirinh|zine|toon)",
-			""
+			"web[\\s\\-]*(comic|quadrinh|tirinh|zine|toon)"
 		]
 	},
 	"erotismo":{
@@ -406,8 +389,7 @@
 			"sadomasoquist",
 			"sexo",
 			"sexualidade",
-			"vagina",
-			""
+			"vagina"
 		]
 	},
 	"religiosidade":{
@@ -460,8 +442,7 @@
 			"sobrenatural",
 			"templo",
 			"terreiro",
-			"umbanda",
-			""
+			"umbanda"
 		]
 	},
 	"jogos":{
@@ -478,8 +459,7 @@
 			"jogo",
 			"tabuleiro",
 			"vit[oó]ria",
-			"xadrez",
-			""
+			"xadrez"
 		]
 	},
 	"midia_independente":{
@@ -491,8 +471,7 @@
 			"conte[uúdo]\\s*(independente|contra[\\-\\s]*hegem[ôo]nic)",
 			"(meu|nosso)\\s*(canal|blog|youtube|podcast|site)",
 			"(minha|nossa)\\s*p[áa]gina",
-			"produto(r(a|es|as)*|[cç][aã]o)*\\s*de\\s*conte[uú]do",
-			""
+			"produto(r(a|es|as)*|[cç][aã]o)*\\s*de\\s*conte[uú]do"
 		]
 	}
 }
