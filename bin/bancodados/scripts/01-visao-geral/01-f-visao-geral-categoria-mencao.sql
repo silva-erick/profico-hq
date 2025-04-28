@@ -76,12 +76,12 @@ WITH cte_campanhas as (
 			, ROUND(
 				SUM(geral_posts) filter( campanha_status != 'Falha' )
 				/ COUNT(1) filter( campanha_status != 'Falha' )
-				, 2)
+				, 1)
 				avg_posts
 			, ROUND(
 				SUM(geral_posts) filter( campanha_status == 'Falha' )
 				/ COUNT(1) filter( campanha_status == 'Falha' )
-				, 2)
+				, 1)
 				avg_posts_falha
 			, ROUND(
 				SUM(geral_total_contribuicoes) filter( campanha_status != 'Falha' )
@@ -107,7 +107,7 @@ WITH cte_campanhas as (
 			, ROUND(
 				SUM(geral_arrecadado_corrigido) filter( campanha_status != 'Falha' )
 				/ SUM(geral_total_contribuicoes) filter( campanha_status != 'Falha' )
-				, 2)
+				, 1)
 				avg_apoio
 			, ROUND(100.0*COUNT(1) filter( campanha_status != 'Falha' )
 					/ COUNT(1)

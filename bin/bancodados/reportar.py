@@ -14,9 +14,9 @@ import bancodados.dados_campanhas as dados_campanhas
 import bancodados.visao_geral as visao_geral
 
 
-"""
+'''
 Obter o template de infográfico
-"""
+'''
 def obter_template_infografico(dot_template, df) -> str:
 
     # lista_plataformas = []

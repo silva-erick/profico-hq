@@ -71,7 +71,7 @@ def construir_comando_autor(campanha):
     autoria_nome_publico = campanha['autoria_nome_publico']
     autoria_nome_publico = autoria_nome_publico.replace("'", "''")
     autoria_classificacao_id = campanha['autoria_classificacao_id']
-    template = """
+    template = '''
 INSERT INTO Autor (
      autor_id
 	,origemdados_id
@@ -92,7 +92,7 @@ WHERE   NOT EXISTS (
     WHERE   origemdados_id={origemdados_id}
     AND     original_id='{original_id}'
 )
-    """
+    '''
 
     sql = template.format(
         origemdados_id=origemdados_id
@@ -196,7 +196,7 @@ def construir_comando_campanha(campanha, campanha_id):
     geral_sobre = geral_sobre.replace("'", "''")
 
  
-    template = """
+    template = '''
 INSERT INTO Campanha (
 	 campanha_id
 	,origemdados_id
@@ -276,7 +276,7 @@ WHERE   NOT EXISTS (
     WHERE   origemdados_id={origemdados_id}
     AND     original_id='{original_id}'
 )
-    """
+    '''
 
     sql = template.format(
         campanha_id = campanha_id
@@ -321,7 +321,7 @@ WHERE   NOT EXISTS (
 
 
 def construir_comando_mencao(mencao, campanha_id):
-    template = """
+    template = '''
 INSERT INTO CategoriaMencaoCampanha (
      categoriamencao_id
 	,campanha_id
@@ -330,7 +330,7 @@ SELECT  categoriamencao_id
 	,{campanha_id}
 FROM    CategoriaMencao
 WHERE   nome='{mencao}'
-    """
+    '''
 
     sql = template.format(
         campanha_id=campanha_id
