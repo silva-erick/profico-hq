@@ -10,11 +10,11 @@ import json
 import uuid
 
 
-'''
+"""
 def testar_regex(text, pattern)
 
 testar regex
-'''
+"""
 def testar_regex(text, pattern):
     if not (pattern.search(text) is None):
         return True
@@ -22,13 +22,13 @@ def testar_regex(text, pattern):
         return False
 
 
-'''
+"""
 def carregar_campanhas_normalizadas(args)
-'''
+"""
 def carregar_campanhas_normalizadas(args):
     campanhas = []
     caminho = f'{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}'
-    logs.verbose(args.verbose, f'carregar campanhas normalizadas, caminho: {caminho}')
+    logs.verbose(args, f'carregar campanhas normalizadas, caminho: {caminho}')
 
     if not os.path.exists(caminho):
         return False
@@ -57,13 +57,13 @@ def carregar_campanhas_normalizadas(args):
 
     return campanhas
 
-'''
+"""
 def gravar_campanhas(args, campanhas)
 
 gravar campanhas
-'''
+"""
 def gravar_campanhas(args, campanhas):
-    logs.verbose(args.verbose, "atualizar campanhas")
+    logs.verbose(args, "atualizar campanhas")
     quantidade_campanhas = 0
     res = True
     for data in campanhas:
@@ -77,7 +77,7 @@ def gravar_campanhas(args, campanhas):
 
         except Exception as e:
             # Lidar com a exceção, se necessário
-            logs.verbose(args.verbose, f"Erro ao gravar arquivo normalizado {arquivo_dados}: {e}")
+            logs.verbose(args, f"Erro ao gravar arquivo normalizado {arquivo_dados}: {e}")
 
         if not res:
             break

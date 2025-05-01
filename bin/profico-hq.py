@@ -1,77 +1,65 @@
+"""
+Comandos disponíveis:
+- raspar: obter dados nas fontes de dados
+- normalizar: normalizar os dados, preparando para carga em banco de dados
+- montar_bd: montar o banco de dados em duckdb
+- reportar: reportar os dados a partir do duckdb
+"""
+
 import asyncio
 import argparse
 import raspagem.raspar
 import normalizacao.normalizar
-import normalizacao.categorizar_texto_com_lda
-import normalizacao.extrair_entidades
 import bancodados.bd
 import bancodados.reportar
 
-'''
-async def raspar(args)
-- acionar o módulo de raspagem de dados
-'''
+
 async def raspar(args):
+    """
+    async def raspar(args)
+    - acionar o módulo de raspagem de dados
+    """
     print("Executando o comando 'raspar'")
 
     await raspagem.raspar.executar_raspagem(args)
 
-'''
-async def normalizar(args)
-- normalizar dados
-'''
 async def normalizar(args):
+    """
+    acionar o módulo de normalização de dados
+    """
     print(f"Executando o comando 'normalizar' com o ano {args.ano}")
 
     await normalizacao.normalizar.executar_normalizacao(args)
 
-'''
-async def categorizar_campanhas_com_lda(args)
-- categorizar campanhas com LDA
-'''
-async def categorizar_campanhas_com_lda(args):
-    print(f"Executando o comando 'categorizar_lda' com o ano {args.ano}")
 
-    await normalizacao.categorizar_texto_com_lda.executar_categorizacao_texto(args)
-
-'''
-async def extrair_entidades(args)
-- extrair entidades do texto
-'''
-async def extrair_entidades(args):
-    print(f"Executando o comando 'extrair_entidades' com o ano {args.ano}")
-
-    await normalizacao.extrair_entidades.executar_extracao_entidades(args)
-
-
-'''
-async def montar_bd(args)
-- montar banco de dados
-'''
 async def montar_bd(args):
+    """
+    montar banco de dados
+    """
     print(f"Executando o comando 'montar banco de dados' com o ano {args.ano}")
 
     await bancodados.bd.executar_montarbd(args)
 
-'''
-async def reportar(args)
-- reportar
-'''
 async def reportar(args):
+    """
+    reportar a partir de consultas no banco de dados
+    """
     print(f"Executando o comando 'reportar' com o ano {args.ano}")
 
     await bancodados.reportar.executar_report(args)
 
 
-'''
-async def main()
-- parse da linha de comando
-- acionamento de um dos comandos do profico:
--- raspar dados
--- normalizar
--- reportar
-'''
 async def main():
+    """
+    executa o programa profico-hq:
+    - parse da linha de comando
+    - acionamento de um dos comandos do profico:
+    -- raspar dados
+    -- normalizar
+    -- montar_bd
+    -- reportar
+    """
+
     parser = argparse.ArgumentParser(
         prog = "profico-hq",
         description='Suite de processamento de campanhas de financiamento coletivo de histórias em quadrinhos')        
@@ -109,42 +97,6 @@ async def main():
                     , required=True
                     , help="obrigatório. informe o ano limite para realizar a normalização dos dados.")
     parser_normalizar.set_defaults(func=normalizar)
-
-
-    # # Subcomando 'categorizar_lda'
-    # parser_reportar = subparsers.add_parser("categorizar_lda"
-    #                 , help="Categorizar texto das campanhas normalizadas com LDA.")
-    # parser_reportar.add_argument('-v', '--verbose'
-    #                 , action='store_true'
-    #                 , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
-    # parser_reportar.add_argument('-l', '--loglevel'
-    #                 , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
-    #                 , nargs='?'
-    #                 , default='ERROR'
-    #                 , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
-    # parser_reportar.add_argument("-a", "--ano"
-    #                 , type=int
-    #                 , required=True
-    #                 , help="obrigatório. informe o ano limite para a construção do banco de dados.")
-    # parser_reportar.set_defaults(func=categorizar_campanhas_com_lda)
-
-
-    # # Subcomando 'extrair_entidades'
-    # parser_reportar = subparsers.add_parser("extrair_entidades"
-    #                 , help="Extrair entidades das campanhas normalizadas.")
-    # parser_reportar.add_argument('-v', '--verbose'
-    #                 , action='store_true'
-    #                 , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
-    # parser_reportar.add_argument('-l', '--loglevel'
-    #                 , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
-    #                 , nargs='?'
-    #                 , default='ERROR'
-    #                 , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
-    # parser_reportar.add_argument("-a", "--ano"
-    #                 , type=int
-    #                 , required=True
-    #                 , help="obrigatório. informe o ano limite para a construção do banco de dados.")
-    # parser_reportar.set_defaults(func=extrair_entidades)
 
 
     # Subcomando 'montar_banco'

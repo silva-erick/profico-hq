@@ -63,13 +63,13 @@ uf_brasileiras = [
         ]
 
 nomes_com_genero = {}
-'''
+"""
 async def carregar_arquivos_frequencia_nomes(args)
 
 carregar arquivos de frequências de nome
-'''
+"""
 async def carregar_arquivos_frequencia_nomes(args):
-    logs.verbose(args.verbose, 'thread: carregando dicionário de nomes')
+    logs.verbose(args, 'thread: carregando dicionário de nomes')
 
     # referência: https://brasil.io/dataset/genero-nomes/nomes/
     # baixado em 2024-01-13
@@ -103,14 +103,14 @@ async def carregar_arquivos_frequencia_nomes(args):
     return True
 
 
-'''
+"""
 def carregar_arquivo_padroes(args, caminho_arquivo, cats, precisos, comeca_com, contem)
 
 carregar arquivo JSON de padrões, contendo padrões de:
 - preciso
 - começa com
 - contém
-'''
+"""
 def carregar_arquivo_padroes(args, caminho_arquivo, cats, precisos, comeca_com, contem):
     # abrir arquivo
     try:
@@ -135,7 +135,7 @@ def carregar_arquivo_padroes(args, caminho_arquivo, cats, precisos, comeca_com, 
         return True
     except Exception as e:
         # Lidar com a exceção, se necessário
-        logs.verboseerror(f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
+        logs.verbose_error(args, f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
         return False
     finally:
         # Certifique-se de fechar o arquivo, mesmo em caso de exceção
@@ -146,14 +146,14 @@ autorias_precisos = {}
 autorias_comeca_com={}
 autorias_contem={}
 
-'''
+"""
 async def carregar_autorias_padroes(args)
 
 carregar arquivo JSON de padrões de autorias
-'''
+"""
 async def carregar_autorias_padroes(args):
 
-    logs.verbose(args.verbose, f"thread: carregando arquivo de padrões - autoria")
+    logs.verbose(args, f"thread: carregando arquivo de padrões - autoria")
 
     return carregar_arquivo_padroes(
         args,
@@ -173,14 +173,14 @@ async def carregar_autorias_padroes(args):
 mencoes_padroes_precisos = {}
 mencoes_padroes_comeca_com = {}
 mencoes_padroes_contem = {}
-'''
+"""
 async def carregar_mencoes_padroes(args)
 
 carregar arquivo JSON de padrões de menções
-'''
+"""
 async def carregar_mencoes_padroes(args):
 
-    logs.verbose(args.verbose, f"thread: carregando arquivo de padrões - menções")
+    logs.verbose(args, f"thread: carregando arquivo de padrões - menções")
 
     return carregar_arquivo_padroes(
         args,
@@ -214,11 +214,11 @@ async def carregar_mencoes_padroes(args):
         )
 
 
-'''
+"""
 def carregar_json(caminho)
 
 carregar arquivo JSON
-'''
+"""
 def carregar_json(args, caminho, holder):
     result = {}
     result['sucesso'] = False
@@ -240,7 +240,7 @@ def carregar_json(args, caminho, holder):
         result['sucesso'] = True
     except Exception as e:
         # Lidar com a exceção, se necessário
-        logs.verbose(args.verbose, f"Erro ao ler o arquivo: {e}")
+        logs.verbose(args, f"Erro ao ler o arquivo: {e}")
 
     finally:
         # Certifique-se de fechar o arquivo, mesmo em caso de exceção
@@ -250,35 +250,35 @@ def carregar_json(args, caminho, holder):
         return result
 
 conversao_monetaria = {}
-'''
+"""
 async def carregar_conversao_monetaria(args)
 
 carregar JSON de conversão monetária
-'''
+"""
 async def carregar_conversao_monetaria(args):
 
     ano = args.ano
 
-    logs.verbose(args.verbose, "thread: carregar arquivos de conversão monetária")
+    logs.verbose(args, "thread: carregar arquivos de conversão monetária")
 
     result = carregar_json(args, caminhos.CAMINHO_BRUTO_CONVERSAO_MONETARIA, conversao_monetaria)
     if result['sucesso']:
         # existe data de dezembro do ano selecionado?
         ano = str(ano * 100 + 12)
         if (not ano in conversao_monetaria) or (conversao_monetaria[ano] is None):
-            logs.verbose(args.verbose, f"Não existe conversão de valores monetários em dezembro/{ano}")
+            logs.verbose(args, f"Não existe conversão de valores monetários em dezembro/{ano}")
             result['sucesso'] = False
     return result['sucesso']
 
 albuns = {}
-'''
+"""
 async def carregar_albuns(args):
 
 carregar JSON de álbuns
-'''
+"""
 async def carregar_albuns(args):
 
-    logs.verbose(args.verbose, "thread: carregar arquivos de álbuns")
+    logs.verbose(args, "thread: carregar arquivos de álbuns")
 
     result = carregar_json(args, caminhos.CAMINHO_BRUTO_ALBUNS, albuns)
 
@@ -286,24 +286,24 @@ async def carregar_albuns(args):
 
 
 municipios = []
-'''
+"""
 async def carregar_municipios(args)
 
 carregar JSON de municípios
-'''
+"""
 async def carregar_municipios(args):
 
-    logs.verbose(args.verbose, "thread: carregar municípios")
+    logs.verbose(args, "thread: carregar municípios")
 
     result = carregar_json(args, caminhos.CAMINHO_BRUTO_MUNICIPIOS, municipios)
 
     return result['sucesso']
 
-'''
+"""
 def ajustar_valor(ano_ini, mes_ini, valor_ini, ano_fim, mes_fim)
 
 ajustar valor usando a tabela de conversão monetária
-'''
+"""
 def ajustar_valor(ano_ini, mes_ini, valor_ini, ano_fim, mes_fim):
     anomes_ini = str(ano_ini * 100 + mes_ini)
     anomes_fim = str(ano_fim * 100 + mes_fim)
@@ -313,11 +313,11 @@ def ajustar_valor(ano_ini, mes_ini, valor_ini, ano_fim, mes_fim):
 
     return (valor_ini/conversao_monetaria[anomes_ini]) * conversao_monetaria[anomes_fim]
 
-'''
+"""
 def adaptar_apoiase(campanha_apoiase)
 
 adaptar campanhas do apoiase
-'''
+"""
 def adaptar_apoiase(campanha_apoiase):
     data = {}
     data['detail'] = {}
@@ -420,13 +420,13 @@ def adaptar_apoiase(campanha_apoiase):
 
 campanhas_apoiase = []
 
-'''
+"""
 async def carregar_campanhas_apoiase(args)
 
 carregar campanhas do apoiase
-'''
+"""
 async def carregar_campanhas_apoiase(args):
-    logs.verbose(args.verbose, 'thread: campanhas apoia.se')
+    logs.verbose(args, 'thread: campanhas apoia.se')
     if not os.path.exists(caminhos.CAMINHO_BRUTO_CAMPANHAS_APOIASE):
         return False
     
@@ -471,18 +471,18 @@ async def carregar_campanhas_apoiase(args):
                 print('.', end='', flush=True)
 
     print('.')
-    logs.verbose(args.verbose, f'\tcampanhas encontradas: {quantidade_campanhas}')
+    logs.verbose(args, f'\tcampanhas encontradas: {quantidade_campanhas}')
     return True
 
 
 campanhas_catarse=[]
-'''
+"""
 async def carregar_campanhas_catarse(args)
 
 carregar campanhas do catarse
-'''
+"""
 async def carregar_campanhas_catarse(args):
-    logs.verbose(args.verbose, 'thread: campanhas catarse')
+    logs.verbose(args, 'thread: campanhas catarse')
     if not os.path.exists(caminhos.CAMINHO_BRUTO_CAMPANHAS_CATARSE):
         return False
     
@@ -527,36 +527,36 @@ async def carregar_campanhas_catarse(args):
     if args.verbose:
         print('.')
 
-    logs.verbose(args.verbose, f'\tcampanhas encontradas: {quantidade_campanhas}')
+    logs.verbose(args, f'\tcampanhas encontradas: {quantidade_campanhas}')
     return True
 
-'''
+"""
 def garantir_pastas_normalizacao(args)
 
 garantir pastas normalizadas
-'''
+"""
 def garantir_pastas_normalizacao(args):
-    logs.verbose(args.verbose, 'Verificando pastas')
-    logs.verbose(args.verbose, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}")
+    logs.verbose(args, 'Verificando pastas')
+    logs.verbose(args, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}")
     if not os.path.exists(f"{caminhos.CAMINHO_NORMALIZADOS}"):
-        logs.verbose(args.verbose, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}")
+        logs.verbose(args, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}")
         os.mkdir(f"{caminhos.CAMINHO_NORMALIZADOS}")
-    logs.verbose(args.verbose, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
+    logs.verbose(args, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
     if not os.path.exists(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}"):
-        logs.verbose(args.verbose, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
+        logs.verbose(args, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
         os.mkdir(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
 
     return True
 
 campanhas = []
 
-'''
+"""
 def percorrer_campanhas(args, msg, funcao)
 
 apoio: percorrer campanhas
-'''
+"""
 def percorrer_campanhas(args, msg, funcao):
-    logs.verbose(args.verbose, msg)
+    logs.verbose(args, msg)
     quantidade_campanhas = 0
     res = True
     for data in campanhas:
@@ -573,11 +573,11 @@ def percorrer_campanhas(args, msg, funcao):
     return res
 
 
-'''
+"""
 def ajustar_valores_campanha(args, data)
 
 ajustar valor de campanha
-'''
+"""
 def ajustar_valores_campanha(args, data):
     # verificar a data de lançamento da campanha
     try:
@@ -596,11 +596,11 @@ def ajustar_valores_campanha(args, data):
         #reward['maximum_contributions_ajustado'] = ajustar_valor(data_obj.year, data_obj.month, reward['maximum_contributions'], args.ano, 12)
     return True
 
-'''
+"""
 def ajustar_valor_about(args, data)
 
 converter texto de about the HTML (com tags) para TEXT (texto puro, sem marcação)
-'''
+"""
 def ajustar_valor_about(args, data):
     # obtém a representação em HTML
     about_html = data['detail']['about_html']
@@ -625,22 +625,22 @@ def ajustar_valor_about(args, data):
 
     return True
 
-'''
+"""
 def verificar_genero(nome)
 
 verificar gênero das pessoas autoras nas campanhas
-'''
+"""
 def verificar_genero(nome):
     if nome not in nomes_com_genero:
         return None
 
     return nomes_com_genero[nome]
 
-'''
+"""
 def classificar_mencoes(args, data)
 
 classificar menções a palavras-chaves de categorias de interesse para análise das campanhas
-'''
+"""
 def classificar_mencoes(args, data):
     about_txt = data['detail']['about_txt']
     if about_txt is None:
@@ -666,11 +666,11 @@ def classificar_mencoes(args, data):
 
     return True
 
-'''
+"""
 def classificar_recompensas(args, data)
 
 classificar recompensas, corrigindo valores
-'''
+"""
 def classificar_recompensas(args, data):
     menor_ajustado = 10000000000
     menor = menor_ajustado
@@ -695,11 +695,11 @@ nao_classif = {
     ,"4": []
     ,"5": []
 }
-'''
+"""
 def classificar_autoria(args, data)
 
 classificar autoria
-'''
+"""
 def classificar_autoria(args, data):
     user_data = data['user']
     public_name = user_data['public_name']
@@ -773,22 +773,22 @@ def classificar_autoria(args, data):
 
     return True
 
-'''
+"""
 def somente_uf_brasileira(uf)
 
 ficar apenas com UF brasileiras
-'''
+"""
 def somente_uf_brasileira(uf):
     if uf in uf_brasileiras:
         return uf
     
     return 'XX'
 
-'''
+"""
 classificar_resumo(args, data)
 
 classificar resumo
-'''
+"""
 def classificar_resumo(args, data):
 
     data[colunaslib.COL_GERAL_MUNICIPIO]=data['detail']['address']['city']
@@ -818,11 +818,11 @@ def classificar_resumo(args, data):
 
     return True
 
-'''
+"""
 def gravar_json_campanhas(args, data)
 
 gravar json das campanhas
-'''
+"""
 def gravar_json_campanhas(args, data):
 
     try:        
@@ -837,7 +837,7 @@ def gravar_json_campanhas(args, data):
             json.dump(data, arquivo_json)
     except Exception as e:
         # Lidar com a exceção, se necessário
-        logs.verbose(args.verbose, f"Erro ao gravar arquivo normalizado {arquivo_dados}: {e}")
+        logs.verbose(args, f"Erro ao gravar arquivo normalizado {arquivo_dados}: {e}")
         return False
     # finally:
     #     # Certifique-se de fechar o arquivo, mesmo em caso de exceção
@@ -876,17 +876,17 @@ def garantir_dados_estaticos(args):
     
 
 
-'''
+"""
 async def executar_normalizacao(args)
 -- 
-'''
+"""
 async def executar_normalizacao(args):
 
     p1 = datetime.now()
 
     logs.definir_log(args, 'normalizar')
 
-    logs.verbose(args.verbose, 'Início')
+    logs.verbose(args, 'Início')
 
     garantir_dados_estaticos(args)
 
@@ -900,7 +900,7 @@ async def executar_normalizacao(args):
     threads.append(asyncio.create_task(carregar_albuns(args)))
     threads.append(asyncio.create_task(carregar_municipios(args)))
 
-    logs.verbose(args.verbose,'carregando dados...')
+    logs.verbose(args,'carregando dados...')
     await asyncio.gather(*threads)
 
     threads.clear()
@@ -909,7 +909,7 @@ async def executar_normalizacao(args):
     threads.append(asyncio.create_task(carregar_campanhas_catarse(args)))
     threads.append(asyncio.create_task(carregar_campanhas_apoiase(args)))
 
-    logs.verbose(args.verbose,'carregando campanhas...')
+    logs.verbose(args,'carregando campanhas...')
     await asyncio.gather(*threads)
 
     threads.clear()
@@ -922,7 +922,7 @@ async def executar_normalizacao(args):
 
     # normalizar campanhas
 
-    logs.verbose(args.verbose,'normalizar campanhas carregadas...')
+    logs.verbose(args,'normalizar campanhas carregadas...')
 
     result = True
     result = result and percorrer_campanhas(args, f'> ajustar valores das campanhas para dez/{args.ano}', ajustar_valores_campanha)
@@ -941,6 +941,6 @@ async def executar_normalizacao(args):
     delta = p2-p1
     tempo = delta.seconds + delta.microseconds/1000000
 
-    logs.verbose(args.verbose, f'Tempo: {tempo}s')
+    logs.verbose(args, f'Tempo: {tempo}s')
 
 

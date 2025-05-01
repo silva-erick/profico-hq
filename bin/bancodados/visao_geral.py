@@ -9,13 +9,13 @@ from matplotlib.ticker import FuncFormatter
 import time
 
 
-'''
+"""
 def exportar_visao_geral(args, con, caminho_analises_result)
 - executar consultas SQL
 - gerar excel
 - gerar infográfico
 - gerar gráficos
-'''
+"""
 def exportar_visao_geral(args, con, caminho_analises_result):
 
     caminho_scripts = f"{comum.CAMINHO_SCRIPTS_ANALISES}/01-visao-geral"
@@ -195,29 +195,29 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
 
 
 
-'''
+"""
 def analisar_infografico_anos(df, valores_mapeados)
 analisar anos
-'''
+"""
 def analisar_infografico_anos(df, valores_mapeados):
     res = duckdb.sql('select min(min_ano) min_ano, max(max_ano) max_ano from df').fetchone()
 
     valores_mapeados['min_ano'] = str(res[0])
     valores_mapeados['max_ano'] = str(res[1])
 
-'''
+"""
 def analisar_infografico_quantidades(df, valores_mapeados)
 analisar quantidades
-'''
+"""
 def analisar_infografico_quantidades(df, valores_mapeados):
-    res = duckdb.sql('''
+    res = duckdb.sql("""
     select  sum(qtd) campanhas_total
             ,sum(qtd) filter ( campanha_modalidade != 'Recorrente' ) campanhas_pontuais_total
             ,sum(qtd) filter ( campanha_modalidade = 'Tudo ou Nada' ) campanhas_aon_total
             ,sum(qtd) filter ( campanha_modalidade = 'Flex' ) campanhas_flex_total
             ,sum(qtd) filter ( campanha_modalidade = 'Recorrente' ) campanhas_sub_total
     from df
-    ''').fetchall()
+    """).fetchall()
 
     valores_mapeados['campanhas_total'] = str(res[0][0])
     valores_mapeados['campanhas_pontuais_total'] = str(res[0][1])
@@ -225,12 +225,12 @@ def analisar_infografico_quantidades(df, valores_mapeados):
     valores_mapeados['campanhas_flex_total'] = str(res[0][3])
     valores_mapeados['campanhas_sub_total'] = str(res[0][4])
 
-'''
+"""
 def analisar_infografico_tudo_ou_nada(df, valores_mapeados)
 analisar tudo ou nada
-'''
+"""
 def analisar_infografico_tudo_ou_nada(df, valores_mapeados):
-    res = duckdb.sql('''
+    res = duckdb.sql("""
     select  txsucesso
             ,tot_arrecadado
             ,avg_arrecadado
@@ -239,7 +239,7 @@ def analisar_infografico_tudo_ou_nada(df, valores_mapeados):
             ,tot_contribuicoes
     from    df
     where   campanha_modalidade = 'Tudo ou Nada'
-    ''').fetchone()
+    """).fetchone()
 
     valores_mapeados['campanhas_aon_sucesso'] = formatos.formatar_num1_ptbr(res[0])
     valores_mapeados['campanhas_aon_total_arrecadado'] = formatos.formatar_num2_ptbr(res[1])
@@ -249,12 +249,12 @@ def analisar_infografico_tudo_ou_nada(df, valores_mapeados):
     valores_mapeados['campanhas_aon_contr_totais'] = formatos.formatar_num0_ptbr(res[5])
 
 
-'''
+"""
 def analisar_infografico_flex(df, valores_mapeados)
 analisar flex
-'''
+"""
 def analisar_infografico_flex(df, valores_mapeados):
-    res = duckdb.sql('''
+    res = duckdb.sql("""
     select  txsucesso
             ,tot_arrecadado
             ,avg_arrecadado
@@ -263,7 +263,7 @@ def analisar_infografico_flex(df, valores_mapeados):
             ,tot_contribuicoes
     from    df
     where   campanha_modalidade = 'Flex'
-    ''').fetchone()
+    """).fetchone()
 
     valores_mapeados['campanhas_flex_sucesso'] = formatos.formatar_num1_ptbr(res[0])
     valores_mapeados['campanhas_flex_total_arrecadado'] = formatos.formatar_num2_ptbr(res[1])
@@ -273,12 +273,12 @@ def analisar_infografico_flex(df, valores_mapeados):
     valores_mapeados['campanhas_flex_contr_totais'] = formatos.formatar_num0_ptbr(res[5])
 
 
-'''
+"""
 def analisar_infografico_recorrentes(df, valores_mapeados)
 analisar recorrentes
-'''
+"""
 def analisar_infografico_recorrentes(df, valores_mapeados):
-    res = duckdb.sql('''
+    res = duckdb.sql("""
     select  txsucesso
             ,tot_arrecadado
             ,avg_arrecadado
@@ -287,7 +287,7 @@ def analisar_infografico_recorrentes(df, valores_mapeados):
             ,tot_contribuicoes
     from    df
     where   campanha_modalidade = 'Recorrente'
-    ''').fetchone()
+    """).fetchone()
 
     valores_mapeados['campanhas_sub_sucesso'] = formatos.formatar_num1_ptbr(res[0])
     valores_mapeados['campanhas_sub_total_arrecadado'] = formatos.formatar_num2_ptbr(res[1])

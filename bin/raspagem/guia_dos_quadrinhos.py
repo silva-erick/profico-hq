@@ -36,11 +36,11 @@ RE_ALBUM_TITLE                = re.compile(r"^(.+)\s+-\s+([^\n]+)$")
 
 RE_TOTAL                = re.compile(r"Itens:\s+\d+\s+-\s+\d+\s+de\s+(\d+)")
 
-'''
+"""
 raspar_guiadosquadrinhos: controle de execução de requisição de lançamentos
 no site guiadosquadrinhos.com.
 
-'''
+"""
 async def raspar_guiaquadrinhos(args, ano):
 
     log_level = args.loglevel
@@ -92,7 +92,7 @@ async def raspar_guiaquadrinhos(args, ano):
                     run = False
 
     except Exception as e:
-        logs.verboseerror(f'Erro: um erro aconteceu ao processar uma requisição: {e}')
+        logs.verbose_error(f'Erro: um erro aconteceu ao processar uma requisição: {e}')
 
     try:
         if make_download:
@@ -100,4 +100,4 @@ async def raspar_guiaquadrinhos(args, ano):
             with open(data_file, 'w') as json_file:
                 json.dump(todos_itens, json_file)
     except Exception as e:
-        logs.verboseerror(f'Erro: um erro aconteceu ao gravar arquivo: {e}', e)
+        logs.verbose_error(f'Erro: um erro aconteceu ao gravar arquivo: {e}', e)

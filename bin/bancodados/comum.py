@@ -15,11 +15,11 @@ CAMINHO_ANALISES = "../dados/analises"
 CAMINHO_NORMALIZADOS = "../dados/normalizados"
 
 
-'''
+"""
 def ler_arquivo(caminho_arq)
 
 ler o conteúdo de um arquivo texto
-'''
+"""
 def ler_arquivo(caminho_arq):
 
     with open(caminho_arq, 'r', encoding='utf8') as arq:
@@ -47,10 +47,10 @@ def processar_template(caminho_template, valores_mapeados):
 
     return conteudo_template
 
-'''
+"""
 def formatar_num_eixo_y(num_unknown, pos=0)
 formatar  número para eixo y: usar prefixo K e M
-'''
+"""
 def formatar_num_eixo_y(num_unknown, pos=0):
     if isinstance(num_unknown, str):
         num = float(num_unknown)
@@ -75,10 +75,10 @@ def formatar_num_eixo_y(num_unknown, pos=0):
     return resultado.replace('.', ',')
 
 
-'''
+"""
 def gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, titulo_grafico, titulo_eixo_x, titulo_eixo_y, funcao_formatacao=formatar_num_eixo_y)
 gerar gráfico de barras
-'''
+"""
 def gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, titulo_grafico, titulo_eixo_x, titulo_eixo_y, figsize, funcao_formatacao=formatar_num_eixo_y):
 
     plt.figure(figsize=figsize)
@@ -107,7 +107,7 @@ def gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, titulo_grafico, t
 
 # Function to add labels above the bars
 def autolabel(ax, rects):
-    '''Attach a text label above each bar in *rects*, displaying its height.'''
+    """Attach a text label above each bar in *rects*, displaying its height."""
     for rect in rects:
         height = rect.get_height()
         ax.annotate('{}'.format(height),
@@ -116,9 +116,9 @@ def autolabel(ax, rects):
                     textcoords="offset points",
                     ha='center', va='bottom')
 
-'''
+"""
 Gerar gráfico de barras - 2 series
-'''
+"""
 def gerar_grafico_barras_2series(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo_grafico, titulo_eixo_x, titulo_eixo_y, label_serie_1, label_serie_2, figsize, funcao_formatacao=formatar_num_eixo_y):
 
     # Positions for the bars
@@ -176,9 +176,9 @@ def gerar_grafico_barras_2series(pasta_img, arquivo, df, col_x, col_y1, col_y2, 
     plt.close('all')
 
 
-'''
+"""
 Gerar gráfico de barras
-'''
+"""
 def gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
 
     altura_grafico = round(len(df)*0.6)
@@ -233,9 +233,9 @@ def gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titu
     plt.close('all')
 
 
-'''
+"""
 Gerar gráfico de barras 2Y
-'''
+"""
 def gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, legenda_y2, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
 
     altura_grafico = round(len(df)*1)
@@ -298,9 +298,9 @@ def gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, co
     plt.close('all')
 
 
-'''
+"""
 Gerar gráfico: histograma
-'''
+"""
 def gerar_histograma(pasta_img, arquivo, df, bins, col_interesse, titulo, titulo_eixo_x, titulo_eixo_y, funcao_formatacao_eixo=formatar_num_eixo_y):
     
     ax = df.hist(column=col_interesse, bins=bins)

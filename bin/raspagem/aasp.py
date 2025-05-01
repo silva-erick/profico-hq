@@ -8,11 +8,11 @@ import formatos
 
 URL = "https://www.aasp.org.br/produtos-servicos/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/"
 
-'''
+"""
 async def raspar_aasp(args)
     args:
     . verbose: true/false
-'''
+"""
 async def raspar_aasp(args):
     verbose = args.verbose
     if args.clear_cache:
@@ -93,4 +93,4 @@ async def raspar_aasp(args):
         with open(data_file, 'w') as json_file:
             json.dump(todos_itens, json_file)
     except Exception as e:
-        logs.verboseerror(f'\nErro: um erro aconteceu ao gravar arquivo: {e}', e)
+        logs.verbose_error(f'\nErro: um erro aconteceu ao gravar arquivo: {e}', e)

@@ -127,12 +127,12 @@ class BaseApoiaseCollectionApi:
                     break
                 else:
                     result.add_request_error(response.status_code, response.text)
-                    logs.verboseerror(f"Request error: {response.status_code} - {response.text}")
+                    logs.verbose_error(f"Request error: {response.status_code} - {response.text}")
                     break
 
         except requests.exceptions.RequestException as e:
             result.add_request_error(-1, e)
-            logs.verboseerror(f"Request exception: {e}", e)
+            logs.verbose_error(f"Request exception: {e}", e)
 
         if num_of_calls == 0:
             avg_call = 0

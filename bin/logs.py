@@ -3,6 +3,11 @@ import logging
 from datetime import datetime, timedelta
 
 def definir_log(args, comando):
+    """
+    definir o log_level:
+    - args: argumentos da linha de comando
+    - comando: tipo de comando acionado
+    """
 
     log_level = logging.WARNING
     if args.loglevel == 'CRITICAL':
@@ -27,16 +32,21 @@ def definir_log(args, comando):
         datefmt='%Y-%m-%d %H:%M:%S')
     logging.getLogger().setLevel(log_level)
     
-    
-def verbose(verbose, msg):
+def verbose(args, msg):
+    """
+    se verbose estiver logado, informa a mensagem na saída padrão
+    """
     logging.debug(msg)
-    if verbose:
+    if args.verbose:
         print(msg, flush=True)
     
-    
-def verboseerror(msg, e = None):
+def verbose_error(msg, e = None):
+    """
+    se verbose estiver logado, informa a mensagem de erro na saída padrão
+    """    
     if e is None:
         logging.error(msg)
     else:
         logging.error(msg, exc_info=e)
     print(msg, flush=True)
+    

@@ -17,12 +17,12 @@ CAMINHO_BRUTO_CAMPANHAS_CATARSE = "../dados/brutos/catarse/campanhas"
 CAMINHO_NORMALIZADOS = "../dados/normalizados"
 
 
-'''
+"""
 def executar_scripts_pasta(args, caminho)
-'''
+"""
 def executar_scripts_pasta(args, caminho):
     campanhas = []
-    logs.verbose(args.verbose, f'executar scripts pasta: {caminho}')
+    logs.verbose(args, f'executar scripts pasta: {caminho}')
 
     if not os.path.exists(caminho):
         return False
@@ -71,7 +71,7 @@ def construir_comando_autor(campanha):
     autoria_nome_publico = campanha['autoria_nome_publico']
     autoria_nome_publico = autoria_nome_publico.replace("'", "''")
     autoria_classificacao_id = campanha['autoria_classificacao_id']
-    template = '''
+    template = """
 INSERT INTO Autor (
      autor_id
 	,origemdados_id
@@ -92,7 +92,7 @@ WHERE   NOT EXISTS (
     WHERE   origemdados_id={origemdados_id}
     AND     original_id='{original_id}'
 )
-    '''
+    """
 
     sql = template.format(
         origemdados_id=origemdados_id
@@ -196,7 +196,7 @@ def construir_comando_campanha(campanha, campanha_id):
     geral_sobre = geral_sobre.replace("'", "''")
 
  
-    template = '''
+    template = """
 INSERT INTO Campanha (
 	 campanha_id
 	,origemdados_id
@@ -276,7 +276,7 @@ WHERE   NOT EXISTS (
     WHERE   origemdados_id={origemdados_id}
     AND     original_id='{original_id}'
 )
-    '''
+    """
 
     sql = template.format(
         campanha_id = campanha_id
@@ -321,7 +321,7 @@ WHERE   NOT EXISTS (
 
 
 def construir_comando_mencao(mencao, campanha_id):
-    template = '''
+    template = """
 INSERT INTO CategoriaMencaoCampanha (
      categoriamencao_id
 	,campanha_id
@@ -330,7 +330,7 @@ SELECT  categoriamencao_id
 	,{campanha_id}
 FROM    CategoriaMencao
 WHERE   nome='{mencao}'
-    '''
+    """
 
     sql = template.format(
         campanha_id=campanha_id
@@ -338,13 +338,13 @@ WHERE   nome='{mencao}'
         )
     return sql
 
-'''
+"""
 def executar_carga_campanhas(args)
-'''
+"""
 def executar_carga_campanhas(args):
     campanhas = []
     caminho_campanhas = f'{CAMINHO_NORMALIZADOS}/{args.ano}'
-    logs.verbose(args.verbose, f'executar carga campanhas, pasta: {caminho_campanhas}')
+    logs.verbose(args, f'executar carga campanhas, pasta: {caminho_campanhas}')
 
     if not os.path.exists(caminho_campanhas):
         return False
@@ -411,10 +411,10 @@ def executar_carga_campanhas(args):
 
     return True
 
-'''
+"""
 async def executar_montarbd(args)
 -- 
-'''
+"""
 async def executar_montarbd(args):
     p1 = datetime.now()
 
@@ -434,4 +434,4 @@ async def executar_montarbd(args):
     delta = p2-p1
     tempo = delta.seconds + delta.microseconds/1000000
 
-    logs.verbose(args.verbose, f'Tempo: {tempo}s')
+    logs.verbose(args, f'Tempo: {tempo}s')

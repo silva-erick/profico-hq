@@ -123,12 +123,12 @@ class BaseCatarseCollectionApi:
                     break
                 else:
                     result.add_request_error(response.status_code, response.text)
-                    logs.verboseerror(f"Request error: {response.status_code} - {response.text}")
+                    logs.verbose_error(f"Request error: {response.status_code} - {response.text}")
                     break
 
         except requests.exceptions.RequestException as e:
             result.add_request_error(-1, e)
-            logs.verboseerror(f"Request exception: {e}", e)
+            logs.verbose_error(f"Request exception: {e}", e)
 
         avg_call = total_time / num_of_calls
 
@@ -314,11 +314,11 @@ class BaseCatarseUniqueApi:
                 success = True
             else:
                 result.add_request_error(response.status_code, response.text)
-                logs.verboseerror(f"Request error: {response.status_code} - {response.text}")
+                logs.verbose_error(f"Request error: {response.status_code} - {response.text}")
 
         except requests.exceptions.RequestException as e:
             result.add_request_error(-1, e)
-            logs.verboseerror(f"Request exception: {e}", e)
+            logs.verbose_error(f"Request exception: {e}", e)
             return result
 
         avg_call = total_time / num_of_calls
@@ -396,7 +396,7 @@ async def catarse_campanha(project_id, users_details, clear_cache, verbose, log_
         pdr = project_details_api.execute(f"eq.{project_id}", verbose, log_level)
         if not pdr.sucesso:
             project_success = False
-            logs.verboseerror(f"project_id: {project_id} - error on project details")
+            logs.verbose_error(f"project_id: {project_id} - error on project details")
         else:
             for pr in pdr.resultado:
                 project['detail'] = pr
@@ -407,7 +407,7 @@ async def catarse_campanha(project_id, users_details, clear_cache, verbose, log_
                     udr = user_details_api.execute(f"eq.{user_id}")
                     if not udr.sucesso:
                         project_success = False
-                        logs.verboseerror(f"project_id: {project_id} - error on user details")
+                        logs.verbose_error(f"project_id: {project_id} - error on user details")
                     else:
                         for usr in udr.resultado:
                             users_details[user_id] = usr
@@ -419,7 +419,7 @@ async def catarse_campanha(project_id, users_details, clear_cache, verbose, log_
         rdr = reward_details_api.execute(f"eq.{project_id}", verbose, log_level)
         if not rdr.sucesso:
             project_success = False
-            logs.verboseerror(f"project_id: {project_id} - error on reward details")
+            logs.verbose_error(f"project_id: {project_id} - error on reward details")
         else:
             project['rewards'] = rdr.resultado
 
@@ -436,11 +436,11 @@ async def raspar_catarse(args):
 
     finished = CatarseFinishedProjects()
 
-    logs.verbose(args.verbose, f"Preparing to access catarse.me")
+    logs.verbose(args, f"Preparing to access catarse.me")
 
     threads = list()
     res = finished.execute(threads, args.clear_cache, args.verbose, log_level)
-    logs.verbose(args.verbose, f"\nData fetched")
+    logs.verbose(args, f"\nData fetched")
 
     data_file = f"../dados/brutos/catarse/finished.json"
     with open(data_file, 'w') as json_file:
@@ -450,7 +450,7 @@ async def raspar_catarse_categories(args):
 
     log_level = catarse_base(args)
 
-    logs.verbose(args.verbose, 'Catarse - Categories')
+    logs.verbose(args, 'Catarse - Categories')
 
     api_categories = CatarseCategories()
     res = api_categories.execute()
@@ -458,14 +458,14 @@ async def raspar_catarse_categories(args):
     with open(categories_file, 'w') as json_file:
         json.dump(res.resultado, json_file)
 
-    logs.verbose(args.verbose, 'Catarse - Categories - Done')
+    logs.verbose(args, 'Catarse - Categories - Done')
 
 
 async def raspar_catarse_cities(args):
 
     log_level = catarse_base(args)
 
-    logs.verbose(args.verbose, 'Catarse - Cities')
+    logs.verbose(args, 'Catarse - Cities')
 
     api_cities = CatarseCities()
     res = api_cities.execute()
@@ -473,5 +473,5 @@ async def raspar_catarse_cities(args):
     with open(cities_file, 'w') as json_file:
         json.dump(res.resultado, json_file)
 
-    logs.verbose(args.verbose, 'Catarse - Cities - Done')
+    logs.verbose(args, 'Catarse - Cities - Done')
 
