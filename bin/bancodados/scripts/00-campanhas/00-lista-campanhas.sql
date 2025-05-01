@@ -60,157 +60,179 @@ WITH cte_campanhas as (
 )
 SELECT		c.*
 		, (
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=-1
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'nenhuma'
+			limit	1
 		) IS NULL categoria_nenhuma
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=1
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'saloes_humor'
+			limit	1
 		) IS NULL categoria_saloes_humor
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=2
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'hqmix'
+			limit	1
 		) IS NULL categoria_hqmix
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=3
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'ccxp'
+			limit	1
 		) IS NULL categoria_ccxp
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=4
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'fiq'
+			limit	1
 		) IS NULL categoria_fiq
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=5
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'angelo_agostini'
+			limit	1
 		) IS NULL categoria_angelo_agostini
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=6
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'politica'
+			limit	1
 		) IS NULL categoria_politica
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=7
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'questoes_genero'
+			limit	1
 		) IS NULL categoria_questoes_genero
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=8
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'lgbtqiamais'
+			limit	1
 		) IS NULL categoria_lgbtqiamais
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=9
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'terror'
+			limit	1
 		) IS NULL categoria_terror
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=10
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'humor'
+			limit	1
 		) IS NULL categoria_humor
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=11
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'herois'
+			limit	1
 		) IS NULL categoria_herois
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=12
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'disputa'
+			limit	1
 		) IS NULL categoria_disputa
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=13
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'ficcao_cientifica'
+			limit	1
 		) IS NULL categoria_ficcao_cientifica
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=14
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'fantasia'
+			limit	1
 		) IS NULL categoria_fantasia
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=15
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'folclore'
+			limit	1
 		) IS NULL categoria_folclore
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=16
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'zine'
+			limit	1
 		) IS NULL categoria_zine
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=17
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'webformatos'
+			limit	1
 		) IS NULL categoria_webformatos
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=18
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'erotismo'
+			limit	1
 		) IS NULL categoria_erotismo
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=19
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'religiosidade'
+			limit	1
 		) IS NULL categoria_religiosidade
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=20
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'jogos'
+			limit	1
 		) IS NULL categoria_jogos
 		,(
-			SELECT	cmc.categoriamencao_id
-			FROM	CategoriaMencaoCampanha cmc
-			WHERE	cmc.campanha_id=c.campanha_id
-			AND		cmc.categoriamencao_id=21
-			LIMIT	1
+			select	cm.categoriamencao_id
+			from	CategoriaMencao cm
+			join	CategoriaMencaoCampanha cmc
+			on		cmc.categoriamencao_id=cm.categoriamencao_id
+			where	cm.nome = 'midia_independente'
+			limit	1
 		) IS NULL categoria_midia_independente
 FROM	cte_campanhas c
