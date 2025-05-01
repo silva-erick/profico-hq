@@ -19,7 +19,7 @@ SELECT  8, 'lgbtqiamais'
 UNION ALL
 SELECT  9, 'terror'
 UNION ALL
-SELECT  0, 'humor'
+SELECT  10, 'humor'
 UNION ALL
 SELECT  11, 'herois'
 UNION ALL
