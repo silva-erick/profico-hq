@@ -22,45 +22,31 @@ def exportar_visao_geral(args, con, caminho_analises_result):
 
     caminho_scripts = f"{comum.CAMINHO_SCRIPTS_ANALISES}/01-visao-geral"
 
-    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-a-visao-geral-modalidade.sql')
-    res = con.sql(sql)
-    dfa = res.to_df()
+    lote = comum.executar_sql_lote(con, caminho_scripts, {
+        "01-a-visao-geral-modalidade.sql": "modalidade",
+        "01-b-visao-geral-plataformas.sql": "plataforma",
+        "01-c-visao-geral-uf.sql": "uf",
+        "01-d-visao-geral-classificacao-autoria.sql": "classificacao_autoria",
+        "01-e-visao-geral-autor.sql": "autor",
+        "01-f-visao-geral-categoria-mencao.sql": "categoria"
+    })
 
-    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-b-visao-geral-plataformas.sql')
-    res = con.sql(sql)
-    dfb = res.to_df()
+    comum.gerar_excel_lote(f'{caminho_analises_result}/01-visao-geral.xlsx', lote)
 
-    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-c-visao-geral-uf.sql')
-    res = con.sql(sql)
-    dfc = res.to_df()
-
-    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-d-visao-geral-classificacao-autoria.sql')
-    res = con.sql(sql)
-    dfd = res.to_df()
-
-    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-e-visao-geral-autor.sql')
-    res = con.sql(sql)
-    dfe = res.to_df()
-
-    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-f-visao-geral-categoria-mencao.sql')
-    res = con.sql(sql)
-    dff = res.to_df()
-
-    with pd.ExcelWriter(f'{caminho_analises_result}/01-visao-geral.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='modalidade', index=False)
-        dfb.to_excel(writer, sheet_name='plataforma', index=False)
-        dfc.to_excel(writer, sheet_name='uf', index=False)
-        dfd.to_excel(writer, sheet_name='classificacao_autoria', index=False)
-        dfe.to_excel(writer, sheet_name='autoria', index=False)
-        dff.to_excel(writer, sheet_name='categoria', index=False)
+    item_a = lote["01-a-visao-geral-modalidade.sql"]
+    item_b = lote["01-b-visao-geral-plataformas.sql"]
+    item_c = lote["01-c-visao-geral-uf.sql"]
+    item_d = lote["01-d-visao-geral-classificacao-autoria.sql"]
+    item_e = lote["01-e-visao-geral-autor.sql"]
+    item_f = lote["01-f-visao-geral-categoria-mencao.sql"]
 
     valores_mapeados = {}
     valores_mapeados['plataformas'] = 'Apoia.se e Catarse'
-    analisar_infografico_anos(dfa, valores_mapeados)
-    analisar_infografico_quantidades(dfa, valores_mapeados)
-    analisar_infografico_tudo_ou_nada(dfa, valores_mapeados)
-    analisar_infografico_flex(dfa, valores_mapeados)
-    analisar_infografico_recorrentes(dfa, valores_mapeados)
+    analisar_infografico_anos(item_a.df, valores_mapeados)
+    analisar_infografico_quantidades(item_a.df, valores_mapeados)
+    analisar_infografico_tudo_ou_nada(item_a.df, valores_mapeados)
+    analisar_infografico_flex(item_a.df, valores_mapeados)
+    analisar_infografico_recorrentes(item_a.df, valores_mapeados)
 
     grafo_visao_geral = arquivos_template.processar_template(
         f'{caminho_scripts}/infografico.template.dot'
@@ -71,52 +57,51 @@ def exportar_visao_geral(args, con, caminho_analises_result):
 
 
     # gráficos para todas as modalidades
-    gerar_graficos(dfa, caminho_analises_result, '21-modalidades', 'Modalidades', 'modalidades', 'campanha_modalidade', (10, 6))
+    gerar_graficos(item_a.df, caminho_analises_result, '21-modalidades', 'Modalidades', 'modalidades', 'campanha_modalidade', (10, 6))
 
     # gráficos para plataformas, por modalidades
-    gerar_graficos(dfb[
-             (dfb['campanha_modalidade']=='Tudo ou Nada')
+    gerar_graficos(item_b.df[
+             (item_b.df['campanha_modalidade']=='Tudo ou Nada')
          ], caminho_analises_result, '31-tudo_ou_nada-plataformas', 'Modalidade Tudo ou Nada', 'plataformas', 'campanha_origem', (10, 6))
-    gerar_graficos(dfb[
-             (dfb['campanha_modalidade']=='Flex')
+    gerar_graficos(item_b.df[
+             (item_b.df['campanha_modalidade']=='Flex')
          ], caminho_analises_result, '32-flex-plataformas', 'Modalidade Flex', 'plataformas', 'campanha_origem', (10, 6))
-    gerar_graficos(dfb[
-             (dfb['campanha_modalidade']=='Recorrente')
+    gerar_graficos(item_b.df[
+             (item_b.df['campanha_modalidade']=='Recorrente')
          ], caminho_analises_result, '33-recorrente-plataformas', 'Modalidade Recorrente', 'plataformas', 'campanha_origem', (10, 6))
 
     # gráficos para unidade federativa, por modalidades
-    gerar_graficos(dfc[
-             (dfc['campanha_modalidade']=='Tudo ou Nada')
+    gerar_graficos(item_c.df[
+             (item_c.df['campanha_modalidade']=='Tudo ou Nada')
          ], caminho_analises_result, '41-tudo_ou_nada-uf', 'Modalidade Tudo ou Nada', 'unidade federativa', 'uf', (10, 6))
-    gerar_graficos(dfc[
-             (dfc['campanha_modalidade']=='Flex')
+    gerar_graficos(item_c.df[
+             (item_c.df['campanha_modalidade']=='Flex')
          ], caminho_analises_result, '42-flex-uf', 'Modalidade Flex', 'unidade federativa', 'uf', (10, 6))
-    gerar_graficos(dfc[
-             (dfc['campanha_modalidade']=='Recorrente')
+    gerar_graficos(item_c.df[
+             (item_c.df['campanha_modalidade']=='Recorrente')
          ], caminho_analises_result, '43-recorrente-uf', 'Modalidade Recorrente', 'unidade federativa', 'uf', (10, 6))
 
     # gráficos para classificação autoria, por modalidades
-    gerar_graficos(dfd[
-             (dfd['campanha_modalidade']=='Tudo ou Nada')
+    gerar_graficos(item_d.df[
+             (item_d.df['campanha_modalidade']=='Tudo ou Nada')
          ], caminho_analises_result, '51-tudo_ou_nada-class_autoria', 'Modalidade Tudo ou Nada', 'classificação de autoria', 'autor_classificacao', (10, 6))
-    gerar_graficos(dfd[
-             (dfd['campanha_modalidade']=='Flex')
+    gerar_graficos(item_d.df[
+             (item_d.df['campanha_modalidade']=='Flex')
          ], caminho_analises_result, '52-flex-class_autoria', 'Modalidade Flex', 'classificação de autoria', 'autor_classificacao', (10, 6))
-    gerar_graficos(dfd[
-             (dfd['campanha_modalidade']=='Recorrente')
+    gerar_graficos(item_d.df[
+             (item_d.df['campanha_modalidade']=='Recorrente')
          ], caminho_analises_result, '53-recorrente-class_autoria', 'Modalidade Recorrente', 'classificação de autoria', 'autor_classificacao', (10, 6))
 
     # gráficos para categoria de conteúdo, por modalidades
-    gerar_graficos(dff[
-             (dff['campanha_modalidade']=='Tudo ou Nada')
+    gerar_graficos(item_f.df[
+             (item_f.df['campanha_modalidade']=='Tudo ou Nada')
          ], caminho_analises_result, '61-tudo_ou_nada-categ_conteudo', 'Modalidade Tudo ou Nada', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
-    gerar_graficos(dff[
-             (dff['campanha_modalidade']=='Flex')
+    gerar_graficos(item_f.df[
+             (item_f.df['campanha_modalidade']=='Flex')
          ], caminho_analises_result, '62-flex-categ_conteudo', 'Modalidade Flex', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
-    gerar_graficos(dff[
-             (dff['campanha_modalidade']=='Recorrente')
+    gerar_graficos(item_f.df[
+             (item_f.df['campanha_modalidade']=='Recorrente')
          ], caminho_analises_result, '63-recorrente-categ_conteudo', 'Modalidade Recorrente', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
-
 
 
 def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo, label_eixo_x, eixo_x, figsize):
@@ -209,6 +194,7 @@ def analisar_infografico_anos(df, valores_mapeados):
     valores_mapeados['min_ano'] = str(res[0])
     valores_mapeados['max_ano'] = str(res[1])
 
+
 def analisar_infografico_quantidades(df, valores_mapeados):
     """
     def analisar_infografico_quantidades(df, valores_mapeados)
@@ -228,6 +214,7 @@ def analisar_infografico_quantidades(df, valores_mapeados):
     valores_mapeados['campanhas_aon_total'] = str(res[0][2])
     valores_mapeados['campanhas_flex_total'] = str(res[0][3])
     valores_mapeados['campanhas_sub_total'] = str(res[0][4])
+
 
 def analisar_infografico_tudo_ou_nada(df, valores_mapeados):
     """

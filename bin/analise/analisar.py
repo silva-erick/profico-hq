@@ -13,6 +13,8 @@ import pydot
 import analise.comum as comum
 import analise.dados_campanhas as dados_campanhas
 import analise.visao_geral as visao_geral
+import analise.ranking as ranking
+import analise.serie_ano as serie_ano
 
 
 def obter_template_infografico(dot_template, df) -> str:
@@ -88,10 +90,13 @@ async def executar_analise(args):
 
     caminho_analises_result = f"{caminho_analises}/result"
     caminho_analises_result_visao_geral = f"{caminho_analises_result}/01-visao-geral"
+    caminho_analises_result_ranking = f"{caminho_analises_result}/02-ranking"
+    caminho_analises_result_series = f"{caminho_analises_result}/03-series"
     caminhos = [
         caminho_analises_result
-        #,f"{caminho_analises_result}/00-campanhas"
         , caminho_analises_result_visao_geral
+        , caminho_analises_result_ranking
+        , caminho_analises_result_series
     ]
 
     caminho_arq = f"{caminho_analises}/analises_{args.ano}.duckdb"
@@ -107,26 +112,27 @@ async def executar_analise(args):
 
     visao_geral.exportar_visao_geral(args, con, caminho_analises_result_visao_geral)
 
-    #exportar_ranking_tdn_uf(args, con, caminho_analises_result)
-    #exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result)
-    #exportar_ranking_tdn_autor(args, con, caminho_analises_result)    
-    #exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result)
+    ranking.exportar_ranking_tdn_uf(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_tdn_autor(args, con, caminho_analises_result_ranking)    
+    ranking.exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result_ranking)
 
-    #exportar_ranking_flex_uf(args, con, caminho_analises_result)
-    #exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result)
-    #exportar_ranking_flex_autor(args, con, caminho_analises_result)    
-    #exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result)
+    ranking.exportar_ranking_flex_uf(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_flex_autor(args, con, caminho_analises_result_ranking)    
+    ranking.exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result_ranking)
 
-    #exportar_ranking_rec_uf(args, con, caminho_analises_result)
-    #exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result)
-    #exportar_ranking_rec_autor(args, con, caminho_analises_result)    
-    #exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result)
+    ranking.exportar_ranking_rec_uf(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_rec_autor(args, con, caminho_analises_result_ranking)    
+    ranking.exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result_ranking)
 
-    #exportar_serie_visao_geral(args, con, caminho_analises_result)
-    #exportar_serie_modalidade(args, con, caminho_analises_result)
-    #exportar_serie_uf(args, con, caminho_analises_result)
-    #exportar_serie_classificacao_autoria(args, con, caminho_analises_result)
-    #exportar_serie_categoria_mencao(args, con, caminho_analises_result)
+    serie_ano.exportar_serie_visao_geral(args, con, caminho_analises_result_series)
+    serie_ano.exportar_serie_modalidade(args, con, caminho_analises_result_series)
+    serie_ano.exportar_serie_uf(args, con, caminho_analises_result_series)
+    serie_ano.exportar_serie_classificacao_autoria(args, con, caminho_analises_result_series)
+    serie_ano.exportar_serie_categoria_mencao(args, con, caminho_analises_result_series)
+
 
     p2 = datetime.now()
     delta = p2-p1

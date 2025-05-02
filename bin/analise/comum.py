@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import math
 import arquivos
+import pandas as pd
 
 
 CAMINHO_SQL = "./analise/sql"
@@ -12,9 +13,48 @@ CAMINHO_NORMALIZADOS = "../dados/normalizados"
 
 CAMINHO_SCRIPTS_ANALISES = "./analise/scripts"
 
-CAMINHO_SQL_ANALISES = "./analise/sql/03-analises"
-CAMINHO_SQL_ANALISES_SERIES = "./analise/sql/04-analises-serie"
+CAMINHO_SQL_ANALISES_SERIES = "./analise/scripts/03-series"
 
+class SqlLote:
+    """
+    Resultado de uma execução de script SQL em lote:
+    - arquivo_sql
+    - nome_aba
+    - df
+    """
+    def __init__(self, arquivo_sql, nome_aba, df):
+        self.arquivo_sql = arquivo_sql
+        self.nome_aba = nome_aba
+        self.df = df
+
+
+def executar_sql_lote(con, caminho_scripts, mapa_sql={}):
+    """
+    Executa SQL em lote
+    """
+
+    result = {}
+    for arquivo_sql,nome_aba in mapa_sql.items():
+        sql = arquivos.ler_arquivo(f'{caminho_scripts}/{arquivo_sql}')
+        res = con.sql(sql)
+        df = res.to_df()
+
+        item = SqlLote(arquivo_sql, nome_aba, df)
+
+        result[arquivo_sql] = item
+        #result.append(item)
+
+    return result
+
+
+def gerar_excel_lote(caminho_excel, lote={}):
+    """
+    gerar excel
+    """
+
+    with pd.ExcelWriter(caminho_excel) as writer:
+        for chave, item in lote.items():
+            item.df.to_excel(writer, sheet_name=item.nome_aba, index=False)
 
 def formatar_num_eixo_y(num_unknown, pos=0):
     """
@@ -82,6 +122,7 @@ def autolabel(ax, rects):
                     xytext=(0, 3),  # 3 points vertical offset
                     textcoords="offset points",
                     ha='center', va='bottom')
+
 
 def gerar_grafico_barras_2series(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo_grafico, titulo_eixo_x, titulo_eixo_y, label_serie_1, label_serie_2, figsize, funcao_formatacao=formatar_num_eixo_y):
     """
