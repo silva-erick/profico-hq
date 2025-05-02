@@ -44,5 +44,3 @@ CREATE TABLE IF NOT EXISTS Campanha (
 	,geral_sobre						TEXT
 
 );
-
---CREATE SEQUENCE seq_campanha_id START 1;

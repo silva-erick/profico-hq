@@ -19,6 +19,9 @@ URL_QUADRINHOS = "https://apoia.se/explore/Quadrinhos"
 URL_PROJECTS = "https://0hnipmgv3i.execute-api.us-east-1.amazonaws.com/prod/search"
 
 class BaseApoiaseCollectionApi:
+    """
+    classe básica para chamada de API em apoia.se
+    """
     batch_size = 9
     def __init__(self):
         self.batch_size = self._get_batch_size()
@@ -59,16 +62,13 @@ class BaseApoiaseCollectionApi:
     def _get_header_path(self):
         return ''
     
-    def execute(self, threads, clear_cache, verbose = False, log_level = logging.WARNING):
+    def execute(self, threads, clear_cache):
         # allow headers starting with :
         http.client._is_legal_header_name = re.compile(rb'[^\s][^:\r\n]*').fullmatch
 
-        # if verbose:
-        #     http.client.HTTPConnection.debuglevel = 1
-
         # allows logging
         requests_log = logging.getLogger("requests.packages.urllib3")
-        requests_log.setLevel(log_level)
+        requests_log.setLevel(logs.current_log_level)
         requests_log.propagate = True
 
         batch_size = self._get_batch_size()
@@ -144,10 +144,11 @@ class BaseApoiaseCollectionApi:
         return result
 
 class ApoiaseProjects(BaseApoiaseCollectionApi):
-    def __init__(self, verbose=False, log_level=logging.WARNING):
+    """
+    classe que implementa BaseApoiaseCollectionApi para obter dados das campanhas em apoia.se
+    """
+    def __init__(self):
         self._url = ''
-        self._verbose = verbose
-        self._log_level = log_level
 
     def _get_url(self):
         return URL_PROJECTS
@@ -167,11 +168,14 @@ class ApoiaseProjects(BaseApoiaseCollectionApi):
         return '/prod/search'
     
     def execute(self, threads, clear_cache):
-        res = super().execute(threads, clear_cache, self._verbose, self._log_level)
+        res = super().execute(threads, clear_cache)
 
         return res
 
 async def apoiase_slug(batch_campaigns, cache_slug, clear_cache):
+    """
+    percorrer um lote de campanhas em busca dos dados detalhados de cada uma
+    """
     for camp in batch_campaigns:
 
         obter = clear_cache or not os.path.exists(f"../dados/brutos/apoiase/campanhas/{camp['_id']}.json")
@@ -194,25 +198,15 @@ async def apoiase_slug(batch_campaigns, cache_slug, clear_cache):
     return False
 
 async def raspar_apoiase(args):
-
-    log_level = logging.WARNING
-    if args.loglevel == 'CRITICAL':
-        log_level = logging.CRITICAL
-    elif args.loglevel =='ERROR':
-        log_level = logging.ERROR
-    elif args.loglevel =='WARNING':
-        log_level = logging.WARNING
-    elif args.loglevel =='INFO':
-        log_level = logging.INFO
-    elif args.loglevel =='DEBUG':
-        log_level = logging.DEBUG
-
+    """
+    coordenar raspagem de apoia.se
+    """
     if not os.path.exists("../dados/brutos/apoiase"):
         os.makedirs("../dados/brutos/apoiase")
     if not os.path.exists("../dados/brutos/apoiase/campanhas"):
         os.makedirs("../dados/brutos/apoiase/campanhas")
 
-    api_projetos = ApoiaseProjects(args.verbose, log_level)
+    api_projetos = ApoiaseProjects()
 
     logging.debug(f"Preparing to access apoiase.me")
     threads = list()

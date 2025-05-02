@@ -2,17 +2,17 @@
 Comandos disponíveis:
 - raspar: obter dados nas fontes de dados
 - normalizar: normalizar os dados, preparando para carga em banco de dados
-- montar_bd: montar o banco de dados em duckdb
-- reportar: reportar os dados a partir do duckdb
+- banco: montar o banco de dados em duckdb
+- analisar: analisar os dados a partir do duckdb
 """
 
 import asyncio
 import argparse
 import raspagem.raspar
 import normalizacao.normalizar
-import bancodados.bd
-import bancodados.reportar
-
+import banco.bd
+import analise.analisar
+import logs
 
 async def raspar(args):
     """
@@ -20,6 +20,7 @@ async def raspar(args):
     - acionar o módulo de raspagem de dados
     """
     print("Executando o comando 'raspar'")
+    logs.definir_log(args)
 
     await raspagem.raspar.executar_raspagem(args)
 
@@ -28,25 +29,28 @@ async def normalizar(args):
     acionar o módulo de normalização de dados
     """
     print(f"Executando o comando 'normalizar' com o ano {args.ano}")
+    logs.definir_log(args)
 
     await normalizacao.normalizar.executar_normalizacao(args)
 
 
-async def montar_bd(args):
+async def montar_banco(args):
     """
     montar banco de dados
     """
     print(f"Executando o comando 'montar banco de dados' com o ano {args.ano}")
+    logs.definir_log(args)
 
-    await bancodados.bd.executar_montarbd(args)
+    await banco.bd.executar_montarbd(args)
 
-async def reportar(args):
+async def analisar(args):
     """
-    reportar a partir de consultas no banco de dados
+    montar análises a partir de consultas no banco de dados
     """
-    print(f"Executando o comando 'reportar' com o ano {args.ano}")
+    print(f"Executando o comando 'analisar' com o ano {args.ano}")
+    logs.definir_log(args)
 
-    await bancodados.reportar.executar_report(args)
+    await analise.analisar.executar_analise(args)
 
 
 async def main():
@@ -56,8 +60,8 @@ async def main():
     - acionamento de um dos comandos do profico:
     -- raspar dados
     -- normalizar
-    -- montar_bd
-    -- reportar
+    -- banco
+    -- analisar
     """
 
     parser = argparse.ArgumentParser(
@@ -99,42 +103,43 @@ async def main():
     parser_normalizar.set_defaults(func=normalizar)
 
 
-    # Subcomando 'montar_banco'
-    parser_reportar = subparsers.add_parser("montar_banco"
+    # Subcomando 'banco'
+    parser_banco = subparsers.add_parser("banco"
                     , help="Montar banco de dados")
-    parser_reportar.add_argument('-v', '--verbose'
+    parser_banco.add_argument('-v', '--verbose'
                     , action='store_true'
                     , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
-    parser_reportar.add_argument('-l', '--loglevel'
+    parser_banco.add_argument('-l', '--loglevel'
                     , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
                     , nargs='?'
                     , default='ERROR'
                     , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
-    parser_reportar.add_argument("-a", "--ano"
+    parser_banco.add_argument("-a", "--ano"
                     , type=int
                     , required=True
                     , help="obrigatório. informe o ano limite para a construção do banco de dados.")
-    parser_reportar.set_defaults(func=montar_bd)
+    parser_banco.set_defaults(func=montar_banco)
 
 
-    # Subcomando 'reportar'
-    parser_reportar = subparsers.add_parser("reportar"
+    # Subcomando 'analisar'
+    parser_analisar = subparsers.add_parser("analisar"
                     , help="Gerar um relatório.")
-    parser_reportar.add_argument('-v', '--verbose'
+    parser_analisar.add_argument('-v', '--verbose'
                     , action='store_true'
                     , help = 'opcional. modo verboso, registra atividade em console')  # on/off flag
-    parser_reportar.add_argument('-l', '--loglevel'
+    parser_analisar.add_argument('-l', '--loglevel'
                     , choices=['DEBUG','INFO','WARNING','ERROR','CRITICAL']
                     , nargs='?'
                     , default='ERROR'
                     , help = 'opcional. nível de log: DEBUG, INFO, WARNING, ERROR, CRITICAL. default=ERROR')
-    parser_reportar.add_argument("-a", "--ano"
+    parser_analisar.add_argument("-a", "--ano"
                     , type=int
                     , required=True
                     , help="obrigatório. informe o ano limite para a geração do relatório.")
-    parser_reportar.set_defaults(func=reportar)
+    parser_analisar.set_defaults(func=analisar)
 
     args = parser.parse_args()
+
     await args.func(args)
 
 if __name__ == "__main__":

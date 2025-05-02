@@ -8,12 +8,12 @@ import formatos
 
 URL = "https://www.aasp.org.br/produtos-servicos/indices-economicos/indices-judiciais/tabela-pratica-para-calculo-de-atualizacao-monetaria-ipca-e/"
 
-"""
-async def raspar_aasp(args)
-    args:
-    . verbose: true/false
-"""
 async def raspar_aasp(args):
+    """
+    raspar os dados de URL (AASP), que possui tabela prática atualizada para cálculo de atualização monetária
+
+    modo verboso (args.verbose) conforme linha de comando.
+    """
     verbose = args.verbose
     if args.clear_cache:
         if not os.path.exists("../dados/brutos"):

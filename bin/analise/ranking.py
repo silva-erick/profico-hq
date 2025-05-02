@@ -1,19 +1,19 @@
 import pandas as pd
-import bancodados.comum as comum
+import analise.comum as comum
 import pydot
 import duckdb
 import formatos
+import arquivos
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import time
 
 
-
-"""
-def exportar_ranking_tdn_uf(args, con, caminho_analises_result)
-"""
 def exportar_ranking_tdn_uf(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_tdn_uf(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-a-ranking-tdn-uf-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -41,10 +41,10 @@ def exportar_ranking_tdn_uf(args, con, caminho_analises_result):
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result)
-"""
 def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-f-ranking-tdn-classificacao-autoria-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -72,10 +72,10 @@ def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_resul
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_tdn_autor(args, con, caminho_analises_result)
-"""
 def exportar_ranking_tdn_autor(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_tdn_autor(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-k-ranking-tdn-autor-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -103,10 +103,10 @@ def exportar_ranking_tdn_autor(args, con, caminho_analises_result):
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result)
-"""
 def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/02-p-ranking-tdn-categoria-mencao-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -134,10 +134,10 @@ def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result):
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_flex_uf(args, con, caminho_analises_result)
-"""
 def exportar_ranking_flex_uf(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_flex_uf(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-a-ranking-flex-uf-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -165,10 +165,10 @@ def exportar_ranking_flex_uf(args, con, caminho_analises_result):
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result)
-"""
 def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-f-ranking-flex-classificacao-autoria-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -196,10 +196,10 @@ def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_resu
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_flex_autor(args, con, caminho_analises_result)
-"""
 def exportar_ranking_flex_autor(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_flex_autor(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-k-ranking-flex-autor-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -227,10 +227,10 @@ def exportar_ranking_flex_autor(args, con, caminho_analises_result):
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result)
-"""
 def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/03-p-ranking-flex-categoria-mencao-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -259,11 +259,10 @@ def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 
-
-"""
-def exportar_ranking_rec_uf(args, con, caminho_analises_result)
-"""
 def exportar_ranking_rec_uf(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_rec_uf(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-a-ranking-rec-uf-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -292,10 +291,10 @@ def exportar_ranking_rec_uf(args, con, caminho_analises_result):
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
 
-"""
-def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result)
-"""
 def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-f-ranking-rec-classificacao-autoria-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -323,10 +322,11 @@ def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_resul
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_rec_autor(args, con, caminho_analises_result)
-"""
+
 def exportar_ranking_rec_autor(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_rec_autor(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-k-ranking-rec-autor-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()
@@ -354,10 +354,10 @@ def exportar_ranking_rec_autor(args, con, caminho_analises_result):
         dfd.to_excel(writer, sheet_name='max-arrecad', index=False)
         dfe.to_excel(writer, sheet_name='tx-sucesso', index=False)
 
-"""
-def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result)
-"""
 def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result):
+    """
+    def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result)
+    """
     sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES}/04-p-ranking-rec-categoria-mencao-qtd.sql')
     res = con.sql(sql)
     dfa = res.to_df()

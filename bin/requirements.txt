@@ -7,7 +7,7 @@ duckdb
 graphviz
 matplotlib
 networkx
-nltk
+#nltk
 numpy
 openpyxl
 pandas
@@ -15,9 +15,9 @@ pyarrow
 pydot
 regex
 requests
-scikit-learn
-spacy
-spacy-lookups-data
+#scikit-learn
+#spacy
+#spacy-lookups-data
 tabulate
 unidecode
 urllib3

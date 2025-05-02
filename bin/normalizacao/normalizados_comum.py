@@ -8,24 +8,21 @@ from datetime import datetime, timedelta
 import re
 import json
 import uuid
+import arquivos
 
-
-"""
-def testar_regex(text, pattern)
-
-testar regex
-"""
 def testar_regex(text, pattern):
+    """
+    testar se um texto atende a um padrão de regex
+    """
     if not (pattern.search(text) is None):
         return True
     else:
         return False
 
-
-"""
-def carregar_campanhas_normalizadas(args)
-"""
 def carregar_campanhas_normalizadas(args):
+    """
+    carregar campanhas normalizadas
+    """
     campanhas = []
     caminho = f'{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}'
     logs.verbose(args, f'carregar campanhas normalizadas, caminho: {caminho}')
@@ -44,25 +41,17 @@ def carregar_campanhas_normalizadas(args):
         
         # Verifica se o caminho é um arquivo
         if os.path.isfile(full_path) and full_path.endswith(".json"):
-            # abrir arquivo
-            f = open (full_path, "r")
-            
             # ler arquivo como json
-            data = json.loads(f.read())
-
-            # fechar arquivo
-            f.close()
+            data = json.loads(arquivos.ler_arquivo(full_path))
 
             campanhas.append(data)
 
     return campanhas
 
-"""
-def gravar_campanhas(args, campanhas)
-
-gravar campanhas
-"""
 def gravar_campanhas(args, campanhas):
+    """
+    gravar campanhas
+    """
     logs.verbose(args, "atualizar campanhas")
     quantidade_campanhas = 0
     res = True

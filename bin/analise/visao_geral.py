@@ -1,46 +1,48 @@
 import pandas as pd
-import bancodados.comum as comum
+import analise.comum as comum
 import pydot
 import duckdb
 import formatos
+import arquivos
+import arquivos_template
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import time
 
 
-"""
-def exportar_visao_geral(args, con, caminho_analises_result)
-- executar consultas SQL
-- gerar excel
-- gerar infográfico
-- gerar gráficos
-"""
 def exportar_visao_geral(args, con, caminho_analises_result):
+    """
+    def exportar_visao_geral(args, con, caminho_analises_result)
+    - executar consultas SQL
+    - gerar excel
+    - gerar infográfico
+    - gerar gráficos
+    """
 
     caminho_scripts = f"{comum.CAMINHO_SCRIPTS_ANALISES}/01-visao-geral"
 
-    sql = comum.ler_arquivo(f'{caminho_scripts}/01-a-visao-geral-modalidade.sql')
+    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-a-visao-geral-modalidade.sql')
     res = con.sql(sql)
     dfa = res.to_df()
 
-    sql = comum.ler_arquivo(f'{caminho_scripts}/01-b-visao-geral-plataformas.sql')
+    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-b-visao-geral-plataformas.sql')
     res = con.sql(sql)
     dfb = res.to_df()
 
-    sql = comum.ler_arquivo(f'{caminho_scripts}/01-c-visao-geral-uf.sql')
+    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-c-visao-geral-uf.sql')
     res = con.sql(sql)
     dfc = res.to_df()
 
-    sql = comum.ler_arquivo(f'{caminho_scripts}/01-d-visao-geral-classificacao-autoria.sql')
+    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-d-visao-geral-classificacao-autoria.sql')
     res = con.sql(sql)
     dfd = res.to_df()
 
-    sql = comum.ler_arquivo(f'{caminho_scripts}/01-e-visao-geral-autor.sql')
+    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-e-visao-geral-autor.sql')
     res = con.sql(sql)
     dfe = res.to_df()
 
-    sql = comum.ler_arquivo(f'{caminho_scripts}/01-f-visao-geral-categoria-mencao.sql')
+    sql = arquivos.ler_arquivo(f'{caminho_scripts}/01-f-visao-geral-categoria-mencao.sql')
     res = con.sql(sql)
     dff = res.to_df()
 
@@ -60,7 +62,7 @@ def exportar_visao_geral(args, con, caminho_analises_result):
     analisar_infografico_flex(dfa, valores_mapeados)
     analisar_infografico_recorrentes(dfa, valores_mapeados)
 
-    grafo_visao_geral = comum.processar_template(
+    grafo_visao_geral = arquivos_template.processar_template(
         f'{caminho_scripts}/infografico.template.dot'
         ,valores_mapeados
         )
@@ -118,6 +120,9 @@ def exportar_visao_geral(args, con, caminho_analises_result):
 
 
 def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo, label_eixo_x, eixo_x, figsize):
+    """
+    gerar gráficos
+    """
     comum.gerar_grafico_barras(
         caminho_analises_result
         , f'{prefixo_arquivo}-1-qtd.png'
@@ -194,22 +199,21 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
         )
 
 
-
-"""
-def analisar_infografico_anos(df, valores_mapeados)
-analisar anos
-"""
 def analisar_infografico_anos(df, valores_mapeados):
+    """
+    def analisar_infografico_anos(df, valores_mapeados)
+    analisar anos
+    """
     res = duckdb.sql('select min(min_ano) min_ano, max(max_ano) max_ano from df').fetchone()
 
     valores_mapeados['min_ano'] = str(res[0])
     valores_mapeados['max_ano'] = str(res[1])
 
-"""
-def analisar_infografico_quantidades(df, valores_mapeados)
-analisar quantidades
-"""
 def analisar_infografico_quantidades(df, valores_mapeados):
+    """
+    def analisar_infografico_quantidades(df, valores_mapeados)
+    analisar quantidades
+    """
     res = duckdb.sql("""
     select  sum(qtd) campanhas_total
             ,sum(qtd) filter ( campanha_modalidade != 'Recorrente' ) campanhas_pontuais_total
@@ -225,11 +229,11 @@ def analisar_infografico_quantidades(df, valores_mapeados):
     valores_mapeados['campanhas_flex_total'] = str(res[0][3])
     valores_mapeados['campanhas_sub_total'] = str(res[0][4])
 
-"""
-def analisar_infografico_tudo_ou_nada(df, valores_mapeados)
-analisar tudo ou nada
-"""
 def analisar_infografico_tudo_ou_nada(df, valores_mapeados):
+    """
+    def analisar_infografico_tudo_ou_nada(df, valores_mapeados)
+    analisar tudo ou nada
+    """
     res = duckdb.sql("""
     select  txsucesso
             ,tot_arrecadado
@@ -249,11 +253,11 @@ def analisar_infografico_tudo_ou_nada(df, valores_mapeados):
     valores_mapeados['campanhas_aon_contr_totais'] = formatos.formatar_num0_ptbr(res[5])
 
 
-"""
-def analisar_infografico_flex(df, valores_mapeados)
-analisar flex
-"""
 def analisar_infografico_flex(df, valores_mapeados):
+    """
+    def analisar_infografico_flex(df, valores_mapeados)
+    analisar flex
+    """
     res = duckdb.sql("""
     select  txsucesso
             ,tot_arrecadado
@@ -273,11 +277,11 @@ def analisar_infografico_flex(df, valores_mapeados):
     valores_mapeados['campanhas_flex_contr_totais'] = formatos.formatar_num0_ptbr(res[5])
 
 
-"""
-def analisar_infografico_recorrentes(df, valores_mapeados)
-analisar recorrentes
-"""
 def analisar_infografico_recorrentes(df, valores_mapeados):
+    """
+    def analisar_infografico_recorrentes(df, valores_mapeados)
+    analisar recorrentes
+    """
     res = duckdb.sql("""
     select  txsucesso
             ,tot_arrecadado

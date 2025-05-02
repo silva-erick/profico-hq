@@ -4,28 +4,21 @@ import logs
 import json
 from datetime import datetime, timedelta
 import formatos
+import arquivos
 
 import pandas as pd
 
 import pydot
 
-import bancodados.comum as comum
-import bancodados.dados_campanhas as dados_campanhas
-import bancodados.visao_geral as visao_geral
+import analise.comum as comum
+import analise.dados_campanhas as dados_campanhas
+import analise.visao_geral as visao_geral
 
 
-"""
-Obter o template de infográfico
-"""
 def obter_template_infografico(dot_template, df) -> str:
-
-    # lista_plataformas = []
-    # if analisebase.DFCOL_ORIGEM in df.columns:
-    #     for orig in df[analisebase.DFCOL_ORIGEM].unique():
-    #         lista_plataformas.append(analisebase.TITULOS_ORIGENS[orig])
-    # else:
-    #     for orig in analisebase.ORIGENS:
-    #         lista_plataformas.append(analisebase.TITULOS_ORIGENS[orig])
+    """
+    Obter o template de infográfico
+    """
 
     res = duckdb.sql('select min(min_ano) from df').fetchall()
 
@@ -46,7 +39,6 @@ def obter_template_infografico(dot_template, df) -> str:
     ]
 
     valores_substituicao = {}
-    #valores_substituicao['$(plataformas)']                      = analisebase.enumerar_strings(lista_plataformas)
     valores_substituicao['$(menor-ano)']                        = df[df[analisebase.DFCOL_MENOR_ANO]!=0][analisebase.DFCOL_MENOR_ANO].min()
     valores_substituicao['$(maior-ano)']                        = df[analisebase.DFCOL_MAIOR_ANO].max()
     valores_substituicao['$(campanhas-total)']                  = analisebase.numero_com_separadores(df[analisebase.DFCOL_TOTAL].sum())
@@ -86,137 +78,10 @@ def obter_template_infografico(dot_template, df) -> str:
 
     return resultado
 
-
-
-
-
-
-
-"""
-def exportar_serie_visao_geral(args, con, caminho_analises_result)
-"""
-def exportar_serie_visao_geral(args, con, caminho_analises_result):
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-a-visao-geral-plataformas.sql')
-    res = con.sql(sql)
-    dfa = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-b-visao-geral-modalidade.sql')
-    res = con.sql(sql)
-    dfb = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-c-visao-geral-uf.sql')
-    res = con.sql(sql)
-    dfc = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-d-visao-geral-classificacao-autoria.sql')
-    res = con.sql(sql)
-    dfd = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/11-f-visao-geral-categoria-mencao.sql')
-    res = con.sql(sql)
-    dff = res.to_df()
-
-    with pd.ExcelWriter(f'{caminho_analises_result}/11-serie-visao-geral.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='plataforma', index=False)
-        dfb.to_excel(writer, sheet_name='modalidade', index=False)
-        dfc.to_excel(writer, sheet_name='uf', index=False)
-        dfd.to_excel(writer, sheet_name='classificacao_autoria', index=False)
-        dff.to_excel(writer, sheet_name='categoria_mencao', index=False)
-
-
-"""
-def exportar_serie_modalidade(args, con, caminho_analises_result)
-"""
-def exportar_serie_modalidade(args, con, caminho_analises_result):
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/21-a-modalidade-tudo-ou-nada.sql')
-    res = con.sql(sql)
-    dfa = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/21-b-modalidade-flex.sql')
-    res = con.sql(sql)
-    dfb = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/21-c-modalidade-recorrente.sql')
-    res = con.sql(sql)
-    dfc = res.to_df()
-
-    with pd.ExcelWriter(f'{caminho_analises_result}/21-serie-modalidade.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
-        dfb.to_excel(writer, sheet_name='flex', index=False)
-        dfc.to_excel(writer, sheet_name='recorrente', index=False)
-
-
-"""
-def exportar_serie_uf(args, con, caminho_analises_result)
-"""
-def exportar_serie_uf(args, con, caminho_analises_result):
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/31-a-uf-tudo-ou-nada.sql')
-    res = con.sql(sql)
-    dfa = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/31-b-uf-flex.sql')
-    res = con.sql(sql)
-    dfb = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/31-c-uf-recorrente.sql')
-    res = con.sql(sql)
-    dfc = res.to_df()
-
-    with pd.ExcelWriter(f'{caminho_analises_result}/31-serie-uf.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
-        dfb.to_excel(writer, sheet_name='flex', index=False)
-        dfc.to_excel(writer, sheet_name='recorrente', index=False)
-
-
-"""
-def exportar_serie_classificacao_autoria(args, con, caminho_analises_result)
-"""
-def exportar_serie_classificacao_autoria(args, con, caminho_analises_result):
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/41-a-classificacao-autoria-tudo-ou-nada.sql')
-    res = con.sql(sql)
-    dfa = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/41-b-classificacao-autoria-flex.sql')
-    res = con.sql(sql)
-    dfb = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/41-c-classificacao-autoria-recorrente.sql')
-    res = con.sql(sql)
-    dfc = res.to_df()
-
-    with pd.ExcelWriter(f'{caminho_analises_result}/41-serie-classificacao-autoria.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
-        dfb.to_excel(writer, sheet_name='flex', index=False)
-        dfc.to_excel(writer, sheet_name='recorrente', index=False)
-
-
-"""
-def exportar_serie_categoria_mencao(args, con, caminho_analises_result)
-"""
-def exportar_serie_categoria_mencao(args, con, caminho_analises_result):
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/51-a-categoria-mencao-tudo-ou-nada.sql')
-    res = con.sql(sql)
-    dfa = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/51-b-categoria-mencao-flex.sql')
-    res = con.sql(sql)
-    dfb = res.to_df()
-
-    sql = ler_arquivo(f'{CAMINHO_SQL_ANALISES_SERIES}/51-c-categoria-mencao-recorrente.sql')
-    res = con.sql(sql)
-    dfc = res.to_df()
-
-    with pd.ExcelWriter(f'{caminho_analises_result}/51-serie-categoria-mencao.xlsx') as writer:  
-        dfa.to_excel(writer, sheet_name='tudo-ou-nada', index=False)
-        dfb.to_excel(writer, sheet_name='flex', index=False)
-        dfc.to_excel(writer, sheet_name='recorrente', index=False)
-
-
-"""
-async def executar_report(args)
--- 
-"""
-async def executar_report(args):
+async def executar_analise(args):
+    """
+    coordenar a execução da análise
+    """
     p1 = datetime.now()
 
     caminho_analises = f"{comum.CAMINHO_ANALISES}/{args.ano}"
@@ -239,7 +104,6 @@ async def executar_report(args):
     con = duckdb.connect(caminho_arq)
     
     dados_campanhas.exportar_dados_campanhas(args, con, caminho_analises_result)
-
 
     visao_geral.exportar_visao_geral(args, con, caminho_analises_result_visao_geral)
 
@@ -269,3 +133,6 @@ async def executar_report(args):
     tempo = delta.seconds + delta.microseconds/1000000
 
     logs.verbose(args, f'Tempo: {tempo}s')
+
+
+

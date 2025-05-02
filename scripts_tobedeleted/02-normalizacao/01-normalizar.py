@@ -24,7 +24,7 @@ import nltk
 
 CAMINHO_NORMALIZADOS = "../../dados/normalizados"
 CAMINHO_CONVERSAO_MONETARIA = "../../dados/brutos/aasp/conversao-monetaria.json"
-CAMINHO_ALBUNS = "../../dados/brutos/guiadosquadrinhos/totais.json"
+CAMINHO_LANCAMENTOS = "../../dados/brutos/guiadosquadrinhos/totais.json"
 CAMINHO_MUNICIPIOS = "../../dados/brutos/catarse/cities.json"
 CAMINHO_CAMPANHAS_CATARSE = "../../dados/brutos/catarse/campanhas"
 CAMINHO_CAMPANHAS_APOIASE = "../../dados/brutos/apoiase/campanhas"
@@ -315,13 +315,13 @@ class Normalizacao:
         return result['sucesso']
 
     # tratado
-    def _carregar_albuns(self):
+    def _carregar_lancamentos(self):
 
         self._show_message("> carregar arquivos de álbuns")
 
-        result = self._carregar_json(CAMINHO_ALBUNS)
+        result = self._carregar_json(CAMINHO_LANCAMENTOS)
         if result['sucesso']:
-            self._albuns = result['json']
+            self._lancamentos = result['json']
         return result['sucesso']
 
     # tratado
@@ -923,7 +923,7 @@ class Normalizacao:
             and self._carregar_mencoes_padroes()
             and self._carregar_autorias_padroes()
             and self._carregar_conversao_monetaria()
-            and self._carregar_albuns()
+            and self._carregar_lancamentos()
             and self._carregar_municipios()
 
             and self._show_message("Carregar campanhas")

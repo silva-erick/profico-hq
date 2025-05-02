@@ -62,7 +62,6 @@ Instale as dependências:
 
 ```
 pip install -r requirements.txt
-python -m spacy download pt_core_news_md
 ```
 
 ## Scripts
@@ -106,13 +105,42 @@ Scripts para normalização dos dados produzidos no processo de raspagem:
 - categorias de conteúdo
 - análises de recompensas
 
+Utilize o comando a seguir para normalizar todas as campanhas até o ano de 2024:
 ```
-python profico-hq.py normalizar
+python profico-hq.py normalizar -a 2024
+```
+
+Utilize o comando a seguir para normalizar todas as campanhas até o ano de 2024 com log verboso:
+```
+python profico-hq.py normalizar -a 2024 --verbose
 ```
 
 
 ### Banco de Dados
 
 Scripts para criação de bancos de dados:
-- sql
-- csv
+
+Utilize o comando a seguir para criar o banco de dados de todas as campanhas até o ano de 2024:
+```
+python profico-hq.py normalizar -a 2024
+```
+
+Utilize o comando a seguir para criar o banco de dados de todas as campanhas até o ano de 2024 com log verboso:
+```
+python profico-hq.py normalizar -a 2024 --verbose
+```
+
+
+### Reportar
+
+Scripts para reportar análises:
+
+Utilize o comando a seguir para reportar as análises de todas as campanhas até o ano de 2024:
+```
+python profico-hq.py normalizar -a 2024
+```
+
+Utilize o comando a seguir para reportar as análises de todas as campanhas até o ano de 2024 com log verboso:
+```
+python profico-hq.py normalizar -a 2024 --verbose
+```

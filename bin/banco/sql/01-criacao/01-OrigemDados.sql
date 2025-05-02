@@ -5,7 +5,3 @@ CREATE TABLE IF NOT EXISTS OrigemDados (
 	,url						VARCHAR(5000)
 	,descricao					TEXT
 );
-
---CREATE INDEX IF NOT EXISTS idx_OrigemDados_nome ON OrigemDados (
---	nome
---);

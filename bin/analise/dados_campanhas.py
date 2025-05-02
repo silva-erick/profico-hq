@@ -1,43 +1,44 @@
 import pandas as pd
-import bancodados.comum as comum
+import analise.comum as comum
+import arquivos
 
-"""
-def exportar_dados_campanhas(args, con)
-"""
 def exportar_dados_campanhas(args, con, caminho_analises_result):
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/00-lista-campanhas.sql')
+    """
+    def exportar_dados_campanhas(args, con)
+    """
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/00-lista-campanhas.sql')
     res = con.sql(sql)
     dfa = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/01-origem-dados.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/01-origem-dados.sql')
     res = con.sql(sql)
     dfb = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/02-status-campanha.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/02-status-campanha.sql')
     res = con.sql(sql)
     dfc = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/03-classificacao-autor.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/03-classificacao-autor.sql')
     res = con.sql(sql)
     dfd = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/04-modalidade-campanha.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/04-modalidade-campanha.sql')
     res = con.sql(sql)
     dfe = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/05-categoria-mencao.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/05-categoria-mencao.sql')
     res = con.sql(sql)
     dff = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/06-autoria.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/06-autoria.sql')
     res = con.sql(sql)
     dfg = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/07-municipio.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/07-municipio.sql')
     res = con.sql(sql)
     dfh = res.to_df()
 
-    sql = comum.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/08-unidade-federativa.sql')
+    sql = arquivos.ler_arquivo(f'{comum.CAMINHO_SCRIPTS_ANALISES}/00-campanhas/08-unidade-federativa.sql')
     res = con.sql(sql)
     dfi = res.to_df()
 

@@ -10,19 +10,17 @@ import raspagem.guia_dos_quadrinhos as guia
 import raspagem.catarse as catarse
 import raspagem.apoiase as apoiase
 
-"""
-async def executar_raspagem(args)
-- raspagem de dados das seguintes fontes:
--- aasp, para tabela de correção monetária
--- guia dos quadrinhos: fontes
--- catarse
--- 
-"""
 async def executar_raspagem(args):
+    """
+    async def executar_raspagem(args)
+    - raspagem de dados das seguintes fontes:
+    -- aasp, para tabela de correção monetária
+    -- guia dos quadrinhos: fontes
+    -- catarse
+    -- 
+    """
 
     p1 = datetime.now()
-
-    logs.definir_log(args, 'raspar')
 
     logs.verbose(args, 'Início')
 

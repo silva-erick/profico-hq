@@ -2,11 +2,12 @@ import os
 import logging
 from datetime import datetime, timedelta
 
-def definir_log(args, comando):
+current_log_level = logging.WARNING
+
+def definir_log(args):
     """
     definir o log_level:
     - args: argumentos da linha de comando
-    - comando: tipo de comando acionado
     """
 
     log_level = logging.WARNING
@@ -21,6 +22,8 @@ def definir_log(args, comando):
     elif args.loglevel =='DEBUG':
         log_level = logging.DEBUG
 
+    comando = args.command
+
     if not os.path.exists("log"):
         os.makedirs("log")
     log_filename = f"log/{comando}_{datetime.today().strftime('%Y%m%d_%H%M%S')}.log"
@@ -31,6 +34,8 @@ def definir_log(args, comando):
         filename=log_filename,
         datefmt='%Y-%m-%d %H:%M:%S')
     logging.getLogger().setLevel(log_level)
+
+    current_log_level = log_level
     
 def verbose(args, msg):
     """

@@ -4,32 +4,23 @@ import logs
 import json
 from datetime import datetime, timedelta
 import formatos
+import arquivos
+import banco.comum as comum
+import arquivos_template
 
-import pandas as pd
-
-
-CAMINHO_SQL = "./bancodados/sql"
-CAMINHO_SQL_CRIACAO = "./bancodados/sql/01-criacao"
-CAMINHO_SQL_CARGA = "./bancodados/sql/02-carga"
-CAMINHO_SQL_ANALISES = "./bancodados/sql/03-analises"
-CAMINHO_ANALISES = "../dados/analises"
-CAMINHO_BRUTO_CAMPANHAS_CATARSE = "../dados/brutos/catarse/campanhas"
-CAMINHO_NORMALIZADOS = "../dados/normalizados"
-
-
-"""
-def executar_scripts_pasta(args, caminho)
-"""
-def executar_scripts_pasta(args, caminho):
+def executar_scripts_pasta(args, caminho, mapa_substituicao={}):
+    """
+    abre uma conexão para o banco de dados e executa scripts do caminho informado
+    """
     campanhas = []
     logs.verbose(args, f'executar scripts pasta: {caminho}')
 
     if not os.path.exists(caminho):
         return False
     
-    caminho_scripts = os.listdir(caminho)
+    caminho_scripts = sorted(os.listdir(caminho))
 
-    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb")
+    con = duckdb.connect(f"{comum.CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb")
 
     # Percorre a lista de arquivos
     for caminho_script_sql in caminho_scripts:
@@ -41,23 +32,18 @@ def executar_scripts_pasta(args, caminho):
 
         if not caminho_arq.endswith(".sql"):
             continue
-        
-        # abrir arquivo
-        f = open (caminho_arq, "r")
-        
-        # ler arquivo
-        sql = f.read()
-        sql = sql.replace(f'$(cities.json)', f'{CAMINHO_BRUTO_CAMPANHAS_CATARSE}/{args.ano}/cities.json')
+
+        sql = arquivos_template.processar_template(caminho_arq, mapa_substituicao)
 
         con.sql(sql)
-
-        # fechar arquivo
-        f.close()
 
     return True
 
 
 def construir_comando_autor(campanha):
+    """
+    construir comando para carga de autor
+    """
     origem = campanha['origem']
     origemdados_id = -1
     if origem=='catarse':
@@ -105,6 +91,9 @@ WHERE   NOT EXISTS (
 
 
 def tratar_valor_data_null(val):
+    """
+    tratar valor data para aceitar NULL
+    """
     if val is None or val == '':
         val = 'NULL'
     else:
@@ -113,6 +102,9 @@ def tratar_valor_data_null(val):
     return val
 
 def tratar_valor_num_null(val):
+    """
+    tratar valor numérico para aceitar NULL
+    """
     if val is None or val == '':
         val = 'NULL'
     else:
@@ -121,11 +113,10 @@ def tratar_valor_num_null(val):
     return val
 
 
-def comando_campanha_obterid():
-    sql = "select nextval('seq_campanha_id')"
-    return sql
-
 def construir_comando_campanha(campanha, campanha_id):
+    """
+    construir comando de carga de campanha
+    """
     origem = campanha['origem']
     origemdados_id = -1
     if origem=='catarse':
@@ -321,6 +312,10 @@ WHERE   NOT EXISTS (
 
 
 def construir_comando_mencao(mencao, campanha_id):
+    """
+    construir comando sql para carga de menção
+    """
+
     template = """
 INSERT INTO CategoriaMencaoCampanha (
      categoriamencao_id
@@ -338,12 +333,12 @@ WHERE   nome='{mencao}'
         )
     return sql
 
-"""
-def executar_carga_campanhas(args)
-"""
 def executar_carga_campanhas(args):
+    """
+    def executar_carga_campanhas(args)
+    """
     campanhas = []
-    caminho_campanhas = f'{CAMINHO_NORMALIZADOS}/{args.ano}'
+    caminho_campanhas = f'{comum.CAMINHO_NORMALIZADOS}/{args.ano}'
     logs.verbose(args, f'executar carga campanhas, pasta: {caminho_campanhas}')
 
     if not os.path.exists(caminho_campanhas):
@@ -351,7 +346,7 @@ def executar_carga_campanhas(args):
     
     arquivos_campanhas = os.listdir(caminho_campanhas)
 
-    con = duckdb.connect(f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb")
+    con = duckdb.connect(f"{comum.CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb")
 
     campanha_id = 0
     # Percorre a lista de arquivos
@@ -365,15 +360,10 @@ def executar_carga_campanhas(args):
         if not caminho_arq.endswith(".json"):
             continue
         
-        # abrir arquivo
-        f = open (caminho_arq, "r")
-        
         # ler arquivo
-        campanha = json.loads(f.read()) 
+        campanha = json.loads(arquivos.ler_arquivo(caminho_arq)) 
         sql = construir_comando_autor(campanha)
         con.sql(sql)
-        #sql = comando_campanha_obterid()
-        #campanha_id = con.sql(sql).fetchall()[0][0]
         campanha_id = campanha_id + 1
 
         geral_data_fim = campanha['geral_data_fim']
@@ -405,28 +395,35 @@ def executar_carga_campanhas(args):
             sql = construir_comando_mencao('nenhuma', campanha_id)
             con.sql(sql)
 
-
-        # fechar arquivo
-        f.close()
-
     return True
 
-"""
-async def executar_montarbd(args)
--- 
-"""
 async def executar_montarbd(args):
+    """
+    async def executar_montarbd(args)
+    -- 
+    """
     p1 = datetime.now()
 
-    caminho_arq = f"{CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb"
+    caminho_arq = f"{comum.CAMINHO_ANALISES}/{args.ano}/analises_{args.ano}.duckdb"
 
     print(f'montar banco de dados (duckdb): {caminho_arq}')
 
     if os.path.exists(caminho_arq):
         os.remove(caminho_arq) 
 
-    executar_scripts_pasta(args, CAMINHO_SQL_CRIACAO)
-    executar_scripts_pasta(args, CAMINHO_SQL_CARGA)
+    executar_scripts_pasta(args, comum.CAMINHO_SQL_CRIACAO)
+    executar_scripts_pasta(args, comum.CAMINHO_SQL_CARGA
+        , mapa_substituicao={f'cities.json':
+            comum.CAMINHO_NORMALIZADOS_MUNICIPIOS.replace(
+            '{ano}'
+            , str(args.ano)
+            ),
+            f'lancamentos.json':comum.CAMINHO_NORMALIZADOS_LANCAMENTOS.replace(
+            '{ano}'
+            , str(args.ano)
+            )
+        }
+    )
 
     executar_carga_campanhas(args)
 

@@ -1,5 +1,0 @@
---CREATE TABLE IF NOT EXISTS AutorCampanha (
---	 autor_id				INT
---	,campanha_id			INT
---	,PRIMARY KEY (autor_id, campanha_id)
---);

@@ -23,8 +23,9 @@ URL_USER_DETAILS        = "https://api.catarse.me/user_details"
 
 class BaseCatarseCollectionApi:
     batch_size = 9
-    def __init__(self):
+    def __init__(self, args):
         self.batch_size = self._get_batch_size()
+        self._args = args
 
     def _get_headers(self):
         headers = {
@@ -58,16 +59,13 @@ class BaseCatarseCollectionApi:
     def _get_header_path(self):
         return ''
     
-    def execute(self, verbose = False, log_level = logging.WARNING):
+    def execute(self):
         # allow headers starting with :
         http.client._is_legal_header_name = re.compile(rb'[^\s][^:\r\n]*').fullmatch
 
-        # if verbose:
-        #     http.client.HTTPConnection.debuglevel = 1
-
         # allows logging
         requests_log = logging.getLogger("requests.packages.urllib3")
-        requests_log.setLevel(log_level)
+        requests_log.setLevel(logs.current_log_level)
         requests_log.propagate = True
 
         batch_size = self._get_batch_size()
@@ -87,7 +85,7 @@ class BaseCatarseCollectionApi:
         result = apoio.ResultadoApi(False)
 
         try:
-            logging.debug(f"Items will be fetched in batches of {batch_size}")
+            logs.verbose(self._args, f"Ítens serão obtidos em lotes de {batch_size}")
             while True:
 
                 p1 = datetime.now()
@@ -100,6 +98,7 @@ class BaseCatarseCollectionApi:
                 prepped.headers[":Path"] = self._get_header_path()
 
                 num_of_calls = num_of_calls + 1
+                logs.verbose(self._args, f"{type(self)}: chamada {num_of_calls}")
                 response = session.send(prepped, timeout=90)
                 p2 = datetime.now()
                 delta = p2-p1
@@ -108,6 +107,9 @@ class BaseCatarseCollectionApi:
 
                 total_time = total_time + delta.microseconds
 
+                logs.verbose(self._args, f"{type(self)}: chamada {num_of_calls} - status: {response.status_code}")
+
+                # success or partial code
                 if response.status_code == 200 or response.status_code == 206:
                     batch_campaigns = response.json()
                     all_items.extend(batch_campaigns)
@@ -137,7 +139,8 @@ class BaseCatarseCollectionApi:
         return result
 
 class CatarseCategories(BaseCatarseCollectionApi):
-    def __init__(self):
+    def __init__(self, args):
+        super().__init__(args)
         self._url = ''
 
     def _get_url(self):
@@ -156,7 +159,8 @@ class CatarseCategories(BaseCatarseCollectionApi):
         return '/categories?order=name.asc'
 
 class CatarseCities(BaseCatarseCollectionApi):
-    def __init__(self):
+    def __init__(self, args):
+        super().__init__(args)
         self._url = ''
 
     def _get_url(self):
@@ -175,7 +179,8 @@ class CatarseCities(BaseCatarseCollectionApi):
         return '/cities?order=name.asc'
 
 class CatarseFinishedProjects(BaseCatarseCollectionApi):
-    def __init__(self):
+    def __init__(self, args):
+        super().__init__(args)
         self._url = ''
 
     def _get_url(self):
@@ -184,7 +189,6 @@ class CatarseFinishedProjects(BaseCatarseCollectionApi):
     def _get_params(self):
         params = {
             "order": "state_order.asc,state.desc,pledged.desc",
-            #"mode": "not.eq.sub",
             "category_id": "eq.7",
         }
         return params
@@ -193,21 +197,24 @@ class CatarseFinishedProjects(BaseCatarseCollectionApi):
         return 99
     
     def _get_header_path(self):
-        #return '/finished?state_order.asc%2Cstate.desc%2Cpledged.desc&mode=not.eq.sub&category_id=eq.7'
         return '/finished?state_order.asc%2Cstate.desc%2Cpledged.desc&category_id=eq.7'
     
-    def execute(self, threads, clear_cache, verbose=False, log_level=logging.WARNING):
-        res = super().execute(verbose, log_level)
+    def execute(self, threads, clear_cache):
+        res = super().execute()
         if not res.sucesso:
             pass
         else:
 
             users_details = {}
 
+            num_of_calls = 1
             for fin in res.resultado:
                 project_id = fin['project_id']
 
-                threads.append(asyncio.create_task(catarse_campanha(project_id, users_details, clear_cache, verbose, log_level)))
+                logs.verbose(self._args, f"{type(self)}: campanha: {num_of_calls} - {project_id}")
+                threads.append(asyncio.create_task(catarse_campanha(self._args, project_id, users_details, clear_cache)))
+
+                num_of_calls = num_of_calls + 1
 
 
         return res
@@ -215,8 +222,9 @@ class CatarseFinishedProjects(BaseCatarseCollectionApi):
 
 class BaseCatarseUniqueApi:
     _param = {}
-    def __init__(self):
+    def __init__(self, args):
         self._param = {}
+        self._args = args
 
     def _get_headers(self):
         headers = {
@@ -261,18 +269,15 @@ class BaseCatarseUniqueApi:
         
         return f"{self._get_baseurl()}?{full}"
     
-    def _execute(self, key, value, verbose = False, log_level = logging.WARNING):
+    def _execute(self, key, value):
         # allow headers starting with :
         http.client._is_legal_header_name = re.compile(rb'[^\s][^:\r\n]*').fullmatch
 
         self._add_param(key, value)
 
-        # if verbose:
-        #     http.client.HTTPConnection.debuglevel = 1
-
         # allows logging
         requests_log = logging.getLogger("requests.packages.urllib3")
-        requests_log.setLevel(log_level)
+        requests_log.setLevel(logs.current_log_level)
         requests_log.propagate = True
 
         headers = self._get_headers()
@@ -334,8 +339,8 @@ class CatarseProjectDetails(BaseCatarseUniqueApi):
     def _get_baseurl(self):
         return '/project_details'
 
-    def execute(self, project_id, verbose = False, log_level = logging.WARNING):
-        return self._execute('project_id', project_id, verbose, log_level)
+    def execute(self, project_id):
+        return self._execute('project_id', project_id)
     
 
 class CatarseRewardDetails(BaseCatarseUniqueApi):
@@ -345,8 +350,8 @@ class CatarseRewardDetails(BaseCatarseUniqueApi):
     def _get_baseurl(self):
         return '/reward_details'
     
-    def execute(self, project_id, verbose = False, log_level = logging.WARNING):
-        return self._execute('project_id', project_id, verbose, log_level)
+    def execute(self, project_id):
+        return self._execute('project_id', project_id)
     
 
 class CatarseUserDetails(BaseCatarseUniqueApi):
@@ -356,44 +361,33 @@ class CatarseUserDetails(BaseCatarseUniqueApi):
     def _get_baseurl(self):
         return '/user_details'
 
-    def execute(self, user_id, verbose = False, log_level = logging.WARNING):
-        return self._execute('id', user_id, verbose, log_level)
+    def execute(self, user_id):
+        return self._execute('id', user_id)
 
 def catarse_base(args):
-
-    log_level = logging.WARNING
-    if args.loglevel == 'CRITICAL':
-        log_level = logging.CRITICAL
-    elif args.loglevel =='ERROR':
-        log_level = logging.ERROR
-    elif args.loglevel =='WARNING':
-        log_level = logging.WARNING
-    elif args.loglevel =='INFO':
-        log_level = logging.INFO
-    elif args.loglevel =='DEBUG':
-        log_level = logging.DEBUG
-
 
     if not os.path.exists("../dados/brutos/catarse"):
         os.makedirs("../dados/brutos/catarse")
     if not os.path.exists("../dados/brutos/catarse/campanhas"):
         os.makedirs("../dados/brutos/catarse/campanhas")
 
-    return log_level
+async def catarse_campanha(args, project_id, users_details, clear_cache):
+    """
+    coordenar chamada de api de detalhes das campanhas em catarse
+    """
 
-async def catarse_campanha(project_id, users_details, clear_cache, verbose, log_level):
-
-    project_details_api = CatarseProjectDetails()
-    reward_details_api = CatarseRewardDetails()
-    user_details_api = CatarseUserDetails()
+    project_details_api = CatarseProjectDetails(args)
+    reward_details_api = CatarseRewardDetails(args)
+    user_details_api = CatarseUserDetails(args)
 
     project_success = True
 
 
     project = {}
 
+    log.verbose(args, f'verificando projeto: {project_id}')
     if clear_cache or not os.path.exists(f"../dados/brutos/catarse/campanhas/{project_id}.json"):
-        pdr = project_details_api.execute(f"eq.{project_id}", verbose, log_level)
+        pdr = project_details_api.execute(f"eq.{project_id}")
         if not pdr.sucesso:
             project_success = False
             logs.verbose_error(f"project_id: {project_id} - error on project details")
@@ -416,7 +410,7 @@ async def catarse_campanha(project_id, users_details, clear_cache, verbose, log_
                 break
 
 
-        rdr = reward_details_api.execute(f"eq.{project_id}", verbose, log_level)
+        rdr = reward_details_api.execute(f"eq.{project_id}")
         if not rdr.sucesso:
             project_success = False
             logs.verbose_error(f"project_id: {project_id} - error on reward details")
@@ -431,47 +425,50 @@ async def catarse_campanha(project_id, users_details, clear_cache, verbose, log_
     return
 
 async def raspar_catarse(args):
+    """
+    coordenar chamada de api de campanhas em catarse
+    """
 
-    log_level = catarse_base(args)
+    finished = CatarseFinishedProjects(args)
 
-    finished = CatarseFinishedProjects()
-
-    logs.verbose(args, f"Preparing to access catarse.me")
+    logs.verbose(args, f"Preparando para acessar catarse.me")
 
     threads = list()
-    res = finished.execute(threads, args.clear_cache, args.verbose, log_level)
-    logs.verbose(args, f"\nData fetched")
+    res = finished.execute(threads, args.clear_cache)
+    logs.verbose(args, f"\nChamadas executadas")
 
     data_file = f"../dados/brutos/catarse/finished.json"
     with open(data_file, 'w') as json_file:
         json.dump(res.resultado, json_file)
 
 async def raspar_catarse_categories(args):
-
-    log_level = catarse_base(args)
+    """
+    coordenar chamada de api de categorias em catarse
+    """
 
     logs.verbose(args, 'Catarse - Categories')
 
-    api_categories = CatarseCategories()
+    api_categories = CatarseCategories(args)
     res = api_categories.execute()
     categories_file = f"../dados/brutos/catarse/categories.json"
     with open(categories_file, 'w') as json_file:
         json.dump(res.resultado, json_file)
 
-    logs.verbose(args, 'Catarse - Categories - Done')
+    logs.verbose(args, 'Catarse - Categories - Chamadas executadas')
 
 
 async def raspar_catarse_cities(args):
-
-    log_level = catarse_base(args)
+    """
+    coordenar chamada de api de municípios em catarse
+    """
 
     logs.verbose(args, 'Catarse - Cities')
 
-    api_cities = CatarseCities()
+    api_cities = CatarseCities(args)
     res = api_cities.execute()
     cities_file = f"../dados/brutos/catarse/cities.json"
     with open(cities_file, 'w') as json_file:
         json.dump(res.resultado, json_file)
 
-    logs.verbose(args, 'Catarse - Cities - Done')
+    logs.verbose(args, 'Catarse - Cities - Chamadas executadas')
 

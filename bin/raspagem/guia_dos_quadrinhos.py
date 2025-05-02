@@ -36,12 +36,11 @@ RE_ALBUM_TITLE                = re.compile(r"^(.+)\s+-\s+([^\n]+)$")
 
 RE_TOTAL                = re.compile(r"Itens:\s+\d+\s+-\s+\d+\s+de\s+(\d+)")
 
-"""
-raspar_guiadosquadrinhos: controle de execução de requisição de lançamentos
-no site guiadosquadrinhos.com.
-
-"""
 async def raspar_guiaquadrinhos(args, ano):
+    """
+    raspar_guiadosquadrinhos: controle de execução de requisição de lançamentos
+    no site guiadosquadrinhos.com.
+    """
 
     log_level = args.loglevel
     verbose = args.verbose

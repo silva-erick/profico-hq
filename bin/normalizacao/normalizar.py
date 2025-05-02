@@ -13,21 +13,13 @@ import uuid
 
 from bs4 import BeautifulSoup
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.decomposition import LatentDirichletAllocation
-from sklearn.cluster import KMeans
-from nltk.corpus import stopwords
-import nltk
-
-import spacy
-
 import logs
 
 import formatos
 import normalizacao.colunas as colunaslib
 import normalizacao.caminhos as caminhos
 import normalizacao.normalizados_comum as normalizados_comum
+import arquivos
 
 
 REGEX_PRIMEIRO_NOME = re.compile(r'^[\w]+$')
@@ -63,12 +55,16 @@ uf_brasileiras = [
         ]
 
 nomes_com_genero = {}
-"""
-async def carregar_arquivos_frequencia_nomes(args)
-
-carregar arquivos de frequências de nome
-"""
 async def carregar_arquivos_frequencia_nomes(args):
+    """
+    carregar arquivos de frequências de nome
+    - referência: https://brasil.io/dataset/genero-nomes/nomes/
+    - baixado em 2024-01-13
+
+    um nome de pessoa autora encontrado nesta lista pode ajudar a determinar gênero
+    da pessoa
+    """
+
     logs.verbose(args, 'thread: carregando dicionário de nomes')
 
     # referência: https://brasil.io/dataset/genero-nomes/nomes/
@@ -103,22 +99,17 @@ async def carregar_arquivos_frequencia_nomes(args):
     return True
 
 
-"""
-def carregar_arquivo_padroes(args, caminho_arquivo, cats, precisos, comeca_com, contem)
-
-carregar arquivo JSON de padrões, contendo padrões de:
-- preciso
-- começa com
-- contém
-"""
 def carregar_arquivo_padroes(args, caminho_arquivo, cats, precisos, comeca_com, contem):
+    """
+    carregar arquivo JSON de padrões, contendo padrões de:
+    - preciso
+    - começa com
+    - contém
+    """
     # abrir arquivo
     try:
-        f = None
-        f = open (caminho_arquivo, "r", encoding="utf8")
-        
         # ler arquivo como json
-        data = json.loads(f.read())
+        data = json.loads(arquivos.ler_arquivo(caminho_arquivo))
         estruts = ['full','comeca_com', 'contem']
 
         for c in cats:
@@ -137,21 +128,15 @@ def carregar_arquivo_padroes(args, caminho_arquivo, cats, precisos, comeca_com, 
         # Lidar com a exceção, se necessário
         logs.verbose_error(args, f"Erro ao ler o arquivo {caminho_arquivo}: {e}")
         return False
-    finally:
-        # Certifique-se de fechar o arquivo, mesmo em caso de exceção
-        if f is not None:
-            f.close()
 
 autorias_precisos = {}
 autorias_comeca_com={}
 autorias_contem={}
 
-"""
-async def carregar_autorias_padroes(args)
-
-carregar arquivo JSON de padrões de autorias
-"""
 async def carregar_autorias_padroes(args):
+    """
+    carregar arquivo JSON de padrões de autorias
+    """
 
     logs.verbose(args, f"thread: carregando arquivo de padrões - autoria")
 
@@ -173,12 +158,10 @@ async def carregar_autorias_padroes(args):
 mencoes_padroes_precisos = {}
 mencoes_padroes_comeca_com = {}
 mencoes_padroes_contem = {}
-"""
-async def carregar_mencoes_padroes(args)
-
-carregar arquivo JSON de padrões de menções
-"""
 async def carregar_mencoes_padroes(args):
+    """
+    carregar arquivo JSON de padrões de menções
+    """
 
     logs.verbose(args, f"thread: carregando arquivo de padrões - menções")
 
@@ -214,19 +197,15 @@ async def carregar_mencoes_padroes(args):
         )
 
 
-"""
-def carregar_json(caminho)
-
-carregar arquivo JSON
-"""
 def carregar_json(args, caminho, holder):
+    """
+    carregar arquivo JSON
+    """
     result = {}
     result['sucesso'] = False
     try:
-        f = open(caminho, "r")
-
         # Reading from file
-        temp_data = json.loads(f.read())
+        temp_data = json.loads(arquivos.ler_arquivo(caminho))
         if isinstance(temp_data, dict):
             for key, value in temp_data.items():
                 holder[key] = value
@@ -243,19 +222,14 @@ def carregar_json(args, caminho, holder):
         logs.verbose(args, f"Erro ao ler o arquivo: {e}")
 
     finally:
-        # Certifique-se de fechar o arquivo, mesmo em caso de exceção
-        if f:
-            f.close()
 
         return result
 
 conversao_monetaria = {}
-"""
-async def carregar_conversao_monetaria(args)
-
-carregar JSON de conversão monetária
-"""
 async def carregar_conversao_monetaria(args):
+    """
+    carregar JSON de conversão monetária
+    """
 
     ano = args.ano
 
@@ -270,41 +244,66 @@ async def carregar_conversao_monetaria(args):
             result['sucesso'] = False
     return result['sucesso']
 
-albuns = {}
-"""
-async def carregar_albuns(args):
-
-carregar JSON de álbuns
-"""
-async def carregar_albuns(args):
+lancamentos = {}
+async def carregar_lancamentos(args):
+    """
+    carregar JSON de álbuns
+    """
 
     logs.verbose(args, "thread: carregar arquivos de álbuns")
 
-    result = carregar_json(args, caminhos.CAMINHO_BRUTO_ALBUNS, albuns)
+    if not os.path.exists(caminhos.CAMINHO_BRUTO_LANCAMENTOS):
+        return False
+    
+    lista_arquivos = os.listdir(caminhos.CAMINHO_BRUTO_LANCAMENTOS)
 
-    return result['sucesso']
+    quantidade_arq = 0
+
+    lista_lancamentos = []
+    # Percorre a lista de arquivos
+    for caminho_arq in lista_arquivos:
+        temp_lancamentos={}
+        if not caminho_arq.startswith('ano-') or not caminho_arq.endswith('.json'):
+            continue
+
+        res = carregar_json(args, f'{caminhos.CAMINHO_BRUTO_LANCAMENTOS}/{caminho_arq}', temp_lancamentos)
+        dc = res['json']
+        for k,v in dc.items():
+            if int(v['ano']) > args.ano:
+                continue
+            if k in lancamentos:
+                continue
+            lancamentos[k] = v
+            lista_lancamentos.append(v)
+
+    caminho_lancamentos = caminhos.CAMINHO_NORMALIZADOS_LANCAMENTOS.replace('{ano}', str(args.ano))
+    with open(caminho_lancamentos, 'w') as arquivo_json:
+        json.dump(lista_lancamentos, arquivo_json)
+    
+
+    return True
 
 
 municipios = []
-"""
-async def carregar_municipios(args)
-
-carregar JSON de municípios
-"""
 async def carregar_municipios(args):
+    """
+    carregar JSON de municípios
+    """
 
     logs.verbose(args, "thread: carregar municípios")
 
     result = carregar_json(args, caminhos.CAMINHO_BRUTO_MUNICIPIOS, municipios)
 
+    caminho_municipios = caminhos.CAMINHO_NORMALIZADOS_MUNICIPIOS.replace('{ano}', str(args.ano))
+    with open(caminho_municipios, 'w') as arquivo_json:
+        json.dump(result['json'], arquivo_json)
+
     return result['sucesso']
 
-"""
-def ajustar_valor(ano_ini, mes_ini, valor_ini, ano_fim, mes_fim)
-
-ajustar valor usando a tabela de conversão monetária
-"""
 def ajustar_valor(ano_ini, mes_ini, valor_ini, ano_fim, mes_fim):
+    """
+    ajustar valor usando a tabela de conversão monetária
+    """
     anomes_ini = str(ano_ini * 100 + mes_ini)
     anomes_fim = str(ano_fim * 100 + mes_fim)
 
@@ -313,12 +312,10 @@ def ajustar_valor(ano_ini, mes_ini, valor_ini, ano_fim, mes_fim):
 
     return (valor_ini/conversao_monetaria[anomes_ini]) * conversao_monetaria[anomes_fim]
 
-"""
-def adaptar_apoiase(campanha_apoiase)
-
-adaptar campanhas do apoiase
-"""
 def adaptar_apoiase(campanha_apoiase):
+    """
+    adaptar campanhas do apoiase
+    """
     data = {}
     data['detail'] = {}
     data['detail']['user'] = {}
@@ -420,12 +417,10 @@ def adaptar_apoiase(campanha_apoiase):
 
 campanhas_apoiase = []
 
-"""
-async def carregar_campanhas_apoiase(args)
-
-carregar campanhas do apoiase
-"""
 async def carregar_campanhas_apoiase(args):
+    """
+    carregar campanhas do apoiase
+    """
     logs.verbose(args, 'thread: campanhas apoia.se')
     if not os.path.exists(caminhos.CAMINHO_BRUTO_CAMPANHAS_APOIASE):
         return False
@@ -441,14 +436,8 @@ async def carregar_campanhas_apoiase(args):
         
         # Verifica se o caminho é um arquivo
         if os.path.isfile(full_path) and full_path.endswith(".json"):
-            # abrir arquivo
-            f = open (full_path, "r")
-            
             # ler arquivo como json
-            data = json.loads(f.read())
-
-            # fechar arquivo
-            f.close()
+            data = json.loads(arquivos.ler_arquivo(full_path))
 
             data = adaptar_apoiase(data)
             data[colunaslib.COL_ORIGEM] = 'apoia.se'
@@ -476,12 +465,10 @@ async def carregar_campanhas_apoiase(args):
 
 
 campanhas_catarse=[]
-"""
-async def carregar_campanhas_catarse(args)
-
-carregar campanhas do catarse
-"""
 async def carregar_campanhas_catarse(args):
+    """
+    carregar campanhas do catarse
+    """
     logs.verbose(args, 'thread: campanhas catarse')
     if not os.path.exists(caminhos.CAMINHO_BRUTO_CAMPANHAS_CATARSE):
         return False
@@ -497,15 +484,9 @@ async def carregar_campanhas_catarse(args):
         
         # Verifica se o caminho é um arquivo
         if os.path.isfile(full_path) and full_path.endswith(".json"):
-            # abrir arquivo
-            f = open (full_path, "r")
-            
             # ler arquivo como json
-            data = json.loads(f.read())
+            data = json.loads(arquivos.ler_arquivo(full_path))
             data[colunaslib.COL_ORIGEM] = 'catarse'
-
-            # fechar arquivo
-            f.close()
 
             # verificar a data de lançamento da campanha
             try:
@@ -530,12 +511,10 @@ async def carregar_campanhas_catarse(args):
     logs.verbose(args, f'\tcampanhas encontradas: {quantidade_campanhas}')
     return True
 
-"""
-def garantir_pastas_normalizacao(args)
-
-garantir pastas normalizadas
-"""
 def garantir_pastas_normalizacao(args):
+    """
+    garantir pastas normalizadas
+    """
     logs.verbose(args, 'Verificando pastas')
     logs.verbose(args, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}")
     if not os.path.exists(f"{caminhos.CAMINHO_NORMALIZADOS}"):
@@ -545,17 +524,19 @@ def garantir_pastas_normalizacao(args):
     if not os.path.exists(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}"):
         logs.verbose(args, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
         os.mkdir(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}")
+    logs.verbose(args, f"> pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}/apoio")
+    if not os.path.exists(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}/apoio"):
+        logs.verbose(args, f"\tcriando pasta: {caminhos.CAMINHO_NORMALIZADOS}/{args.ano}/apoio")
+        os.mkdir(f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}/apoio")
 
     return True
 
 campanhas = []
 
-"""
-def percorrer_campanhas(args, msg, funcao)
-
-apoio: percorrer campanhas
-"""
 def percorrer_campanhas(args, msg, funcao):
+    """
+    percorrer campanhas
+    """
     logs.verbose(args, msg)
     quantidade_campanhas = 0
     res = True
@@ -573,12 +554,10 @@ def percorrer_campanhas(args, msg, funcao):
     return res
 
 
-"""
-def ajustar_valores_campanha(args, data)
-
-ajustar valor de campanha
-"""
 def ajustar_valores_campanha(args, data):
+    """
+    ajustar valor de campanha
+    """
     # verificar a data de lançamento da campanha
     try:
         data_obj = formatos.parse_data(data['detail']['online_date'])
@@ -596,12 +575,10 @@ def ajustar_valores_campanha(args, data):
         #reward['maximum_contributions_ajustado'] = ajustar_valor(data_obj.year, data_obj.month, reward['maximum_contributions'], args.ano, 12)
     return True
 
-"""
-def ajustar_valor_about(args, data)
-
-converter texto de about the HTML (com tags) para TEXT (texto puro, sem marcação)
-"""
 def ajustar_valor_about(args, data):
+    """
+    converter texto de about the HTML (com tags) para TEXT (texto puro, sem marcação)
+    """
     # obtém a representação em HTML
     about_html = data['detail']['about_html']
 
@@ -625,23 +602,19 @@ def ajustar_valor_about(args, data):
 
     return True
 
-"""
-def verificar_genero(nome)
-
-verificar gênero das pessoas autoras nas campanhas
-"""
 def verificar_genero(nome):
+    """
+    verificar gênero das pessoas autoras nas campanhas
+    """
     if nome not in nomes_com_genero:
         return None
 
     return nomes_com_genero[nome]
 
-"""
-def classificar_mencoes(args, data)
-
-classificar menções a palavras-chaves de categorias de interesse para análise das campanhas
-"""
 def classificar_mencoes(args, data):
+    """
+    classificar menções a palavras-chaves de categorias de interesse para análise das campanhas
+    """
     about_txt = data['detail']['about_txt']
     if about_txt is None:
         about_txt = ''
@@ -666,12 +639,10 @@ def classificar_mencoes(args, data):
 
     return True
 
-"""
-def classificar_recompensas(args, data)
-
-classificar recompensas, corrigindo valores
-"""
 def classificar_recompensas(args, data):
+    """
+    classificar recompensas, corrigindo valores
+    """
     menor_ajustado = 10000000000
     menor = menor_ajustado
     for reward in data['rewards']:
@@ -695,12 +666,10 @@ nao_classif = {
     ,"4": []
     ,"5": []
 }
-"""
-def classificar_autoria(args, data)
-
-classificar autoria
-"""
 def classificar_autoria(args, data):
+    """
+    classificar autoria
+    """
     user_data = data['user']
     public_name = user_data['public_name']
     name = user_data['name']
@@ -773,23 +742,19 @@ def classificar_autoria(args, data):
 
     return True
 
-"""
-def somente_uf_brasileira(uf)
-
-ficar apenas com UF brasileiras
-"""
 def somente_uf_brasileira(uf):
+    """
+    ficar apenas com UF brasileiras
+    """
     if uf in uf_brasileiras:
         return uf
     
     return 'XX'
 
-"""
-classificar_resumo(args, data)
-
-classificar resumo
-"""
 def classificar_resumo(args, data):
+    """
+    classificar resumo
+    """
 
     data[colunaslib.COL_GERAL_MUNICIPIO]=data['detail']['address']['city']
     data[colunaslib.COL_GERAL_UF]=data['detail']['address']['state_acronym']
@@ -818,12 +783,10 @@ def classificar_resumo(args, data):
 
     return True
 
-"""
-def gravar_json_campanhas(args, data)
-
-gravar json das campanhas
-"""
 def gravar_json_campanhas(args, data):
+    """
+    gravar json das campanhas
+    """
 
     try:        
         arquivo_dados = f"{caminhos.CAMINHO_NORMALIZADOS}/{args.ano}/{data['detail']['project_id']}.json"
@@ -839,15 +802,14 @@ def gravar_json_campanhas(args, data):
         # Lidar com a exceção, se necessário
         logs.verbose(args, f"Erro ao gravar arquivo normalizado {arquivo_dados}: {e}")
         return False
-    # finally:
-    #     # Certifique-se de fechar o arquivo, mesmo em caso de exceção
-    #     if f:
-    #         f.close()
 
     return True
 
 
 def garantir_dados_estaticos(args):
+    """
+    garantir a existência de dados estáticos na pasta dados/estaticos
+    """
     caminho_dados_estaticos = f'../dados/estaticos/'
     itens_dados_estaticos = os.listdir(caminho_dados_estaticos)
     max_ano = args.ano
@@ -876,19 +838,17 @@ def garantir_dados_estaticos(args):
     
 
 
-"""
-async def executar_normalizacao(args)
--- 
-"""
 async def executar_normalizacao(args):
+    """
+    executar a normalização do conteúdo previamente baixado
+    """
 
     p1 = datetime.now()
-
-    logs.definir_log(args, 'normalizar')
 
     logs.verbose(args, 'Início')
 
     garantir_dados_estaticos(args)
+    garantir_pastas_normalizacao(args)
 
     threads = list()
 
@@ -897,7 +857,7 @@ async def executar_normalizacao(args):
     threads.append(asyncio.create_task(carregar_autorias_padroes(args)))
     threads.append(asyncio.create_task(carregar_mencoes_padroes(args)))
     threads.append(asyncio.create_task(carregar_conversao_monetaria(args)))
-    threads.append(asyncio.create_task(carregar_albuns(args)))
+    threads.append(asyncio.create_task(carregar_lancamentos(args)))
     threads.append(asyncio.create_task(carregar_municipios(args)))
 
     logs.verbose(args,'carregando dados...')
@@ -918,7 +878,6 @@ async def executar_normalizacao(args):
     campanhas.clear()
     campanhas.extend(campanhas_apoiase)
     campanhas.extend(campanhas_catarse)
-    garantir_pastas_normalizacao(args)
 
     # normalizar campanhas
 
@@ -931,10 +890,7 @@ async def executar_normalizacao(args):
     result = result and percorrer_campanhas(args, f'> categorizar recompensas', classificar_recompensas)
     result = result and percorrer_campanhas(args, f'> classificar autoria', classificar_autoria)
     result = result and percorrer_campanhas(args, f'> categorizar resumo', classificar_resumo)
-    #result = result and classificar_texto_por_analise_multirrotulo(args, f'> categorizar multirrotulo')
 
-    #result = result and classificar_texto_por_extracao_entidades(args, f'> categorizar por extração de entidades')
-    
     result = result and percorrer_campanhas(args, f'> gravar arquivos normalizados das campanhas', gravar_json_campanhas)
 
     p2 = datetime.now()

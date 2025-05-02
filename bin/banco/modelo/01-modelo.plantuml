@@ -73,6 +73,14 @@ class StatusCampanha {
     nome                string
 }
 
+class HistoricoLancamento {
+	origemdados_id				INT
+    anomes                     INT
+    ano                        INT
+    mes                        INT
+    total                      INT    
+}
+
 UnidadeFederativa -o Municipio
 Municipio --o Campanha
 

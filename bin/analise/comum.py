@@ -3,55 +3,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import math
+import arquivos
 
 
-CAMINHO_SQL = "./bancodados/sql"
-
-CAMINHO_SCRIPTS_ANALISES = "./bancodados/scripts"
-
-CAMINHO_SQL_ANALISES = "./bancodados/sql/03-analises"
-CAMINHO_SQL_ANALISES_SERIES = "./bancodados/sql/04-analises-serie"
+CAMINHO_SQL = "./analise/sql"
 CAMINHO_ANALISES = "../dados/analises"
 CAMINHO_NORMALIZADOS = "../dados/normalizados"
 
+CAMINHO_SCRIPTS_ANALISES = "./analise/scripts"
 
-"""
-def ler_arquivo(caminho_arq)
+CAMINHO_SQL_ANALISES = "./analise/sql/03-analises"
+CAMINHO_SQL_ANALISES_SERIES = "./analise/sql/04-analises-serie"
 
-ler o conteúdo de um arquivo texto
-"""
-def ler_arquivo(caminho_arq):
 
-    with open(caminho_arq, 'r', encoding='utf8') as arq:
-        template = arq.read()
-        arq.close()
-
-    return template
-
-def extrair_campos_template(template):
-    # Match the pattern $(something)
-    matches = re.findall(r'\$\(([^)]+)\)', template)
-    # Use set to remove duplicates
-    unique_fields = list(set(matches))
-    return unique_fields
-
-def processar_template(caminho_template, valores_mapeados):
-    conteudo_template = ler_arquivo(caminho_template)
-    campos_template = extrair_campos_template(conteudo_template)
-
-    for campo in campos_template:
-        if not campo in valores_mapeados:
-            continue
-
-        conteudo_template = conteudo_template.replace(f'$({campo})', str(valores_mapeados[campo]))
-
-    return conteudo_template
-
-"""
-def formatar_num_eixo_y(num_unknown, pos=0)
-formatar  número para eixo y: usar prefixo K e M
-"""
 def formatar_num_eixo_y(num_unknown, pos=0):
+    """
+    formatar número para eixo y: usar prefixo K e M
+    """
     if isinstance(num_unknown, str):
         num = float(num_unknown)
     elif isinstance(num_unknown, int):
@@ -75,11 +43,10 @@ def formatar_num_eixo_y(num_unknown, pos=0):
     return resultado.replace('.', ',')
 
 
-"""
-def gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, titulo_grafico, titulo_eixo_x, titulo_eixo_y, funcao_formatacao=formatar_num_eixo_y)
-gerar gráfico de barras
-"""
 def gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, titulo_grafico, titulo_eixo_x, titulo_eixo_y, figsize, funcao_formatacao=formatar_num_eixo_y):
+    """
+    gerar gráfico de barras
+    """
 
     plt.figure(figsize=figsize)
 
@@ -116,10 +83,10 @@ def autolabel(ax, rects):
                     textcoords="offset points",
                     ha='center', va='bottom')
 
-"""
-Gerar gráfico de barras - 2 series
-"""
 def gerar_grafico_barras_2series(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo_grafico, titulo_eixo_x, titulo_eixo_y, label_serie_1, label_serie_2, figsize, funcao_formatacao=formatar_num_eixo_y):
+    """
+    Gerar gráfico de barras - 2 series
+    """
 
     # Positions for the bars
     x = np.arange(len(df[col_x]))  # the label locations
@@ -152,34 +119,16 @@ def gerar_grafico_barras_2series(pasta_img, arquivo, df, col_x, col_y1, col_y2, 
 
     plt.grid(True)
 
-    # plt.figure(figsize=(10, 6))
-
-    # plt.bar(df[col_x], df[col_y])
-
-    # # Adicionar etiquetas em cada ponto de dado
-    # for i, (ano, valor) in enumerate(zip(df[col_x], df[col_y])):
-    #     plt.text(ano, valor, funcao_formatacao(valor, 0), ha='left', va='bottom')
-
-    # plt.title(titulo_grafico)
-    # plt.xlabel(titulo_eixo_x)
-    # plt.ylabel(titulo_eixo_y)
-
-    # # Usar números sem notação científica no eixo y
-    # formatter = FuncFormatter(funcao_formatacao)
-    # plt.gca().yaxis.set_major_formatter(formatter)
-
-    # plt.grid(True)
-
     # Salvar o gráfico como uma imagem (por exemplo, PNG)
     plt.savefig(f'{pasta_img}/{arquivo}')
 
     plt.close('all')
 
 
-"""
-Gerar gráfico de barras
-"""
 def gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
+    """
+    Gerar gráfico de barras
+    """
 
     altura_grafico = round(len(df)*0.6)
     if altura_grafico < 2:
@@ -233,10 +182,10 @@ def gerar_grafico_barras_horizontais(pasta_img, arquivo, df, col_x, col_y1, titu
     plt.close('all')
 
 
-"""
-Gerar gráfico de barras 2Y
-"""
 def gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, col_y2, titulo, titulo_eixo_x, titulo_eixo_y, legenda_y1, legenda_y2, funcao_formatacao, funcao_formatacao_eixo=formatar_num_eixo_y):
+    """
+    Gerar gráfico de barras 2Y
+    """
 
     altura_grafico = round(len(df)*1)
     if altura_grafico < 2:
@@ -298,10 +247,10 @@ def gerar_grafico_barras_horizontais2y(pasta_img, arquivo, df, col_x, col_y1, co
     plt.close('all')
 
 
-"""
-Gerar gráfico: histograma
-"""
 def gerar_histograma(pasta_img, arquivo, df, bins, col_interesse, titulo, titulo_eixo_x, titulo_eixo_y, funcao_formatacao_eixo=formatar_num_eixo_y):
+    """
+    Gerar gráfico: histograma
+    """
     
     ax = df.hist(column=col_interesse, bins=bins)
 
