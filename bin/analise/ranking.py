@@ -23,7 +23,7 @@ def exportar_ranking_tdn_uf(args, con, caminho_analises_result):
         ,"02-e-ranking-tdn-uf-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/02-ranking-uf-tdn.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/01-tdn', '01-uf.xlsx', lote)
 
 
 def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result):
@@ -39,7 +39,7 @@ def exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_resul
         ,"02-j-ranking-tdn-classificacao-autoria-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/02-ranking-classificacao-autoria-tdn.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/01-tdn', '02-classificacao-autoria.xlsx', lote)
 
 
 def exportar_ranking_tdn_autor(args, con, caminho_analises_result):
@@ -55,23 +55,23 @@ def exportar_ranking_tdn_autor(args, con, caminho_analises_result):
         ,"02-o-ranking-tdn-autor-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/02-ranking-autor-tdn.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/01-tdn', '03-autor.xlsx', lote)
 
 
-def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result):
+def exportar_ranking_tdn_categoria(args, con, caminho_analises_result):
     """
-    def exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result)
+    def exportar_ranking_tdn_categoria(args, con, caminho_analises_result)
     """
 
     lote = comum.executar_sql_lote(con, f'{comum.CAMINHO_SCRIPTS_ANALISES}/02-ranking/', {
-        "02-p-ranking-tdn-categoria-mencao-qtd.sql":"qtd"
-        ,"02-q-ranking-tdn-categoria-mencao-tot-arrecad.sql":"tot-arrecad"
-        ,"02-r-ranking-tdn-categoria-mencao-avg-arrecad.sql":"avg-arrecad"
-        ,"02-s-ranking-tdn-categoria-mencao-max-arrecad.sql":"max-arrecad"
-        ,"02-t-ranking-tdn-categoria-mencao-tx-sucesso.sql":"tx-sucesso"
+        "02-p-ranking-tdn-categoria-qtd.sql":"qtd"
+        ,"02-q-ranking-tdn-categoria-tot-arrecad.sql":"tot-arrecad"
+        ,"02-r-ranking-tdn-categoria-avg-arrecad.sql":"avg-arrecad"
+        ,"02-s-ranking-tdn-categoria-max-arrecad.sql":"max-arrecad"
+        ,"02-t-ranking-tdn-categoria-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/02-ranking-categoria-mencao-tdn.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/01-tdn', '04-categoria.xlsx', lote)
 
 
 def exportar_ranking_flex_uf(args, con, caminho_analises_result):
@@ -87,7 +87,7 @@ def exportar_ranking_flex_uf(args, con, caminho_analises_result):
         ,"03-e-ranking-flex-uf-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/03-ranking-uf-flex.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/02-flex', '01-uf.xlsx', lote)
 
 
 def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result):
@@ -103,7 +103,7 @@ def exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_resu
         ,"03-j-ranking-flex-classificacao-autoria-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/03-ranking-classificacao-autoria-flex.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/02-flex', '02-classificacao-autoria.xlsx', lote)
 
 
 def exportar_ranking_flex_autor(args, con, caminho_analises_result):
@@ -119,23 +119,23 @@ def exportar_ranking_flex_autor(args, con, caminho_analises_result):
         ,"03-o-ranking-flex-autor-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/03-ranking-autor-flex.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/02-flex', '03-autor.xlsx', lote)
 
 
-def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result):
+def exportar_ranking_flex_categoria(args, con, caminho_analises_result):
     """
-    def exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result)
+    def exportar_ranking_flex_categoria(args, con, caminho_analises_result)
     """
 
     lote = comum.executar_sql_lote(con, f'{comum.CAMINHO_SCRIPTS_ANALISES}/02-ranking/', {
-        "03-p-ranking-flex-categoria-mencao-qtd.sql":"qtd"
-        ,"03-q-ranking-flex-categoria-mencao-tot-arrecad.sql":"tot-arrecad"
-        ,"03-r-ranking-flex-categoria-mencao-avg-arrecad.sql":"avg-arrecad"
-        ,"03-s-ranking-flex-categoria-mencao-max-arrecad.sql":"max-arrecad"
-        ,"03-t-ranking-flex-categoria-mencao-tx-sucesso.sql":"tx-sucesso"
+        "03-p-ranking-flex-categoria-qtd.sql":"qtd"
+        ,"03-q-ranking-flex-categoria-tot-arrecad.sql":"tot-arrecad"
+        ,"03-r-ranking-flex-categoria-avg-arrecad.sql":"avg-arrecad"
+        ,"03-s-ranking-flex-categoria-max-arrecad.sql":"max-arrecad"
+        ,"03-t-ranking-flex-categoria-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/03-ranking-categoria-mencao-flex.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/02-flex', '04-categoria.xlsx', lote)
 
 
 def exportar_ranking_rec_uf(args, con, caminho_analises_result):
@@ -151,7 +151,7 @@ def exportar_ranking_rec_uf(args, con, caminho_analises_result):
         ,"04-e-ranking-rec-uf-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/04-ranking-uf-rec.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/03-rec', '01-uf.xlsx', lote)
 
 
 def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result):
@@ -167,7 +167,7 @@ def exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_resul
         ,"04-j-ranking-rec-classificacao-autoria-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/04-ranking-classificacao-autoria-rec.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/03-rec', '02-classificacao-autoria.xlsx', lote)
 
 
 def exportar_ranking_rec_autor(args, con, caminho_analises_result):
@@ -183,20 +183,20 @@ def exportar_ranking_rec_autor(args, con, caminho_analises_result):
         ,"04-o-ranking-rec-autor-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/04-ranking-autor-rec.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/03-rec', '03-autor.xlsx', lote)
 
 
-def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result):
+def exportar_ranking_rec_categoria(args, con, caminho_analises_result):
     """
-    def exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result)
+    def exportar_ranking_rec_categoria(args, con, caminho_analises_result)
     """
 
     lote = comum.executar_sql_lote(con, f'{comum.CAMINHO_SCRIPTS_ANALISES}/02-ranking/', {
-        "04-p-ranking-rec-categoria-mencao-qtd.sql":"qtd"
-        ,"04-q-ranking-rec-categoria-mencao-tot-arrecad.sql":"tot-arrecad"
-        ,"04-r-ranking-rec-categoria-mencao-avg-arrecad.sql":"avg-arrecad"
-        ,"04-s-ranking-rec-categoria-mencao-max-arrecad.sql":"max-arrecad"
-        ,"04-t-ranking-rec-categoria-mencao-tx-sucesso.sql":"tx-sucesso"
+        "04-p-ranking-rec-categoria-qtd.sql":"qtd"
+        ,"04-q-ranking-rec-categoria-tot-arrecad.sql":"tot-arrecad"
+        ,"04-r-ranking-rec-categoria-avg-arrecad.sql":"avg-arrecad"
+        ,"04-s-ranking-rec-categoria-max-arrecad.sql":"max-arrecad"
+        ,"04-t-ranking-rec-categoria-tx-sucesso.sql":"tx-sucesso"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/04-ranking-categoria-mencao-rec.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}/03-rec', '04-categoria.xlsx', lote)

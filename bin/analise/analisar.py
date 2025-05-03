@@ -115,23 +115,23 @@ async def executar_analise(args):
     ranking.exportar_ranking_tdn_uf(args, con, caminho_analises_result_ranking)
     ranking.exportar_ranking_tdn_classificacao_autoria(args, con, caminho_analises_result_ranking)
     ranking.exportar_ranking_tdn_autor(args, con, caminho_analises_result_ranking)    
-    ranking.exportar_ranking_tdn_categoria_mencao(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_tdn_categoria(args, con, caminho_analises_result_ranking)
 
     ranking.exportar_ranking_flex_uf(args, con, caminho_analises_result_ranking)
     ranking.exportar_ranking_flex_classificacao_autoria(args, con, caminho_analises_result_ranking)
     ranking.exportar_ranking_flex_autor(args, con, caminho_analises_result_ranking)    
-    ranking.exportar_ranking_flex_categoria_mencao(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_flex_categoria(args, con, caminho_analises_result_ranking)
 
     ranking.exportar_ranking_rec_uf(args, con, caminho_analises_result_ranking)
     ranking.exportar_ranking_rec_classificacao_autoria(args, con, caminho_analises_result_ranking)
     ranking.exportar_ranking_rec_autor(args, con, caminho_analises_result_ranking)    
-    ranking.exportar_ranking_rec_categoria_mencao(args, con, caminho_analises_result_ranking)
+    ranking.exportar_ranking_rec_categoria(args, con, caminho_analises_result_ranking)
 
     serie_ano.exportar_serie_visao_geral(args, con, caminho_analises_result_series)
     serie_ano.exportar_serie_modalidade(args, con, caminho_analises_result_series)
     serie_ano.exportar_serie_uf(args, con, caminho_analises_result_series)
     serie_ano.exportar_serie_classificacao_autoria(args, con, caminho_analises_result_series)
-    serie_ano.exportar_serie_categoria_mencao(args, con, caminho_analises_result_series)
+    serie_ano.exportar_serie_categoria(args, con, caminho_analises_result_series)
 
 
     p2 = datetime.now()

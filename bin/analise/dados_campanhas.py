@@ -22,10 +22,10 @@ def exportar_dados_campanhas(args, con, caminho_analises_result):
         ,"02-status-campanha.sql":"status-campanha"
         ,"03-classificacao-autor.sql":"classificação-autoria"
         ,"04-modalidade-campanha.sql":"modalidade-campanha"
-        ,"05-categoria-mencao.sql":"categoria-menção"
+        ,"05-categoria.sql":"categoria-menção"
         ,"06-autoria.sql":"autoria"
         ,"07-municipio.sql":"município"
         ,"08-unidade-federativa.sql":"unidade-federativa"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/00-lista-campanhas.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}', '00-lista-campanhas.xlsx', lote)

@@ -1,10 +1,12 @@
 import re
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import math
 import arquivos
 import pandas as pd
+import logs
 
 
 CAMINHO_SQL = "./analise/sql"
@@ -42,17 +44,21 @@ def executar_sql_lote(con, caminho_scripts, mapa_sql={}):
         item = SqlLote(arquivo_sql, nome_aba, df)
 
         result[arquivo_sql] = item
-        #result.append(item)
 
     return result
 
 
-def gerar_excel_lote(caminho_excel, lote={}):
+def gerar_excel_lote(args, pasta_excel, arquivo_excel, lote={}):
     """
     gerar excel
     """
 
-    with pd.ExcelWriter(caminho_excel) as writer:
+    if not os.path.exists(pasta_excel):
+        os.mkdir(pasta_excel)
+
+    logs.verbose(args, f'>>> {pasta_excel}/{arquivo_excel}')
+
+    with pd.ExcelWriter(f'{pasta_excel}/{arquivo_excel}') as writer:
         for chave, item in lote.items():
             item.df.to_excel(writer, sheet_name=item.nome_aba, index=False)
 
@@ -87,6 +93,9 @@ def gerar_grafico_barras(pasta_img, arquivo, df, col_x, col_y, titulo_grafico, t
     """
     gerar gráfico de barras
     """
+
+    if not os.path.exists(pasta_img):
+        os.mkdir(pasta_img)
 
     plt.figure(figsize=figsize)
 

@@ -27,18 +27,18 @@ def exportar_visao_geral(args, con, caminho_analises_result):
         "01-b-visao-geral-plataformas.sql": "plataforma",
         "01-c-visao-geral-uf.sql": "uf",
         "01-d-visao-geral-classificacao-autoria.sql": "classificacao_autoria",
-        "01-e-visao-geral-autor.sql": "autor",
-        "01-f-visao-geral-categoria-mencao.sql": "categoria"
+        "01-e-visao-geral-autoria.sql": "autoria",
+        "01-f-visao-geral-categoria.sql": "categoria"
     })
 
-    comum.gerar_excel_lote(f'{caminho_analises_result}/01-visao-geral.xlsx', lote)
+    comum.gerar_excel_lote(args, f'{caminho_analises_result}', '01-visao-geral.xlsx', lote)
 
     item_a = lote["01-a-visao-geral-modalidade.sql"]
     item_b = lote["01-b-visao-geral-plataformas.sql"]
     item_c = lote["01-c-visao-geral-uf.sql"]
     item_d = lote["01-d-visao-geral-classificacao-autoria.sql"]
-    item_e = lote["01-e-visao-geral-autor.sql"]
-    item_f = lote["01-f-visao-geral-categoria-mencao.sql"]
+    item_e = lote["01-e-visao-geral-autoria.sql"]
+    item_f = lote["01-f-visao-geral-categoria.sql"]
 
     valores_mapeados = {}
     valores_mapeados['plataformas'] = 'Apoia.se e Catarse'
@@ -62,46 +62,46 @@ def exportar_visao_geral(args, con, caminho_analises_result):
     # gráficos para plataformas, por modalidades
     gerar_graficos(item_b.df[
              (item_b.df['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '31-tudo_ou_nada-plataformas', 'Modalidade Tudo ou Nada', 'plataformas', 'campanha_origem', (10, 6))
+         ], caminho_analises_result, '31-tdn-plataformas', 'Modalidade Tudo ou Nada', 'plataformas', 'campanha_origem', (10, 6))
     gerar_graficos(item_b.df[
              (item_b.df['campanha_modalidade']=='Flex')
          ], caminho_analises_result, '32-flex-plataformas', 'Modalidade Flex', 'plataformas', 'campanha_origem', (10, 6))
     gerar_graficos(item_b.df[
              (item_b.df['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '33-recorrente-plataformas', 'Modalidade Recorrente', 'plataformas', 'campanha_origem', (10, 6))
+         ], caminho_analises_result, '33-rec-plataformas', 'Modalidade Recorrente', 'plataformas', 'campanha_origem', (10, 6))
 
     # gráficos para unidade federativa, por modalidades
     gerar_graficos(item_c.df[
              (item_c.df['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '41-tudo_ou_nada-uf', 'Modalidade Tudo ou Nada', 'unidade federativa', 'uf', (10, 6))
+         ], caminho_analises_result, '41-tdn-uf', 'Modalidade Tudo ou Nada', 'unidade federativa', 'uf', (10, 6))
     gerar_graficos(item_c.df[
              (item_c.df['campanha_modalidade']=='Flex')
          ], caminho_analises_result, '42-flex-uf', 'Modalidade Flex', 'unidade federativa', 'uf', (10, 6))
     gerar_graficos(item_c.df[
              (item_c.df['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '43-recorrente-uf', 'Modalidade Recorrente', 'unidade federativa', 'uf', (10, 6))
+         ], caminho_analises_result, '43-rec-uf', 'Modalidade Recorrente', 'unidade federativa', 'uf', (10, 6))
 
     # gráficos para classificação autoria, por modalidades
     gerar_graficos(item_d.df[
              (item_d.df['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '51-tudo_ou_nada-class_autoria', 'Modalidade Tudo ou Nada', 'classificação de autoria', 'autor_classificacao', (10, 6))
+         ], caminho_analises_result, '51-tdn-class_autoria', 'Modalidade Tudo ou Nada', 'classificação de autoria', 'autor_classificacao', (10, 6))
     gerar_graficos(item_d.df[
              (item_d.df['campanha_modalidade']=='Flex')
          ], caminho_analises_result, '52-flex-class_autoria', 'Modalidade Flex', 'classificação de autoria', 'autor_classificacao', (10, 6))
     gerar_graficos(item_d.df[
              (item_d.df['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '53-recorrente-class_autoria', 'Modalidade Recorrente', 'classificação de autoria', 'autor_classificacao', (10, 6))
+         ], caminho_analises_result, '53-rec-class_autoria', 'Modalidade Recorrente', 'classificação de autoria', 'autor_classificacao', (10, 6))
 
     # gráficos para categoria de conteúdo, por modalidades
     gerar_graficos(item_f.df[
              (item_f.df['campanha_modalidade']=='Tudo ou Nada')
-         ], caminho_analises_result, '61-tudo_ou_nada-categ_conteudo', 'Modalidade Tudo ou Nada', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
+         ], caminho_analises_result, '61-tdn-categoria', 'Modalidade Tudo ou Nada', 'categoria de conteúdo', 'categoria', (45, 6))
     gerar_graficos(item_f.df[
              (item_f.df['campanha_modalidade']=='Flex')
-         ], caminho_analises_result, '62-flex-categ_conteudo', 'Modalidade Flex', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
+         ], caminho_analises_result, '62-flex-categoria', 'Modalidade Flex', 'categoria de conteúdo', 'categoria', (45, 6))
     gerar_graficos(item_f.df[
              (item_f.df['campanha_modalidade']=='Recorrente')
-         ], caminho_analises_result, '63-recorrente-categ_conteudo', 'Modalidade Recorrente', 'categoria de conteúdo', 'categoria_mencao', (45, 6))
+         ], caminho_analises_result, '63-rec-categoria', 'Modalidade Recorrente', 'categoria de conteúdo', 'categoria', (45, 6))
 
 
 def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo, label_eixo_x, eixo_x, figsize):
@@ -109,8 +109,8 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
     gerar gráficos
     """
     comum.gerar_grafico_barras(
-        caminho_analises_result
-        , f'{prefixo_arquivo}-1-qtd.png'
+        f'{caminho_analises_result}/{prefixo_arquivo}'
+        , f'1-qtd.png'
         , df
         , eixo_x
         , 'qtd'
@@ -121,8 +121,8 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
         )
 
     comum.gerar_grafico_barras_2series(
-        caminho_analises_result
-        , f'{prefixo_arquivo}-2-posts.png'
+        f'{caminho_analises_result}/{prefixo_arquivo}'
+        , f'2-posts.png'
         , df
         , eixo_x
         , 'avg_posts'
@@ -136,8 +136,8 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
         )
 
     comum.gerar_grafico_barras(
-        caminho_analises_result
-        , f'{prefixo_arquivo}-3-tot_arrecadado.png'
+        f'{caminho_analises_result}/{prefixo_arquivo}'
+        , f'3-tot_arrecadado.png'
         , df
         , eixo_x
         , 'tot_arrecadado'
@@ -148,8 +148,8 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
         )
 
     comum.gerar_grafico_barras(
-        caminho_analises_result
-        , f'{prefixo_arquivo}-4-avg_arrecadado.png'
+        f'{caminho_analises_result}/{prefixo_arquivo}'
+        , f'4-avg_arrecadado.png'
         , df
         , eixo_x
         , 'avg_arrecadado'
@@ -160,8 +160,8 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
         )
 
     comum.gerar_grafico_barras(
-        caminho_analises_result
-        , f'{prefixo_arquivo}-5-avg_apoio.png'
+        f'{caminho_analises_result}/{prefixo_arquivo}'
+        , f'5-avg_apoio.png'
         , df
         , eixo_x
         , 'avg_apoio'
@@ -172,8 +172,8 @@ def gerar_graficos(df, caminho_analises_result, prefixo_arquivo, prefixo_titulo,
         )
 
     comum.gerar_grafico_barras(
-        caminho_analises_result
-        , f'{prefixo_arquivo}-6-txsucesso.png'
+        f'{caminho_analises_result}/{prefixo_arquivo}'
+        , f'6-txsucesso.png'
         , df
         , eixo_x
         , 'txsucesso'
